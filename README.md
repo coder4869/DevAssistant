@@ -21,15 +21,18 @@
 - visual-studio：VS相关的开发工具插件。
     * `vs-cmake`：vs工程转CMake工程组件。
 
+```s
+config.json 相关关键字约定，不限制大小写:
+1. group 
+ 类型选项：QtAPP、APP、QtKit、Kit、Lib等。模块分组以此为类型依据。
+ 有Qt依赖的模块，必须使用Qt前缀；无Qt依赖的，不建议开启。
+ APP 后缀为可执行的应用程序标识，对于APP的模块，同一时间只能设置一个的 option 选项为ON，其余为OFF。
+ Kit 通常作为无应用程序的SDK标识字段，Lib为第三方依赖库的标识字段。
+2. module 
+ 名称：有Qt依赖的模块，必须使用Qt前缀；无Qt依赖的，不建议开启。
+```
+
 ```json
-// 相关关键字约定，不限制大小写
-// group 
-// 类型选项：QtAPP、APP、QtKit、Kit、Lib等。模块分组以此为类型依据。
-// 有Qt依赖的模块，必须使用Qt前缀；无Qt依赖的，不建议开启。
-// APP 后缀为可执行的应用程序标识，对于APP的模块，同一时间只能设置一个的 option 选项为ON，其余为OFF。
-// Kit 通常作为无应用程序的SDK标识字段，Lib为第三方依赖库的标识字段。
-// module 
-// 名称：有Qt依赖的模块，必须使用Qt前缀；无Qt依赖的，不建议开启。
 {
     "proj_name" : "DevKits",
     "dir_proj" : "../../../DevKits",
