@@ -1,0 +1,16 @@
+#include <QApplication>
+#include <QCoreApplication>
+#include <QWidget>
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    QCoreApplication::setApplicationName("QtApp");
+    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
+
+    QWidget widget;
+    widget.resize(640, 480);
+    widget.show();
+    
+    return app.exec();
+}

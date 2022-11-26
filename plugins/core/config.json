@@ -1,0 +1,63 @@
+{
+    "proj_name" : "DevKits",
+    "dir_proj" : "../../../DevKits",
+    "dir_codes":[
+        {
+            "group" : "QtAPP",
+            "group_dir" : "/src/app",
+            "modules": [
+                {
+                    "module" : "QtDevAPP",
+                    "option" : "ON"
+                },
+                {
+                    "module" : "QtCryptoAPP",
+                    "option" : "OFF"
+                }
+            ]
+        },
+        {
+            "group" : "QtKit",
+            "group_dir" : "/src/qtkits",
+            "modules": [
+                {
+                    "module" : "QtCryptoKit",
+                    "option" : "ON"
+                }
+            ]
+        },
+        {
+            "group" : "Kit",
+            "group_dir" : "/src/kits",
+            "modules": [
+                {
+                    "module" : "CCoreKit",
+                    "option" : "ON"
+                },
+                {
+                    "module" : "CConcurrencyKit",
+                    "option" : "ON"
+                },
+                {
+                    "module" : "CCryptoKit",
+                    "option" : "ON"
+                }
+            ]
+        },
+        {
+            "group" : "Lib",
+            "group_dir" : "/deps",
+            "modules": [
+                {
+                    "module" : "Boost",
+                    "option" : "OFF"
+                }
+            ]
+        }
+    ],
+    "dir_help": {
+        "scripts" : "scripts", 
+        "tools" : "tools", 
+        "res" : "res"
+    }
+}

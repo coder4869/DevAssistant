@@ -1,0 +1,99 @@
+# Global Config
+cmake_minimum_required(VERSION 3.10.0)
+project(${PROJECT_NAME})
+
+
+set(LIB_FMT "SHARED") # SHARED STATIC
+set(PROJ_ROOT ${CMAKE_CURRENT_LIST_DIR})
+set(CMAKE_SCRIPTS ${PROJ_ROOT}/scripts/cmake)
+message("PROJECT_NAME = ${PROJECT_NAME} ; PROJECT_ROOT = ${PROJ_ROOT} ")
+message("LIB_FMT = ${LIB_FMT}           ; CMAKE_SCRIPTS = ${CMAKE_SCRIPTS} ")
+
+
+# platform options
+option(WIN      "Build for Windows"     OFF)
+option(LINUX    "Build for Linux"       OFF)
+option(OSX      "Build for MacOSX"      ON)
+option(IOS      "Build for IOS"         OFF)
+option(ANDROID  "Build for Android"     OFF)
+
+if(WIN)
+    set(OS_TYPE "win")
+    set(OS_BUNDLE WIN32)
+    add_definitions(-DWIN)
+
+elseif(LINUX)
+    set(OS_TYPE "linux")
+    add_definitions(-DLINUX)
+
+elseif(OSX)
+    set(OS_TYPE "osx")
+    set(OS_BUNDLE MACOSX_BUNDLE)
+    add_definitions(-DOSX )
+
+    # set OSX Libs
+    set(LIB_FMWKs)
+    include(${CMAKE_SCRIPTS}/apple_libs.cmake)
+    include(${CMAKE_SCRIPTS}/apple.cmake)
+    
+elseif(IOS)
+    set(OS_TYPE "linux")
+    add_definitions(-DIOS )
+
+elseif(ANDROID)
+    set(OS_TYPE "linux")
+    add_definitions(-DANDROID )
+
+endif()
+
+
+# MODULE options
+option(WITH_QT "Build with Qt " OFF)
+# option(MODUEL_NAME  "Build with MODUEL_NAME" ON)
+
+if(WITH_QT)
+    include(${CMAKE_SCRIPTS}/common.cmake)
+    include(${CMAKE_SCRIPTS}/qt_func.cmake)
+    QT_INIT(${QT_INSTALL_DIR})
+
+    # set Qt include and libs
+    set(INC_QT)
+    set(LIB_QT)
+    include(${CMAKE_SCRIPTS}/qt_libs.cmake)
+endif(WITH_QT)
+
+
+# subdirectory
+set(INC_FILES)
+set(SRC_FILES)
+# include(Module-Group.cmake)
+# add_subdirectory(Module-Group-Dir)
+message("INC_FILES=${INC_FILES}")
+message("SRC_FILES=${SRC_FILES}")
+
+
+PROJECT_ADD_META(META_FILES_TO_INCLUDE) # From common.cmake. Add Resource To Project - eg. Info.plist
+
+################################## build ##################################
+set_source_files_properties(${STUDIO_TEMPLATE_ROOT} PROPERTIES MACOSX_PACKAGE_LOCATION MacOS)
+add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT})
+target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
+
+if(WITH_QT) 
+    QT_DEPLOY(${PROJECT_NAME}) # From func_qt.cmake. Deploy Qt Libs To APP 
+    target_compile_definitions(${PROJECT_NAME} PRIVATE  
+                                $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+                                $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>)
+endif(WITH_QT)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC
+        ${LIB_FMWKs} ${LIB_QT}
+        ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
+        )
+
+# from intern cmake module : apple.cmake
+XCODE_SETTING(${PROJECT_NAME} "OSX" 10.13)
+
+WIN_FIX_COMPILER()      # from common.cmake
