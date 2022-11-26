@@ -17,7 +17,7 @@ class XCodeBuildSettings
         @target.build_configurations.each do |config|
             config.build_settings[name] = [params]
         end
-        # #设置索引 FRAMEWORK_SEARCH_PATHS
+        # # set FRAMEWORK_SEARCH_PATHS
         # @target.build_configurations.each do |config|
         #     config.build_settings["LIBRARY_SEARCH_PATHS"] = [
         #         "$(inherited)",

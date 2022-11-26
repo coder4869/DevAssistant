@@ -145,8 +145,8 @@ class Module(object):
         path=path.strip()       # remove space
         path=path.rstrip("\\")  # remove tail \\
         if os.path.exists(path):
-            print("path=%s 目录已存在，请备份后删除目录，或者变更目标目录"%(path))
+            print("path=%s exist, please backup and remove it, or change your target dir!"%(path))
             return False
         os.makedirs(path) 
-        print("path=%s 创建成功"%(path))
+        print("path=%s dir create succeed!"%(path))
         return True

@@ -26,4 +26,4 @@ if __name__ == '__main__':
         project.Project.create("./config.json")
     elif args.type == "module":
         module.Module.MOUDLE_DIR = "/src-app/"
-        module.Module.add(args.root_dir, module.ModuleType(args.module_type), args.module_name)
+        module.Module.add(args.root_dir, module.ModuleType(args.module_type), args.module_name, has_main=True)

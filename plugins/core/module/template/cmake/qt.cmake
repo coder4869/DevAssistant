@@ -18,11 +18,6 @@ FILE(GLOB_RECURSE MODULE_NAME_RES
     ${MODULE_NAMEDir}/Res/*.qrc
     ${MODULE_NAMEDir}/Res/*.qml
     ${MODULE_NAMEDir}/Res/*.js
-    # Images
-    ${MODULE_NAMEDir}/Res/*.jpg
-    ${MODULE_NAMEDir}/Res/*.png
-    # mesh
-    ${MODULE_NAMEDir}/Res/*.mesh
     )
 
 if(NOT ANDROID)
