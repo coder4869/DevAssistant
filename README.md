@@ -20,7 +20,7 @@ The developing modules is refer to [List](#21-list).
 
 #### 2.1 List
 
-```s
+```txt
 plugins:
     |- core: core script modules for DevAssistant.
         |- module: module management for project. Including add sub module for Group.
