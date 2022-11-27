@@ -24,7 +24,13 @@ The developing modules is refer to [List](#21-list).
 plugins:
     |- core: core script modules for DevAssistant.
         |- module: module management for project. Including add sub module for Group.
+            |- template: templates for module. 
+                |- cmake: module cmake for different module type.
+                |- code: code template for module. eg. module header and class.
         |- project: initialize generatation for project, which depends on [module] and [pytool].
+            |- build: scipts for build project.
+            |- cmake: cmake scripts. [https://github.com/coder4869/cmake-toolchains] for more.
+            |- template: templates for project. eg. Project CMakeLists.txt, Group-Module cmake etc.
         |- pytool: universal python tools for core.
         |- config.json: demo json for init one template project.
         |- core.py: demo python script for core usage.
