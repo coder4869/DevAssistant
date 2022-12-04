@@ -1,13 +1,19 @@
 # Global Config
-cmake_minimum_required(VERSION 3.10.0)
-project(${PROJECT_NAME})
+cmake_minimum_required(VERSION 3.12.0)
 
-
-set(LIB_FMT "SHARED") # SHARED STATIC
+# Global Setting
 set(PROJ_ROOT ${CMAKE_CURRENT_LIST_DIR})
-set(CMAKE_SCRIPTS ${PROJ_ROOT}/scripts/cmake)
-message("PROJECT_NAME = ${PROJECT_NAME} ; PROJECT_ROOT = ${PROJ_ROOT} ")
-message("LIB_FMT = ${LIB_FMT}           ; CMAKE_SCRIPTS = ${CMAKE_SCRIPTS} ")
+set(CMAKE_TOOLCHAIN_ROOT ${PROJ_ROOT}/scripts/cmake)
+include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake)
+message("PROJECT_ROOT = ${PROJ_ROOT} ")
+message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
+message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
+
+
+project(${PROJECT_NAME} VERSION 1.0.0.0)
+set(LIB_TYPE SHARED) # SHARED STATIC
+message("PROJECT_NAME = ${PROJECT_NAME} ")
+message("LIB_TYPE = ${LIB_TYPE} ")
 
 
 # platform options
@@ -17,27 +23,40 @@ option(OSX      "Build for MacOSX"      ON)
 option(IOS      "Build for IOS"         OFF)
 option(ANDROID  "Build for Android"     OFF)
 
+set(META_FILES )
 if(WIN)
+    set(WIN32 ON)
     set(OS_TYPE "win")
     set(OS_BUNDLE WIN32)
     add_definitions(-DWIN)
+
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-win/win_func.cmake)
+    WIN_FIX_COMPILER()
+    WIN_ADD_META(META_FILES) # Add Resource To Project - eg. AppIcon.ico
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-win/res/*.*"  "Resources/")
 
 elseif(LINUX)
     set(OS_TYPE "linux")
     add_definitions(-DLINUX)
 
 elseif(OSX)
+    set(APPLE ON)
     set(OS_TYPE "osx")
     set(OS_BUNDLE MACOSX_BUNDLE)
+    set(OS_MIN_VERSION 10.13)
     add_definitions(-DOSX )
 
     # set OSX Libs
     set(LIB_FMWKs)
-    include(${CMAKE_SCRIPTS}/apple_libs.cmake)
-    include(${CMAKE_SCRIPTS}/apple.cmake)
-    
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_libs.cmake)
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
+    XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "Resources/")
+
 elseif(IOS)
-    set(OS_TYPE "linux")
+    set(APPLE ON)
+    set(OS_TYPE "iOS")
+    set(OS_MIN_VERSION 10.0)
     add_definitions(-DIOS )
 
 elseif(ANDROID)
@@ -49,17 +68,18 @@ endif()
 
 # MODULE options
 option(WITH_QT "Build with Qt " OFF)
-# option(MODUEL_NAME  "Build with MODUEL_NAME" ON)
+# option(MODULE_OPTION  "Build with MODULE_OPTION" ON)
 
 if(WITH_QT)
-    include(${CMAKE_SCRIPTS}/common.cmake)
-    include(${CMAKE_SCRIPTS}/qt_func.cmake)
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-qt/qt_func.cmake)
     QT_INIT(${QT_INSTALL_DIR})
 
     # set Qt include and libs
     set(INC_QT)
     set(LIB_QT)
-    include(${CMAKE_SCRIPTS}/qt_libs.cmake)
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-qt/qt_libs.cmake)
+    message("INC_QT=${INC_QT}")
+    message("LIB_QT=${LIB_QT}")
 endif(WITH_QT)
 
 
@@ -72,28 +92,24 @@ message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
 
-PROJECT_ADD_META(META_FILES_TO_INCLUDE) # From common.cmake. Add Resource To Project - eg. Info.plist
-
 ################################## build ##################################
-set_source_files_properties(${STUDIO_TEMPLATE_ROOT} PROPERTIES MACOSX_PACKAGE_LOCATION MacOS)
-add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES})
+add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT})
-target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
+# target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT}
+        ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
+        )
 
 if(WITH_QT) 
-    QT_DEPLOY(${PROJECT_NAME}) # From func_qt.cmake. Deploy Qt Libs To APP 
+    QT_DEPLOY(${PROJECT_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
     target_compile_definitions(${PROJECT_NAME} PRIVATE  
                                 $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
                                 $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>)
 endif(WITH_QT)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC
-        ${LIB_FMWKs} ${LIB_QT}
-        ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
-        )
-
-# from intern cmake module : apple.cmake
-XCODE_SETTING(${PROJECT_NAME} "OSX" 10.13)
-
-WIN_FIX_COMPILER()      # from common.cmake
+# from intern cmake module : apple_func.cmake
+if(APPLE)
+    XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
+    XCODE_ADD_INFO_PLIST()
+endif(APPLE)

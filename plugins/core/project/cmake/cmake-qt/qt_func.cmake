@@ -1,4 +1,6 @@
-
+# e.g. 
+# SET(Qt5_INSTALL_DIR "$HOME/Qt/5.14.2/clang_64/")
+# QT_INIT(${Qt5_INSTALL_DIR})
 macro(QT_INIT install_dir)
     # Let's do the CMake job for us
     set(CMAKE_AUTOMOC ON) # For meta object compiler. Generate moc file when project compiling
@@ -7,7 +9,7 @@ macro(QT_INIT install_dir)
 
     # Find Qt5 with modules (CMAKE will take "<package_name>_DIR" as root path for find_package(), eg. Qt5_DIR )
     # Needs to set CMAKE variable Qt5_DIR = path-to-your-qt-innstallation/5.14.2/clang_64/lib/cmake/Qt5 
-    if(WIN) # Windows
+    if(WIN32 OR WIN) # Windows
         SET(Qt5_DIR "${install_dir}\\lib\\cmake\\Qt5" CACHE PATH "Path to Qt5 cmake stuff: ..\\5.14.2\\msvc2017\\lib\\cmake\\Qt5" )
     else()  # OSX
         SET(Qt5_DIR "${install_dir}/lib/cmake/Qt5" CACHE PATH "Path to Qt5 cmake stuff: ../5.14.2/clang_64/lib/cmake/Qt5" )
@@ -15,12 +17,14 @@ macro(QT_INIT install_dir)
     FIND_PACKAGE(PkgConfig REQUIRED)
 endmacro()
 
-# framework for OSX, dll for WIN. Depends on QT_INIT()
+
+# framework for OSX, dll for Windows. Depends on QT_INIT()
+# e.g. QT_DEPLOY(<target_name>)
 function(QT_DEPLOY target_name)
     GET_TARGET_PROPERTY(QT5_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)          # get qmake file path
     GET_FILENAME_COMPONENT(DEPLOYQT_EXEC ${QT5_QMAKE_EXECUTABLE} PATH) # get qmake dir path
 
-    if(WIN) # Windows
+    if(WIN32 OR WIN) # Windows
         SET(DEPLOYQT_EXEC "${DEPLOYQT_EXEC}/windeployqt.exe")
         add_custom_command(TARGET ${target_name}
             POST_BUILD
