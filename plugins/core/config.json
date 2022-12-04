@@ -8,11 +8,13 @@
             "modules": [
                 {
                     "module" : "QtDevAPP",
-                    "option" : "ON"
+                    "option" : "ON",
+                    "gen_lib" : "NO"
                 },
                 {
                     "module" : "QtCryptoAPP",
-                    "option" : "OFF"
+                    "option" : "OFF",
+                    "gen_lib" : "NO"
                 }
             ]
         },
@@ -22,7 +24,8 @@
             "modules": [
                 {
                     "module" : "QtCryptoKit",
-                    "option" : "ON"
+                    "option" : "ON",
+                    "gen_lib" : "YES"
                 }
             ]
         },
@@ -32,15 +35,18 @@
             "modules": [
                 {
                     "module" : "CCoreKit",
-                    "option" : "ON"
+                    "option" : "ON",
+                    "gen_lib" : "YES"
                 },
                 {
                     "module" : "CConcurrencyKit",
-                    "option" : "ON"
+                    "option" : "ON",
+                    "gen_lib" : "YES"
                 },
                 {
                     "module" : "CCryptoKit",
-                    "option" : "ON"
+                    "option" : "ON",
+                    "gen_lib" : "YES"
                 }
             ]
         },

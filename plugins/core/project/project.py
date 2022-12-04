@@ -18,6 +18,23 @@ OPTION_STR_SIZE:int = 20
 OPTION_QT_OFF = "option(WITH_QT \"Build with Qt \" OFF)"
 OPTION_QT_ON = "option(" + "WITH_QT".ljust(OPTION_STR_SIZE,' ') +  "\"Build with " + "Qt".ljust(OPTION_STR_SIZE,' ') + "\"\tON)"
 
+MODULE_LIB_DEPS = """
+
+if(MODULE_NAME)
+    add_dependencies(${PROJECT_NAME} MODULE_NAME)
+    target_link_libraries(${PROJECT_NAME} PUBLIC MODULE_NAME)
+endif(MODULE_NAME)
+"""
+
+MODULE_LIB_DEPS_QT = """
+
+if(WITH_QT AND MODULE_NAME)
+    add_dependencies(${PROJECT_NAME} MODULE_NAME)
+    target_link_libraries(${PROJECT_NAME} PUBLIC MODULE_NAME)
+endif(MODULE_NAME)
+"""
+
+
 class Project(object):
     
     @staticmethod
@@ -51,10 +68,12 @@ class Project(object):
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
         # prepare ${scripts_dir}/build
         pyt_file.File.copy_dir(PROJECT_BUILD_DIR, script_abs_dir + "/build")
-        pyt_file.File.replace_string(script_abs_dir + "/build/run_arm.sh", "PROJ_NAME", proj_name)
-        pyt_file.File.replace_string(script_abs_dir + "/build/run_unix.sh", "PROJ_NAME", proj_name)
-        pyt_file.File.replace_string(script_abs_dir + "/build/run_win.sh", "PROJ_NAME", proj_name)
-
+        flist = os.listdir(script_abs_dir + "/build")
+        for fitem in flist:
+            file = script_abs_dir + "/build/" + fitem
+            if not os.path.isdir(fitem):
+                pyt_file.File.replace_string(file, "PROJ_NAME", proj_name)
+        
     @staticmethod
     def init_codes_dir(root_dir:str, codes_dirs:list):
         for group in codes_dirs:
@@ -86,11 +105,8 @@ class Project(object):
     def add_module(root_dir:str, group_dir:str, gtype:str, obj:object):
         # Add Module option to ${PROJECT}/CMakeLists.txt
         name = obj["module"]
-        option = obj["option"]
-        from_srting = "# option(MODUEL_NAME  \"Build with MODUEL_NAME\" ON)"
-        to_string = "option(" + name.ljust(OPTION_STR_SIZE,' ') + "\"Build with " + name.ljust(OPTION_STR_SIZE,' ') + "\"\t" + option + ")"
-        to_string = to_string + "\n" + from_srting
-        pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", from_srting, to_string)
+        Project.add_module_option(root_dir, obj)
+        Project.add_module_lib_deps(root_dir, gtype, obj)
         # add Module
         has_main = gtype.lower().endswith("app")
         module.Module.MOUDLE_DIR = group_dir + "/"
@@ -102,3 +118,29 @@ class Project(object):
             module.Module.add(root_dir, module.ModuleType.Lib, name, has_main)
         else:
             module.Module.add(root_dir, module.ModuleType.Norm, name, has_main)
+    
+    @staticmethod
+    def add_module_option(root_dir:str, obj:object):
+        name = obj["module"]
+        option = obj["option"]
+        from_srting = "# option(MODULE_OPTION  \"Build with MODULE_OPTION\" ON)"
+        to_string = "option(" + name.ljust(OPTION_STR_SIZE,' ') + "\"Build with " + name.ljust(OPTION_STR_SIZE,' ') + "\"\t" + option + ")"
+        to_string = to_string + "\n" + from_srting
+        pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", from_srting, to_string)
+    
+    @staticmethod
+    def add_module_lib_deps(root_dir:str, gtype:str, obj:object):
+        module.Module.IS_LIB_DEPS = False
+        for k in obj.keys():
+            if k == "gen_lib":
+                name = obj["module"]
+                gen_lib = obj["gen_lib"]
+                cmake_path = root_dir + "/CMakeLists.txt"
+                if gen_lib.lower() == "yes":
+                    module.Module.IS_LIB_DEPS = True
+                    if gtype.lower().startswith("qt"):
+                        pyt_file.File.append_string(cmake_path, MODULE_LIB_DEPS_QT)
+                        pyt_file.File.replace_string(cmake_path, "MODULE_NAME", name)
+                    elif not gtype.lower() == "lib":
+                        pyt_file.File.append_string(cmake_path, MODULE_LIB_DEPS)
+                        pyt_file.File.replace_string(cmake_path, "MODULE_NAME", name)

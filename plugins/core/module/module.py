@@ -23,6 +23,15 @@ endif(MODULE_NAME)
 
 """
 
+MODULE_CMAKE_APPEND_LIB_DEPS_NORM="""
+
+# MODULE_NAME
+if(MODULE_NAME)
+    include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
+endif(MODULE_NAME)
+
+"""
+
 MODULE_CMAKE_APPEND_QT="""
 
 # MODULE_NAME
@@ -30,6 +39,15 @@ if(WITH_QT AND MODULE_NAME)
     set(MODULE_NAME_SRC)
     include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
     set(SRC_FILES ${SRC_FILES} ${MODULE_NAME_SRC})
+endif(WITH_QT AND MODULE_NAME)
+
+"""
+
+MODULE_CMAKE_APPEND_LIB_DEPS_QT="""
+
+# MODULE_NAME
+if(WITH_QT AND MODULE_NAME)
+    include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
 endif(WITH_QT AND MODULE_NAME)
 
 """
@@ -57,6 +75,7 @@ class Module(object):
     ROOT_DIR = CORE_BASE_DIR
     MOUDLE_DIR = "/src/" # init required
     MOUDLE_ABS_DIR = CORE_BASE_DIR + MOUDLE_DIR
+    IS_LIB_DEPS = False
 
     @staticmethod
     def add(root_dir:str, module_type:ModuleType, module_name:str, has_main:bool):
@@ -80,8 +99,14 @@ class Module(object):
         dst_dir = Module.MOUDLE_ABS_DIR + name
         print("add_norm_module() dst_dir=", dst_dir)
         if Module.check_path(dst_dir):
-            Module.add_module_to_project(MODULE_CMAKE_APPEND_NORM, name)
-            Module.add_module_cmake(dst_dir, name, "norm.cmake")
+            # add module.cmake
+            if Module.IS_LIB_DEPS:
+                Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB_DEPS_NORM, name)
+                Module.add_module_cmake(dst_dir, name, "lib-deps-norm.cmake")
+            else:
+                Module.add_module_to_project(MODULE_CMAKE_APPEND_NORM, name)
+                Module.add_module_cmake(dst_dir, name, "norm.cmake")
+            # add module main.cpp
             if has_main:
                 Module.add_module_main(dst_dir, "main.cpp.NORM")
             else:
@@ -94,8 +119,14 @@ class Module(object):
         dst_dir = Module.MOUDLE_ABS_DIR + name
         print("add_qt_module() dst_dir=", dst_dir)
         if Module.check_path(dst_dir):
-            Module.add_module_to_project(MODULE_CMAKE_APPEND_QT, name)
-            Module.add_module_cmake(dst_dir, name, "qt.cmake")
+            # add module.cmake
+            if Module.IS_LIB_DEPS:
+                Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB_DEPS_QT, name)
+                Module.add_module_cmake(dst_dir, name, "lib-deps-qt.cmake")
+            else:
+                Module.add_module_to_project(MODULE_CMAKE_APPEND_QT, name)
+                Module.add_module_cmake(dst_dir, name, "qt.cmake")
+            # add module main.cpp
             if has_main:
                 Module.add_module_main(dst_dir, "main.cpp.QT")
             else:
@@ -110,6 +141,7 @@ class Module(object):
         dst_dir = Module.MOUDLE_ABS_DIR + name
         print("add_lib_module() dst_dir=", dst_dir)
         if Module.check_path(dst_dir):
+            # add module lib.cmake
             Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB, name)
             Module.add_module_cmake(dst_dir, name, "lib.cmake")
             return True
