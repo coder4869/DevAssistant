@@ -1,11 +1,11 @@
-[1. DA_App](#1-da_app)
-[2. plugins](#2-plugins)
-[2.1 List](#21-list)
-[2.2 custom project](#22-custom-project)
-[2.3 custom extension](#23-custom-plugin)
-[3. Usage](#3-usage)
-[3.1 Create project](#31-create-project)
-[4. Develop Milestone Plan](#4-develop-milestone-plan)
+- [1. DA_App](#1-da_app)
+- [2. plugins](#2-plugins)
+    * [2.1 List](#21-list)
+    * [2.2 custom project](#22-custom-project)
+    * [2.3 custom extension](#23-custom-plugin)
+- [3. Usage](#3-usage)
+    * [3.1 Create project](#31-create-project)
+- [4. Develop Milestone Plan](#4-develop-milestone-plan)
 
 ## DevAssistant
 DevAssistant is used for improving development efficiency, with good project architecture and multi-platforms compatibility.
