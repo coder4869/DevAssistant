@@ -163,8 +163,10 @@ Custom project is depends on `plugins/core/config.json`. The Demo and rules as f
 
 ### 3. Usage
 #### 3.1 Create and run project
-- 1.write `config.json` according to [custom project](#22-custom-project).
-- 2.generate and run project by build script. eg. `bash ${Project_Dir}/scripts/build/unix.sh` for linux and macos in above demo.
+- 1.Write `plugins/core/config.json` according to [custom project](#22-custom-project).
+- 2.Generate and run project by build script. 
+    * eg. `bash ${Project_Dir}/scripts/build/unix.sh` for linux and macos in above demo.
+    * **Note:For Qt Project, please set the qt path in above script!** 
 
 ```s
 [dir] Project
