@@ -30,8 +30,10 @@ function(XCODE_SETTING target_name min_version)
             XCODE_ATTRIBUTE_SDKROOT iphoneos
             )
         # append flags for XCODE_ATTRIBUTE_GCC_PREPROCESSOR_DEFINITIONS
-        add_definitions(-D __IOS__=1)
-        # target_compile_definitions(${target_name} PRIVATE __IOS__ )
+        # https://blog.csdn.net/whatday/article/details/104376582/
+        # https://www.cnblogs.com/Need4Speak/p/5397949.html
+        # add_definitions(-D __IOS__=1)
+        target_compile_definitions(${target_name} PUBLIC __IOS__ )
     elseif(OSX)
         set_target_properties( ${target_name} PROPERTIES
             XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET ${min_version}
@@ -40,8 +42,8 @@ function(XCODE_SETTING target_name min_version)
             XCODE_ATTRIBUTE_SDKROOT macosx
             )
         # append flags for XCODE_ATTRIBUTE_GCC_PREPROCESSOR_DEFINITIONS
-        add_definitions(-D __OSX__=1)
-        # target_compile_definitions(${target_name} PRIVATE __OSX__ )
+        # add_definitions(-D __OSX__=1)
+        target_compile_definitions(${target_name} PUBLIC __OSX__ )
     endif()
 
 endfunction(XCODE_SETTING)

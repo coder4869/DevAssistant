@@ -40,6 +40,10 @@ add_library(${LIB_NAME} ${LIB_TYPE} ${MODULE_NAME_SRC})
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${MODULE_NAMEDir} )
 target_link_libraries(${LIB_NAME} ${LIB_QT})
 
+# install libs & headers
+INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
+INSTALL_TARGET(${LIB_NAME}) # lib bin exe
+
 # from intern cmake module : apple_func.cmake
 if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})

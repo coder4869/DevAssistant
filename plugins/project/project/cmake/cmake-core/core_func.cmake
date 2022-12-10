@@ -31,3 +31,28 @@ function(APP_ADD_RES src_files dst_dir)
         file(COPY ${TARGET_FILEs} DESTINATION ${EXECUTABLE_OUTPUT_PATH}/${dst_dir})
     endif(OSX)    
 endfunction(APP_ADD_RES)
+
+
+# e.g. cmake .. -DCMAKE_INSTALL_PREFIX=$BUILD_DIR
+# based on CMAKE_INSTALL_PREFIX
+function(INSTALL_INC from_dir to_dir)
+
+    INSTALL(DIRECTORY ${from_dir} DESTINATION  ${to_dir}
+        FILES_MATCHING 
+        PATTERN "Forms" EXCLUDE # For Qt
+        PATTERN "pimp"  EXCLUDE # For Private Imp
+        PATTERN "*.h"   PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+        PATTERN "*.hpp" PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+        PATTERN "*.inc" PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ
+    )
+    
+endfunction(INSTALL_INC)
+
+# lib bin exe
+function(INSTALL_TARGET sdk_name)
+    # include(GNUInstallDirs)
+    INSTALL(TARGETS ${sdk_name}
+            RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin # exe & dynamic lib
+            LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
+            ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+endfunction(INSTALL_TARGET)

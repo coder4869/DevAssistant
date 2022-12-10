@@ -10,8 +10,8 @@ from project import project
 from module import module                                                     
 
 
-# python3 core.py --type project 
-# python3 core.py --type module --root_dir ../../DevKits --module_type 1 --module_name QtKit
+# python3 run.py --type project 
+# python3 run.py --type module --root_dir ../../DevKits --module_type 1 --module_name QtKit
 
 parser = ArgumentParser()
 parser.add_argument('--type', dest='type', type=str, default=['project'], help="gen project or add module to project")    

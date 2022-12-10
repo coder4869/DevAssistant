@@ -19,19 +19,19 @@ message("LIB_TYPE = ${LIB_TYPE} ")
 # platform options
 option(WIN      "Build for Windows"     OFF)
 option(LINUX    "Build for Linux"       OFF)
-option(OSX      "Build for MacOSX"      ON)
+option(OSX      "Build for MacOSX"      OFF)
 option(IOS      "Build for IOS"         OFF)
 option(ANDROID  "Build for Android"     OFF)
 
 set(META_FILES )
 if(WIN)
+    set(LIB_TYPE STATIC) # SHARED STATIC
     set(WIN32 ON)
     set(OS_TYPE "win")
     set(OS_BUNDLE WIN32)
     add_definitions(-DWIN)
 
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-win/win_func.cmake)
-    WIN_FIX_COMPILER()
     WIN_ADD_META(META_FILES) # Add Resource To Project - eg. AppIcon.ico
     APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-win/res/*.*"  "Resources/")
 
@@ -108,8 +108,11 @@ if(WITH_QT)
                                 $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>)
 endif(WITH_QT)
 
-# from intern cmake module : apple_func.cmake
-if(APPLE)
+if(WIN)
+    WIN_FIX_COMPILER()
+    # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
+elseif(APPLE)
+    # from intern cmake module : apple_func.cmake
     XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
     XCODE_ADD_INFO_PLIST()
 endif(APPLE)

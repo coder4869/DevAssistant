@@ -21,15 +21,33 @@ if(NOT APPLE)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--gc-sections -Wl,--as-needed" CACHE INTERNAL "" FORCE)
 endif(APPLE)
 
+if(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    set(CMAKE_BUILD_TYPE Debug)
+elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-# For Debug
+# For Debug and RelWithDebInfo
     add_definitions(-D DEBUG)
+    set(CMAKE_CONFIGURATION_TYPES "Debug" CACHE STRING "" FORCE)
+
+    add_compile_options(
+        "-Wall" "-fexceptions"
+        "$<$<CONFIG:Debug>:-O0;-g3;-ggdb>"
+        )
 
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
-# For Release
+# For Release and MinSizeRel
     add_definitions(-D NDDEBUG)
+    set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "" FORCE)
 
-    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flto -O3 " CACHE INTERNAL "" FORCE)
+    add_compile_options(
+        "-Wall" "-fexceptions"
+        "$<$<CONFIG:Release>:-flto;-O3>"
+        )
+
+    # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flto -O3 " CACHE INTERNAL "" FORCE)
     if(NOT APPLE)
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--exclude-libs,ALL " CACHE INTERNAL "" FORCE)
     endif(APPLE)
@@ -40,8 +58,7 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
     endif()
     
 else()
-# For Other. e.g. slef-defined Release64
-    
+    message("Unknown CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} !")
 endif(CMAKE_BUILD_TYPE)
 
 
