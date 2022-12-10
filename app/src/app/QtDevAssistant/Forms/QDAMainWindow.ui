@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QDAMainWindow</class>
+ <widget class="QMainWindow" name="QDAMainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="projectMenu">
+    <property name="title">
+     <string>Project(项目)</string>
+    </property>
+    <addaction name="actionEnvCheck"/>
+    <addaction name="actionProjectNew"/>
+    <addaction name="actionProjectOpen"/>
+    <addaction name="actionProjectReview"/>
+    <addaction name="actionModuleAdd"/>
+    <addaction name="actionClassAdd"/>
+   </widget>
+   <widget class="QMenu" name="exampleMenu">
+    <property name="title">
+     <string>Example(示例工程)</string>
+    </property>
+    <addaction name="actionExampleReview"/>
+   </widget>
+   <widget class="QMenu" name="practicalMenu">
+    <property name="title">
+     <string>Practical(实用功能)</string>
+    </property>
+    <addaction name="actionEncrypt"/>
+    <addaction name="actionDecrypt"/>
+   </widget>
+   <widget class="QMenu" name="customMenu">
+    <property name="title">
+     <string>Custom(自定义)</string>
+    </property>
+    <addaction name="actionCustom"/>
+   </widget>
+   <widget class="QMenu" name="planMenu">
+    <property name="title">
+     <string>Plan(计划)</string>
+    </property>
+    <addaction name="actionPlan"/>
+   </widget>
+   <widget class="QMenu" name="helpMenu">
+    <property name="title">
+     <string>Help(帮助)</string>
+    </property>
+    <addaction name="actionVersion"/>
+   </widget>
+   <addaction name="projectMenu"/>
+   <addaction name="exampleMenu"/>
+   <addaction name="practicalMenu"/>
+   <addaction name="customMenu"/>
+   <addaction name="planMenu"/>
+   <addaction name="helpMenu"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionVersion">
+   <property name="text">
+    <string>Version(版本)</string>
+   </property>
+  </action>
+  <action name="actionEnvCheck">
+   <property name="text">
+    <string>Check Env(检查环境)</string>
+   </property>
+  </action>
+  <action name="actionProjectNew">
+   <property name="text">
+    <string>New Project(新建项目)</string>
+   </property>
+  </action>
+  <action name="actionExampleReview">
+   <property name="text">
+    <string>Preview(预览)</string>
+   </property>
+  </action>
+  <action name="actionEncrypt">
+   <property name="text">
+    <string>Encrypt(加密)</string>
+   </property>
+  </action>
+  <action name="actionDecrypt">
+   <property name="text">
+    <string>Decrypt(解密)</string>
+   </property>
+  </action>
+  <action name="actionPlan">
+   <property name="text">
+    <string>Plan(计划)</string>
+   </property>
+  </action>
+  <action name="actionCustom">
+   <property name="text">
+    <string>Custom(自定义)</string>
+   </property>
+  </action>
+  <action name="actionProjectOpen">
+   <property name="text">
+    <string>Open Project(打开项目)</string>
+   </property>
+  </action>
+  <action name="actionProjectReview">
+   <property name="text">
+    <string>View Project(预览项目)</string>
+   </property>
+  </action>
+  <action name="actionModuleAdd">
+   <property name="text">
+    <string>Add Module(添加模块)</string>
+   </property>
+  </action>
+  <action name="actionClassAdd">
+   <property name="text">
+    <string>Add Class(添加类)</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

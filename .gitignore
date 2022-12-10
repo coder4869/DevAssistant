@@ -1,2 +1,4 @@
 **__pycache__
 **.DS_Store
+**/build_unix
+**/build_win

@@ -1,15 +1,15 @@
 #include <QApplication>
 #include <QCoreApplication>
-#include <QMainWindow>
+#include "QDAMainWindow.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    QCoreApplication::setApplicationName("QtApp");
+    QCoreApplication::setApplicationName("DevAssistant");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
 
-    QMainWindow window;
-    window.setWindowTitle("QtApp");
+    QDAMainWindow window;
+    window.setWindowTitle("DevAssistant");
     window.showMaximized();
     window.show();
     

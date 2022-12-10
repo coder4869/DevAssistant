@@ -1,29 +1,49 @@
 {
-    "proj_name" : "DevKits",
-    "dir_proj" : "../../../DevKits-b",
+    "proj_name" : "DevAssistant",
+    "dir_proj" : "../../app/",
     "dir_codes":[
         {
             "group" : "QtAPP",
             "group_dir" : "/src/app",
             "modules": [
                 {
-                    "module" : "QtDevAPP",
+                    "module" : "QtDevAssistant",
                     "option" : "ON",
-                    "gen_lib" : "NO"
-                },
-                {
-                    "module" : "QtCryptoAPP",
-                    "option" : "OFF",
                     "gen_lib" : "NO"
                 }
             ]
         },
         {
             "group" : "QtKit",
-            "group_dir" : "/src/qtkits",
+            "group_dir" : "/src/qtmodules",
             "modules": [
                 {
-                    "module" : "QtCryptoKit",
+                    "module" : "QtProject",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtExample",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtPractical",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtCustom",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtPlan",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtHelp",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 }
@@ -34,17 +54,7 @@
             "group_dir" : "/src/kits",
             "modules": [
                 {
-                    "module" : "CCoreKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "CConcurrencyKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "CCryptoKit",
+                    "module" : "DACoreKit",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 }
@@ -55,8 +65,8 @@
             "group_dir" : "/deps",
             "modules": [
                 {
-                    "module" : "Boost",
-                    "option" : "OFF"
+                    "module" : "QtCryptoKit",
+                    "option" : "ON"
                 }
             ]
         }
@@ -64,6 +74,6 @@
     "dir_help": {
         "scripts" : "scripts", 
         "tools" : "tools", 
-        "res" : "res"
+        "doc" : "doc"
     }
 }
