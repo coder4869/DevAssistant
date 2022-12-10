@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QCoreApplication>
+
 #include "QDAMainWindow.h"
 
 int main(int argc, char *argv[])

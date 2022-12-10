@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QDAProjectDialog</class>
+ <widget class="QDialog" name="QDAProjectDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>621</width>
+    <height>528</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" colspan="2">
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>Project  - 项目</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QPlainTextEdit" name="viewProjectConfigText"/>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QPushButton" name="checkDevEnvBtn">
+     <property name="text">
+      <string>Check Env (检查开发环境)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QPushButton" name="createProjectBtn">
+     <property name="text">
+      <string>Create Project (创建项目)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QPushButton" name="loadProjectConfigBtn">
+     <property name="text">
+      <string>Load Project Config (加载项目配置)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QPushButton" name="saveProjectConfigBtn">
+     <property name="text">
+      <string>Save Project Config (保存项目配置)</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

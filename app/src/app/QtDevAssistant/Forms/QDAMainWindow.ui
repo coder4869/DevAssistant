@@ -38,7 +38,7 @@
     <property name="title">
      <string>Example(示例工程)</string>
     </property>
-    <addaction name="actionExampleReview"/>
+    <addaction name="actionExampleView"/>
    </widget>
    <widget class="QMenu" name="practicalMenu">
     <property name="title">
@@ -90,17 +90,17 @@
   </action>
   <action name="actionExampleReview">
    <property name="text">
-    <string>Preview(预览)</string>
+    <string>Preview(示例预览)</string>
    </property>
   </action>
   <action name="actionEncrypt">
    <property name="text">
-    <string>Encrypt(加密)</string>
+    <string>Encrypt(数据加密)</string>
    </property>
   </action>
   <action name="actionDecrypt">
    <property name="text">
-    <string>Decrypt(解密)</string>
+    <string>Decrypt(数据解密)</string>
    </property>
   </action>
   <action name="actionPlan">
@@ -131,6 +131,11 @@
   <action name="actionClassAdd">
    <property name="text">
     <string>Add Class(添加类)</string>
+   </property>
+  </action>
+  <action name="actionExampleView">
+   <property name="text">
+    <string>Preview(示例预览)</string>
    </property>
   </action>
  </widget>
