@@ -44,8 +44,8 @@ plugins:
             |- cmake: cmake scripts. [https://github.com/coder4869/cmake-toolchains] for more.
             |- template: templates for project. eg. Project CMakeLists.txt, Group-Module cmake etc.
         |- pytool: universal python tools for project.
-        |- config.json: demo json for init one template project.
-        |- run.py: demo python script for project usage.
+        |- project.json: json for init one template project.
+        |- run.py: python script for project usage.
     
     |- visual-studio: VS script tools.
         |- vs-cmake: TODO::Designed for converting VS project(module) to CMake project(module).
@@ -55,9 +55,9 @@ plugins:
 ```
 
 #### 2.2 custom project
-Custom project is depends on `plugins/project/config.json`. The Demo and rules as following:
+Custom project is depends on `plugins/project/project.json`. The Demo and rules as following:
 
-- `config.json` Demo 
+- `project.json` Demo 
 
 ```json
 {
@@ -131,7 +131,7 @@ Custom project is depends on `plugins/project/config.json`. The Demo and rules a
 }
 ```
 
-- Rules for custom `config.json`:
+- Rules for custom `project.json`:
     * Composition
         * [Required]-`proj_name`: project_name, same to generated `APP_NAME`.
         * [Required]-`dir_proj` : location for generated project.
@@ -153,6 +153,7 @@ Custom project is depends on `plugins/project/config.json`. The Demo and rules a
         * [Required]-`dir_help` :
             * [Required]-`scripts`: scripts for application. eg. `build`, `cmake` etc.
             * [Optional]-`tools`: extra tools for application. eg. `tolua++` etc.
+            * [Optional]-`doc`  : application documents.
             * [Optional]-`res`  : for none-application resources.
             * [Optional]-`other`: eg. `doc` etc.
     * Keyword Convention:
@@ -180,7 +181,7 @@ Custom project is depends on `plugins/project/config.json`. The Demo and rules a
         * [Archive of Visual Assist builds and release notes](https://support.wholetomato.com/default.asp?W422)
 
 #### 3.2 Create and Open project
-- 1.Write `plugins/project/config.json` according to [custom project](#22-custom-project).
+- 1.Write `plugins/project/project.json` according to [custom project](#22-custom-project).
 
 - 2.Generate project by `plugins/project/run.py` script. 
     * run `python3 run.py --type project` in dir `plugins/project`.
@@ -218,6 +219,9 @@ Custom project is depends on `plugins/project/config.json`. The Demo and rules a
                 |- [file] module1.cmake
                 |- [file] module1.h
                 |- [file] xxx.h/xxx.cpp
+                |- [dir] Forms  # Qt ui Forms
+                |- [dir] Res    # Module Resources
+                |- [dir] pimp   # Private Implement
                 |- ...
             
             |- [dir] module2 
@@ -232,6 +236,7 @@ Custom project is depends on `plugins/project/config.json`. The Demo and rules a
             |- [file] run_unix.sh
             |- [file] run_win.bat
         |- [dir] cmake
+        |- [file] project.json  # project init json
 
     |- ...(others)
     |- [file] CMakeLists.txt

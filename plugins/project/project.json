@@ -1,0 +1,79 @@
+{
+    "proj_name" : "DevAssistant",
+    "dir_proj" : "../../../app/",
+    "dir_codes":[
+        {
+            "group" : "QtAPP",
+            "group_dir" : "/src/app",
+            "modules": [
+                {
+                    "module" : "QtDevAssistant",
+                    "option" : "ON",
+                    "gen_lib" : "NO"
+                }
+            ]
+        },
+        {
+            "group" : "QtKit",
+            "group_dir" : "/src/qtmodules",
+            "modules": [
+                {
+                    "module" : "QtProject",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtExample",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtPractical",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtCustom",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtPlan",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtHelp",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                }
+            ]
+        },
+        {
+            "group" : "Kit",
+            "group_dir" : "/src/kits",
+            "modules": [
+                {
+                    "module" : "DACoreKit",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                }
+            ]
+        },
+        {
+            "group" : "Lib",
+            "group_dir" : "/deps",
+            "modules": [
+                {
+                    "module" : "QtCryptoKit",
+                    "option" : "ON"
+                }
+            ]
+        }
+    ],
+    "dir_help": {
+        "scripts" : "scripts", 
+        "tools" : "tools", 
+        "doc" : "doc"
+    }
+}

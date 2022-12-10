@@ -49,6 +49,7 @@ class Project(object):
             os.makedirs(dir_root)
         Project.add_help_dirs(dir_root, dic["dir_help"], proj_name)    # dir_help
         Project.init_codes_dir(dir_root, dic["dir_codes"])             # dir_codes
+        pyt_file.File.copy_to_file(json_config, dir_root + "/" + dic["dir_help"]["scripts"] + "/project.json")
 
     @staticmethod
     def add_help_dirs(root_dir:str, help_dirs:list, proj_name:str):

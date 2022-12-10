@@ -111,6 +111,7 @@ class Module(object):
                 Module.add_module_main(dst_dir, "main.cpp.NORM")
             else:
                 Module.add_module_header(dst_dir, name)
+            os.makedirs(dst_dir + "/pimp")
             return True
         return False
 
@@ -133,6 +134,7 @@ class Module(object):
                 Module.add_module_header(dst_dir, name)
             os.makedirs(dst_dir + "/Forms")
             os.makedirs(dst_dir + "/Res")
+            os.makedirs(dst_dir + "/pimp")
             return True
         return False
 
