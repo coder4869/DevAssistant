@@ -1,6 +1,6 @@
 {
     "proj_name" : "DevKits",
-    "dir_proj" : "../../../DevKits-b",
+    "dir_proj" : "../../../DevKits",
     "dir_codes":[
         {
             "group" : "QtAPP",
