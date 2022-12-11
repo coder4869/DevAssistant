@@ -25,7 +25,6 @@
 
 #include <QMainWindow>
 
-QT_BEGIN_NAMESPACE
 namespace Ui {
 class QDAMainWindow;
 }
@@ -35,7 +34,6 @@ class QDAPracticalDialog;
 class QDACustomDialog;
 class QDAPlanDialog;
 class QDAHelpDialog;
-QT_END_NAMESPACE
 
 class QDAMainWindow : public QMainWindow
 {

@@ -85,6 +85,7 @@ QDAMainWindow::~QDAMainWindow()
 
 void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 {
+    takeCentralWidget();
     setCentralWidget(widget);
     widget->setEnabled(true);
     widget->show();
