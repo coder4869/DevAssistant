@@ -254,10 +254,18 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
 
 #### 3.3 Run project
 - **For VS project**：
-    * Select App project and  `Set As StartUp Project` in vs.
+    * Select App project(`e.g. DevAssistant`) and `Set As StartUp Project` in vs.
 - **For XCode project**：
-    * Select App project scheme and run direct.
+    * Select App project scheme(`e.g. DevAssistant`) and run it directly.
 
+#### 3.4 Export Libs && headers
+- Open target Project and Run `install` child target.
+    * `install` for Visual Studio is in `CMakePredefinedTargets`
+    * `install` for XCode is in scheme list.
+- Open build dir(`build_win for windows, build_unix for macos and linux`);
+    * `include` dir is exported headers
+    * `lib` dir is exported libs
+    * `Debug` or Release is Application.
 
 ### 4. Develop Milestone Plan
 - Short Term
