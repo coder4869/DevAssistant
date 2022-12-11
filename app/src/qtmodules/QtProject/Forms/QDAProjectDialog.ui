@@ -6,54 +6,67 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>621</width>
-    <height>528</height>
+    <width>559</width>
+    <height>556</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="titleLabel">
-     <property name="text">
-      <string>Project  - 项目</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QPlainTextEdit" name="viewProjectConfigText"/>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QPushButton" name="checkDevEnvBtn">
-     <property name="text">
-      <string>Check Env (检查开发环境)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QPushButton" name="createProjectBtn">
-     <property name="text">
-      <string>Create Project (创建项目)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QPushButton" name="loadProjectConfigBtn">
-     <property name="text">
-      <string>Load Project Config (加载项目配置)</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QPushButton" name="saveProjectConfigBtn">
-     <property name="text">
-      <string>Save Project Config (保存项目配置)</string>
-     </property>
-    </widget>
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QTreeWidget" name="optionsTreeWidget">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <column>
+        <property name="text">
+         <string>项目(Project)</string>
+        </property>
+       </column>
+       <item>
+        <property name="text">
+         <string>检查环境(CheckEnv)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>新建项目(New Project)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>打开项目(Open Project)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>预览项目(View Project)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>添加模块(Add Module)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>添加类(Add Class)</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDockWidget" name="dockWidget">
+       <widget class="QWidget" name="contextWidget"/>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

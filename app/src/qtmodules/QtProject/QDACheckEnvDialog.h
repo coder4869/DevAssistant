@@ -20,43 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "QDAPracticalDialog.h"
+#ifndef QDA_CHECK_ENV_DIALOG_H
+#define QDA_CHECK_ENV_DIALOG_H
 
-#include <QMessageBox>
+#include <QDialog>
 
-#include "ui_QDAPracticalDialog.h"
-
-QDAPracticalDialog::QDAPracticalDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::QDAPracticalDialog)
-{
-    ui->setupUi(this);
-    ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
-    ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+namespace Ui {
+class QDACheckEnvDialog;
 }
 
-QDAPracticalDialog::~QDAPracticalDialog()
+class QDACheckEnvDialog : public QDialog
 {
-    delete ui;
-}
+    Q_OBJECT
 
-void QDAPracticalDialog::OnSetContextWidget(QWidget *widget)
-{
-    if (widget) {
-        ui->dockWidget->setWidget(widget);
-        widget->setEnabled(true);
-        widget->show();
-    }
-}
+public:
+    explicit QDACheckEnvDialog(QWidget *parent = nullptr);
+    ~QDACheckEnvDialog();
+    
+Q_SIGNALS:
+    void SigShowWidget(QWidget *widget);
 
-void QDAPracticalDialog::OnPracticalEncrypt()
-{
-    emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("Practical") , QStringLiteral("Encrypt!"));
-}
+public Q_SLOTS:
+    void OnCheckEnv();
+    
+private:
+    Ui::QDACheckEnvDialog *ui;
+};
 
-void QDAPracticalDialog::OnPracticalDecrypt()
-{
-    emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("Practical") , QStringLiteral("Decrypt!"));
-}
+#endif // QDA_CHECK_ENV_DIALOG_H

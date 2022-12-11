@@ -20,43 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "QDAPracticalDialog.h"
+#include "QDACheckEnvDialog.h"
 
 #include <QMessageBox>
 
-#include "ui_QDAPracticalDialog.h"
+#include "ui_QDACheckEnvDialog.h"
 
-QDAPracticalDialog::QDAPracticalDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::QDAPracticalDialog)
+QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
+    QDialog(parent), ui(new Ui::QDACheckEnvDialog)
 {
     ui->setupUi(this);
-    ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
-    ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
 }
 
-QDAPracticalDialog::~QDAPracticalDialog()
+QDACheckEnvDialog::~QDACheckEnvDialog()
 {
     delete ui;
 }
 
-void QDAPracticalDialog::OnSetContextWidget(QWidget *widget)
-{
-    if (widget) {
-        ui->dockWidget->setWidget(widget);
-        widget->setEnabled(true);
-        widget->show();
-    }
-}
 
-void QDAPracticalDialog::OnPracticalEncrypt()
+void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("Practical") , QStringLiteral("Encrypt!"));
-}
-
-void QDAPracticalDialog::OnPracticalDecrypt()
-{
-    emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("Practical") , QStringLiteral("Decrypt!"));
+    QMessageBox::warning(NULL, QStringLiteral("CheckEnv") , QStringLiteral("Check Developping Environment!"));
 }

@@ -15,17 +15,34 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QLabel" name="titleLabel">
-     <property name="text">
-      <string>Practical - 实用功能</string>
+    <widget class="QTreeWidget" name="optionsTreeWidget">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
+     <column>
+      <property name="text">
+       <string>实用功能(Practical)</string>
+      </property>
+     </column>
+     <item>
+      <property name="text">
+       <string>数据加密(Encrypt)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>数据机密(Decrypt)</string>
+      </property>
+     </item>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QListWidget" name="practicalListWidget"/>
+   <item row="0" column="1">
+    <widget class="QDockWidget" name="dockWidget">
+     <widget class="QWidget" name="dockWidgetContents"/>
+    </widget>
    </item>
   </layout>
  </widget>

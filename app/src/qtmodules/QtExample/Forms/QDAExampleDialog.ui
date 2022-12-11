@@ -17,7 +17,7 @@
    <item row="0" column="0">
     <widget class="QLabel" name="titleLabel">
      <property name="text">
-      <string>Example Project - 示例项目</string>
+      <string>示例项目 (Example Project)</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

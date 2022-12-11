@@ -1,6 +1,6 @@
 {
     "proj_name" : "DevAssistant",
-    "dir_proj" : "../../../app/",
+    "dir_proj" : "../../app/",
     "dir_codes":[
         {
             "group" : "QtAPP",
