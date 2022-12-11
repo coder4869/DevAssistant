@@ -20,48 +20,31 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PROJECT_DIALOG_H
-#define QDA_PROJECT_DIALOG_H
+#include "QDAProjectAddDialog.h"
 
-#include <QDialog>
+#include <QMessageBox>
 
-namespace Ui {
-class QDAProjectDialog;
-}
-class QTreeWidgetItem;
-class QDACheckEnvDialog;
-class QDAProjectDetailDialog;
-class QDAProjectAddDialog;
+#include "ui_QDAProjectAddDialog.h"
 
-class QDAProjectDialog : public QDialog
+QDAProjectAddDialog::QDAProjectAddDialog(QWidget *parent) :
+    QDialog(parent), ui(new Ui::QDAProjectAddDialog)
 {
-    Q_OBJECT
+    ui->setupUi(this);
+}
 
-public:
-    explicit QDAProjectDialog(QWidget *parent = nullptr);
-    ~QDAProjectDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
+QDAProjectAddDialog::~QDAProjectAddDialog()
+{
+    delete ui;
+}
 
-public Q_SLOTS:
-    void OnSetContextWidget(QWidget *widget);
-    void OnSetOption(QTreeWidgetItem *item, int column);
-    
-    void OnCheckEnv();
-    void OnProjectCreate();
-    void OnProjectOpen();
-    void OnProjectView();
-    void OnProjectAddModule();
-    void OnModuleAddClass();
-    
-private:
-    Ui::QDAProjectDialog *ui;
-    QDACheckEnvDialog *checkEnv;
-    QDAProjectDetailDialog *projectDetail;
-    QDAProjectAddDialog *projectAdd;
-    
-    void SelectOptionTreeWidget(int index);
-};
+void QDAProjectAddDialog::OnProjectAddModule()
+{
+    emit SigShowWidget(this);
+    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnProjectCreate!"));
+}
 
-#endif // QDA_PROJECT_DIALOG_H
+void QDAProjectAddDialog::OnModuleAddClass()
+{
+    emit SigShowWidget(this);
+    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnProjectOpen!"));
+}

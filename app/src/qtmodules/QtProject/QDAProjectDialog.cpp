@@ -26,6 +26,8 @@
 
 #include "ui_QDAProjectDialog.h"
 #include "QDACheckEnvDialog.h"
+#include "QDAProjectDetailDialog.h"
+#include "QDAProjectAddDialog.h"
 
 enum QDAProjectOptions : int {
     CheckEnv = 0,
@@ -43,22 +45,58 @@ QDAProjectDialog::QDAProjectDialog(QWidget *parent) :
     ui->setupUi(this);
     ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
     ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
-    checkEnv = new QDACheckEnvDialog(this);
+    connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
+    
+    // QDACheckEnvDialog
+    checkEnv = new QDACheckEnvDialog();
     connect(checkEnv, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
+    
+    // QDAProjectDetailDialog
+    projectDetail = new QDAProjectDetailDialog();
+    connect(projectDetail, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
+ 
+    // QDAProjectAddDialog
+    projectAdd = new QDAProjectAddDialog();
+    connect(projectAdd, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
+
 }
 
 QDAProjectDialog::~QDAProjectDialog()
 {
     delete checkEnv;
+    delete projectDetail;
+    delete projectAdd;
     delete ui;
 }
 
 void QDAProjectDialog::OnSetContextWidget(QWidget *widget)
 {
     if (widget) {
+        // remove old
+        QWidget *old = ui->dockWidget->widget();
+        old->setParent(nullptr);
+        old->hide();
+        
         ui->dockWidget->setWidget(widget);
         widget->setEnabled(true);
         widget->show();
+    }
+}
+
+void QDAProjectDialog::OnSetOption(QTreeWidgetItem *item, int column)
+{
+    if (item == ui->optionsTreeWidget->topLevelItem(QDAProjectOptions::CheckEnv)) {
+        OnCheckEnv();
+    } else if (item == ui->optionsTreeWidget->topLevelItem(QDAProjectOptions::Create)) {
+        OnProjectCreate();
+    } else if (item == ui->optionsTreeWidget->topLevelItem(QDAProjectOptions::Open)) {
+        OnProjectOpen();
+    } else if (item == ui->optionsTreeWidget->topLevelItem(QDAProjectOptions::View)) {
+        OnProjectView();
+    } else if (item == ui->optionsTreeWidget->topLevelItem(QDAProjectOptions::AddModule)) {
+        OnProjectAddModule();
+    } else if (item == ui->optionsTreeWidget->topLevelItem(QDAProjectOptions::AddClass)) {
+        OnModuleAddClass();
     }
 }
 
@@ -73,40 +111,35 @@ void QDAProjectDialog::OnProjectCreate()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::Create);
-    
-    QMessageBox::warning(NULL, QStringLiteral("Project") , QStringLiteral("Create One New Project!"));
+    projectDetail->OnProjectCreate();
 }
 
 void QDAProjectDialog::OnProjectOpen()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::Open);
-
-    QMessageBox::warning(NULL, QStringLiteral("Project") , QStringLiteral("Open One Existing Project!"));
+    projectDetail->OnProjectOpen();
 }
 
 void QDAProjectDialog::OnProjectView()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::View);
-
-    QMessageBox::warning(NULL, QStringLiteral("Project") , QStringLiteral("View Existing Project Config!"));
+    projectDetail->OnProjectView();
 }
 
 void QDAProjectDialog::OnProjectAddModule()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::AddModule);
-
-    QMessageBox::warning(NULL, QStringLiteral("Project") , QStringLiteral("Project Add One Module!"));
+    projectAdd->OnProjectAddModule();
 }
 
 void QDAProjectDialog::OnModuleAddClass()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::AddClass);
-
-    QMessageBox::warning(NULL, QStringLiteral("Project") , QStringLiteral("Project Module add Class!"));
+    projectAdd->OnModuleAddClass();
 }
 
 void QDAProjectDialog::SelectOptionTreeWidget(int index)

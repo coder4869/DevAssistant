@@ -20,48 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PROJECT_DIALOG_H
-#define QDA_PROJECT_DIALOG_H
+#ifndef QDA_PROJECT_DETAIL_DIALOG_H
+#define QDA_PROJECT_DETAIL_DIALOG_H
 
 #include <QDialog>
 
 namespace Ui {
-class QDAProjectDialog;
-}
-class QTreeWidgetItem;
-class QDACheckEnvDialog;
 class QDAProjectDetailDialog;
-class QDAProjectAddDialog;
+}
 
-class QDAProjectDialog : public QDialog
+class QDAProjectDetailDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit QDAProjectDialog(QWidget *parent = nullptr);
-    ~QDAProjectDialog();
+    explicit QDAProjectDetailDialog(QWidget *parent = nullptr);
+    ~QDAProjectDetailDialog();
     
 Q_SIGNALS:
     void SigShowWidget(QWidget *widget);
 
 public Q_SLOTS:
-    void OnSetContextWidget(QWidget *widget);
-    void OnSetOption(QTreeWidgetItem *item, int column);
-    
-    void OnCheckEnv();
     void OnProjectCreate();
     void OnProjectOpen();
     void OnProjectView();
-    void OnProjectAddModule();
-    void OnModuleAddClass();
     
 private:
-    Ui::QDAProjectDialog *ui;
-    QDACheckEnvDialog *checkEnv;
-    QDAProjectDetailDialog *projectDetail;
-    QDAProjectAddDialog *projectAdd;
-    
-    void SelectOptionTreeWidget(int index);
+    Ui::QDAProjectDetailDialog *ui;
 };
 
-#endif // QDA_PROJECT_DIALOG_H
+#endif // QDA_PROJECT_DETAIL_DIALOG_H
