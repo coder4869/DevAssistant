@@ -108,6 +108,7 @@ endif(WITH_QT)
 # subdirectory
 set(INC_FILES)
 set(SRC_FILES)
+# set(INC_GROUP)
 # include(Module-Group.cmake)
 # add_subdirectory(Module-Group-Dir)
 message("INC_FILES=${INC_FILES}")
@@ -115,9 +116,10 @@ message("SRC_FILES=${SRC_FILES}")
 
 
 ################################## build ##################################
+set(META_FILES ${META_FILES} ${PROJ_ROOT}/scripts/project.json)
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT})
+target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_GROUP} )
 # target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html

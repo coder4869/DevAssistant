@@ -26,10 +26,11 @@ import sys
 from argparse import ArgumentParser
 
 BASE_DIR = os.path.dirname( os.path.abspath(__file__) )
-sys.path.append( BASE_DIR )
+PYTOOL_DIR = os.path.dirname( BASE_DIR )
+sys.path.append( PYTOOL_DIR )
+
 from project import project                                                     
 from module import module                                                     
-
 
 # python3 run.py --type project 
 # python3 run.py --type module --root_dir ../../DevKits --module_type 1 --module_name QtKit
@@ -47,4 +48,4 @@ if __name__ == '__main__':
         project.Project.create(BASE_DIR + "/project.json")
     elif args.type == "module":
         module.Module.MOUDLE_DIR = "/src-app/"
-        module.Module.add(args.root_dir, module.ModuleType(args.module_type), args.module_name, has_main=True)
+        module.Module.add(args.root_dir, module.ModuleType(args.module_type), args.module_name, has_main=True, deps=[])

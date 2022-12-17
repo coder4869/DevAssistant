@@ -26,56 +26,46 @@ import sys
 import enum
 
 MODULE_BASE_DIR = os.path.dirname( os.path.abspath(__file__) )
-CORE_BASE_DIR   = os.path.dirname(MODULE_BASE_DIR)
-sys.path.append( CORE_BASE_DIR )
+PYTOOL_DIR   = os.path.dirname( os.path.dirname(MODULE_BASE_DIR) )
+sys.path.append( PYTOOL_DIR )
 from pytool import pyt_file 
 
 MODULE_TEMPLATE_CMAKE = MODULE_BASE_DIR + "/template/cmake/"
 MODULE_TEMPLATE_CODE  = MODULE_BASE_DIR + "/template/code/"
 
 MODULE_CMAKE_APPEND_NORM="""
-
 # MODULE_NAME
 if(MODULE_NAME)
     set(MODULE_NAME_SRC)
     include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
     set(SRC_FILES ${SRC_FILES} ${MODULE_NAME_SRC})
 endif(MODULE_NAME)
-
 """
 
 MODULE_CMAKE_APPEND_LIB_DEPS_NORM="""
-
 # MODULE_NAME
 if(MODULE_NAME)
     include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
 endif(MODULE_NAME)
-
 """
 
 MODULE_CMAKE_APPEND_QT="""
-
 # MODULE_NAME
 if(WITH_QT AND MODULE_NAME)
     set(MODULE_NAME_SRC)
     include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
     set(SRC_FILES ${SRC_FILES} ${MODULE_NAME_SRC})
 endif(WITH_QT AND MODULE_NAME)
-
 """
 
 MODULE_CMAKE_APPEND_LIB_DEPS_QT="""
-
 # MODULE_NAME
 if(WITH_QT AND MODULE_NAME)
     include(${SRC_ROOT}/MODULE_NAME/MODULE_NAME.cmake)
 endif(WITH_QT AND MODULE_NAME)
-
 """
 
-
-MODULE_CMAKE_APPEND_LIB="""
-
+MODULE_CMAKE_APPEND_LIB_THRID_PARTY="""
 # MODULE_NAME
 if(MODULE_NAME)
     set(MODULE_NAME_INC)
@@ -84,7 +74,14 @@ if(MODULE_NAME)
     set(THIRD_PARTY_INC ${THIRD_PARTY_INC} ${MODULE_NAME_INC})
     set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${MODULE_NAME_LIB})
 endif(MODULE_NAME)
+"""
 
+MODULE_CMAKE_APPEND_LIB_DEPS="""
+if(MODULE_NAME)
+    add_dependencies(${LIB_NAME} MODULE_NAME)
+else()
+    message(FATAL_ERROR "option ON for MODULE_NAME is required !")
+endif(MODULE_NAME)
 """
 
 class ModuleType(enum.Enum):
@@ -93,27 +90,30 @@ class ModuleType(enum.Enum):
     Lib   = 2
 
 class Module(object):
-    ROOT_DIR = CORE_BASE_DIR
-    MOUDLE_DIR = "/src/" # init required
-    MOUDLE_ABS_DIR = CORE_BASE_DIR + MOUDLE_DIR
+    ROOT_DIR = "."        # private, parent 
+    MOUDLE_DIR = "/src/"  # public, init required, module relative path to ROOT_DIR
+    MOUDLE_ABS_DIR = ROOT_DIR + MOUDLE_DIR  # private
     IS_LIB_DEPS = False
 
     @staticmethod
-    def add(root_dir:str, module_type:ModuleType, module_name:str, has_main:bool):
+    def add(root_dir:str, module_type:ModuleType, module_name:str, has_main:bool, deps:list=[]):
         print("root_dir =", root_dir, "module_type =", module_type, "module_name =", module_name)
         Module.ROOT_DIR = root_dir
         Module.MOUDLE_ABS_DIR = root_dir + Module.MOUDLE_DIR
 
         if ModuleType(module_type) is ModuleType.Norm:
             Module.add_norm_module(module_name, has_main)
+            Module.add_module_deps(module_name, deps)
         elif ModuleType(module_type) is ModuleType.Qt:
             Module.add_qt_module(module_name, has_main)
+            Module.add_module_deps(module_name, deps)
         elif ModuleType(module_type) is ModuleType.Lib:
             Module.add_lib_module(module_name)
         else:
             print("Invalid ModuleType ", module_type)
             for name, value in ModuleType.__members__.items():
                 print(name, value)
+            return
 
     @staticmethod
     def add_norm_module(name:str, has_main:bool):
@@ -165,7 +165,7 @@ class Module(object):
         print("add_lib_module() dst_dir=", dst_dir)
         if Module.check_path(dst_dir):
             # add module lib.cmake
-            Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB, name)
+            Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB_THRID_PARTY, name)
             Module.add_module_cmake(dst_dir, name, "lib.cmake")
             return True
         return False
@@ -191,9 +191,24 @@ class Module(object):
     def add_module_to_project(append_str, name):
         dir_name = os.path.basename(os.path.normpath(Module.MOUDLE_ABS_DIR))
         dir_cmake = Module.MOUDLE_ABS_DIR + dir_name + ".cmake"
-        print("dir_cmake=",dir_cmake)
+        print("add_module_to_project: dir_cmake=",dir_cmake)
         pyt_file.File.append_string(dir_cmake, append_str)
         pyt_file.File.replace_string(dir_cmake, "MODULE_NAME", name)
+    
+    @staticmethod
+    def add_module_deps(name:str, deps:list):
+        dir_cmake = Module.MOUDLE_ABS_DIR + name + "/" +  name + ".cmake"
+        if len(deps) > 0:
+            # dir_name = os.path.basename(os.path.normpath(Module.MOUDLE_ABS_DIR))
+            # dir_cmake = Module.MOUDLE_ABS_DIR + dir_name + ".cmake"
+            print("add_module_deps: dir_cmake=", dir_cmake)
+            lib_deps:str = "set(LIB_DEPS"
+            for lib in deps:
+                lib_deps = lib_deps + " " + lib
+                pyt_file.File.append_string(dir_cmake, MODULE_CMAKE_APPEND_LIB_DEPS)
+                pyt_file.File.replace_string(dir_cmake, "MODULE_NAME", lib)
+            lib_deps = lib_deps + " )"
+            pyt_file.File.replace_string(dir_cmake, "set(LIB_DEPS )", lib_deps)
 
     @staticmethod
     def check_path(path):

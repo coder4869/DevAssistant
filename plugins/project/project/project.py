@@ -25,8 +25,8 @@ import os
 import sys
 
 PROJECT_BASE_DIR = os.path.dirname( os.path.abspath(__file__) )
-CORE_BASE_DIR    = os.path.dirname(PROJECT_BASE_DIR)
-sys.path.append( CORE_BASE_DIR )
+PYTOOL_DIR   = os.path.dirname( os.path.dirname(PROJECT_BASE_DIR) )
+sys.path.append( PYTOOL_DIR )
 from pytool import pyt_file                                                     
 from pytool import pyt_json                                                    
 from module import module   
@@ -40,7 +40,6 @@ OPTION_QT_OFF = "option(WITH_QT \"Build with Qt \" OFF)"
 OPTION_QT_ON = "option(" + "WITH_QT".ljust(OPTION_STR_SIZE,' ') +  "\"Build with " + "Qt".ljust(OPTION_STR_SIZE,' ') + "\"\tON)"
 
 MODULE_LIB_DEPS = """
-
 if(MODULE_NAME)
     add_dependencies(${PROJECT_NAME} MODULE_NAME)
     target_link_libraries(${PROJECT_NAME} PUBLIC MODULE_NAME)
@@ -48,7 +47,6 @@ endif(MODULE_NAME)
 """
 
 MODULE_LIB_DEPS_QT = """
-
 if(WITH_QT AND MODULE_NAME)
     add_dependencies(${PROJECT_NAME} MODULE_NAME)
     target_link_libraries(${PROJECT_NAME} PUBLIC MODULE_NAME)
@@ -57,7 +55,8 @@ endif(MODULE_NAME)
 
 
 class Project(object):
-    
+    GROUP_LIST:list = []
+
     @staticmethod
     def create(json_config):
         dic = pyt_json.PytJson.load_config(json_config)
@@ -71,6 +70,7 @@ class Project(object):
         Project.add_help_dirs(dir_root, dic["dir_help"], proj_name)    # dir_help
         Project.init_codes_dir(dir_root, dic["dir_codes"])             # dir_codes
         pyt_file.File.copy_to_file(json_config, dir_root + "/" + dic["dir_help"]["scripts"] + "/project.json")
+        Project.add_group_inc(dir_root)
 
     @staticmethod
     def add_help_dirs(root_dir:str, help_dirs:list, proj_name:str):
@@ -102,12 +102,21 @@ class Project(object):
             # add module groups
             gtype = group["group"]
             group_dir = group["group_dir"]
+            Project.GROUP_LIST.append(group_dir)
             Project.add_module_group(root_dir, group_dir, gtype)
             # add child modules
             modules  = group["modules"]
             for item in modules:
                 Project.add_module(root_dir, group_dir, gtype, item)
     
+    @staticmethod 
+    def add_group_inc(root_dir:str):
+        inc_group:str = "set(INC_GROUP "
+        for group_dir in Project.GROUP_LIST:
+            inc_group = inc_group + " ${PROJ_ROOT}" + group_dir
+        inc_group = inc_group + ")" 
+        pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", "# set(INC_GROUP)", inc_group)
+
     @staticmethod
     def add_module_group(root_dir:str, group_dir:str, gtype:str):
         group_abs_dir = root_dir + group_dir 
@@ -129,17 +138,21 @@ class Project(object):
         name = obj["module"]
         Project.add_module_option(root_dir, obj)
         Project.add_module_lib_deps(root_dir, gtype, obj)
+        # get deps
+        deps:list = []
+        if "deps" in obj:
+            deps = obj["deps"]
         # add Module
         has_main = gtype.lower().endswith("app")
         module.Module.MOUDLE_DIR = group_dir + "/"
         if gtype.lower().startswith("qt"):
             # Open WITH_QT in ${PROJECT}/CMakeLists.txt
             pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", OPTION_QT_OFF, OPTION_QT_ON)
-            module.Module.add(root_dir, module.ModuleType.Qt, name, has_main)
+            module.Module.add(root_dir, module.ModuleType.Qt, name, has_main, deps)
         elif gtype.lower() == "lib":
-            module.Module.add(root_dir, module.ModuleType.Lib, name, has_main)
+            module.Module.add(root_dir, module.ModuleType.Lib, name, has_main, deps)
         else:
-            module.Module.add(root_dir, module.ModuleType.Norm, name, has_main)
+            module.Module.add(root_dir, module.ModuleType.Norm, name, has_main, deps)
     
     @staticmethod
     def add_module_option(root_dir:str, obj:object):

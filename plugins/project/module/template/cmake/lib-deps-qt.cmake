@@ -57,9 +57,11 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update MODULE_NAME_SRC
 set(MODULE_NAME_SRC ${MODULE_NAME_SRC} ${MODULE_NAME_FORMs} ${MODULE_NAME_RES} ${MODULE_NAME_RES_UIC})
 
+set(LIB_DEPS )
+
 add_library(${LIB_NAME} ${LIB_TYPE} ${MODULE_NAME_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${MODULE_NAMEDir} )
-target_link_libraries(${LIB_NAME} ${LIB_QT})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${MODULE_NAMEDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

@@ -43,10 +43,11 @@ plugins:
             |- build: scipts for build project.
             |- cmake: cmake scripts. [https://github.com/coder4869/cmake-toolchains] for more.
             |- template: templates for project. eg. Project CMakeLists.txt, Group-Module cmake etc.
-        |- pytool: universal python tools for project.
-        |- project.json: json for init one template project.
+        |- project.json: json for init app template project.
         |- run.py: python script for project usage.
     
+    |- pytool: universal python tools for project.
+
     |- visual-studio: VS script tools.
         |- vs-cmake: TODO::Designed for converting VS project(module) to CMake project(module).
     
@@ -82,7 +83,10 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
                 {
                     "module" : "QtProject",
                     "option" : "ON",
-                    "gen_lib" : "YES"
+                    "gen_lib" : "YES",
+                    "deps" : [
+                        "CCoreKit"
+                    ]
                 },
                 {
                     "module" : "QtExample",
@@ -152,20 +156,21 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
                 * [Optional]-`QtKit`: none application modules for Qt. e.g. `QtSDK` etc.
                 * [Optional]-`Kit`: none application normal modules without QT. e.g. none qt `SDK` etc.
                 * [Optional]-`Lib`: third-party libs for applications. Including headers and libs.
-                * **Note:** each group has one `${last/path/of/group_dir}.cmake`, which is a summary of group modules.
+                * **Note:** each group has one `${path/of/group_dir}.cmake`, which is a summary of group modules.
             * [Required]-`group_dir`: group relative dir path for project.
             * [Required]-`modules`: module list with same group type. **For each module**:
                 * [Required]-`module`: module name. **`Qt` prefix is required for Qt module.**
                 * [Required]-`option`: module is `ON` or `OFF` for application integration.
                 * [Optional]-`gen_lib`: default is `NO`, not avaliable for group `Lib` type.
-                    * **Note:** When `gen_lib` is `YES`, default is `static` lib, not `shared`.
+                    * **Note:** When `gen_lib` is `YES`, default is `static` lib for WIN, `shared` for Linux and macOS.
+                * **[Optional]-`deps`: kits dependency for `QtKit` or `Kit` group type.**
                 * **Note:** each module has one `${module}.cmake`, which is a summary of module resources, create lib with `add_library()` when `gen_lib` is `YES`.
         * [Required]-`dir_help` :
             * [Required]-`scripts`: scripts for application. eg. `build`, `cmake` etc.
             * [Optional]-`tools`: extra tools for application. eg. `tolua++` etc.
             * [Optional]-`doc`  : application documents.
             * [Optional]-`res`  : for none-application resources.
-            * [Optional]-`other`: eg. `doc` etc.
+            * other self-defined dir.
     * Keyword Convention:
         * No limition for `Upper-Case` or `Lower-Case`.
         * `Qt` prefix is required for Qt module.
