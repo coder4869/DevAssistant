@@ -138,6 +138,7 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
         }
     ],
     "dir_help": {
+        "conf" : "conf", 
         "scripts" : "scripts", 
         "tools" : "tools", 
         "doc" : "doc"
@@ -166,7 +167,8 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
                 * **[Optional]-`deps`: kits dependency for `QtKit` or `Kit` group type.**
                 * **Note:** each module has one `${module}.cmake`, which is a summary of module resources, create lib with `add_library()` when `gen_lib` is `YES`.
         * [Required]-`dir_help` :
-            * [Required]-`scripts`: scripts for application. eg. `build`, `cmake` etc.
+            * [Required]-`conf`: **Fixed!** config files for application. eg. `project.json` etc.
+            * [Required]-`scripts`: **Fixed!** scripts for application. eg. `build`, `cmake` etc.
             * [Optional]-`tools`: extra tools for application. eg. `tolua++` etc.
             * [Optional]-`doc`  : application documents.
             * [Optional]-`res`  : for none-application resources.

@@ -116,7 +116,7 @@ message("SRC_FILES=${SRC_FILES}")
 
 
 ################################## build ##################################
-set(META_FILES ${META_FILES} ${PROJ_ROOT}/scripts/project.json)
+set(META_FILES ${META_FILES} ${PROJ_ROOT}/conf/project.json)
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_GROUP} )
@@ -140,3 +140,5 @@ elseif(APPLE)
     XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
     XCODE_ADD_INFO_PLIST()
 endif(APPLE)
+
+APP_ADD_RES("${PROJ_ROOT}/conf/*.json"  "Resources/")
