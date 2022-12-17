@@ -247,13 +247,15 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
         |- [dir] group2
             |- ...
 
+    |- [dir] conf
+        |- [file] project.json  # project init json
+
     |- [dir] scripts
         |- [dir] build
             |- [file] run_arm.sh
             |- [file] run_unix.sh
             |- [file] run_win.bat
         |- [dir] cmake
-        |- [file] project.json  # project init json
 
     |- ...(others)
     |- [file] CMakeLists.txt
