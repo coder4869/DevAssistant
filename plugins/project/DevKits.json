@@ -59,6 +59,22 @@
             ]
         },
         {
+            "group" : "Kit",
+            "group_dir" : "/src/render",
+            "modules": [
+                {
+                    "module" : "CModelKit",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "CGLKit",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                }
+            ]
+        },
+        {
             "group" : "Lib",
             "group_dir" : "/deps",
             "modules": [

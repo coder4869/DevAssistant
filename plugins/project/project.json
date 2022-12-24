@@ -22,7 +22,8 @@
                     "option" : "ON",
                     "gen_lib" : "YES",
                     "deps" : [
-                        "QtCoreKit"
+                        "QtCoreKit",
+                        "QtScriptsKit"
                     ]
                 },
                 {
@@ -52,6 +53,11 @@
                 },
                 {
                     "module" : "QtCoreKit",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtScriptsKit",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 }

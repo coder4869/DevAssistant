@@ -2,3 +2,4 @@
 **.DS_Store
 **/build_unix
 **/build_win
+app/plugins
