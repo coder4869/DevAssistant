@@ -93,3 +93,9 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
     widget->setEnabled(true);
     widget->show();
 }
+
+void QDAMainWindow::LoadWelcome()
+{
+    project->OnCheckEnv();
+//    help->OnHelpShow();
+}

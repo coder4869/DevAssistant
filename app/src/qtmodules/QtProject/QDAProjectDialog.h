@@ -57,9 +57,9 @@ public Q_SLOTS:
     
 private:
     Ui::QDAProjectDialog *ui;
-    QDACheckEnvDialog *checkEnv;
-    QDAProjectDetailDialog *projectDetail;
-    QDAProjectAddDialog *projectAdd;
+    QDACheckEnvDialog *check_env;
+    QDAProjectDetailDialog *project_detail;
+    QDAProjectAddDialog *project_add;
     
     void SelectOptionTreeWidget(int index);
 };

@@ -48,24 +48,24 @@ QDAProjectDialog::QDAProjectDialog(QWidget *parent) :
     connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
     
     // QDACheckEnvDialog
-    checkEnv = new QDACheckEnvDialog();
-    connect(checkEnv, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
+    check_env = new QDACheckEnvDialog();
+    connect(check_env, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
     
     // QDAProjectDetailDialog
-    projectDetail = new QDAProjectDetailDialog();
-    connect(projectDetail, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
+    project_detail = new QDAProjectDetailDialog();
+    connect(project_detail, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
  
     // QDAProjectAddDialog
-    projectAdd = new QDAProjectAddDialog();
-    connect(projectAdd, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
+    project_add = new QDAProjectAddDialog();
+    connect(project_add, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetContextWidget(QWidget *)));
 
 }
 
 QDAProjectDialog::~QDAProjectDialog()
 {
-    delete checkEnv;
-    delete projectDetail;
-    delete projectAdd;
+    delete check_env;
+    delete project_detail;
+    delete project_add;
     delete ui;
 }
 
@@ -104,42 +104,42 @@ void QDAProjectDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::CheckEnv);
-    checkEnv->OnCheckEnv();
+    check_env->OnCheckEnv();
 }
 
 void QDAProjectDialog::OnProjectCreate()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::Create);
-    projectDetail->OnProjectCreate();
+    project_detail->OnProjectCreate();
 }
 
 void QDAProjectDialog::OnProjectOpen()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::Open);
-    projectDetail->OnProjectOpen();
+    project_detail->OnProjectOpen();
 }
 
 void QDAProjectDialog::OnProjectView()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::View);
-    projectDetail->OnProjectView();
+    project_detail->OnProjectView();
 }
 
 void QDAProjectDialog::OnProjectAddModule()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::AddModule);
-    projectAdd->OnProjectAddModule();
+    project_add->OnProjectAddModule();
 }
 
 void QDAProjectDialog::OnModuleAddClass()
 {
     emit SigShowWidget(this);
     SelectOptionTreeWidget(QDAProjectOptions::AddClass);
-    projectAdd->OnModuleAddClass();
+    project_add->OnModuleAddClass();
 }
 
 void QDAProjectDialog::SelectOptionTreeWidget(int index)

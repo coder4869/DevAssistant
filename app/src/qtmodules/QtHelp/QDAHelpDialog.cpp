@@ -41,5 +41,5 @@ QDAHelpDialog::~QDAHelpDialog()
 void QDAHelpDialog::OnHelpShow()
 {
     emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("Help") , QStringLiteral("Show Help View!"));
+//    QMessageBox::warning(NULL, QStringLiteral("Help") , QStringLiteral("Show Help View!"));
 }

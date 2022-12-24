@@ -43,6 +43,8 @@ public:
     QDAMainWindow(QWidget *parent = nullptr);
     ~QDAMainWindow();
     
+    void LoadWelcome();
+    
 public Q_SLOTS:
     void OnSetCentralWidget(QWidget *widget);
     

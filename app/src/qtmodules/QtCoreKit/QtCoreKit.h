@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,50 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PROJECT_DETAIL_DIALOG_H
-#define QDA_PROJECT_DETAIL_DIALOG_H
+#ifndef QTCOREKIT_H
+#define QTCOREKIT_H
 
-#include <QDialog>
-#include "QDAProjectConfig.h"
+#include <QtCoreKit/encode/QCKEncode.h>
 
-namespace Ui {
-class QDAProjectDetailDialog;
-}
+#include <QtCoreKit/object/QCKObject.h>
 
-class QDAProjectDetailDialog : public QDialog
-{
-    Q_OBJECT
+#include <QtCoreKit/qml/QCKQmlBridge.h>
+#include <QtCoreKit/qml/QCKQmlEngine.h>
+#include <QtCoreKit/qml/QCKQmlUtil.h>
 
-public:
-    enum class ShowMode {
-        Add,
-        Open,
-        View
-    };
-    
-    explicit QDAProjectDetailDialog(QWidget *parent = nullptr);
-    ~QDAProjectDetailDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
+#include <QtCoreKit/utils/QCKCmd.h>
+#include <QtCoreKit/utils/QCKDefines.h>
+#include <QtCoreKit/utils/QCKFile.h>
+#include <QtCoreKit/utils/QCKJson.h>
 
-public Q_SLOTS:
-    void OnProjectCreate();
-    void OnProjectOpen();
-    void OnProjectView();
-    
-protected Q_SLOTS:
-    void OnCreate();
-    bool OnLoadConfig();
-    bool OnSaveConfig();
-
-private:
-    bool UpdateJsonAndConfig(bool check_config);
-
-private:
-    Ui::QDAProjectDetailDialog *ui;
-    ShowMode show_mode;
-    bool is_view_avaliable = false;
-};
-
-#endif // QDA_PROJECT_DETAIL_DIALOG_H
+#endif /* QTCOREKIT_H */

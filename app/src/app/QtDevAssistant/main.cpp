@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     QDAMainWindow window;
     window.setWindowTitle("DevAssistant");
     window.showMaximized();
+    window.LoadWelcome();
     window.show();
     
     return app.exec();

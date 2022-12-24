@@ -41,5 +41,5 @@ QDACheckEnvDialog::~QDACheckEnvDialog()
 void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("CheckEnv") , QStringLiteral("Check Developping Environment!"));
+//    QMessageBox::warning(NULL, QStringLiteral("CheckEnv") , QStringLiteral("Check Developping Environment!"));
 }

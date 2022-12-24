@@ -26,10 +26,13 @@
 
 #include "ui_QDAProjectAddDialog.h"
 
+const QString PROJECT_JSON_INIT = "/Resources/project.json";
+
 QDAProjectAddDialog::QDAProjectAddDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectAddDialog)
 {
     ui->setupUi(this);
+    
 }
 
 QDAProjectAddDialog::~QDAProjectAddDialog()
@@ -40,11 +43,12 @@ QDAProjectAddDialog::~QDAProjectAddDialog()
 void QDAProjectAddDialog::OnProjectAddModule()
 {
     emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnProjectCreate!"));
+    
+    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnProjectAddModule!"));
 }
 
 void QDAProjectAddDialog::OnModuleAddClass()
 {
     emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnProjectOpen!"));
+    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnModuleAddClass!"));
 }
