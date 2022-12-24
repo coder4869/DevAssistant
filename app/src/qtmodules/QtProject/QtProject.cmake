@@ -57,9 +57,11 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtProject_SRC
 set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES} ${QtProject_RES_UIC})
 
+set(LIB_DEPS QtCoreKit QtScriptsKit )
+
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtProjectDir} )
-target_link_libraries(${LIB_NAME} ${LIB_QT})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtProjectDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
@@ -69,3 +71,15 @@ INSTALL_TARGET(${LIB_NAME}) # lib bin exe
 if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
+
+if(QtCoreKit)
+    add_dependencies(${LIB_NAME} QtCoreKit)
+else()
+    message(FATAL_ERROR "option ON for QtCoreKit is required !")
+endif(QtCoreKit)
+
+if(QtScriptsKit)
+    add_dependencies(${LIB_NAME} QtScriptsKit)
+else()
+    message(FATAL_ERROR "option ON for QtScriptsKit is required !")
+endif(QtScriptsKit)

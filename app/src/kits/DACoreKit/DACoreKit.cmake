@@ -40,8 +40,11 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
+set(LIB_DEPS )
+
 add_library(${LIB_NAME} ${LIB_TYPE} ${DACoreKit_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${DACoreKitDir} )
+target_include_directories(${LIB_NAME} PRIVATE ${DACoreKitDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

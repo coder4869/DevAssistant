@@ -57,9 +57,11 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtExample_SRC
 set(QtExample_SRC ${QtExample_SRC} ${QtExample_FORMs} ${QtExample_RES} ${QtExample_RES_UIC})
 
+set(LIB_DEPS )
+
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtExample_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtExampleDir} )
-target_link_libraries(${LIB_NAME} ${LIB_QT})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtExampleDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

@@ -20,47 +20,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(QtHelpDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME QtHelp)
+set(QtCoreKitDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME QtCoreKit)
 
-FILE(GLOB_RECURSE QtHelp_SRC
-    ${QtHelpDir}/*.h
-    ${QtHelpDir}/*.hpp
+FILE(GLOB_RECURSE QtCoreKit_SRC
+    ${QtCoreKitDir}/*.h
+    ${QtCoreKitDir}/*.hpp
 
-    ${QtHelpDir}/*.c
-    ${QtHelpDir}/*.cc
-    ${QtHelpDir}/*.cpp
+    ${QtCoreKitDir}/*.c
+    ${QtCoreKitDir}/*.cc
+    ${QtCoreKitDir}/*.cpp
     )
 
-FILE(GLOB_RECURSE QtHelp_FORMs 
-    ${QtHelpDir}/Forms/*.ui
+FILE(GLOB_RECURSE QtCoreKit_FORMs 
+    ${QtCoreKitDir}/Forms/*.ui
     )
 
-FILE(GLOB_RECURSE QtHelp_RES
-    ${QtHelpDir}/Res/*.qrc
-    ${QtHelpDir}/Res/*.qml
-    ${QtHelpDir}/Res/*.js
+FILE(GLOB_RECURSE QtCoreKit_RES
+    ${QtCoreKitDir}/Res/*.qrc
+    ${QtCoreKitDir}/Res/*.qml
+    ${QtCoreKitDir}/Res/*.js
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${QtHelpDir}
-        PREFIX "QtHelp"
-        FILES ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES}
+        TREE ${QtCoreKitDir}
+        PREFIX "QtCoreKit"
+        FILES ${QtCoreKit_SRC} ${QtCoreKit_FORMs} ${QtCoreKit_RES}
         )
 endif(NOT ANDROID)
 
 # gen src by forms
-qt5_wrap_ui(QtHelp_RES_UIC ${QtHelp_FORMs})
+qt5_wrap_ui(QtCoreKit_RES_UIC ${QtCoreKit_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-# update QtHelp_SRC
-set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES} ${QtHelp_RES_UIC})
+# update QtCoreKit_SRC
+set(QtCoreKit_SRC ${QtCoreKit_SRC} ${QtCoreKit_FORMs} ${QtCoreKit_RES} ${QtCoreKit_RES_UIC})
 
 set(LIB_DEPS )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${QtHelp_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtHelpDir} ${INC_GROUP} )
+add_library(${LIB_NAME} ${LIB_TYPE} ${QtCoreKit_SRC})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtCoreKitDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
 
 # install libs & headers

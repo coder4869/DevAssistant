@@ -20,48 +20,48 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(QtHelpDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME QtHelp)
+set(QtScriptsKitDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME QtScriptsKit)
 
-FILE(GLOB_RECURSE QtHelp_SRC
-    ${QtHelpDir}/*.h
-    ${QtHelpDir}/*.hpp
+FILE(GLOB_RECURSE QtScriptsKit_SRC
+    ${QtScriptsKitDir}/*.h
+    ${QtScriptsKitDir}/*.hpp
 
-    ${QtHelpDir}/*.c
-    ${QtHelpDir}/*.cc
-    ${QtHelpDir}/*.cpp
+    ${QtScriptsKitDir}/*.c
+    ${QtScriptsKitDir}/*.cc
+    ${QtScriptsKitDir}/*.cpp
     )
 
-FILE(GLOB_RECURSE QtHelp_FORMs 
-    ${QtHelpDir}/Forms/*.ui
+FILE(GLOB_RECURSE QtScriptsKit_FORMs 
+    ${QtScriptsKitDir}/Forms/*.ui
     )
 
-FILE(GLOB_RECURSE QtHelp_RES
-    ${QtHelpDir}/Res/*.qrc
-    ${QtHelpDir}/Res/*.qml
-    ${QtHelpDir}/Res/*.js
+FILE(GLOB_RECURSE QtScriptsKit_RES
+    ${QtScriptsKitDir}/Res/*.qrc
+    ${QtScriptsKitDir}/Res/*.qml
+    ${QtScriptsKitDir}/Res/*.js
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${QtHelpDir}
-        PREFIX "QtHelp"
-        FILES ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES}
+        TREE ${QtScriptsKitDir}
+        PREFIX "QtScriptsKit"
+        FILES ${QtScriptsKit_SRC} ${QtScriptsKit_FORMs} ${QtScriptsKit_RES}
         )
 endif(NOT ANDROID)
 
 # gen src by forms
-qt5_wrap_ui(QtHelp_RES_UIC ${QtHelp_FORMs})
+qt5_wrap_ui(QtScriptsKit_RES_UIC ${QtScriptsKit_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-# update QtHelp_SRC
-set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES} ${QtHelp_RES_UIC})
+# update QtScriptsKit_SRC
+set(QtScriptsKit_SRC ${QtScriptsKit_SRC} ${QtScriptsKit_FORMs} ${QtScriptsKit_RES} ${QtScriptsKit_RES_UIC})
 
 set(LIB_DEPS )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${QtHelp_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtHelpDir} ${INC_GROUP} )
-target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
+add_library(${LIB_NAME} ${LIB_TYPE} ${QtScriptsKit_SRC})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtScriptsKitDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

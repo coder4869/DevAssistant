@@ -20,46 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(SRC_ROOT   ${CMAKE_CURRENT_LIST_DIR})
-set(INC_FILES  ${INC_FILES}  ${SRC_ROOT})
-message("SRC_ROOT = ${SRC_ROOT}")
+if(WITH_PY)
+    if(WIN) # for windows
+        SET(INC_PY ${PY_INSTALL_DIR}/include )
+        SET(LIB_PY ${PY_INSTALL_DIR}/lib/python3.lib ) 
+        
+    elseif(OSX) # for MacOSX
+        # /Applications/Xcode.app/Contents/Developer/Library
+        SET(INC_PY ${PY_INSTALL_DIR}/Frameworks/Python3.framework/Headers ) 
+        # SET(LIB_PY ${PY_INSTALL_DIR}/Frameworks/Python3.framework/Python )
+        find_library(LIB_PY Python3)
+        SET(LIB_FMWKs ${LIB_FMWKs} ${LIB_PY} )
+        
+    endif(OSX)
 
-# QtProject
-if(WITH_QT AND QtProject)
-    include(${SRC_ROOT}/QtProject/QtProject.cmake)
-endif(WITH_QT AND QtProject)
-
-# QtExample
-if(WITH_QT AND QtExample)
-    include(${SRC_ROOT}/QtExample/QtExample.cmake)
-endif(WITH_QT AND QtExample)
-
-# QtPractical
-if(WITH_QT AND QtPractical)
-    include(${SRC_ROOT}/QtPractical/QtPractical.cmake)
-endif(WITH_QT AND QtPractical)
-
-# QtCustom
-if(WITH_QT AND QtCustom)
-    include(${SRC_ROOT}/QtCustom/QtCustom.cmake)
-endif(WITH_QT AND QtCustom)
-
-# QtPlan
-if(WITH_QT AND QtPlan)
-    include(${SRC_ROOT}/QtPlan/QtPlan.cmake)
-endif(WITH_QT AND QtPlan)
-
-# QtHelp
-if(WITH_QT AND QtHelp)
-    include(${SRC_ROOT}/QtHelp/QtHelp.cmake)
-endif(WITH_QT AND QtHelp)
-
-# QtCoreKit
-if(WITH_QT AND QtCoreKit)
-    include(${SRC_ROOT}/QtCoreKit/QtCoreKit.cmake)
-endif(WITH_QT AND QtCoreKit)
-
-# QtScriptsKit
-if(WITH_QT AND QtScriptsKit)
-    include(${SRC_ROOT}/QtScriptsKit/QtScriptsKit.cmake)
-endif(WITH_QT AND QtScriptsKit)
+endif(WITH_PY)

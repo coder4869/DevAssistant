@@ -45,6 +45,7 @@ endif(APPLE)
 
 if(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     set(CMAKE_BUILD_TYPE Debug)
+    set(LIB_BUILD_TYPE_EXT d)
 elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
     set(CMAKE_BUILD_TYPE Release)
 endif()
@@ -53,6 +54,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 # For Debug and RelWithDebInfo
     add_definitions(-D DEBUG)
     set(CMAKE_CONFIGURATION_TYPES "Debug" CACHE STRING "" FORCE)
+    set(LIB_BUILD_TYPE_EXT d)
 
     add_compile_options(
         "-Wall" "-fexceptions"
@@ -82,7 +84,3 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 else()
     message("Unknown CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} !")
 endif(CMAKE_BUILD_TYPE)
-
-
-
-

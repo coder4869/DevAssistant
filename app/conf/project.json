@@ -20,7 +20,11 @@
                 {
                     "module" : "QtProject",
                     "option" : "ON",
-                    "gen_lib" : "YES"
+                    "gen_lib" : "YES",
+                    "deps" : [
+                        "QtCoreKit",
+                        "QtScriptsKit"
+                    ]
                 },
                 {
                     "module" : "QtExample",
@@ -44,6 +48,16 @@
                 },
                 {
                     "module" : "QtHelp",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtCoreKit",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtScriptsKit",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 }
@@ -72,6 +86,7 @@
         }
     ],
     "dir_help": {
+        "conf" : "conf", 
         "scripts" : "scripts", 
         "tools" : "tools", 
         "doc" : "doc"
