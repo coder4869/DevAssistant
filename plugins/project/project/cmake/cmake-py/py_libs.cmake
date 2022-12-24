@@ -20,11 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-if(OSX)
-    ## OpenGL && Foundation && Metal && QuartzCore
-    find_package(OpenGL REQUIRED)
-    find_library(LIB_FOUNDATION Foundation)
-    find_library(LIB_QC QuartzCore)
-    find_library(LIB_METAL Metal)
-    SET(LIB_FMWKs ${LIB_FMWKs} ${OpenGL} ${LIB_FOUNDATION} ${LIB_QC} ${LIB_METAL})
-endif(OSX)
+if(WITH_PY)
+    if(WIN) # for windows
+        SET(INC_PY ${PY_INSTALL_DIR}/include )
+        SET(LIB_PY ${PY_INSTALL_DIR}/lib/python3.lib ) 
+        
+    elseif(OSX) # for MacOSX
+        # /Applications/Xcode.app/Contents/Developer/Library
+        SET(INC_PY ${PY_INSTALL_DIR}/Frameworks/Python3.framework/Headers ) 
+        # SET(LIB_PY ${PY_INSTALL_DIR}/Frameworks/Python3.framework/Python )
+        find_library(LIB_PY Python3)
+        SET(LIB_FMWKs ${LIB_FMWKs} ${LIB_PY} )
+        
+    endif(OSX)
+
+endif(WITH_PY)

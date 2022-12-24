@@ -38,7 +38,7 @@ from module import module
 parser = ArgumentParser()
 parser.add_argument('--type',   dest='type',   type=str, default='project', help="gen project or add module to project")    
 # Only for Project
-parser.add_argument('--config', dest='config', type=str, default=BASE_DIR + "/DevKits.json", help="project config.json")    
+parser.add_argument('--config', dest='config', type=str, default=BASE_DIR + "/project.json", help="project config.json")    
 # Only for Module
 parser.add_argument('--root_dir',    dest='root_dir',    type=str, default='.', help="project root dir")    
 parser.add_argument('--module_type', dest='module_type', type=int, default=[0], help="ModuleType for Kit or Qt")

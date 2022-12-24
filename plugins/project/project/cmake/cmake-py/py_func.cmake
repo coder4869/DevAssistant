@@ -20,11 +20,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-if(OSX)
-    ## OpenGL && Foundation && Metal && QuartzCore
-    find_package(OpenGL REQUIRED)
-    find_library(LIB_FOUNDATION Foundation)
-    find_library(LIB_QC QuartzCore)
-    find_library(LIB_METAL Metal)
-    SET(LIB_FMWKs ${LIB_FMWKs} ${OpenGL} ${LIB_FOUNDATION} ${LIB_QC} ${LIB_METAL})
-endif(OSX)
+# e.g. 
+# set(PY_INSTALL_DIR "/usr/local/Cellar/python@3.10/3.10.8/")
+# PY_INIT(${PY_INSTALL_DIR})
+macro(PY_INIT install_dir)
+
+endmacro()

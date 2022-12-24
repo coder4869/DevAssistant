@@ -28,6 +28,7 @@ cd ${script_dir}
 APP_NAME=PROJ_NAME
 QT_DIR="$HOME/Qt5.14.2/"
 QT_INSTALL_DIR="$QT_DIR/5.14.2/clang_64/"
+PY_INSTALL_DIR="/Applications/Xcode.app/Contents/Developer/Library"
 
 ROOT_DIR=${script_dir}/../..
 BUILD_DIR=${ROOT_DIR}/build_unix
@@ -49,12 +50,41 @@ function do_gen {
     fi
 
     cmake -Wno-dev ${ROOT_DIR} ${generator} -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=$BUILD_DIR -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
+        -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
+        -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
+        -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
         -DPROJECT_NAME=${APP_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
+}
+
+function cp_plugins() {
+    if [[ -d ${ROOT_DIR}/plugins ]]; then
+        # return ;
+        rm -rf ${ROOT_DIR}/plugins
+    fi
+    cp -r ${ROOT_DIR}/../plugins ${ROOT_DIR}/
+    
+    rm -rf ${ROOT_DIR}/plugins/.DS_Store
+    rm -rf ${ROOT_DIR}/plugins/__pycache__
+
+    rm -rf ${ROOT_DIR}/plugins/*/.DS_Store
+    rm -rf ${ROOT_DIR}/plugins/*/__pycache__
+
+    rm -rf ${ROOT_DIR}/plugins/*/*/.DS_Store
+    rm -rf ${ROOT_DIR}/plugins/*/*/__pycache__
+    
+    rm -rf ${ROOT_DIR}/plugins/*/*/*/.DS_Store
+    rm -rf ${ROOT_DIR}/plugins/*/*/*/__pycache__
+
+    rm -rf ${ROOT_DIR}/plugins/*/*/*/*/.DS_Store
+    rm -rf ${ROOT_DIR}/plugins/*/*/*/*/__pycache__
+
+    cp -r ${ROOT_DIR}/plugins ${BUILD_DIR}/Release/${APP_NAME}.app/Contents/Resources
 }
 
 function do_open() {
     if [[ `uname` == "Darwin" ]]; then
+        xcodebuild -project ${BUILD_DIR}/${APP_NAME}.xcodeproj -scheme install -configuration Release build
+        cp_plugins
         open ${BUILD_DIR}/${APP_NAME}.xcodeproj
     else
         make

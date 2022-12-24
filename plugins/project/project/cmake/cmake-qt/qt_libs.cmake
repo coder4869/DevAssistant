@@ -42,28 +42,24 @@ if(WITH_QT)
             # ${QT_INSTALL_DIR}/include/QtQuick2Plugin
         )
         
-        set(QT_LIB_EXT )
-        if("${CMAKE_BUILD_TYPE}" STREQUAL "Debug" )
-            set(QT_LIB_EXT d)
-        endif()
-
+        # LIB_BUILD_TYPE_EXT = d for debug, empty for release
         SET(LIB_QT
-            ${QT_INSTALL_DIR}/lib/Qt5Core${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Gui${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Sql${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5OpenGL${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Widgets${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Charts${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Network${QT_LIB_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Core${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Gui${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Sql${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5OpenGL${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Widgets${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Charts${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Network${LIB_BUILD_TYPE_EXT}.lib
             # Camera
-            ${QT_INSTALL_DIR}/lib/Qt5Multimedia${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5MultimediaWidgets${QT_LIB_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Multimedia${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5MultimediaWidgets${LIB_BUILD_TYPE_EXT}.lib
             # qml - Quick
-            ${QT_INSTALL_DIR}/lib/Qt5Qml${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Quick${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5QuickWidgets${QT_LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5QuickControls2${QT_LIB_EXT}.lib
-            # ${QT_INSTALL_DIR}/lib/QtQuick2Plugin${QT_LIB_EXT}.lib            
+            ${QT_INSTALL_DIR}/lib/Qt5Qml${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5Quick${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5QuickWidgets${LIB_BUILD_TYPE_EXT}.lib
+            ${QT_INSTALL_DIR}/lib/Qt5QuickControls2${LIB_BUILD_TYPE_EXT}.lib
+            # ${QT_INSTALL_DIR}/lib/QtQuick2Plugin${LIB_BUILD_TYPE_EXT}.lib            
         ) 
         
     elseif(OSX) # for MacOSX

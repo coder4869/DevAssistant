@@ -33,6 +33,7 @@ message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
 project(${PROJECT_NAME} VERSION 1.0.0.0)
+set(LIB_BUILD_TYPE_EXT )
 set(LIB_TYPE SHARED) # SHARED STATIC
 message("PROJECT_NAME = ${PROJECT_NAME} ")
 message("LIB_TYPE = ${LIB_TYPE} ")
@@ -90,6 +91,7 @@ endif()
 
 # MODULE options
 option(WITH_QT "Build with Qt " OFF)
+option(WITH_PY             "Build with python              "	OFF)
 # option(MODULE_OPTION  "Build with MODULE_OPTION" ON)
 
 if(WITH_QT)
@@ -103,6 +105,15 @@ if(WITH_QT)
     message("INC_QT=${INC_QT}")
     message("LIB_QT=${LIB_QT}")
 endif(WITH_QT)
+
+if(WITH_PY)
+    # set Qt include and libs
+    set(INC_PY)
+    set(LIB_PY)
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-py/py_libs.cmake)
+    message("INC_PY=${INC_PY}")
+    message("LIB_PY=${LIB_PY}")
+endif(WITH_PY)
 
 
 # subdirectory
@@ -119,9 +130,9 @@ message("SRC_FILES=${SRC_FILES}")
 set(META_FILES ${META_FILES} ${PROJ_ROOT}/conf/project.json)
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_GROUP} )
+target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_PY} ${INC_GROUP} )
 # target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT}
+target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT} ${LIB_PY}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
         )
 
@@ -141,4 +152,5 @@ elseif(APPLE)
     XCODE_ADD_INFO_PLIST()
 endif(APPLE)
 
-APP_ADD_RES("${PROJ_ROOT}/conf/*.json"  "Resources/")
+APP_ADD_RES("${PROJ_ROOT}/conf/*.json" "Resources/")
+# APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "${PROJ_ROOT}/plugins/*.*" "Resources/plugins")
