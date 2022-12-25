@@ -185,8 +185,10 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
 #### 3.1 Install Help Tools
 - **Shared for Windows and MacOS and Linux**
     * [CMake](https://cmake.org/download/)
-    * [python3](https://www.python.org/downloads/)
-    * [Qt](https://download.qt.io/archive/qt/) 
+    * [python3](https://www.python.org/downloads/) 
+        * windows install dir `C:/python`
+        * mac install dir `/Applications/Xcode.app/Contents/Developer/Library`
+    * [Qt](https://download.qt.io/archive/qt/) use 5.14.2 as default.
 
 - **For MacOS Special**
     * XCode
@@ -196,6 +198,11 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
     * [qt-vsaddin](https://download.qt.io/archive/vsaddin/)
     * [Visual Assist](https://support.wholetomato.com/default.asp)
         * [Archive of Visual Assist builds and release notes](https://support.wholetomato.com/default.asp?W422)
+
+- **Notes**
+    * Install dir config script for `Qt` and `python` and `xcode` etc. in `plugins/project/project/build/`:
+        * `run_unix.sh` for mac and linux 
+        * `run_win.bat` for windows
 
 #### 3.2 Create and Open project
 - 1.Write `plugins/project/project.json` according to [custom project](#22-custom-project).
