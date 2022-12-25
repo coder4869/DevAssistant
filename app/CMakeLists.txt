@@ -160,6 +160,7 @@ endif(WITH_QT)
 
 if(WIN)
     WIN_FIX_COMPILER()
+    APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "${PROJ_ROOT}/plugins/*.*" "Resources/plugins")
     # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
 elseif(APPLE)
     # from intern cmake module : apple_func.cmake
@@ -168,7 +169,6 @@ elseif(APPLE)
 endif(APPLE)
 
 APP_ADD_RES("${PROJ_ROOT}/conf/*.json" "Resources/")
-# APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "${PROJ_ROOT}/plugins/*.*" "Resources/plugins")
 
 if(WITH_QT AND QtProject)
     add_dependencies(${PROJECT_NAME} QtProject)

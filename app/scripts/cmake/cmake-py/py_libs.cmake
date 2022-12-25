@@ -23,7 +23,7 @@
 if(WITH_PY)
     if(WIN) # for windows
         SET(INC_PY ${PY_INSTALL_DIR}/include )
-        SET(LIB_PY ${PY_INSTALL_DIR}/lib/python3.lib ) 
+        SET(LIB_PY ${PY_INSTALL_DIR}/libs/python3.lib ) 
         
     elseif(OSX) # for MacOSX
         # /Applications/Xcode.app/Contents/Developer/Library

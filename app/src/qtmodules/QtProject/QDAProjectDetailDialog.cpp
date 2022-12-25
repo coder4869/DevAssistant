@@ -129,7 +129,7 @@ void QDAProjectDetailDialog::OnCreate()
 
     QStringList options;
     QByteArray output;
-#ifdef Q_OS_MAC
+#ifdef OSX
     pycmd = "/usr/bin/python3 " + pycmd;
     QMessageBox::information(NULL, "pycmd", pycmd);
     bool ret = QCKCmd::ExecCmd(pycmd, options, output);
@@ -138,8 +138,15 @@ void QDAProjectDetailDialog::OnCreate()
         QMessageBox::critical(NULL, QStringLiteral("Project Create") , output.data());
         return ;
     }
-#elif Q_OS_WIN
-    
+#elif WIN
+	pycmd = "C:/python/python.exe " + pycmd;
+	QMessageBox::information(NULL, "pycmd", pycmd);
+	bool ret = QCKCmd::ExecCmd(pycmd, options, output);
+	if (!ret) {
+		qDebug() << pycmd << "\n" << output.data() << endl;
+		QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
+		return;
+	}
 #endif
     QMessageBox::information(NULL, QStringLiteral("Project Create"), "Succeed!");
 }

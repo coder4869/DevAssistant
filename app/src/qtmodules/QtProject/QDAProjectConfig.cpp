@@ -27,6 +27,7 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMessageBox>
+#include <QDebug>
 
 #include <QtCoreKit/QtCoreKit.h>
 
@@ -51,7 +52,11 @@ QByteArray QDAProjectConfig::LoadJsonConfig(const QString& file_name)
 {
     QByteArray json_data;
     QCKFile::State ret = QCKFile::LoadFile(file_name, json_data);
-    if (config_json_type == JsonType::Open) {
+    if (config_json_type == JsonType::Create) {
+        QFileInfo info(file_name);
+        config_info.proj_dir = info.dir().absolutePath();
+        qDebug() << "config file dir" << config_info.proj_dir;
+    } else if (config_json_type == JsonType::Open) {
         config_info.proj_dir = file_name.mid(0, file_name.size()-strlen(PROJECT_CONF_JSON));
     }
     if (ret == QCKFile::State::Succeed) {
@@ -216,16 +221,25 @@ QJsonObject QDAProjectConfig::JsonFromModule(const QDAProjectConfig::Module &mod
 
 bool QDAProjectConfig::FixProjDir(QDAProjectConfig::ConfigInfo &config)
 {
-    if (!config.proj_dir.startsWith("/")) { // not absolute path
-        QMessageBox::critical(NULL, "Project Config", "proj_dir requires absolute path !");
-        return false;
+    if (config_json_type == JsonType::Create) {
+        // not absolute path
+        if (config.proj_dir.startsWith("./")) {
+            config.proj_dir = config_info.proj_dir + config.proj_dir.mid(1);
+        } 
+        else if (config.proj_dir.startsWith("../"))
+        {
+			config.proj_dir = config_info.proj_dir + "/" + config.proj_dir;
+        }
+		QDir dir(config.proj_dir);
+        config.proj_dir = dir.absolutePath();
     }
-    
-    if (config_json_type == JsonType::Open) {
+    else if (config_json_type == JsonType::Open) 
+    {
         if (config.proj_dir != config_info.proj_dir) {
             config.proj_dir = config_info.proj_dir;
         }
     }
+    qDebug() << "Project root dir : " << config_info.proj_dir;
     return true;
 }
 
