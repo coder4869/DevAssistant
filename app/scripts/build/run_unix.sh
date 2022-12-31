@@ -77,13 +77,11 @@ function cp_plugins() {
 
     rm -rf ${ROOT_DIR}/plugins/*/*/*/*/.DS_Store
     rm -rf ${ROOT_DIR}/plugins/*/*/*/*/__pycache__
-
-    cp -r ${ROOT_DIR}/plugins ${BUILD_DIR}/Release/${APP_NAME}.app/Contents/Resources
 }
 
 function do_open() {
     if [[ `uname` == "Darwin" ]]; then
-        xcodebuild -project ${BUILD_DIR}/${APP_NAME}.xcodeproj -scheme install -configuration Release build
+        # xcodebuild -project ${BUILD_DIR}/${APP_NAME}.xcodeproj -scheme install -configuration Release build
         cp_plugins
         open ${BUILD_DIR}/${APP_NAME}.xcodeproj
     else

@@ -141,15 +141,37 @@ message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
 
-################################## build ##################################
+################################## project resources ##################################
 set(META_FILES ${META_FILES} ${PROJ_ROOT}/conf/project.json)
-add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES})
+# if(NOT ANDROID)
+#     source_group(
+#         TREE ${PROJ_ROOT}/conf
+#         PREFIX "conf"
+#         FILES ${META_FILES}
+#         )
+# endif(NOT ANDROID)
+
+File(GLOB_RECURSE PLUGIN_FILEs ${PROJ_ROOT}/plugins/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${PROJ_ROOT}/plugins
+        PREFIX "plugins"
+        FILES ${PLUGIN_FILEs}
+        )
+endif(NOT ANDROID)
+
+
+################################## build ##################################
+add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES} ${PLUGIN_FILEs})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_PY} ${INC_GROUP} )
 # target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT} ${LIB_PY}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
         )
+
+APP_ADD_RES("${PROJ_ROOT}/conf/*.json" "Resources/")
+APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "Resources/plugins/" "${PROJ_ROOT}/plugins/*.*")
 
 if(WITH_QT) 
     QT_DEPLOY(${PROJECT_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
@@ -160,15 +182,12 @@ endif(WITH_QT)
 
 if(WIN)
     WIN_FIX_COMPILER()
-    APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "${PROJ_ROOT}/plugins/*.*" "Resources/plugins")
     # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
 elseif(APPLE)
     # from intern cmake module : apple_func.cmake
     XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
     XCODE_ADD_INFO_PLIST()
 endif(APPLE)
-
-APP_ADD_RES("${PROJ_ROOT}/conf/*.json" "Resources/")
 
 if(WITH_QT AND QtProject)
     add_dependencies(${PROJECT_NAME} QtProject)

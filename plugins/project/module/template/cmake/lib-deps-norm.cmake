@@ -43,8 +43,8 @@ endif(NOT ANDROID)
 set(LIB_DEPS )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${MODULE_NAME_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${MODULE_NAMEDir} ${INC_GROUP} )
-target_link_libraries(${LIB_NAME} ${LIB_DEPS})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${MODULE_NAMEDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
