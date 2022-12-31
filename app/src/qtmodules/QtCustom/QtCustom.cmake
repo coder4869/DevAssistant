@@ -60,8 +60,8 @@ set(QtCustom_SRC ${QtCustom_SRC} ${QtCustom_FORMs} ${QtCustom_RES} ${QtCustom_RE
 set(LIB_DEPS )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtCustom_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtCustomDir} ${INC_GROUP} )
-target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtCustomDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

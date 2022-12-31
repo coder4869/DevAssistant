@@ -60,8 +60,8 @@ set(QtExample_SRC ${QtExample_SRC} ${QtExample_FORMs} ${QtExample_RES} ${QtExamp
 set(LIB_DEPS )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtExample_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${QtExampleDir} ${INC_GROUP} )
-target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_DEPS})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtExampleDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
