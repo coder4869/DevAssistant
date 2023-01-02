@@ -44,16 +44,9 @@ endfunction(SET_CXX_VERSION)
 
 
 # e.g. 
-# set(META_FILES ${META_FILES} ${PROJ_ROOT}/conf/*.*)
-# if(NOT ANDROID)
-#     source_group(
-#         TREE ${PROJ_ROOT}/conf
-#         PREFIX "conf"
-#         FILES ${META_FILES}
-#         )
-# endif(NOT ANDROID)
-# add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES})
-# APP_ADD_RES("${PROJ_ROOT}/conf/*.*" "Resources/")
+# set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
+# add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${CONF_FILES})
+# APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
 function(APP_ADD_RES src_files dst_dir)
     File(GLOB TARGET_FILEs ${src_files})
     # message("APP_ADD_RES() TARGET_FILEs = ${TARGET_FILEs} ; src_files = ${src_files} ; dst_dir = ${dst_dir} ")
@@ -65,17 +58,19 @@ function(APP_ADD_RES src_files dst_dir)
 endfunction(APP_ADD_RES)
 
 # e.g. 
-# File(GLOB_RECURSE PLUGIN_FILEs ${PROJ_ROOT}/plugins/*.*)
+# set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
+# File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
 # if(NOT ANDROID)
 #     source_group(
-#         TREE ${PROJ_ROOT}/plugins
+#         TREE ${PLUGIN_DIR}
 #         PREFIX "plugins"
 #         FILES ${PLUGIN_FILEs}
 #         )
 # endif(NOT ANDROID)
 # add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${PLUGIN_FILEs})
-# APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "Resources/plugins/" "${PROJ_ROOT}/plugins/*.*")
+# APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
 function(APP_ADD_RES_RECURSE src_dir dst_dir src_files)
+    get_filename_component(src_dir ${src_dir} ABSOLUTE)
     message("APP_ADD_RES_RECURSE() src_dir = ${src_dir} ; dst_dir = ${dst_dir} ; src_files = ${src_files} ")
     File(GLOB_RECURSE TARGET_FILEs ${src_files})
     if(APPLE)

@@ -56,33 +56,26 @@ function do_gen {
         -DPROJECT_NAME=${APP_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
 }
 
-function cp_plugins() {
-    if [[ -d ${ROOT_DIR}/plugins ]]; then
-        # return ;
-        rm -rf ${ROOT_DIR}/plugins
-    fi
-    cp -r ${ROOT_DIR}/../plugins ${ROOT_DIR}/
+function clean_plugins() {
+    rm -rf ${ROOT_DIR}/../plugins/.DS_Store
+    rm -rf ${ROOT_DIR}/../plugins/__pycache__
+
+    rm -rf ${ROOT_DIR}/../plugins/*/.DS_Store
+    rm -rf ${ROOT_DIR}/../plugins/*/__pycache__
+
+    rm -rf ${ROOT_DIR}/../plugins/*/*/.DS_Store
+    rm -rf ${ROOT_DIR}/../plugins/*/*/__pycache__
     
-    rm -rf ${ROOT_DIR}/plugins/.DS_Store
-    rm -rf ${ROOT_DIR}/plugins/__pycache__
+    rm -rf ${ROOT_DIR}/../plugins/*/*/*/.DS_Store
+    rm -rf ${ROOT_DIR}/../plugins/*/*/*/__pycache__
 
-    rm -rf ${ROOT_DIR}/plugins/*/.DS_Store
-    rm -rf ${ROOT_DIR}/plugins/*/__pycache__
-
-    rm -rf ${ROOT_DIR}/plugins/*/*/.DS_Store
-    rm -rf ${ROOT_DIR}/plugins/*/*/__pycache__
-    
-    rm -rf ${ROOT_DIR}/plugins/*/*/*/.DS_Store
-    rm -rf ${ROOT_DIR}/plugins/*/*/*/__pycache__
-
-    rm -rf ${ROOT_DIR}/plugins/*/*/*/*/.DS_Store
-    rm -rf ${ROOT_DIR}/plugins/*/*/*/*/__pycache__
+    rm -rf ${ROOT_DIR}/../plugins/*/*/*/*/.DS_Store
+    rm -rf ${ROOT_DIR}/../plugins/*/*/*/*/__pycache__
 }
 
 function do_open() {
     if [[ `uname` == "Darwin" ]]; then
         # xcodebuild -project ${BUILD_DIR}/${APP_NAME}.xcodeproj -scheme install -configuration Release build
-        cp_plugins
         open ${BUILD_DIR}/${APP_NAME}.xcodeproj
     else
         make
@@ -92,5 +85,6 @@ function do_open() {
 
 
 do_mkdir
+clean_plugins
 do_gen
 do_open

@@ -127,12 +127,13 @@ message("SRC_FILES=${SRC_FILES}")
 
 
 ################################## project resources ##################################
-set(META_FILES ${META_FILES} ${PROJ_ROOT}/conf/project.json)
+set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
 
-File(GLOB_RECURSE PLUGIN_FILEs ${PROJ_ROOT}/plugins/*.*)
+set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
+File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
 if(NOT ANDROID)
     source_group(
-        TREE ${PROJ_ROOT}/plugins
+        TREE ${PLUGIN_DIR}
         PREFIX "plugins"
         FILES ${PLUGIN_FILEs}
         )
@@ -140,7 +141,7 @@ endif(NOT ANDROID)
 
 
 ################################## build ##################################
-add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES} ${PLUGIN_FILEs})
+add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES} ${CONF_FILES} ${PLUGIN_FILEs})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_PY} ${INC_GROUP} )
 # target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
@@ -148,8 +149,8 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT} ${LIB_PY}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
         )
 
-APP_ADD_RES("${PROJ_ROOT}/conf/*.json" "Resources/")
-APP_ADD_RES_RECURSE("${PROJ_ROOT}/plugins/" "Resources/plugins/" "${PROJ_ROOT}/plugins/*.*")
+APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
+APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
 
 if(WITH_QT) 
     QT_DEPLOY(${PROJECT_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
