@@ -46,20 +46,12 @@ if exist %BUILD_DIR% rd /s /q %BUILD_DIR%
 md %BUILD_DIR%
 
 :: clean py cache
-rd /s /q %ROOT_DIR%/../plugins/.DS_Store
-rd /s /q %ROOT_DIR%/../plugins/__pycache__
-
-rd /s /q %ROOT_DIR%/../plugins/*/.DS_Store
-rd /s /q %ROOT_DIR%/../plugins/*/__pycache__
-
-rd /s /q %ROOT_DIR%/../plugins/*/*/.DS_Store
-rd /s /q %ROOT_DIR%/../plugins/*/*/__pycache__
-
-rd /s /q %ROOT_DIR%/../plugins/*/*/*/.DS_Store
-rd /s /q %ROOT_DIR%/../plugins/*/*/*/__pycache__
-
-rd /s /q %ROOT_DIR%/../plugins/*/*/*/*/.DS_Store
-rd /s /q %ROOT_DIR%/../plugins/*/*/*/*/__pycache__
+SET PLUGIN_DIR=%ROOT_DIR%\..\plugins
+echo PLUGIN_DIR = %PLUGIN_DIR%
+for /f "delims=" %%i in ('dir /ad/b/s "%PLUGIN_DIR%"') do (
+    if exist %%i\.DS_Store rd /s /q %%i\.DS_Store
+    if exist %%i\__pycache__ rd /s /q %%i\__pycache__
+)
 
 :: run cmake: gen vs-project
 cmake -Wno-dev %ROOT_DIR% -G"Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release -DPROJECT_NAME=%APP_NAME% -DCMAKE_INSTALL_PREFIX=%BUILD_DIR% -DCMAKE_PREFIX_PATH=%QT_INSTALL_DIR% -DQT_INSTALL_DIR=%QT_INSTALL_DIR% -DPY_INSTALL_DIR=%PY_INSTALL_DIR% -DWIN=ON -H%ROOT_DIR% -B%BUILD_DIR%
