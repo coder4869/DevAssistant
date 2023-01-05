@@ -56,21 +56,22 @@ function do_gen {
         -DPROJECT_NAME=${APP_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
 }
 
+function walk_dir() {
+    rm -rf $1/.DS_Store
+    rm -rf $1/__pycache__
+    for child in `ls $1`
+    do
+        if [ -d $1"/"$child ]; then
+            walk_dir $1"/"$child
+        fi
+    done
+}
+
 function clean_plugins() {
-    rm -rf ${ROOT_DIR}/../plugins/.DS_Store
-    rm -rf ${ROOT_DIR}/../plugins/__pycache__
-
-    rm -rf ${ROOT_DIR}/../plugins/*/.DS_Store
-    rm -rf ${ROOT_DIR}/../plugins/*/__pycache__
-
-    rm -rf ${ROOT_DIR}/../plugins/*/*/.DS_Store
-    rm -rf ${ROOT_DIR}/../plugins/*/*/__pycache__
-    
-    rm -rf ${ROOT_DIR}/../plugins/*/*/*/.DS_Store
-    rm -rf ${ROOT_DIR}/../plugins/*/*/*/__pycache__
-
-    rm -rf ${ROOT_DIR}/../plugins/*/*/*/*/.DS_Store
-    rm -rf ${ROOT_DIR}/../plugins/*/*/*/*/__pycache__
+    PLIGUN_DIR=${ROOT_DIR}/../plugins
+    if [[ -d $PLIGUN_DIR ]]; then
+        walk_dir $PLIGUN_DIR
+    fi
 }
 
 function do_open() {
