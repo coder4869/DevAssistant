@@ -23,6 +23,7 @@
 #include "QDAPracticalDialog.h"
 
 #include <QMessageBox>
+#include <QStyleFactory>
 
 #include "ui_QDAPracticalDialog.h"
 
@@ -31,8 +32,10 @@ QDAPracticalDialog::QDAPracticalDialog(QWidget *parent) :
     ui(new Ui::QDAPracticalDialog)
 {
     ui->setupUi(this);
+    ui->optionsTreeWidget->setStyle(QStyleFactory::create("windows"));
     ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
     ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
 }
 
 QDAPracticalDialog::~QDAPracticalDialog()
@@ -49,6 +52,15 @@ void QDAPracticalDialog::OnSetContextWidget(QWidget *widget)
     }
 }
 
+void QDAPracticalDialog::OnSetOption(QTreeWidgetItem *item, int column)
+{
+    if (item == ui->optionsTreeWidget->topLevelItem(0)) {
+        OnPracticalEncrypt();
+    } else if (item == ui->optionsTreeWidget->topLevelItem(1)) {
+        OnPracticalDecrypt();
+    }
+}
+
 void QDAPracticalDialog::OnPracticalEncrypt()
 {
     emit SigShowWidget(this);
@@ -59,4 +71,16 @@ void QDAPracticalDialog::OnPracticalDecrypt()
 {
     emit SigShowWidget(this);
     QMessageBox::warning(NULL, QStringLiteral("Practical") , QStringLiteral("Decrypt!"));
+}
+
+void QDAPracticalDialog::SelectOptionTreeWidget(int index)
+{
+    ui->optionsTreeWidget->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
+    for(int idx=0; idx<2; idx ++) {
+        auto flag = QItemSelectionModel::SelectionFlag::Deselect;
+        if (idx == index) {
+            flag = QItemSelectionModel::SelectionFlag::Select;
+        }
+        ui->optionsTreeWidget->setCurrentItem(ui->optionsTreeWidget->topLevelItem(idx), 0, flag);
+    }
 }

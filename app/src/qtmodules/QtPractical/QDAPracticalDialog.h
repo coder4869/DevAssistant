@@ -28,6 +28,7 @@
 namespace Ui {
 class QDAPracticalDialog;
 }
+class QTreeWidgetItem;
 
 class QDAPracticalDialog : public QDialog
 {
@@ -42,11 +43,14 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void OnSetContextWidget(QWidget *widget);
+    void OnSetOption(QTreeWidgetItem *item, int column);
+
     void OnPracticalEncrypt();
     void OnPracticalDecrypt();
     
 private:
     Ui::QDAPracticalDialog *ui;
+    void SelectOptionTreeWidget(int index);
 };
 
 #endif // QDA_PRACTICAL_DIALOG_H

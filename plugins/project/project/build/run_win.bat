@@ -23,7 +23,7 @@
 @echo off
 
 ::set var
-SET APP_NAME=DevAssistant
+SET APP_NAME=PROJ_NAME
 SET ROOT_DIR=%~dp0\..\..
 SET BUILD_DIR=%ROOT_DIR%\build_win
 SET VS_EXE="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\devenv.exe"

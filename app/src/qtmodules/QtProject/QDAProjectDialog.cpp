@@ -23,6 +23,7 @@
 #include "QDAProjectDialog.h"
 
 #include <QMessageBox>
+#include <QStyleFactory>
 
 #include "ui_QDAProjectDialog.h"
 #include "QDACheckEnvDialog.h"
@@ -43,6 +44,7 @@ QDAProjectDialog::QDAProjectDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectDialog)
 {
     ui->setupUi(this);
+    ui->optionsTreeWidget->setStyle(QStyleFactory::create("windows"));
     ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
     ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
     connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));

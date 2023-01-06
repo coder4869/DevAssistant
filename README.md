@@ -160,7 +160,7 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
                 * **Note:** each group has one `${path/of/group_dir}.cmake`, which is a summary of group modules.
             * [Required]-`group_dir`: group relative dir path for project.
             * [Required]-`modules`: module list with same group type. **For each module**:
-                * [Required]-`module`: module name. **`Qt` prefix is required for Qt module.**
+                * [Required]-`module`: module name. **`Qt` prefix is recommended for Qt module.**
                 * [Required]-`option`: module is `ON` or `OFF` for application integration.
                 * [Optional]-`gen_lib`: default is `NO`, not avaliable for group `Lib` type.
                     * **Note:** When `gen_lib` is `YES`, default is `static` lib for WIN, `shared` for Linux and macOS.
@@ -175,7 +175,7 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
             * other self-defined dir.
     * Keyword Convention:
         * No limition for `Upper-Case` or `Lower-Case`.
-        * `Qt` prefix is required for Qt module.
+        * `Qt` prefix is recommended for Qt module.
 
 #### 2.3 custom plugin
 - **TODO**
