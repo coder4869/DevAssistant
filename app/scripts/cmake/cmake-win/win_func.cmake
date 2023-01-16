@@ -38,9 +38,9 @@ function(WIN_ADD_META)
 endfunction(WIN_ADD_META)
 
 
-function(WIN_FIX_COMPILER)
+function(WIN_FIX_COMPILER bin_name)
     if (MSVC)
-        set_target_properties(${PROJECT_NAME} PROPERTIES
+        set_target_properties(${bin_name} PROPERTIES
             WIN32_EXECUTABLE YES
             LINK_FLAGS "/ENTRY:mainCRTStartup"
             )

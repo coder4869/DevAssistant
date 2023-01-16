@@ -164,6 +164,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT} ${LIB_PY}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
         )
 
+# install app res
 APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
 APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
 
@@ -175,12 +176,12 @@ if(WITH_QT)
 endif(WITH_QT)
 
 if(WIN)
-    WIN_FIX_COMPILER()
+    WIN_FIX_COMPILER(${PROJECT_NAME})
     # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
 elseif(APPLE)
     # from intern cmake module : apple_func.cmake
     XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
-    XCODE_ADD_INFO_PLIST()
+    XCODE_ADD_INFO_PLIST(${PROJECT_NAME})
 endif(APPLE)
 
 if(WITH_QT AND QtProject)
