@@ -131,23 +131,16 @@ void QDAProjectDetailDialog::OnCreate()
     QByteArray output;
 #ifdef OSX
     pycmd = "/usr/bin/python3 " + pycmd;
+#elif WIN
+	pycmd = "C:/python/python.exe " + pycmd;
+#endif
     QMessageBox::information(NULL, "pycmd", pycmd);
     bool ret = QCKCmd::ExecCmd(pycmd, options, output);
     if (!ret) {
         qDebug() << pycmd << "\n" << output.data() << endl;
-        QMessageBox::critical(NULL, QStringLiteral("Project Create") , output.data());
-        return ;
+        QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
+        return;
     }
-#elif WIN
-	pycmd = "C:/python/python.exe " + pycmd;
-	QMessageBox::information(NULL, "pycmd", pycmd);
-	bool ret = QCKCmd::ExecCmd(pycmd, options, output);
-	if (!ret) {
-		qDebug() << pycmd << "\n" << output.data() << endl;
-		QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
-		return;
-	}
-#endif
     QMessageBox::information(NULL, QStringLiteral("Project Create"), "Succeed!");
 }
 
