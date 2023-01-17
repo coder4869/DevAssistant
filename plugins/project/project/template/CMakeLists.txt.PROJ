@@ -35,6 +35,7 @@ message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 project(${PROJECT_NAME} VERSION 1.0.0.0)
 set(LIB_BUILD_TYPE_EXT )
 set(LIB_TYPE SHARED) # SHARED STATIC
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 message("PROJECT_NAME = ${PROJECT_NAME} ")
 message("LIB_TYPE = ${LIB_TYPE} ")
 
@@ -160,10 +161,10 @@ if(WITH_QT)
 endif(WITH_QT)
 
 if(WIN)
-    WIN_FIX_COMPILER()
+    WIN_FIX_COMPILER(${PROJECT_NAME})
     # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
 elseif(APPLE)
     # from intern cmake module : apple_func.cmake
     XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
-    XCODE_ADD_INFO_PLIST()
+    XCODE_ADD_INFO_PLIST(${PROJECT_NAME})
 endif(APPLE)

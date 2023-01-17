@@ -44,6 +44,7 @@ endfunction(SET_CXX_VERSION)
 
 
 # e.g. 
+# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 # set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
 # add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${CONF_FILES})
 # APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
@@ -58,6 +59,7 @@ function(APP_ADD_RES src_files dst_dir)
 endfunction(APP_ADD_RES)
 
 # e.g. 
+# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 # set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
 # File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
 # if(NOT ANDROID)

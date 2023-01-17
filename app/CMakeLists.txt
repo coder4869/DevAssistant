@@ -35,6 +35,7 @@ message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 project(${PROJECT_NAME} VERSION 1.0.0.0)
 set(LIB_BUILD_TYPE_EXT )
 set(LIB_TYPE SHARED) # SHARED STATIC
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 message("PROJECT_NAME = ${PROJECT_NAME} ")
 message("LIB_TYPE = ${LIB_TYPE} ")
 
