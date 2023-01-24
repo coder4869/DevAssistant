@@ -1,3 +1,5 @@
+// https://blog.csdn.net/delphigbg/article/details/127781766
+
 #include "QCKCmd.h"
 
 #include <QDebug>
@@ -5,6 +7,12 @@
 #include <QProcess>
 #include <QDir>
 #include <QCoreApplication>
+
+#ifdef OSX
+    const QString PY_BIN = "/usr/bin/python3 ";
+#elif WIN
+    const QString PY_BIN = "C:/python/python.exe ";
+#endif
 
 /// @param  output  if return true, output is cmd success info; if return false,  output is cmd error info.
 bool QCKCmd::ExecCmd(const QString &toolPath, const QStringList &options, QByteArray &output)
@@ -37,4 +45,26 @@ bool QCKCmd::ExecCmd(const QString &toolPath, const QStringList &options, QByteA
     }
     
     return is_succeed;
+}
+
+QString QCKCmd::GetSoftPath(const QString &name)
+{
+    QStringList options;
+    QByteArray output;
+#ifdef OSX
+    // pkexec open root authority
+    QString cmd = "/bin/bash";
+//    QString cmd = "pkexec /bin/bash where " + name;
+#elif WIN
+    QString cmd = "cmd.exe";
+#endif
+    options << "-c";
+    options << "which " + name;
+    bool ret = ExecCmd(cmd, options, output);
+    qDebug() << cmd << "\n" << output.data() << endl;
+    if (!ret) {
+//        qDebug() << cmd << "\n" << output.data() << endl;
+        return "";
+    }
+    return output;
 }

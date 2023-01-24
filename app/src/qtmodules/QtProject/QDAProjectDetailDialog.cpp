@@ -33,7 +33,6 @@
 #include <QtScriptsKit/QtScriptsKit.h>
 
 #include "ui_QDAProjectDetailDialog.h"
-//#include "QDAProjectConfig.h"
 
 QDAProjectDetailDialog::QDAProjectDetailDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectDetailDialog)
@@ -125,15 +124,10 @@ void QDAProjectDetailDialog::OnCreate()
     
     QString dirPath = QCoreApplication::applicationDirPath();
     qDebug() << "App Dir Path = " << dirPath << endl;
-    QString pycmd = dirPath + "/../Resources/plugins/project/run.py --type project --config " + config.json_file;
+    QString pycmd = PY_BIN + dirPath + "/../Resources/plugins/project/run.py --type project --config " + config.json_file;
 
     QStringList options;
     QByteArray output;
-#ifdef OSX
-    pycmd = "/usr/bin/python3 " + pycmd;
-#elif WIN
-	pycmd = "C:/python/python.exe " + pycmd;
-#endif
     QMessageBox::information(NULL, "pycmd", pycmd);
     bool ret = QCKCmd::ExecCmd(pycmd, options, output);
     if (!ret) {

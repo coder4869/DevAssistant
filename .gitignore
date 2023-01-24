@@ -3,3 +3,4 @@
 **/build_unix
 **/build_win
 app/plugins
+app/bin
