@@ -22,7 +22,11 @@
 
 #include "QDACheckEnvDialog.h"
 
+#include <QDebug>
+#include <QDir>
+#include <QCoreApplication>
 #include <QMessageBox>
+#include <QtCoreKit/QtCoreKit.h>
 
 #include "ui_QDACheckEnvDialog.h"
 
@@ -41,5 +45,20 @@ QDACheckEnvDialog::~QDACheckEnvDialog()
 void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
-//    QMessageBox::warning(NULL, QStringLiteral("CheckEnv") , QStringLiteral("Check Developping Environment!"));
+    
+    QString dirPath = QCoreApplication::applicationDirPath();
+    qDebug() << "App Dir Path = " << dirPath << endl;
+    QString pycmd = PY_BIN + dirPath + "/../Resources/plugins/env/run.py --config env.json";
+
+    QStringList options;
+    QByteArray output;
+    
+    QMessageBox::information(NULL, "pycmd", pycmd);
+    bool ret = QCKCmd::ExecCmd(pycmd, options, output);
+    if (!ret) {
+        qDebug() << pycmd << "\n" << output.data() << endl;
+        QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
+        return;
+    }
+    QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "Succeed!");
 }
