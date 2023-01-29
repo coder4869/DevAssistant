@@ -35,7 +35,7 @@ message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 project(${PROJECT_NAME} VERSION 1.0.0.0)
 set(LIB_BUILD_TYPE_EXT )
 set(LIB_TYPE SHARED) # SHARED STATIC
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+# set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 message("PROJECT_NAME = ${PROJECT_NAME} ")
 message("LIB_TYPE = ${LIB_TYPE} ")
 
@@ -90,6 +90,20 @@ elseif(ANDROID)
 endif()
 
 
+# project resources
+set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
+
+set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
+File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${PLUGIN_DIR}
+        PREFIX "plugins"
+        FILES ${PLUGIN_FILEs}
+        )
+endif(NOT ANDROID)
+
+
 # MODULE options
 option(WITH_QT             "Build with Qt                  "	ON)
 option(WITH_PY             "Build with python              "	ON)
@@ -140,20 +154,6 @@ include(${PROJ_ROOT}/deps/deps.cmake)
 # add_subdirectory(Module-Group-Dir)
 message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
-
-
-################################## project resources ##################################
-set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
-
-set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
-File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
-if(NOT ANDROID)
-    source_group(
-        TREE ${PLUGIN_DIR}
-        PREFIX "plugins"
-        FILES ${PLUGIN_FILEs}
-        )
-endif(NOT ANDROID)
 
 
 ################################## build ##################################

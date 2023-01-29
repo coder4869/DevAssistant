@@ -32,12 +32,17 @@ PY_INSTALL_DIR="/Applications/Xcode.app/Contents/Developer/Library"
 
 ROOT_DIR=${script_dir}/../..
 BUILD_DIR=${ROOT_DIR}/build_unix
+BIN_DIR=${ROOT_DIR}/bin
 
 function do_mkdir() {
     if [[ -d ${BUILD_DIR} ]]; then
         rm -rf ${BUILD_DIR}
     fi
     mkdir -p ${BUILD_DIR} && cd ${BUILD_DIR}
+
+    if [[ -d ${BIN_DIR} ]]; then
+        rm -rf ${BIN_DIR}
+    fi
 }
 
 function do_gen {
@@ -51,6 +56,7 @@ function do_gen {
 
     cmake -Wno-dev ${ROOT_DIR} ${generator} -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
+        -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
         -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
         -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
         -DPROJECT_NAME=${APP_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
