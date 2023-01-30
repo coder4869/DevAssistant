@@ -85,9 +85,11 @@ endif(MODULE_NAME)
 """
 
 class ModuleType(enum.Enum):
-    Norm  = 0
-    Qt    = 1
-    Lib   = 2
+    APP     = 0
+    QtAPP   = 1
+    Lib     = 2
+    LibQt   = 3
+    LibDeps = 4
 
 class Module(object):
     ROOT_DIR = "."        # private, parent 
@@ -95,19 +97,30 @@ class Module(object):
     MOUDLE_ABS_DIR = ROOT_DIR + MOUDLE_DIR  # private
     IS_LIB_DEPS = False
 
+    TYPE_MAP:dict = { 
+            "app":ModuleType.APP, "qtapp":ModuleType.QtAPP,
+            "kit":ModuleType.Lib, "qtkit":ModuleType.LibQt, "lib":ModuleType.LibDeps
+        }
+
     @staticmethod
-    def add(root_dir:str, module_type:ModuleType, module_name:str, has_main:bool, deps:list=[]):
+    def add(root_dir:str, module_type:ModuleType, module_name:str, deps:list=[]):
         print("root_dir =", root_dir, "module_type =", module_type, "module_name =", module_name)
         Module.ROOT_DIR = root_dir
         Module.MOUDLE_ABS_DIR = root_dir + Module.MOUDLE_DIR
 
-        if ModuleType(module_type) is ModuleType.Norm:
-            Module.add_norm_module(module_name, has_main)
-            Module.add_module_deps(module_name, deps)
-        elif ModuleType(module_type) is ModuleType.Qt:
-            Module.add_qt_module(module_name, has_main)
-            Module.add_module_deps(module_name, deps)
+        if ModuleType(module_type) is ModuleType.APP:
+            Module.add_norm_module(module_name, True)
+            Module.add_module_deps(module_name, deps, True)
+        elif ModuleType(module_type) is ModuleType.QtAPP:
+            Module.add_qt_module(module_name, True)
+            Module.add_module_deps(module_name, deps, True)
         elif ModuleType(module_type) is ModuleType.Lib:
+            Module.add_norm_module(module_name, False)
+            Module.add_module_deps(module_name, deps, False)
+        elif ModuleType(module_type) is ModuleType.LibQt:
+            Module.add_qt_module(module_name, False)
+            Module.add_module_deps(module_name, deps, False)
+        elif ModuleType(module_type) is ModuleType.LibDeps:
             Module.add_lib_module(module_name)
         else:
             print("Invalid ModuleType ", module_type)
@@ -116,42 +129,40 @@ class Module(object):
             return
 
     @staticmethod
-    def add_norm_module(name:str, has_main:bool):
+    def add_norm_module(name:str, is_app:bool):
         dst_dir = Module.MOUDLE_ABS_DIR + name
         print("add_norm_module() dst_dir=", dst_dir)
         if Module.check_path(dst_dir):
-            # add module.cmake
-            if Module.IS_LIB_DEPS:
-                Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB_DEPS_NORM, name)
+            cmake_append_str = MODULE_CMAKE_APPEND_LIB_DEPS_NORM if Module.IS_LIB_DEPS else MODULE_CMAKE_APPEND_NORM
+            Module.add_module_to_project(cmake_append_str, name)
+            if is_app:
+                Module.add_module_cmake(dst_dir, name, "bin-deps.cmake")
+                Module.add_module_main(dst_dir, "main.cpp.NORM") # add module main.cpp
+            elif Module.IS_LIB_DEPS:
                 Module.add_module_cmake(dst_dir, name, "lib-deps-norm.cmake")
+                Module.add_module_header(dst_dir, name)
             else:
-                Module.add_module_to_project(MODULE_CMAKE_APPEND_NORM, name)
                 Module.add_module_cmake(dst_dir, name, "norm.cmake")
-            # add module main.cpp
-            if has_main:
-                Module.add_module_main(dst_dir, "main.cpp.NORM")
-            else:
                 Module.add_module_header(dst_dir, name)
             os.makedirs(dst_dir + "/pimp")
             return True
         return False
 
     @staticmethod
-    def add_qt_module(name:str, has_main:bool):
+    def add_qt_module(name:str, is_app:bool):
         dst_dir = Module.MOUDLE_ABS_DIR + name
         print("add_qt_module() dst_dir=", dst_dir)
         if Module.check_path(dst_dir):
-            # add module.cmake
-            if Module.IS_LIB_DEPS:
-                Module.add_module_to_project(MODULE_CMAKE_APPEND_LIB_DEPS_QT, name)
+            cmake_append_str = MODULE_CMAKE_APPEND_LIB_DEPS_QT if Module.IS_LIB_DEPS else MODULE_CMAKE_APPEND_QT
+            Module.add_module_to_project(cmake_append_str, name)
+            if is_app:
+                Module.add_module_cmake(dst_dir, name, "bin-deps.cmake")
+                Module.add_module_main(dst_dir, "main.cpp.QT") # add module main.cpp
+            elif Module.IS_LIB_DEPS:
                 Module.add_module_cmake(dst_dir, name, "lib-deps-qt.cmake")
+                Module.add_module_header(dst_dir, name)
             else:
-                Module.add_module_to_project(MODULE_CMAKE_APPEND_QT, name)
                 Module.add_module_cmake(dst_dir, name, "qt.cmake")
-            # add module main.cpp
-            if has_main:
-                Module.add_module_main(dst_dir, "main.cpp.QT")
-            else:
                 Module.add_module_header(dst_dir, name)
             os.makedirs(dst_dir + "/Forms")
             os.makedirs(dst_dir + "/Res")
@@ -196,7 +207,7 @@ class Module(object):
         pyt_file.File.replace_string(dir_cmake, "MODULE_NAME", name)
     
     @staticmethod
-    def add_module_deps(name:str, deps:list):
+    def add_module_deps(name:str, deps:list, is_app:bool):
         dir_cmake = Module.MOUDLE_ABS_DIR + name + "/" +  name + ".cmake"
         if len(deps) > 0:
             # dir_name = os.path.basename(os.path.normpath(Module.MOUDLE_ABS_DIR))
@@ -207,6 +218,8 @@ class Module(object):
                 lib_deps = lib_deps + " " + lib
                 pyt_file.File.append_string(dir_cmake, MODULE_CMAKE_APPEND_LIB_DEPS)
                 pyt_file.File.replace_string(dir_cmake, "MODULE_NAME", lib)
+                if is_app:
+                    pyt_file.File.replace_string(dir_cmake, "LIB_NAME", "BIN_NAME")
             lib_deps = lib_deps + " )"
             pyt_file.File.replace_string(dir_cmake, "set(LIB_DEPS )", lib_deps)
 

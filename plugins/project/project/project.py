@@ -67,9 +67,11 @@ class Project(object):
         # Create Project Dir
         if not os.path.exists(dir_root):
             os.makedirs(dir_root)
-        Project.add_help_dirs(dir_root, dic["dir_help"], proj_name)    # dir_help
-        Project.init_codes_dir(dir_root, dic["dir_codes"])             # dir_codes
+        # Init dir_help Dirs and Add project.json
+        Project.add_help_dirs(dir_root, dic["dir_help"], proj_name)   
         pyt_file.File.copy_to_file(json_config, dir_root + "/" + dic["dir_help"]["conf"] + "/project.json")
+        # Init dir_codes and Add ${INC_GROUP}
+        Project.init_codes_dir(dir_root, dic["dir_codes"])
         Project.add_group_inc(dir_root)
 
     @staticmethod
@@ -94,7 +96,7 @@ class Project(object):
         for fitem in flist:
             file = script_abs_dir + "/build/" + fitem
             if not os.path.isdir(fitem):
-                pyt_file.File.replace_string(file, "PROJ_NAME", proj_name)
+                pyt_file.File.replace_string(file, "PROJ_NAME", proj_name) # Set ${PROJECT_NAME}
         
     @staticmethod
     def init_codes_dir(root_dir:str, codes_dirs:list):
@@ -105,7 +107,7 @@ class Project(object):
             Project.GROUP_LIST.append(group_dir)
             Project.add_module_group(root_dir, group_dir, gtype)
             # add child modules
-            modules  = group["modules"]
+            modules = group["modules"]
             for item in modules:
                 Project.add_module(root_dir, group_dir, gtype, item)
     
@@ -137,22 +139,19 @@ class Project(object):
         # Add Module option to ${PROJECT}/CMakeLists.txt
         name = obj["module"]
         Project.add_module_option(root_dir, obj)
-        Project.add_module_lib_deps(root_dir, gtype, obj)
-        # get deps
-        deps:list = []
-        if "deps" in obj:
-            deps = obj["deps"]
-        # add Module
-        has_main = gtype.lower().endswith("app")
-        module.Module.MOUDLE_DIR = group_dir + "/"
+        
+        # Open WITH_QT in ${PROJECT}/CMakeLists.txt
         if gtype.lower().startswith("qt"):
-            # Open WITH_QT in ${PROJECT}/CMakeLists.txt
             pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", OPTION_QT_OFF, OPTION_QT_ON)
-            module.Module.add(root_dir, module.ModuleType.Qt, name, has_main, deps)
-        elif gtype.lower() == "lib":
-            module.Module.add(root_dir, module.ModuleType.Lib, name, has_main, deps)
-        else:
-            module.Module.add(root_dir, module.ModuleType.Norm, name, has_main, deps)
+
+        # add Module
+        mtype = module.Module.TYPE_MAP[gtype.lower()]
+        deps:list = obj["deps"] if "deps" in obj else []                # get deps
+        module.Module.IS_LIB_DEPS = True if "gen_lib" in obj else False # is gen_lib
+        module.Module.MOUDLE_DIR = group_dir + "/"
+        module.Module.add(root_dir, mtype, name, deps)
+        # add Module deps to ${PROJECT}/CMakeLists.txt
+        # Project.add_module_lib_deps(root_dir, gtype, obj)
     
     @staticmethod
     def add_module_option(root_dir:str, obj:object):

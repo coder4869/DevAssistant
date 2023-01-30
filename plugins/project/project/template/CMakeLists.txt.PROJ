@@ -140,32 +140,3 @@ set(SRC_FILES)
 message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
-
-################################## build ##################################
-add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES} ${CONF_FILES} ${PLUGIN_FILEs})
-
-target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_PY} ${INC_GROUP} )
-# target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT} ${LIB_PY}
-        ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
-        )
-
-# install app res
-APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
-APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
-
-if(WITH_QT) 
-    QT_DEPLOY(${PROJECT_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
-    target_compile_definitions(${PROJECT_NAME} PRIVATE  
-                                $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-                                $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>)
-endif(WITH_QT)
-
-if(WIN)
-    WIN_FIX_COMPILER(${PROJECT_NAME})
-    # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
-elseif(APPLE)
-    # from intern cmake module : apple_func.cmake
-    XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
-    XCODE_ADD_INFO_PLIST(${PROJECT_NAME})
-endif(APPLE)
