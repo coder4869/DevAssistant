@@ -107,7 +107,7 @@ endif(NOT ANDROID)
 # MODULE options
 option(WITH_QT             "Build with Qt                  "	ON)
 option(WITH_PY             "Build with python              "	ON)
-option(QtDevAssistant      "Build with QtDevAssistant      "	ON)
+option(DevAssistant        "Build with DevAssistant        "	ON)
 option(QtProject           "Build with QtProject           "	ON)
 option(QtExample           "Build with QtExample           "	ON)
 option(QtPractical         "Build with QtPractical         "	ON)
@@ -155,77 +155,3 @@ include(${PROJ_ROOT}/deps/deps.cmake)
 message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
-
-################################## build ##################################
-add_executable(${PROJECT_NAME} ${OS_BUNDLE} ${SRC_FILES} ${META_FILES} ${CONF_FILES} ${PLUGIN_FILEs})
-
-target_include_directories(${PROJECT_NAME} PUBLIC ${INC_FILES} ${INC_QT} ${INC_PY} ${INC_GROUP} )
-# target_link_directories(${PROJECT_NAME} PUBLIC ${INC_LIB})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${LIB_FMWKs} ${LIB_QT} ${LIB_PY}
-        ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
-        )
-
-# install app res
-APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
-APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
-
-if(WITH_QT) 
-    QT_DEPLOY(${PROJECT_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
-    target_compile_definitions(${PROJECT_NAME} PRIVATE  
-                                $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-                                $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>)
-endif(WITH_QT)
-
-if(WIN)
-    WIN_FIX_COMPILER(${PROJECT_NAME})
-    # INSTALL_TARGET(${PROJECT_NAME}) # lib bin exe
-elseif(APPLE)
-    # from intern cmake module : apple_func.cmake
-    XCODE_SETTING(${PROJECT_NAME} ${OS_MIN_VERSION})
-    XCODE_ADD_INFO_PLIST(${PROJECT_NAME})
-endif(APPLE)
-
-if(WITH_QT AND QtProject)
-    add_dependencies(${PROJECT_NAME} QtProject)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtProject)
-endif(QtProject)
-
-if(WITH_QT AND QtExample)
-    add_dependencies(${PROJECT_NAME} QtExample)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtExample)
-endif(QtExample)
-
-if(WITH_QT AND QtPractical)
-    add_dependencies(${PROJECT_NAME} QtPractical)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtPractical)
-endif(QtPractical)
-
-if(WITH_QT AND QtCustom)
-    add_dependencies(${PROJECT_NAME} QtCustom)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtCustom)
-endif(QtCustom)
-
-if(WITH_QT AND QtPlan)
-    add_dependencies(${PROJECT_NAME} QtPlan)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtPlan)
-endif(QtPlan)
-
-if(WITH_QT AND QtHelp)
-    add_dependencies(${PROJECT_NAME} QtHelp)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtHelp)
-endif(QtHelp)
-
-if(WITH_QT AND QtCoreKit)
-    add_dependencies(${PROJECT_NAME} QtCoreKit)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtCoreKit)
-endif(QtCoreKit)
-
-if(WITH_QT AND QtScriptsKit)
-    add_dependencies(${PROJECT_NAME} QtScriptsKit)
-    target_link_libraries(${PROJECT_NAME} PUBLIC QtScriptsKit)
-endif(QtScriptsKit)
-
-if(DACoreKit)
-    add_dependencies(${PROJECT_NAME} DACoreKit)
-    target_link_libraries(${PROJECT_NAME} PUBLIC DACoreKit)
-endif(DACoreKit)
