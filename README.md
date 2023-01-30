@@ -70,9 +70,18 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
             "group_dir" : "/src/app",
             "modules": [
                 {
-                    "module" : "QtDevAssistant",
+                    "module" : "DevAssistant",
                     "option" : "ON",
-                    "gen_lib" : "NO"
+                    "gen_lib" : "NO",
+                    "deps" : [
+                        "QtProject",
+                        "QtExample",
+                        "QtPractical",
+                        "QtCustom",
+                        "QtPlan",
+                        "QtHelp",
+                        "DACoreKit"
+                    ]
                 }
             ]
         },
