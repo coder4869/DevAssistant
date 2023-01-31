@@ -20,47 +20,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(QtProjectDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME QtProject)
+set(QtEnvKitDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME QtEnvKit)
 
-FILE(GLOB_RECURSE QtProject_SRC
-    ${QtProjectDir}/*.h
-    ${QtProjectDir}/*.hpp
+FILE(GLOB_RECURSE QtEnvKit_SRC
+    ${QtEnvKitDir}/*.h
+    ${QtEnvKitDir}/*.hpp
 
-    ${QtProjectDir}/*.c
-    ${QtProjectDir}/*.cc
-    ${QtProjectDir}/*.cpp
+    ${QtEnvKitDir}/*.c
+    ${QtEnvKitDir}/*.cc
+    ${QtEnvKitDir}/*.cpp
     )
 
-FILE(GLOB_RECURSE QtProject_FORMs 
-    ${QtProjectDir}/Forms/*.ui
+FILE(GLOB_RECURSE QtEnvKit_FORMs 
+    ${QtEnvKitDir}/Forms/*.ui
     )
 
-FILE(GLOB_RECURSE QtProject_RES
-    ${QtProjectDir}/Res/*.qrc
-    ${QtProjectDir}/Res/*.qml
-    ${QtProjectDir}/Res/*.js
+FILE(GLOB_RECURSE QtEnvKit_RES
+    ${QtEnvKitDir}/Res/*.qrc
+    ${QtEnvKitDir}/Res/*.qml
+    ${QtEnvKitDir}/Res/*.js
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${QtProjectDir}
-        PREFIX "QtProject"
-        FILES ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES}
+        TREE ${QtEnvKitDir}
+        PREFIX "QtEnvKit"
+        FILES ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES}
         )
 endif(NOT ANDROID)
 
 # gen src by forms
-qt5_wrap_ui(QtProject_RES_UIC ${QtProject_FORMs})
+qt5_wrap_ui(QtEnvKit_RES_UIC ${QtEnvKit_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-# update QtProject_SRC
-set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES} ${QtProject_RES_UIC})
+# update QtEnvKit_SRC
+set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES} ${QtEnvKit_RES_UIC})
 
-set(LIB_DEPS QtEnvKit QtCoreKit QtScriptsKit )
+set(LIB_DEPS QtCoreKit )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtProjectDir} ${INC_GROUP} )
+add_library(${LIB_NAME} ${LIB_TYPE} ${QtEnvKit_SRC})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtEnvKitDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
 # install libs & headers
@@ -72,20 +72,8 @@ if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
 
-if(QtEnvKit)
-    add_dependencies(${LIB_NAME} QtEnvKit)
-else()
-    message(FATAL_ERROR "option ON for QtEnvKit is required !")
-endif(QtEnvKit)
-
 if(QtCoreKit)
     add_dependencies(${LIB_NAME} QtCoreKit)
 else()
     message(FATAL_ERROR "option ON for QtCoreKit is required !")
 endif(QtCoreKit)
-
-if(QtScriptsKit)
-    add_dependencies(${LIB_NAME} QtScriptsKit)
-else()
-    message(FATAL_ERROR "option ON for QtScriptsKit is required !")
-endif(QtScriptsKit)

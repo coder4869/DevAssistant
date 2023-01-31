@@ -23,7 +23,7 @@
 set(DevAssistantDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME DevAssistant)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtCoreKit QtScriptsKit DACoreKit )
+set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtScriptsKit DACoreKit )
 
 FILE(GLOB_RECURSE DevAssistant_SRC
     ${DevAssistantDir}/*.h
@@ -145,6 +145,12 @@ if(QtHelp)
 else()
     message(FATAL_ERROR "option ON for QtHelp is required !")
 endif(QtHelp)
+
+if(QtEnvKit)
+    add_dependencies(${BIN_NAME} QtEnvKit)
+else()
+    message(FATAL_ERROR "option ON for QtEnvKit is required !")
+endif(QtEnvKit)
 
 if(QtCoreKit)
     add_dependencies(${BIN_NAME} QtCoreKit)

@@ -25,8 +25,9 @@
 #include <QMessageBox>
 #include <QStyleFactory>
 
+#include <QtEnvKit/QtEnvKit.h>
+
 #include "ui_QDAProjectDialog.h"
-#include "QDACheckEnvDialog.h"
 #include "QDAProjectDetailDialog.h"
 #include "QDAProjectAddDialog.h"
 

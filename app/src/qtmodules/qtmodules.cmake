@@ -54,6 +54,11 @@ if(WITH_QT AND QtHelp)
     include(${SRC_ROOT}/QtHelp/QtHelp.cmake)
 endif(WITH_QT AND QtHelp)
 
+# QtEnvKit
+if(WITH_QT AND QtEnvKit)
+    include(${SRC_ROOT}/QtEnvKit/QtEnvKit.cmake)
+endif(WITH_QT AND QtEnvKit)
+
 # QtCoreKit
 if(WITH_QT AND QtCoreKit)
     include(${SRC_ROOT}/QtCoreKit/QtCoreKit.cmake)

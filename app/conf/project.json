@@ -17,6 +17,7 @@
                         "QtCustom",
                         "QtPlan",
                         "QtHelp",
+                        "QtEnvKit",
                         "QtCoreKit",
                         "QtScriptsKit",
                         "DACoreKit"
@@ -33,6 +34,7 @@
                     "option" : "ON",
                     "gen_lib" : "YES",
                     "deps" : [
+                        "QtEnvKit",
                         "QtCoreKit",
                         "QtScriptsKit"
                     ]
@@ -59,6 +61,11 @@
                 },
                 {
                     "module" : "QtHelp",
+                    "option" : "ON",
+                    "gen_lib" : "YES"
+                },
+                {
+                    "module" : "QtEnvKit",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 },

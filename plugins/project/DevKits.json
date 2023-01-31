@@ -13,8 +13,13 @@
                 },
                 {
                     "module" : "QtCryptoAPP",
-                    "option" : "OFF",
-                    "gen_lib" : "NO"
+                    "option" : "ON",
+                    "gen_lib" : "NO",
+                    "deps" : [
+                        "QtCryptoKit",
+                        "QtCoreKit",
+                        "CCoreKit"
+                    ]
                 }
             ]
         },
