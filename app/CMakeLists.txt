@@ -105,8 +105,8 @@ endif(NOT ANDROID)
 
 
 # MODULE options
-option(WITH_QT             "Build with Qt                  "	ON)
-option(WITH_PY             "Build with python              "	ON)
+option(WITH_QT             "Build with QT                  "	ON)
+option(WITH_PY             "Build with PY                  "	ON)
 option(DevAssistant        "Build with DevAssistant        "	ON)
 option(QtProject           "Build with QtProject           "	ON)
 option(QtExample           "Build with QtExample           "	ON)

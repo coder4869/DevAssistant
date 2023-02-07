@@ -1,6 +1,10 @@
 {
     "proj_name" : "DevAssistant",
     "dir_proj" : "../../app/",
+    "options": {
+        "WITH_QT" : "ON",
+        "WITH_PY" : "ON"
+    },
     "dir_codes":[
         {
             "group" : "QtAPP",

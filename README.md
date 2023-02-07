@@ -64,6 +64,10 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
 {
     "proj_name" : "DevAssistant",
     "dir_proj" : "../../../app/",
+    "options": {
+        "WITH_QT" : "ON",
+        "WITH_PY" : "ON"
+    },
     "dir_codes":[
         {
             "group" : "QtAPP",
@@ -159,6 +163,7 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
     * Composition
         * [Required]-`proj_name`: project_name, same to generated `APP_NAME`.
         * [Required]-`dir_proj` : location for generated project.
+        * [Optional]-`options` : project shared options, start with `WITH_`. e.g. `WITH_QT` for Qt, `WITH_PY` for Python.
         * [Required]-`dir_codes`: source codes and libs for project. Generally contains of a list module groups! **For each module group**:
             * [Required]-`group`: group type. **Value is Optional:QtAPP, APP, QtKit, Kit, Lib.**
                 * [Optional]-`QtAPP`: application modules for Qt.

@@ -36,8 +36,7 @@ PROJECT_CMAKE_DIR   = PROJECT_BASE_DIR + "/cmake"
 MODULE_TEMPLATE_DIR = PROJECT_BASE_DIR + "/template"
 
 OPTION_STR_SIZE:int = 20
-OPTION_QT_OFF = "option(WITH_QT \"Build with Qt \" OFF)"
-OPTION_QT_ON = "option(" + "WITH_QT".ljust(OPTION_STR_SIZE,' ') +  "\"Build with " + "Qt".ljust(OPTION_STR_SIZE,' ') + "\"\tON)"
+OPTION_TEMPLATE:str = "# option(MODULE_OPTION  \"Build with MODULE_OPTION\" ON)"
 
 MODULE_LIB_DEPS = """
 if(MODULE_NAME)
@@ -70,6 +69,8 @@ class Project(object):
         # Init dir_help Dirs and Add project.json
         Project.add_help_dirs(dir_root, dic["dir_help"], proj_name)   
         pyt_file.File.copy_to_file(json_config, dir_root + "/" + dic["dir_help"]["conf"] + "/project.json")
+        if "options" in dic.keys():
+            Project.add_options(dir_root, dic["options"])
         # Init dir_codes and Add ${INC_GROUP}
         Project.init_codes_dir(dir_root, dic["dir_codes"])
         Project.add_group_inc(dir_root)
@@ -98,6 +99,14 @@ class Project(object):
             if not os.path.isdir(fitem):
                 pyt_file.File.replace_string(file, "PROJ_NAME", proj_name) # Set ${PROJECT_NAME}
         
+    @staticmethod
+    def add_options(root_dir:str,  options:object):
+        for opt in options.keys():
+            name = opt[5:] # remove WITH_
+            to_string = "option(" + opt.ljust(OPTION_STR_SIZE,' ') + "\"Build with " + name.ljust(OPTION_STR_SIZE,' ') + "\"\t" + options[opt] + ")"
+            to_string = to_string + "\n" + OPTION_TEMPLATE
+            pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", OPTION_TEMPLATE, to_string)
+
     @staticmethod
     def init_codes_dir(root_dir:str, codes_dirs:list):
         for group in codes_dirs:
@@ -140,10 +149,6 @@ class Project(object):
         name = obj["module"]
         Project.add_module_option(root_dir, obj)
         
-        # Open WITH_QT in ${PROJECT}/CMakeLists.txt
-        if gtype.lower().startswith("qt"):
-            pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", OPTION_QT_OFF, OPTION_QT_ON)
-
         # add Module
         mtype = module.Module.TYPE_MAP[gtype.lower()]
         deps:list = obj["deps"] if "deps" in obj else []                # get deps
@@ -157,10 +162,9 @@ class Project(object):
     def add_module_option(root_dir:str, obj:object):
         name = obj["module"]
         option = obj["option"]
-        from_srting = "# option(MODULE_OPTION  \"Build with MODULE_OPTION\" ON)"
         to_string = "option(" + name.ljust(OPTION_STR_SIZE,' ') + "\"Build with " + name.ljust(OPTION_STR_SIZE,' ') + "\"\t" + option + ")"
-        to_string = to_string + "\n" + from_srting
-        pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", from_srting, to_string)
+        to_string = to_string + "\n" + OPTION_TEMPLATE
+        pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", OPTION_TEMPLATE, to_string)
     
     @staticmethod
     def add_module_lib_deps(root_dir:str, gtype:str, obj:object):

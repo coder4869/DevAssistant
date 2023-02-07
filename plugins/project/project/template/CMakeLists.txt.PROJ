@@ -105,8 +105,6 @@ endif(NOT ANDROID)
 
 
 # MODULE options
-option(WITH_QT "Build with Qt " OFF)
-option(WITH_PY             "Build with python              "	OFF)
 # option(MODULE_OPTION  "Build with MODULE_OPTION" ON)
 
 if(WITH_QT)
