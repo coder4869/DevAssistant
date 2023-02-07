@@ -63,8 +63,3 @@ endif(WITH_QT AND QtEnvKit)
 if(WITH_QT AND QtCoreKit)
     include(${SRC_ROOT}/QtCoreKit/QtCoreKit.cmake)
 endif(WITH_QT AND QtCoreKit)
-
-# QtScriptsKit
-if(WITH_QT AND QtScriptsKit)
-    include(${SRC_ROOT}/QtScriptsKit/QtScriptsKit.cmake)
-endif(WITH_QT AND QtScriptsKit)

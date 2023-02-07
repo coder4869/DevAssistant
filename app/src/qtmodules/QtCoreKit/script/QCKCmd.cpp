@@ -26,7 +26,7 @@ bool QCKCmd::ExecCmd(const QString &toolPath, const QStringList &options, QByteA
     } else {
         process->start(toolPath);
     }
-    process->waitForFinished(500000);
+    process->waitForFinished(QCK_CMD_TIME_LIMIT);
 //    process->waitForReadyRead();
     
     QByteArray qby_error = process->readAllStandardError();
@@ -39,7 +39,7 @@ bool QCKCmd::ExecCmd(const QString &toolPath, const QStringList &options, QByteA
     }
 
     if (process != nullptr) {
-        process->close(); // 需要 new 的 QProcess 否则不会正常退出
+        process->close(); // required: QProcess instance by new, will not exit normally.
         delete process;
         process = nullptr;
     }

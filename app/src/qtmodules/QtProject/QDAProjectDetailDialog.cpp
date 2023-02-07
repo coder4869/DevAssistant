@@ -30,14 +30,13 @@
 #include <QMessageBox>
 
 #include <QtCoreKit/QtCoreKit.h>
-#include <QtScriptsKit/QtScriptsKit.h>
 
 #include "ui_QDAProjectDetailDialog.h"
 
 QDAProjectDetailDialog::QDAProjectDetailDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectDetailDialog)
 {
-//    QSKPython::InitPy();
+//    QCKPython::InitPy();
     
     ui->setupUi(this);
     

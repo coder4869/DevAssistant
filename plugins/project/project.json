@@ -23,7 +23,6 @@
                         "QtHelp",
                         "QtEnvKit",
                         "QtCoreKit",
-                        "QtScriptsKit",
                         "DACoreKit"
                     ]
                 }
@@ -39,8 +38,7 @@
                     "gen_lib" : "YES",
                     "deps" : [
                         "QtEnvKit",
-                        "QtCoreKit",
-                        "QtScriptsKit"
+                        "QtCoreKit"
                     ]
                 },
                 {
@@ -78,11 +76,6 @@
                 },
                 {
                     "module" : "QtCoreKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "QtScriptsKit",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 }

@@ -23,7 +23,7 @@
 set(DevAssistantDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME DevAssistant)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtScriptsKit DACoreKit )
+set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit DACoreKit )
 
 FILE(GLOB_RECURSE DevAssistant_SRC
     ${DevAssistantDir}/*.h
@@ -157,12 +157,6 @@ if(QtCoreKit)
 else()
     message(FATAL_ERROR "option ON for QtCoreKit is required !")
 endif(QtCoreKit)
-
-if(QtScriptsKit)
-    add_dependencies(${BIN_NAME} QtScriptsKit)
-else()
-    message(FATAL_ERROR "option ON for QtScriptsKit is required !")
-endif(QtScriptsKit)
 
 if(DACoreKit)
     add_dependencies(${BIN_NAME} DACoreKit)

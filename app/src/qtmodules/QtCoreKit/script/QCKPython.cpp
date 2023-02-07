@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "QSKPython.h"
+#include "QCKPython.h"
 
 #include <QDebug>
 
@@ -30,7 +30,7 @@
 #include <Python.h>
 #define slots Q_SLOTS
 
-bool QSKPython::InitPy()
+bool QCKPython::InitPy()
 {
     Py_Initialize();
     if (!Py_IsInitialized()) {
@@ -41,25 +41,25 @@ bool QSKPython::InitPy()
     return true;
 }
 
-void QSKPython::RunPyString(const QString &str)
+void QCKPython::RunPyString(const QString &str)
 {
     PyRun_SimpleString(str.toStdString().c_str());
 }
 
-bool QSKPython::DelPy()
+bool QCKPython::DelPy()
 {
     Py_Finalize();
     return true;
 }
 
 
-QSKPython::QSKPython(QObject *parent) :
+QCKPython::QCKPython(QObject *parent) :
     QObject(parent)
 {
     
 }
 
-QSKPython::~QSKPython()
+QCKPython::~QCKPython()
 {
 
 }

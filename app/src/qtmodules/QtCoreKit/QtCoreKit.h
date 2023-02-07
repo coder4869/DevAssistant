@@ -31,9 +31,11 @@
 #include <QtCoreKit/qml/QCKQmlEngine.h>
 #include <QtCoreKit/qml/QCKQmlUtil.h>
 
-#include <QtCoreKit/utils/QCKCmd.h>
 #include <QtCoreKit/utils/QCKDefines.h>
 #include <QtCoreKit/utils/QCKFile.h>
 #include <QtCoreKit/utils/QCKJson.h>
+
+#include <QtCoreKit/script/QCKCmd.h>
+#include <QtCoreKit/script/QCKCmd.h>
 
 #endif /* QTCOREKIT_H */

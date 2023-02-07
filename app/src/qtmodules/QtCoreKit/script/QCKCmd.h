@@ -1,6 +1,8 @@
 #ifndef QCK_CMD_H
 #define QCK_CMD_H
 
+#define QCK_CMD_TIME_LIMIT 500000
+
 class QString;
 class QStringList;
 class QByteArray;

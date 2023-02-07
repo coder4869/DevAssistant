@@ -57,7 +57,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtProject_SRC
 set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES} ${QtProject_RES_UIC})
 
-set(LIB_DEPS QtEnvKit QtCoreKit QtScriptsKit )
+set(LIB_DEPS QtEnvKit QtCoreKit )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtProjectDir} ${INC_GROUP} )
@@ -83,9 +83,3 @@ if(QtCoreKit)
 else()
     message(FATAL_ERROR "option ON for QtCoreKit is required !")
 endif(QtCoreKit)
-
-if(QtScriptsKit)
-    add_dependencies(${LIB_NAME} QtScriptsKit)
-else()
-    message(FATAL_ERROR "option ON for QtScriptsKit is required !")
-endif(QtScriptsKit)
