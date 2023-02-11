@@ -7,15 +7,14 @@ class QString;
 class QStringList;
 class QByteArray;
 
-extern const QString PY_BIN;
-
 class QCKCmd
 {
 public:
     /// @param  output  if return true, output is cmd success info; if return false,  output is cmd error info.
     static bool ExecCmd(const QString &toolPath, const QStringList &options, QByteArray &output);
-
+    
     static QString GetSoftPath(const QString &name);
+    static QString GetPyBin();
 };
 
 #endif /* QCK_CMD_H */

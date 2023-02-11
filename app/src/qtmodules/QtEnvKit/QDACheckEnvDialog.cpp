@@ -48,13 +48,11 @@ void QDACheckEnvDialog::OnCheckEnv()
     
     QString dirPath = QCoreApplication::applicationDirPath();
     qDebug() << "App Dir Path = " << dirPath << endl;
-    QString pycmd = PY_BIN + dirPath + "/../Resources/plugins/env/run.py --config env.json";
-
-    QStringList options;
-    QByteArray output;
-    
+    QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../Resources/plugins/env/run.py --config env.json";
     QMessageBox::information(NULL, "pycmd", pycmd);
-    bool ret = QCKCmd::ExecCmd(pycmd, options, output);
+    
+    QByteArray output;
+    bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
     if (!ret) {
         qDebug() << pycmd << "\n" << output.data() << endl;
         QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());

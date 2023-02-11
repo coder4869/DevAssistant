@@ -123,12 +123,11 @@ void QDAProjectDetailDialog::OnCreate()
     
     QString dirPath = QCoreApplication::applicationDirPath();
     qDebug() << "App Dir Path = " << dirPath << endl;
-    QString pycmd = PY_BIN + dirPath + "/../Resources/plugins/project/run.py --type project --config " + config.json_file;
+    QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../Resources/plugins/project/run.py --type project --config " + config.json_file;
 
-    QStringList options;
     QByteArray output;
     QMessageBox::information(NULL, "pycmd", pycmd);
-    bool ret = QCKCmd::ExecCmd(pycmd, options, output);
+    bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
     if (!ret) {
         qDebug() << pycmd << "\n" << output.data() << endl;
         QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
