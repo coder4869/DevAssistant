@@ -4,3 +4,4 @@
 **/build_win
 app/plugins
 app/bin
+app/bin64
