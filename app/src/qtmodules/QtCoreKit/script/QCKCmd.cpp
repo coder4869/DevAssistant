@@ -1,4 +1,4 @@
-// https://blog.csdn.net/delphigbg/article/details/127781766
+﻿// https://blog.csdn.net/delphigbg/article/details/127781766
 
 #include "QCKCmd.h"
 
@@ -76,7 +76,7 @@ QString QCKCmd::GetSoftPath(const QString &name)
     qDebug() << list << endl;
     return list[1];
 #elif WIN
-    QStringList list = cmd.split("\n\r");
+    QStringList list = cmd.split("\r\n");
     qDebug() << list << endl;
     return list[0];
 #endif
