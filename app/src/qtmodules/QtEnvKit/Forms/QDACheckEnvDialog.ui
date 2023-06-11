@@ -41,7 +41,7 @@
      </column>
      <column>
       <property name="text">
-       <string>状态(State)</string>
+       <string>环境变量(EnvVar)</string>
       </property>
      </column>
      <column>
@@ -49,32 +49,6 @@
        <string>路径(Path)</string>
       </property>
      </column>
-     <item>
-      <property name="text">
-       <string>CMake</string>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-      <property name="text">
-       <string/>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Qt</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Visual Studio</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>XCode</string>
-      </property>
-     </item>
     </widget>
    </item>
   </layout>

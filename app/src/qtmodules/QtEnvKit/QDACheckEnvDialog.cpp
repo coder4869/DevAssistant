@@ -27,6 +27,7 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 
+#include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
 #include <CCoreKit/CCoreKit.h>
 
@@ -36,6 +37,7 @@ QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDACheckEnvDialog)
 {
     ui->setupUi(this);
+    QUIStyle::SetTreeWidget(ui->envTreeWidget);
 }
 
 QDACheckEnvDialog::~QDACheckEnvDialog()
@@ -47,15 +49,45 @@ QDACheckEnvDialog::~QDACheckEnvDialog()
 void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
-    
-    auto path_set = CKSystemEnv::GetPathEnvItems();
-    std::string pathes = "";
 
-    for (auto item = path_set.begin(); item != path_set.end(); item++) {
-        pathes = pathes + "\n" + item->c_str();
-        std::cout << __FUNCTION__ << item->c_str() << std::endl;
+    //{
+    //    "System" : "Windows,Darwin,Linux",
+    //    "From" : "EnvVar", EnvVar or REG
+    //    "Key" : "PATH",
+    //    "Soft" : "CMake"
+    //}
+    // REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe" >> tmp.log
+    QStringList keys;
+    keys << "Visual Studio" << "Python" << "CMake" << "Qt" ;
+
+    for (size_t idx = 0; idx < keys.size(); idx++)
+    {
+        std::string key_std = keys[idx].toStdString();
+        bool has_key = false;
+        std::string pathes = "";
+
+        auto path_set = CKSystemEnv::SplitEnvValue("PATH");
+        for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
+            std::string tmp = *iter;
+            if (tmp.find(key_std) != std::string::npos) {
+                QTreeWidgetItem* item = new QTreeWidgetItem;
+                item->setText(0, keys[idx]);
+                item->setText(1, "PATH");
+                item->setText(2, QString::fromStdString(tmp));
+                ui->envTreeWidget->insertTopLevelItem(0, item);
+                has_key = true;
+                break;
+            }
+
+            pathes = pathes + "\n" + iter->c_str();
+        }
+        
+        if (!has_key) {
+            QMessageBox::information(NULL, __FUNCTION__, pathes.c_str());
+        }
     }
-    QMessageBox::information(NULL, __FUNCTION__, pathes.c_str());
+
+   
 
     //QString dirPath = QCoreApplication::applicationDirPath();
     //qDebug() << "App Dir Path = " << dirPath << endl;
