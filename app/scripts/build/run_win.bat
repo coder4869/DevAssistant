@@ -26,11 +26,13 @@
 SET APP_NAME=DevAssistant
 SET ROOT_DIR=%~dp0\..\..
 SET BUILD_DIR=%ROOT_DIR%\build_win
-SET BIN_DIR=%ROOT_DIR%\bin
-SET VS_EXE="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\devenv.exe"
+SET BIN_DIR=%ROOT_DIR%\bin64
+:: https://www.cnblogs.com/doudougou/archive/2011/08/22/2148851.html
+@REM REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"
+SET VS_EXE="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+SET QT_INSTALL_DIR="D:/ProgramFiles/Qt5.14.2/5.14.2/msvc2017_64/"
+SET PY_INSTALL_DIR=%LOCALAPPDATA%/"Programs/Python/Python311-32"
 SET VS_PROJ="%BUILD_DIR%\%APP_NAME%.sln"
-SET QT_INSTALL_DIR="C:/Qt/Qt5.14.2/5.14.2/msvc2017_64"
-SET PY_INSTALL_DIR="C:/python"
 
 ::echo var
 echo APP_NAME = %APP_NAME%
@@ -56,7 +58,10 @@ for /f "delims=" %%i in ('dir /ad/b/s "%PLUGIN_DIR%"') do (
 )
 
 :: run cmake: gen vs-project
-cmake -Wno-dev %ROOT_DIR% -G"Visual Studio 16 2019" -DCMAKE_BUILD_TYPE=Release -DPROJECT_NAME=%APP_NAME% -DCMAKE_INSTALL_PREFIX=%BUILD_DIR% -DCMAKE_PREFIX_PATH=%QT_INSTALL_DIR% -DEXECUTABLE_OUTPUT_PATH=%BIN_DIR% -DQT_INSTALL_DIR=%QT_INSTALL_DIR% -DPY_INSTALL_DIR=%PY_INSTALL_DIR% -DWIN=ON -H%ROOT_DIR% -B%BUILD_DIR%
+:: -G"Visual Studio 15 2017"
+:: -G"Visual Studio 16 2019"
+:: -G"Visual Studio 17 2022"
+cmake -Wno-dev %ROOT_DIR% -G"Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release -DPROJECT_NAME=%APP_NAME% -DCMAKE_INSTALL_PREFIX=%BUILD_DIR% -DCMAKE_PREFIX_PATH=%QT_INSTALL_DIR% -DEXECUTABLE_OUTPUT_PATH=%BIN_DIR% -DQT_INSTALL_DIR=%QT_INSTALL_DIR% -DPY_INSTALL_DIR=%PY_INSTALL_DIR% -DWIN=ON -H%ROOT_DIR% -B%BUILD_DIR%
 if exist %VS_PROJ% start %VS_EXE% %VS_PROJ%
 
 echo. & pause 

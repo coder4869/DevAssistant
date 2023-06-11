@@ -23,7 +23,8 @@
                         "QtHelp",
                         "QtEnvKit",
                         "QtCoreKit",
-                        "DACoreKit"
+                        "QtUIInfra",
+                        "CCoreKit"
                     ]
                 }
             ]
@@ -38,7 +39,8 @@
                     "gen_lib" : "YES",
                     "deps" : [
                         "QtEnvKit",
-                        "QtCoreKit"
+                        "QtCoreKit",
+                        "QtUIInfra"
                     ]
                 },
                 {
@@ -74,6 +76,14 @@
                         "QtCoreKit"
                     ]
                 },
+		{
+                    "module" : "QtUIInfra",
+                    "option" : "ON",
+                    "gen_lib" : "YES",
+                    "deps" : [
+                        "QtCoreKit"
+                    ]
+                },
                 {
                     "module" : "QtCoreKit",
                     "option" : "ON",
@@ -86,7 +96,7 @@
             "group_dir" : "/src/kits",
             "modules": [
                 {
-                    "module" : "DACoreKit",
+                    "module" : "CCoreKit",
                     "option" : "ON",
                     "gen_lib" : "YES"
                 }

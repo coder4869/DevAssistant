@@ -20,30 +20,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(DACoreKitDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME DACoreKit)
+set(CCoreKitDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME CCoreKit)
 
-FILE(GLOB_RECURSE DACoreKit_SRC
-    ${DACoreKitDir}/*.h
-    ${DACoreKitDir}/*.hpp
+FILE(GLOB_RECURSE CCoreKit_SRC
+    ${CCoreKitDir}/*.h
+    ${CCoreKitDir}/*.hpp
 
-    ${DACoreKitDir}/*.c
-    ${DACoreKitDir}/*.cc
-    ${DACoreKitDir}/*.cpp
+    ${CCoreKitDir}/*.c
+    ${CCoreKitDir}/*.cc
+    ${CCoreKitDir}/*.cpp
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${DACoreKitDir}
-        PREFIX "DACoreKit"
-        FILES ${DACoreKit_SRC}
+        TREE ${CCoreKitDir}
+        PREFIX "CCoreKit"
+        FILES ${CCoreKit_SRC}
         )
 endif(NOT ANDROID)
 
 set(LIB_DEPS )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${DACoreKit_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${DACoreKitDir} ${INC_GROUP} )
+add_library(${LIB_NAME} ${LIB_TYPE} ${CCoreKit_SRC})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CCoreKitDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 
 # install libs & headers

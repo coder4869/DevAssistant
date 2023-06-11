@@ -20,47 +20,47 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(QtProjectDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME QtProject)
+set(QtUIInfraDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME QtUIInfra)
 
-FILE(GLOB_RECURSE QtProject_SRC
-    ${QtProjectDir}/*.h
-    ${QtProjectDir}/*.hpp
+FILE(GLOB_RECURSE QtUIInfra_SRC
+    ${QtUIInfraDir}/*.h
+    ${QtUIInfraDir}/*.hpp
 
-    ${QtProjectDir}/*.c
-    ${QtProjectDir}/*.cc
-    ${QtProjectDir}/*.cpp
+    ${QtUIInfraDir}/*.c
+    ${QtUIInfraDir}/*.cc
+    ${QtUIInfraDir}/*.cpp
     )
 
-FILE(GLOB_RECURSE QtProject_FORMs 
-    ${QtProjectDir}/Forms/*.ui
+FILE(GLOB_RECURSE QtUIInfra_FORMs 
+    ${QtUIInfraDir}/Forms/*.ui
     )
 
-FILE(GLOB_RECURSE QtProject_RES
-    ${QtProjectDir}/Res/*.qrc
-    ${QtProjectDir}/Res/*.qml
-    ${QtProjectDir}/Res/*.js
+FILE(GLOB_RECURSE QtUIInfra_RES
+    ${QtUIInfraDir}/Res/*.qrc
+    ${QtUIInfraDir}/Res/*.qml
+    ${QtUIInfraDir}/Res/*.js
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${QtProjectDir}
-        PREFIX "QtProject"
-        FILES ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES}
+        TREE ${QtUIInfraDir}
+        PREFIX "QtUIInfra"
+        FILES ${QtUIInfra_SRC} ${QtUIInfra_FORMs} ${QtUIInfra_RES}
         )
 endif(NOT ANDROID)
 
 # gen src by forms
-qt5_wrap_ui(QtProject_RES_UIC ${QtProject_FORMs})
+qt5_wrap_ui(QtUIInfra_RES_UIC ${QtUIInfra_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-# update QtProject_SRC
-set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES} ${QtProject_RES_UIC})
+# update QtUIInfra_SRC
+set(QtUIInfra_SRC ${QtUIInfra_SRC} ${QtUIInfra_FORMs} ${QtUIInfra_RES} ${QtUIInfra_RES_UIC})
 
-set(LIB_DEPS QtEnvKit QtCoreKit QtUIInfra )
+set(LIB_DEPS QtCoreKit )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
-target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtProjectDir} ${INC_GROUP} )
+add_library(${LIB_NAME} ${LIB_TYPE} ${QtUIInfra_SRC})
+target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtUIInfraDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
 # install libs & headers
@@ -72,20 +72,8 @@ if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
 
-if(QtEnvKit)
-    add_dependencies(${LIB_NAME} QtEnvKit)
-else()
-    message(FATAL_ERROR "option ON for QtEnvKit is required !")
-endif(QtEnvKit)
-
 if(QtCoreKit)
     add_dependencies(${LIB_NAME} QtCoreKit)
 else()
     message(FATAL_ERROR "option ON for QtCoreKit is required !")
 endif(QtCoreKit)
-
-if(QtUIInfra)
-    add_dependencies(${LIB_NAME} QtUIInfra)
-else()
-    message(FATAL_ERROR "option ON for QtUIInfra is required !")
-endif(QtUIInfra)

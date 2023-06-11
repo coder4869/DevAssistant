@@ -1,16 +1,11 @@
 {
-    "proj_name" : "DevAssistant",
-    "dir_proj" : "../../app/",
-    "dir_codes":[
+    "dir_codes": [
         {
-            "group" : "QtAPP",
-            "group_dir" : "/src/app",
+            "group": "QtAPP",
+            "group_dir": "/src/app",
             "modules": [
                 {
-                    "module" : "DevAssistant",
-                    "option" : "ON",
-                    "gen_lib" : "NO",
-                    "deps" : [
+                    "deps": [
                         "QtProject",
                         "QtExample",
                         "QtPractical",
@@ -19,94 +14,126 @@
                         "QtHelp",
                         "QtEnvKit",
                         "QtCoreKit",
-                        "QtScriptsKit",
-                        "DACoreKit"
-                    ]
+                        "QtUIInfra",
+                        "CCoreKit"
+                    ],
+                    "gen_lib": "NO",
+                    "module": "DevAssistant",
+                    "option": "ON"
                 }
             ]
         },
         {
-            "group" : "QtKit",
-            "group_dir" : "/src/qtmodules",
+            "group": "QtKit",
+            "group_dir": "/src/qtmodules",
             "modules": [
                 {
-                    "module" : "QtProject",
-                    "option" : "ON",
-                    "gen_lib" : "YES",
-                    "deps" : [
+                    "deps": [
                         "QtEnvKit",
                         "QtCoreKit",
-                        "QtScriptsKit"
-                    ]
+                        "QtUIInfra"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtProject",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtExample",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtExample",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtPractical",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtPractical",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtCustom",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtCustom",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtPlan",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtPlan",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtHelp",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtHelp",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtEnvKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtCoreKit"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtEnvKit",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtCoreKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtCoreKit"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtUIInfra",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtScriptsKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtCoreKit",
+                    "option": "ON"
                 }
             ]
         },
         {
-            "group" : "Kit",
-            "group_dir" : "/src/kits",
+            "group": "Kit",
+            "group_dir": "/src/kits",
             "modules": [
                 {
-                    "module" : "DACoreKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CCoreKit",
+                    "option": "ON"
                 }
             ]
         },
         {
-            "group" : "Lib",
-            "group_dir" : "/deps",
+            "group": "Lib",
+            "group_dir": "/deps",
             "modules": [
                 {
-                    "module" : "QtCryptoKit",
-                    "option" : "ON"
+                    "deps": [
+                    ],
+                    "gen_lib": "",
+                    "module": "QtCryptoKit",
+                    "option": "ON"
                 }
             ]
         }
     ],
     "dir_help": {
-        "conf" : "conf", 
-        "scripts" : "scripts", 
-        "tools" : "tools", 
-        "doc" : "doc"
-    }
+        "conf": "conf",
+        "doc": "doc",
+        "scripts": "scripts",
+        "tools": "tools"
+    },
+    "dir_proj": "D:/Research/DevAssistant/app",
+    "options": {
+        "WITH_PY": "ON",
+        "WITH_QT": "ON"
+    },
+    "proj_name": "DevAssistant"
 }

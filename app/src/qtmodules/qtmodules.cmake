@@ -59,6 +59,11 @@ if(WITH_QT AND QtEnvKit)
     include(${SRC_ROOT}/QtEnvKit/QtEnvKit.cmake)
 endif(WITH_QT AND QtEnvKit)
 
+# QtUIInfra
+if(WITH_QT AND QtUIInfra)
+    include(${SRC_ROOT}/QtUIInfra/QtUIInfra.cmake)
+endif(WITH_QT AND QtUIInfra)
+
 # QtCoreKit
 if(WITH_QT AND QtCoreKit)
     include(${SRC_ROOT}/QtCoreKit/QtCoreKit.cmake)

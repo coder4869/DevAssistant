@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -36,6 +36,6 @@ int main(int argc, char *argv[])
     window.showMaximized();
     window.LoadWelcome();
     window.show();
-    
+
     return app.exec();
 }

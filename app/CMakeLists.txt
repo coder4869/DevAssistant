@@ -105,8 +105,8 @@ endif(NOT ANDROID)
 
 
 # MODULE options
-option(WITH_QT             "Build with QT                  "	ON)
 option(WITH_PY             "Build with PY                  "	ON)
+option(WITH_QT             "Build with QT                  "	ON)
 option(DevAssistant        "Build with DevAssistant        "	ON)
 option(QtProject           "Build with QtProject           "	ON)
 option(QtExample           "Build with QtExample           "	ON)
@@ -115,8 +115,9 @@ option(QtCustom            "Build with QtCustom            "	ON)
 option(QtPlan              "Build with QtPlan              "	ON)
 option(QtHelp              "Build with QtHelp              "	ON)
 option(QtEnvKit            "Build with QtEnvKit            "	ON)
+option(QtUIInfra           "Build with QtUIInfra           "	ON)
 option(QtCoreKit           "Build with QtCoreKit           "	ON)
-option(DACoreKit           "Build with DACoreKit           "	ON)
+option(CCoreKit            "Build with CCoreKit            "	ON)
 option(QtCryptoKit         "Build with QtCryptoKit         "	ON)
 # option(MODULE_OPTION  "Build with MODULE_OPTION" ON)
 
