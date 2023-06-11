@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -83,6 +83,15 @@ bool QDAProjectConfig::JsonToConfig(const QString &json_str, QDAProjectConfig::C
     
     if (json_obj.contains("dir_proj")) {
         config.proj_dir = json_obj["dir_proj"].toString();
+    }
+
+    if (json_obj.contains("options")) {
+        QJsonObject options = json_obj["options"].toObject();
+        QStringList key = options.keys();
+        for (size_t idx = 0; idx < key.size(); idx++)
+        {
+            config.options[key[idx]] = options[key[idx]].toString();
+        }
     }
     
     // parse group list
@@ -171,7 +180,13 @@ QJsonObject QDAProjectConfig::JsonFromConfig(const QDAProjectConfig::ConfigInfo 
     QJsonObject json_obj;
     json_obj.insert("proj_name", config.proj_name);
     json_obj.insert("dir_proj", config.proj_dir);
-    
+
+    QJsonObject options_obj;
+    for (auto iter = config.options.begin(); iter != config.options.end(); iter++) {
+        options_obj.insert(iter->first, iter->second);
+    }
+    json_obj.insert("options", options_obj);
+
     QJsonArray group_arr;
     for (int idx=0; idx<config.groups.size(); idx++) {
         QJsonObject group = QDAProjectConfig::JsonFromGroup(config.groups[idx]);

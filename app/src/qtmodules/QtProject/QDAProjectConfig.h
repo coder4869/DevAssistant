@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -54,14 +54,16 @@ public:
     };
     
     struct ConfigInfo {
+        QString json_file = "";
         QString proj_name = "";
         QString proj_dir = "";
-        QString json_file = "";
-        std::vector<Group> groups;
+        std::map<QString, QString> options;
         std::map<QString, QString> dir_help;
-        
+        std::vector<Group> groups;
+
         void clear() {
             groups.clear();
+            options.clear();
             dir_help.clear();
         }
     };
