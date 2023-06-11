@@ -23,7 +23,6 @@
 #include "QDAMainWindow.h"
 #include "ui_QDAMainWindow.h"
 
-#include <QMessageBox>
 #include <QtProject/QtProject.h>
 #include <QtExample/QtExample.h>
 #include <QtPractical/QtPractical.h>
@@ -32,7 +31,6 @@
 #include <QtHelp/QtHelp.h>
 
 #include <QtUIInfra/QtUIInfra.h>
-#include <CCoreKit/CCoreKit.h>
 
 QDAMainWindow::QDAMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::QDAMainWindow)
@@ -102,7 +100,4 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
-
-    //std::string str = CKSystemEnv::GetPathEnv();
-    //QMessageBox::information(NULL, __FUNCTION__, str.c_str());
 }

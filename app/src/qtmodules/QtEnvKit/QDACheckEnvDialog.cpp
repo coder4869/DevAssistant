@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -26,7 +26,9 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <QMessageBox>
+
 #include <QtCoreKit/QtCoreKit.h>
+#include <CCoreKit/CCoreKit.h>
 
 #include "ui_QDACheckEnvDialog.h"
 
@@ -46,17 +48,26 @@ void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
     
-    QString dirPath = QCoreApplication::applicationDirPath();
-    qDebug() << "App Dir Path = " << dirPath << endl;
-    QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../Resources/plugins/env/run.py --config env.json";
-    QMessageBox::information(NULL, "pycmd", pycmd);
-    
-    QByteArray output;
-    bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
-    if (!ret) {
-        qDebug() << pycmd << "\n" << output.data() << endl;
-        QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
-        return;
+    auto path_set = CKSystemEnv::GetPathEnvItems();
+    std::string pathes = "";
+
+    for (auto item = path_set.begin(); item != path_set.end(); item++) {
+        pathes = pathes + "\n" + item->c_str();
+        std::cout << __FUNCTION__ << item->c_str() << std::endl;
     }
-    QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "Succeed!");
+    QMessageBox::information(NULL, __FUNCTION__, pathes.c_str());
+
+    //QString dirPath = QCoreApplication::applicationDirPath();
+    //qDebug() << "App Dir Path = " << dirPath << endl;
+    //QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../Resources/plugins/env/run.py --config env.json";
+    //QMessageBox::information(NULL, "pycmd", pycmd);
+    //
+    //QByteArray output;
+    //bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
+    //if (!ret) {
+    //    qDebug() << pycmd << "\n" << output.data() << endl;
+    //    QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
+    //    return;
+    //}
+    //QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "Succeed!");
 }
