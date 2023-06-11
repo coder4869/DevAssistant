@@ -57,7 +57,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtHelp_SRC
 set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES} ${QtHelp_RES_UIC})
 
-set(LIB_DEPS )
+set(LIB_DEPS QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtHelp_SRC})
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtHelpDir} ${INC_GROUP} )
@@ -71,3 +71,9 @@ INSTALL_TARGET(${LIB_NAME}) # lib bin exe
 if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
+
+if(QtUIInfra)
+    add_dependencies(${LIB_NAME} QtUIInfra)
+else()
+    message(FATAL_ERROR "option ON for QtUIInfra is required !")
+endif(QtUIInfra)

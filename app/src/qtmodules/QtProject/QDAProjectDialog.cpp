@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -26,6 +26,7 @@
 #include <QStyleFactory>
 
 #include <QtEnvKit/QtEnvKit.h>
+#include <QtUIInfra/QtUIInfra.h>
 
 #include "ui_QDAProjectDialog.h"
 #include "QDAProjectDetailDialog.h"
@@ -45,9 +46,8 @@ QDAProjectDialog::QDAProjectDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectDialog)
 {
     ui->setupUi(this);
-    ui->optionsTreeWidget->setStyle(QStyleFactory::create("windows"));
-    ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
-    ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    QUIStyle::SetDockWidget(ui->dockWidget);
+    QUIStyle::SetTreeWidget(ui->optionsTreeWidget);
     connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
     
     // QDACheckEnvDialog

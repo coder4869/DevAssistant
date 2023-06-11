@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -23,7 +23,7 @@
 #include "QDAPracticalDialog.h"
 
 #include <QMessageBox>
-#include <QStyleFactory>
+#include <QtUIInfra/QtUIInfra.h>
 
 #include "ui_QDAPracticalDialog.h"
 
@@ -32,9 +32,8 @@ QDAPracticalDialog::QDAPracticalDialog(QWidget *parent) :
     ui(new Ui::QDAPracticalDialog)
 {
     ui->setupUi(this);
-    ui->optionsTreeWidget->setStyle(QStyleFactory::create("windows"));
-    ui->dockWidget->setWindowFlag(Qt::FramelessWindowHint);
-    ui->dockWidget->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    QUIStyle::SetDockWidget(ui->dockWidget);
+    QUIStyle::SetTreeWidget(ui->optionsTreeWidget);
     connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
 }
 

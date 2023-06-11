@@ -39,6 +39,7 @@
                 },
                 {
                     "deps": [
+                        "QtUIInfra"
                     ],
                     "gen_lib": "YES",
                     "module": "QtExample",
@@ -46,6 +47,7 @@
                 },
                 {
                     "deps": [
+                        "QtUIInfra"
                     ],
                     "gen_lib": "YES",
                     "module": "QtPractical",
@@ -53,6 +55,7 @@
                 },
                 {
                     "deps": [
+                        "QtUIInfra"
                     ],
                     "gen_lib": "YES",
                     "module": "QtCustom",
@@ -60,6 +63,7 @@
                 },
                 {
                     "deps": [
+                        "QtUIInfra"
                     ],
                     "gen_lib": "YES",
                     "module": "QtPlan",
@@ -67,6 +71,7 @@
                 },
                 {
                     "deps": [
+                        "QtUIInfra"
                     ],
                     "gen_lib": "YES",
                     "module": "QtHelp",
@@ -130,7 +135,7 @@
         "scripts": "scripts",
         "tools": "tools"
     },
-    "dir_proj": "D:/Research/DevAssistant/app",
+    "dir_proj": "D:/Research/DevAssistant/app1",
     "options": {
         "WITH_PY": "ON",
         "WITH_QT": "ON"
