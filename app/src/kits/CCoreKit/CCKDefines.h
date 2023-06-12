@@ -20,26 +20,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QCK_OBJECT_H
-#define QCK_OBJECT_H
+#ifdef WIN
+// 无警告编号
+#pragma warning(disable: 4619)
 
-#include <CCoreKit/CCKDefines.h>
+// xxx隐式定义为“已删除”
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 5026)
+#pragma warning(disable: 5027)
+#pragma warning(disable: 4457)
 
-#include <QObject>
+// 内联函数
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4711)
 
-class QCKObject
-{
-    Q_GADGET
-    
-public:
-    explicit QCKObject();
-    ~QCKObject();
-    
-    /// @brief DFS (Depth First Search)
-    static QObject *ObjectNamed(QList<QObject*> objs, const QString &name);
-    
-private:
-    
-};
+// 数据类型转换
+#pragma warning(disable: 4820)  // 字节填充
+#pragma warning(disable: 4365)  // 有符号/无符号不匹配
+#pragma warning(disable: 4388)  // 有符号/无符号不匹配
+#pragma warning(disable: 4267)
+#pragma warning(disable: 5219)
+#pragma warning(disable: 4946)
+#pragma warning(disable: 5243)
+#pragma warning(disable: 4242)
 
-#endif /* QCK_OBJECT_H */
+#pragma warning(disable: 5045)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4464)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5240) // 特性在此语法位置被忽略
+
+#endif // WIN
+
+
+#ifdef WIN
+
+#define API_EXPORT _declspec(dllexport)
+#define API_IMPORT _declspec(dllimport)
+
+#else // Linux
+
+#define API_EXPORT __attribute__((visibility("default")))
+#define API_IMPORT 
+
+#endif // WIN

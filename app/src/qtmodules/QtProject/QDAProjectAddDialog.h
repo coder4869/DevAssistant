@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -22,6 +22,8 @@
 
 #ifndef QDA_PROJECT_ADD_DIALOG_H
 #define QDA_PROJECT_ADD_DIALOG_H
+
+#include <CCoreKit/CCKDefines.h>
 
 #include <QDialog>
 

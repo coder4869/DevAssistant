@@ -23,6 +23,8 @@
 #ifndef QDA_PROJECT_CONFIG_H
 #define QDA_PROJECT_CONFIG_H
 
+#include <CCoreKit/CCKDefines.h>
+
 #include <QObject>
 
 class QByteArray;

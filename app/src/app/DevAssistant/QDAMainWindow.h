@@ -23,6 +23,8 @@
 #ifndef QDA_MAINWINDOW_H
 #define QDA_MAINWINDOW_H
 
+#include <CCoreKit/CCKDefines.h>
+
 #include <QMainWindow>
 
 namespace Ui {
