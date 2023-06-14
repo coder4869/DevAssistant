@@ -91,7 +91,16 @@ endif()
 
 
 # project resources
-set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
+# set(CONF_FILES ${PROJ_ROOT}/conf/project.json)
+set(CONF_DIR ${PROJ_ROOT}/conf)
+File(GLOB_RECURSE CONF_FILES ${CONF_DIR}/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${CONF_DIR}
+        PREFIX "conf"
+        FILES ${CONF_FILES}
+        )
+endif(NOT ANDROID)
 
 set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
 File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)

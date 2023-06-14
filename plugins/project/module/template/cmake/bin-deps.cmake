@@ -88,7 +88,8 @@ target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
         )
 
 # add app res
-APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
+# APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
+APP_ADD_RES_RECURSE("${CONF_DIR}/" "conf/" "${CONF_DIR}/*.*")
 APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
 
 if(WITH_QT) 
