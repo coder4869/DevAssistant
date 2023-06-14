@@ -55,13 +55,21 @@
 
 
 #ifdef WIN
-
-#define API_EXPORT _declspec(dllexport)
-#define API_IMPORT _declspec(dllimport)
-
+#	define API_EXPORT _declspec(dllexport)
+#	define API_IMPORT _declspec(dllimport)
 #else // Linux
+#	define API_EXPORT __attribute__((visibility("default")))
+#	define API_IMPORT 
+#endif // Linux
 
-#define API_EXPORT __attribute__((visibility("default")))
-#define API_IMPORT 
 
-#endif // WIN
+#ifndef CCK_DEFINE_H
+#define CCK_DEFINE_H
+
+//#ifdef WIN
+//const char* PATH_SPLIT_TAG = "\\";
+//#else // Linux
+//const char* PATH_SPLIT_TAG = "/";
+//#endif // Linux
+
+#endif // CCK_DEFINE_H
