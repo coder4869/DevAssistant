@@ -33,7 +33,8 @@
 bool QCKJson::LoadJsonObjectFromFile(const QString& json_file, QJsonObject& json_obj)
 {
 	QJsonDocument json_doc;
-	if (!GetJsonDocFromFile(json_file, json_doc)) {
+	if (!GetJsonDocFromFile(json_file, json_doc) || !json_doc.isObject()) {
+		QMessageBox::critical(NULL, __FUNCTION__, json_file + " is not JsonObject!");
 		return false;
 	}
 
@@ -44,7 +45,8 @@ bool QCKJson::LoadJsonObjectFromFile(const QString& json_file, QJsonObject& json
 bool QCKJson::LoadJsonArrayFromFile(const QString& json_file, QJsonArray& json_arr)
 {
 	QJsonDocument json_doc;
-	if (!GetJsonDocFromFile(json_file, json_doc)) {
+	if (!GetJsonDocFromFile(json_file, json_doc) || !json_doc.isArray()) {
+		QMessageBox::critical(NULL, __FUNCTION__, json_file + " is not JsonArray!");
 		return false;
 	}
 
@@ -63,7 +65,7 @@ bool QCKJson::GetJsonDocFromFile(const QString& json_file, QJsonDocument& json_d
 
 	QString json_str = file_data;
 	json_doc = QJsonDocument::fromJson(json_str.toUtf8());
-	if (json_doc.isEmpty() || !json_doc.isObject()) {
+	if (json_doc.isEmpty()) {
 		QMessageBox::critical(NULL, __FUNCTION__, json_file + " parse json failed!");
 		return false;
 	}

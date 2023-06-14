@@ -49,15 +49,14 @@ QDACheckEnvDialog::~QDACheckEnvDialog()
     delete ui;
 }
 
-
 void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
     ui->envTreeWidget->clear();
 
-    QString json_file = "";
+    std::string json_file = CKAppConf::GetInstance()->GetRelativePath("env_config", "conf/env_config.json");
     QJsonArray json_arr;
-    if (!QCKJson::LoadJsonArrayFromFile(json_file, json_arr)) {
+    if (!QCKJson::LoadJsonArrayFromFile(QString::fromStdString(json_file), json_arr)) {
         return;
     }
     
