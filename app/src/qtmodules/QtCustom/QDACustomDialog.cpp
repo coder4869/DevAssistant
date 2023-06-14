@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -23,6 +23,7 @@
 #include "QDACustomDialog.h"
 
 #include <QMessageBox>
+#include <QtUIInfra/QUIStyle.h>
 
 #include "ui_QDACustomDialog.h"
 
@@ -31,6 +32,8 @@ QDACustomDialog::QDACustomDialog(QWidget *parent) :
     ui(new Ui::QDACustomDialog)
 {
     ui->setupUi(this);
+    ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
+    QUIStyle::SetPushButton(ui->customScriptBtn);
 }
 
 QDACustomDialog::~QDACustomDialog()

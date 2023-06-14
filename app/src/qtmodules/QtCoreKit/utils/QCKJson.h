@@ -26,10 +26,16 @@
 #include <CCoreKit/CCKDefines.h>
 
 class QString;
+class QJsonObject;
+class QJsonArray;
+class QJsonDocument;
 
 class QCKJson
 {
 public:
+	static bool LoadJsonObjectFromFile(const QString& json_file, QJsonObject& json_obj);
+	static bool LoadJsonArrayFromFile(const QString& json_file, QJsonArray & json_arr);
+	static bool GetJsonDocFromFile(const QString& json_file, QJsonDocument& json_doc);
 };
 
 #endif /* QCK_JSON_H */

@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -23,6 +23,7 @@
 #include "QDAProjectAddDialog.h"
 
 #include <QMessageBox>
+#include <QtUIInfra/QUIStyle.h>
 
 #include "ui_QDAProjectAddDialog.h"
 
@@ -32,7 +33,8 @@ QDAProjectAddDialog::QDAProjectAddDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectAddDialog)
 {
     ui->setupUi(this);
-    
+
+    QUIStyle::SetPushButton(ui->createProjectBtn);
 }
 
 QDAProjectAddDialog::~QDAProjectAddDialog()

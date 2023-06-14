@@ -23,7 +23,8 @@
 #ifndef CCOREKIT_H
 #define CCOREKIT_H
 
-#include <CCoreKit/CKSystemEnv.h>
 #include <CCoreKit/CCKDefines.h>
+#include <CCoreKit/CKAppConf.h>
+#include <CCoreKit/CKSystemEnv.h>
 
 #endif /* CCOREKIT_H */

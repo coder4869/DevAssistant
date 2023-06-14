@@ -25,6 +25,8 @@
 #include <QDebug>
 #include <QDir>
 #include <QCoreApplication>
+#include <QJsonObject>
+#include <QJsonArray>
 #include <QMessageBox>
 
 #include <QtUIInfra/QtUIInfra.h>
@@ -38,6 +40,8 @@ QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     QUIStyle::SetTreeWidget(ui->envTreeWidget);
+    QUIStyle::SetPushButton(ui->checkEnvBtn);
+    QUIStyle::SetPushButton(ui->tryFixBtn);
 }
 
 QDACheckEnvDialog::~QDACheckEnvDialog()
@@ -49,7 +53,14 @@ QDACheckEnvDialog::~QDACheckEnvDialog()
 void QDACheckEnvDialog::OnCheckEnv()
 {
     emit SigShowWidget(this);
+    ui->envTreeWidget->clear();
 
+    QString json_file = "";
+    QJsonArray json_arr;
+    if (!QCKJson::LoadJsonArrayFromFile(json_file, json_arr)) {
+        return;
+    }
+    
     //{
     //    "System" : "Windows,Darwin,Linux",
     //    "From" : "EnvVar", EnvVar or REG

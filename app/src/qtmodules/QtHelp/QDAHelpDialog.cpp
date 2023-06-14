@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -23,6 +23,7 @@
 #include "QDAHelpDialog.h"
 
 #include <QMessageBox>
+#include <QtUIInfra/QUIStyle.h>
 
 #include "ui_QDAHelpDialog.h"
 
@@ -31,6 +32,8 @@ QDAHelpDialog::QDAHelpDialog(QWidget *parent) :
     ui(new Ui::QDAHelpDialog)
 {
     ui->setupUi(this);
+    ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
+    QUIStyle::SetPushButton(ui->versionButton);
 }
 
 QDAHelpDialog::~QDAHelpDialog()

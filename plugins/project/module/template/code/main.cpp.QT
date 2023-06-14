@@ -33,7 +33,6 @@ int main(int argc, char *argv[])
     QMainWindow window;
     window.setWindowTitle("QtApp");
     window.showMaximized();
-    window.show();
     
     return app.exec();
 }

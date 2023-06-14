@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -23,6 +23,7 @@
 #include "QDAPlanDialog.h"
 
 #include <QMessageBox>
+#include <QtUIInfra/QUIStyle.h>
 
 #include "ui_QDAPlanDialog.h"
 
@@ -31,6 +32,9 @@ QDAPlanDialog::QDAPlanDialog(QWidget *parent) :
     ui(new Ui::QDAPlanDialog)
 {
     ui->setupUi(this);
+    ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
+    QUIStyle::SetPushButton(ui->loadPlanBtn);
+    QUIStyle::SetPushButton(ui->savePlanBtn);
 }
 
 QDAPlanDialog::~QDAPlanDialog()

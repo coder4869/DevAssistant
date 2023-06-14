@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -30,6 +30,7 @@
 #include <QMessageBox>
 
 #include <QtCoreKit/QtCoreKit.h>
+#include <QtUIInfra/QUIStyle.h>
 
 #include "ui_QDAProjectDetailDialog.h"
 
@@ -39,10 +40,15 @@ QDAProjectDetailDialog::QDAProjectDetailDialog(QWidget *parent) :
 //    QCKPython::InitPy();
     
     ui->setupUi(this);
-    
+
+    QUIStyle::SetPushButton(ui->createProjectBtn);
     connect(ui->createProjectBtn, SIGNAL(clicked(bool)), this, SLOT(OnCreate()));
+    
+    QUIStyle::SetPushButton(ui->loadProjectConfigBtn);
     connect(ui->loadProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnLoadConfig()));
-    connect(ui->saveProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnSaveConfig()));    
+
+    QUIStyle::SetPushButton(ui->saveProjectConfigBtn);
+    connect(ui->saveProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnSaveConfig()));
 }
 
 QDAProjectDetailDialog::~QDAProjectDetailDialog()

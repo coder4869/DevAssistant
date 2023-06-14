@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,30 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
+
 #pragma once
 
-#include <CCoreKit/CCKDefines.h>
+#include "CCKDefines.h"
 
-class QMainWindow;
-class QDockWidget;
-class QListView;
-class QListWidget;
-class QTreeWidget;
-class QPushButton;
+#include <string>
+#include <map>
 
-class QUIStyle
+class CKAppConf
 {
 public:
-	static void SetMainWindow(QMainWindow* window);
+	static CKAppConf *GetInstance();
 
-	static void SetDockWidget(QDockWidget *widget);
+	bool SetRootDir(const std::string& root);
+	bool SetRelativePath(const std::string& key, const std::string& path);
+	std::string GetRelativePath(const std::string& key = "");
+	std::string GetRelativePath(const std::string& key, const std::string& path);
 
-	static void SetListView(QListView* view);
-	
-	static void SetListWidget(QListWidget* widget);
-	
-	static void SetTreeWidget(QTreeWidget* widget);
-
-	static void SetPushButton(QPushButton* btn);
+protected:
+	std::string root_dir_;
+	std::map<std::string, std::string> relative_path_map_;
 };
 

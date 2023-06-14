@@ -27,6 +27,7 @@
 #include <QListView>
 #include <QListWidget>
 #include <QTreeWidget>
+#include <QPushButton>
 #include <QStyleFactory>
 
 void QUIStyle::SetMainWindow(QMainWindow* window)
@@ -56,7 +57,8 @@ void QUIStyle::SetListView(QListView* view)
 	}
 
 	view->setStyleSheet("\
-						QListView::item { font: 14px; color: white; height: 55px;} \
+						QListView::item { font: 14px; color: white; height: 50px;} \
+                        QListView::item:hover{ color:gray; } \
 						QListView::item::selected, QListView::branch::selected { background-color: blue; } \
 						QListView { background-color: rgb(49, 53, 64); } \
 						");
@@ -69,7 +71,8 @@ void QUIStyle::SetListWidget(QListWidget* widget)
 	}
 
 	widget->setStyleSheet("\
-						QListView::item { font: 14px; color: white; height: 55px;} \
+						QListView::item { font: 14px; color: white; height: 50px; border:1px solid #797979; } \
+                        QListView::item:hover{ color:gray; } \
 						QListView::item::selected, QListView::branch::selected { background-color: blue; } \
 						QListView { background-color: rgb(49, 53, 64); } \
 						");
@@ -83,11 +86,24 @@ void QUIStyle::SetTreeWidget(QTreeWidget* widget)
 	}
 
 	widget->setStyle(QStyleFactory::create("windows"));
-	//widget->setStyleSheet("QTreeWidget::item{ height: 55px; background-color: rgb(49, 53, 64); }");
+	//widget->setStyleSheet("QTreeWidget::item{ height: 50px; background-color: rgb(49, 53, 64); }");
 	widget->setStyleSheet("\
-						QHeaderView::section { font: 20px; color: white; height: 55px; background-color: rgb(49, 53, 64);} \
-						QTreeView::item { font: 14px; color: white; height: 55px; } \
-						QTreeView::item::selected, QTreeView::branch::selected { background-color: blue; } \
+						QHeaderView::section { font: 20px; color:#CCCCCC; height: 50px; background-color: rgb(49, 53, 64);} \
 						QTreeView { background-color: rgb(49, 53, 64); } \
+						QTreeView::item { font: 14px; color:#CCCCCC; height: 50px; } \
+                        QTreeView::item:hover{ color:white; } \
+						QTreeView::item::selected, QTreeView::branch::selected { color:#17A387; border:1px solid #797979; } \
 						");
+}
+
+void QUIStyle::SetPushButton(QPushButton* btn)
+{
+	if (!btn) {
+		return;
+	}
+
+	btn->setStyleSheet("\
+                        QPushButton{ border-radius:6px; background-color: white; width:150px; height:44px;} \
+                        QPushButton::hover{ color:white; background-color: #17A387; } \
+                        ");
 }

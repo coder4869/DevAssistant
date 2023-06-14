@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,30 +20,52 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#include "CKAppConf.h"
 
-#include <CCoreKit/CCKDefines.h>
+static CKAppConf* instance = nullptr;
 
-class QMainWindow;
-class QDockWidget;
-class QListView;
-class QListWidget;
-class QTreeWidget;
-class QPushButton;
-
-class QUIStyle
+CKAppConf* CKAppConf::GetInstance()
 {
-public:
-	static void SetMainWindow(QMainWindow* window);
+	if (!instance) {
+		instance = new CKAppConf();
+	}
+	return instance;
+}
 
-	static void SetDockWidget(QDockWidget *widget);
+bool CKAppConf::SetRootDir(const std::string &root)
+{
+	root_dir_ = root;
 
-	static void SetListView(QListView* view);
-	
-	static void SetListWidget(QListWidget* widget);
-	
-	static void SetTreeWidget(QTreeWidget* widget);
+	if (root.empty()) {
+		return false;
+	}
+	return true;
+}
 
-	static void SetPushButton(QPushButton* btn);
-};
+bool CKAppConf::SetRelativePath(const std::string& key, const std::string& path)
+{
+	if (key.empty() || path.empty()) {
+		return false;
+	}
 
+	relative_path_map_[key] = path;
+	return true;
+}
+
+std::string CKAppConf::GetRelativePath(const std::string& key)
+{
+	auto &iter = relative_path_map_.find(key);
+	if (iter == relative_path_map_.end()) {
+		return "";
+	}
+
+	return root_dir_ + "/" + iter->second;
+}
+
+std::string CKAppConf::GetRelativePath(const std::string& key, const std::string& path)
+{
+	if (SetRelativePath(key, path)) {
+		return GetRelativePath(key);
+	}
+	return "";
+}

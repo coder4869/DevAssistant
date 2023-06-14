@@ -25,7 +25,20 @@
 #include <QApplication>
 #include <QCoreApplication>
 
+#include <CCoreKit/CKAppConf.h>
 #include "QDAMainWindow.h"
+
+#include <QDir>
+#include <QFileInfo>
+
+QString GetBinParentDir(const QString &bin_path) {
+    QFileInfo info(bin_path);
+    if (info.isFile()) {
+        return info.absoluteDir().absolutePath();
+    }
+
+    return "";
+}
 
 int main(int argc, char *argv[])
 {
@@ -33,11 +46,13 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("DevAssistant");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
 
+    QString bin_dir = GetBinParentDir(argv[0]);
+    CKAppConf::GetInstance()->SetRootDir(bin_dir.toStdString() + "/../");
+
     QDAMainWindow window;
     window.setWindowTitle("DevAssistant");
     window.showMaximized();
     window.LoadWelcome();
-    window.show();
 
     return app.exec();
 }
