@@ -24,15 +24,17 @@
 
 /// @brief Split str by split_tag
 /// @return set list 
-std::set<std::string> CKString::SplitStringToSet(const std::string& str, char split_tag)
+std::set<std::string> CKString::SplitStringToSet(const std::string& str, const std::string& split_tag)
 {
 	std::set<std::string> values;
-	if (!str.empty()) {
+	if (!str.empty() && !split_tag.empty()) {
 		std::string sub_str;
+		int len = split_tag.size();
 
 		for (size_t idx = 0; idx < str.size(); idx++) {
-			if (split_tag == str[idx]) // Finish once
+			if (split_tag == str.substr(idx, len)) // Finish once
 			{
+				idx = idx + len - 1;
 				if (!sub_str.empty()) {
 					values.insert(sub_str);
 					sub_str.clear();
@@ -59,15 +61,17 @@ std::set<std::string> CKString::SplitStringToSet(const std::string& str, char sp
 
 /// @brief Split str by split_tag
 /// @return vector list 
-std::vector<std::string> CKString::SplitStringToVector(const std::string& str, char split_tag)
+std::vector<std::string> CKString::SplitStringToVector(const std::string& str, const std::string& split_tag)
 {
 	std::vector<std::string> values;
-	if (!str.empty()) {
+	if (!str.empty() && !split_tag.empty()) {
 		std::string sub_str;
+		int len = split_tag.size();
 
 		for (size_t idx = 0; idx < str.size(); idx++) {
-			if (split_tag == str[idx]) // Finish once
+			if (split_tag == str.substr(idx, len)) // Finish once
 			{
+				idx = idx + len - 1;
 				if (!sub_str.empty()) {
 					values.push_back(sub_str);
 					sub_str.clear();

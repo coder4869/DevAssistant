@@ -28,6 +28,7 @@
 #include <QMessageBox>
 
 #include "QCKDefines.h"
+#include <CCoreKit/utils/CKString.h>
 
 bool QCKFile::DirectoryCopy(const QString &srcDir, const QString &dstDir, bool coverIfExist)
 {
@@ -192,6 +193,23 @@ QCKFile::State QCKFile::LoadFile(const QString& fileName, QByteArray &fileData)
     return State::Succeed;
 }
 
+QCKFile::State QCKFile::LoadFileLines(const QString& fileName, QStringList& dataLines)
+{
+    QByteArray fileData;
+    QCKFile::State st = LoadFile(fileName, fileData);
+    if (State::Succeed != st) {
+        return st;
+    }
+
+    // Convert fileData to dataLines
+    QString qstr(fileData);
+    std::vector < std::string > str_list = CKString::SplitStringToVector(qstr.toStdString(), "\r\n");
+    for (size_t idx = 0; idx < str_list.size(); idx++) {
+        dataLines << QString::fromStdString(str_list[idx]);
+    }
+
+    return State::Succeed;
+}
 
 QCKFile::State QCKFile::LoadFile(const QString& dirPath, const QString& fileSuffix, QByteArray &fileData)
 {

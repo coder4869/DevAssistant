@@ -142,5 +142,22 @@ void QDACheckEnvDialog::OnCheckEnv()
 
 void QDACheckEnvDialog::OnTryFixEnvValue()
 {
+    qDebug() << __FUNCTION__ << endl;
+
+    std::string run_script = CKAppConf::GetInstance()->GetRelativePath("run_script", "Resources/run_win.bat");
+    QStringList dataLines;
+    if (QCKFile::State::Succeed != QCKFile::LoadFileLines(QString::fromStdString(run_script), dataLines)) {
+        qDebug() << __FUNCTION__ << " LoadFileLines Failed !" << endl;
+        return;
+    }
+    
+    if (dataLines.size() == 0) {
+        qDebug() << __FUNCTION__ << " Empty " << QString::fromStdString(run_script) << endl;
+    }
+
+    for (size_t idx = 0; idx < dataLines.size(); idx++) {
+        qDebug() << __FUNCTION__ << dataLines[idx] << endl;
+    }
+
     QMessageBox::information(NULL, QStringLiteral("OnTryFixEnvValue"), "OnTryFixEnvValue() Finish !");
 }

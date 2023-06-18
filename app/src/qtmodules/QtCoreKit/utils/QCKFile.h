@@ -60,6 +60,7 @@ public:
     static QStringList SelectDirectory(bool isMulti = true);
     
     static State LoadFile(const QString& fileName, QByteArray &fileData);
+    static State LoadFileLines(const QString& fileName, QStringList& dataLines);
     static State LoadFile(const QString& dirPath, const QString& fileSuffix, QByteArray &fileData);
     static bool SaveFile(const QString& fileName, const QByteArray& data);
 };

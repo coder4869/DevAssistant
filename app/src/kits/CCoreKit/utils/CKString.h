@@ -34,11 +34,11 @@ class CKString
 public:
     /// @brief Split str by split_tag
     /// @return set list 
-    static std::set<std::string> SplitStringToSet(const std::string& str, char split_tag = ' ');
+    static std::set<std::string> SplitStringToSet(const std::string& str, const std::string& split_tag = " ");
 
     /// @brief Split str by split_tag
     /// @return vector list 
-    static std::vector<std::string> SplitStringToVector(const std::string& str, char split_tag = ' ');
+    static std::vector<std::string> SplitStringToVector(const std::string& str, const std::string& split_tag = " ");
 };
 
 #endif // CK_STRING_H

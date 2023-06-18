@@ -77,7 +77,7 @@ std::string CKSystemEnv::GetPathEnv()
 std::set<std::string> CKSystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
-	return CKString::SplitStringToSet(env_value, ';');
+	return CKString::SplitStringToSet(env_value, ";");
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();
