@@ -3,13 +3,19 @@
         "System" : "Windows,Darwin,Linux",
         "From" : "EnvVar",
         "Key" : "PATH",
-        "Soft" : "CMake"
+        "Soft" : "Python"
     },
     {
         "System" : "Windows,Darwin,Linux",
         "From" : "EnvVar",
         "Key" : "PATH",
-        "Soft" : "Python"
+        "Soft" : "CMake"
+    },
+    {
+        "System" : "Windows,Darwin,Linux",
+        "From" : "EnvVar",
+        "Key" : "QT_HOME",
+        "Soft" : "Qt"
     },
     {
         "System" : "Windows",

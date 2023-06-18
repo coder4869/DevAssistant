@@ -29,9 +29,11 @@
 #include <QJsonArray>
 #include <QMessageBox>
 
+#include <CCoreKit/CCoreKit.h>
+#include <CCoreKit/CKRegisterTable.h>
+
 #include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
-#include <CCoreKit/CCoreKit.h>
 
 #include "ui_QDACheckEnvDialog.h"
 
@@ -60,6 +62,7 @@ void QDACheckEnvDialog::OnCheckEnv()
         return;
     }
     
+    // Item
     //{
     //    "System" : "Windows,Darwin,Linux",
     //    "From" : "EnvVar", EnvVar or REG
@@ -67,37 +70,56 @@ void QDACheckEnvDialog::OnCheckEnv()
     //    "Soft" : "CMake"
     //}
     // REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe" >> tmp.log
-    QStringList keys;
-    keys << "Visual Studio" << "Python" << "CMake" << "Qt" ;
+    for (size_t idx = 0; idx < json_arr.size(); idx++) {
+        QJsonObject obj = json_arr.at(idx).toObject();
 
-    for (size_t idx = 0; idx < keys.size(); idx++)
-    {
-        std::string key_std = keys[idx].toStdString();
-        bool has_key = false;
-        std::string pathes = "";
+        // 判断 OS
 
-        auto path_set = CKSystemEnv::SplitEnvValue("PATH");
-        for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
-            std::string tmp = *iter;
-            if (tmp.find(key_std) != std::string::npos) {
-                QTreeWidgetItem* item = new QTreeWidgetItem;
-                item->setText(0, keys[idx]);
-                item->setText(1, "PATH");
-                item->setText(2, QString::fromStdString(tmp));
-                ui->envTreeWidget->insertTopLevelItem(0, item);
-                has_key = true;
-                break;
+        // 判断获取方式
+        if (obj.contains("From") && obj.contains("Key") && obj.contains("Soft"))
+        {
+            QString key = obj["Key"].toString();
+            std::string key_std = key.toStdString();
+            QString soft = obj["Soft"].toString();
+            std::string soft_std = soft.toStdString();
+
+            QString path = "";
+            if (obj["From"] == "EnvVar") { // Get Info From Environment Var
+                bool has_key = false;
+                std::string pathes = "";
+
+                auto path_set = CKSystemEnv::SplitEnvValue(key_std.c_str());
+                for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
+                    std::string tmp = *iter;
+                    if (tmp.find(soft_std) != std::string::npos) {
+                        has_key = true;
+                        path = QString::fromStdString(tmp);
+                        break;
+                    }
+
+                    pathes = pathes + "\n" + iter->c_str();
+                }
+
+                if (!has_key) {
+                    path = soft + " in EnvVar " + key + " Not Found !";
+                    //QMessageBox::warning(NULL, key, QString::fromStdString(pathes));
+                }
+            }
+            else { // Get Info From Register Table
+                std::string value = CKRegisterTable::GetRegValue(key_std);
+                path = QString::fromStdString(value);
+                if (value.empty()) {
+                    path = "Query Register Table Failed !";
+                }
             }
 
-            pathes = pathes + "\n" + iter->c_str();
-        }
-        
-        if (!has_key) {
-            QMessageBox::information(NULL, __FUNCTION__, pathes.c_str());
+            QTreeWidgetItem* item = new QTreeWidgetItem;
+            item->setText(0, soft);
+            item->setText(1, key);
+            item->setText(2, path);
+            ui->envTreeWidget->insertTopLevelItem(0, item);
         }
     }
-
-   
 
     //QString dirPath = QCoreApplication::applicationDirPath();
     //qDebug() << "App Dir Path = " << dirPath << endl;

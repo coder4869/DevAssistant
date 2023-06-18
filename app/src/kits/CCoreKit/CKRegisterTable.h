@@ -20,14 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CCOREKIT_H
-#define CCOREKIT_H
+// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
 
-#include <CCoreKit/CCKDefines.h>
-#include <CCoreKit/CKAppConf.h>
-#include <CCoreKit/CKSystemEnv.h>
+#pragma once
 
-// WIN
-#include <CCoreKit/CKRegisterTable.h>
+#include "CCKDefines.h"
 
-#endif /* CCOREKIT_H */
+#include <string>
+
+class CKRegisterTable
+{
+public:
+	/// @param key e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
+	static std::string GetRegValue(const std::string &key);
+
+	/// @param hkey HKEY_LOCAL_MACHINE, HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_USERS, HKEY_CURRENT_CONFIG
+	/// @param reg_path hkey Removed (start without '\'，end with '\'). e.g. 
+	///		"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
+	/// @param reg_key  
+	static std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key);
+};

@@ -24,15 +24,15 @@
 
 #include <iostream>
 
-#ifdef WIN32
+#ifdef WIN
 #	include <windows.h>
-#endif // WIN32
+#endif // WIN
 
 /// https ://www.orcode.com/question/1012464_k5c59b.html
 /// @param name upper-case is required!
 std::string CKSystemEnv::GetEnv(const char* name)
 {
-#ifdef WIN32
+#ifdef WIN
 	//https ://www.orcode.com/question/1012464_k5c59b.html
 	const DWORD buf_size = 4096;
 	LPTSTR lp_buf = new TCHAR[buf_size];
