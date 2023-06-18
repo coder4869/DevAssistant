@@ -37,6 +37,6 @@ public:
 	/// @param hkey HKEY_LOCAL_MACHINE, HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_USERS, HKEY_CURRENT_CONFIG
 	/// @param reg_path hkey Removed (start without '\'，end with '\'). e.g. 
 	///		"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
-	/// @param reg_key  
-	static std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key);
+	/// @param reg_key key in reg_path. Default is "". e.g. "PackageRepositoryRoot"
+	static std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "");
 };
