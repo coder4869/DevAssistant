@@ -32,10 +32,12 @@
 #pragma warning(disable: 4457)
 
 // 内联函数
+#pragma warning(disable: 4514)
 #pragma warning(disable: 4710)
 #pragma warning(disable: 4711)
 
 // 数据类型转换
+#pragma warning(disable: 4100)
 #pragma warning(disable: 4820)  // 字节填充
 #pragma warning(disable: 4365)  // 有符号/无符号不匹配
 #pragma warning(disable: 4388)  // 有符号/无符号不匹配

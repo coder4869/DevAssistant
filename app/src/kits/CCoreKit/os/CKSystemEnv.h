@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,27 +20,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QCK_PYTHON_H
-#define QCK_PYTHON_H
+// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
 
-#include <CCoreKit/CCKDefines.h>
+#pragma once
 
-#include <QObject>
+#include "CCKDefines.h"
 
-class QCKPython : public QObject
+#include <iostream>
+#include <string>
+#include <set>
+#include <cstdlib> // GetEnv putenv
+
+class CKSystemEnv
 {
-    Q_OBJECT
-
 public:
-    static bool InitPy();
-    static void RunPyString(const QString &str);
-    static bool DelPy();
+	/// @param name upper-case is required!
+	static std::string GetEnv(const char*name);
 
-    explicit QCKPython(QObject *parent = nullptr);
-    virtual ~QCKPython();
-    
-private:
+	/// @brief Get Env PATH
+	static std::string GetPathEnv();
 
+	/// @brief Split Env Value By ";" and remove repeated
+	/// @param name upper-case is required!
+	static std::set<std::string> SplitEnvValue(const char* name);
+
+	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
+	static std::set<std::string> GetPathEnvItems();
+
+	/// @brief Check Env Key-Value 
+	static bool CheckEnv(const std::string& key, const std::string& value);
+
+	/// @brief Set Env Key-Value 
+	static bool SetEnv(const std::string& key, const std::string& value);
 };
 
-#endif // QCK_PYTHON_H

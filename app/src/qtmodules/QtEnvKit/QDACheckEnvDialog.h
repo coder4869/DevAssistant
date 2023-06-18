@@ -44,7 +44,8 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void OnCheckEnv();
-    
+    void OnTryFixEnvValue();
+
 private:
     Ui::QDACheckEnvDialog *ui;
 };

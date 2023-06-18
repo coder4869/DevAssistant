@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -20,47 +20,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "QCKPython.h"
+#include "CKPython.h"
 
-#include <QDebug>
+#include <iostream>
 
 // Qt Call Python :: https://blog.csdn.net/New_codeline/article/details/123143138
 // slots in python conflicts with slots in qt
-#undef slots
-#include <Python.h>
-#define slots Q_SLOTS
+#ifdef slots
+#   undef slots
+#   include <Python.h>
+#   define slots Q_SLOTS
+#else
+#   include <Python.h>
+#endif // slots
 
-bool QCKPython::InitPy()
+bool CKPython::InitPy()
 {
     Py_Initialize();
     if (!Py_IsInitialized()) {
         PyErr_Print();
-        qDebug() << "Can't Initialize python!\n" ;
+        std::cout << "Can't Initialize python!\n" ;
         return false;
     }
     return true;
 }
 
-void QCKPython::RunPyString(const QString &str)
+void CKPython::RunPyString(const std::string &str)
 {
-    PyRun_SimpleString(str.toStdString().c_str());
+    PyRun_SimpleString(str.c_str());
 }
 
-bool QCKPython::DelPy()
+bool CKPython::DelPy()
 {
     Py_Finalize();
     return true;
-}
-
-
-QCKPython::QCKPython(QObject *parent) :
-    QObject(parent)
-{
-    
-}
-
-QCKPython::~QCKPython()
-{
-
 }
 

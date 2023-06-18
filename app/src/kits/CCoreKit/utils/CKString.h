@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,31 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
+#ifndef CK_STRING_H
+#define CK_STRING_H
 
-#pragma once
+#include "../CCKDefines.h"
 
-#include "CCKDefines.h"
-
-#include <iostream>
 #include <string>
+#include <vector>
 #include <set>
-#include <cstdlib> // GetEnv
 
-class CKSystemEnv
+class CKString
 {
 public:
-	/// @param name upper-case is required!
-	static std::string GetEnv(const char*name);
+    /// @brief Split str by split_tag
+    /// @return set list 
+    static std::set<std::string> SplitStringToSet(const std::string& str, char split_tag = ' ');
 
-	/// @brief Get Env PATH
-	static std::string GetPathEnv();
-
-	/// @brief Split Env Value By ";" and remove repeated
-	/// @param name upper-case is required!
-	static std::set<std::string> SplitEnvValue(const char* name);
-
-	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-	static std::set<std::string> GetPathEnvItems();
+    /// @brief Split str by split_tag
+    /// @return vector list 
+    static std::vector<std::string> SplitStringToVector(const std::string& str, char split_tag = ' ');
 };
 
+#endif // CK_STRING_H

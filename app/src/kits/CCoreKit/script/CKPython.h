@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,21 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QTCOREKIT_H
-#define QTCOREKIT_H
+#ifndef CK_PYTHON_H
+#define CK_PYTHON_H
 
-#include <QtCoreKit/encode/QCKEncode.h>
+#include "../CCKDefines.h"
 
-#include <QtCoreKit/object/QCKObject.h>
+#include <string>
 
-#include <QtCoreKit/qml/QCKQmlBridge.h>
-#include <QtCoreKit/qml/QCKQmlEngine.h>
-#include <QtCoreKit/qml/QCKQmlUtil.h>
+class CKPython
+{
+public:
+    static bool InitPy();
+    static void RunPyString(const std::string& str);
+    static bool DelPy();
+};
 
-#include <QtCoreKit/script/QCKCmd.h>
-
-#include <QtCoreKit/utils/QCKDefines.h>
-#include <QtCoreKit/utils/QCKFile.h>
-#include <QtCoreKit/utils/QCKJson.h>
-
-#endif /* QTCOREKIT_H */
+#endif // CK_PYTHON_H

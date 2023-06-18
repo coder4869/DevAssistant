@@ -25,9 +25,12 @@
 
 #include <CCoreKit/CCKDefines.h>
 #include <CCoreKit/CKAppConf.h>
-#include <CCoreKit/CKSystemEnv.h>
 
-// WIN
-#include <CCoreKit/CKRegisterTable.h>
+#include <CCoreKit/os/CKSystemEnv.h>
+#include <CCoreKit/os/CKRegisterTable.h>	// WIN
+
+#include <CCoreKit/script/CKPython.h>
+
+#include <CCoreKit/utils/CKString.h>
 
 #endif /* CCOREKIT_H */

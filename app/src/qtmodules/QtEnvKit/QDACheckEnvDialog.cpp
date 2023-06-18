@@ -30,7 +30,7 @@
 #include <QMessageBox>
 
 #include <CCoreKit/CCoreKit.h>
-#include <CCoreKit/CKRegisterTable.h>
+#include <CCoreKit/os/CKRegisterTable.h>
 
 #include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
@@ -42,8 +42,12 @@ QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     QUIStyle::SetTreeWidget(ui->envTreeWidget);
+
     QUIStyle::SetPushButton(ui->checkEnvBtn);
+    connect(ui->checkEnvBtn, SIGNAL(clicked(bool)), this, SLOT(OnCheckEnv()));
+
     QUIStyle::SetPushButton(ui->tryFixBtn);
+    connect(ui->tryFixBtn, SIGNAL(clicked(bool)), this, SLOT(OnTryFixEnvValue()));
 }
 
 QDACheckEnvDialog::~QDACheckEnvDialog()
@@ -133,5 +137,10 @@ void QDACheckEnvDialog::OnCheckEnv()
     //    QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
     //    return;
     //}
-    //QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "Succeed!");
+    QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
+}
+
+void QDACheckEnvDialog::OnTryFixEnvValue()
+{
+    QMessageBox::information(NULL, QStringLiteral("OnTryFixEnvValue"), "OnTryFixEnvValue() Finish !");
 }

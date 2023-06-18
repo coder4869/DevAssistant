@@ -23,17 +23,17 @@
 #include "CKSystemEnv.h"
 
 #include <iostream>
+#include "../utils/CKString.h"
 
 #ifdef WIN
 #	include <windows.h>
 #endif // WIN
 
-/// https ://www.orcode.com/question/1012464_k5c59b.html
 /// @param name upper-case is required!
 std::string CKSystemEnv::GetEnv(const char* name)
 {
 #ifdef WIN
-	//https ://www.orcode.com/question/1012464_k5c59b.html
+	// https://www.orcode.com/question/1012464_k5c59b.html
 	const DWORD buf_size = 4096;
 	LPTSTR lp_buf = new TCHAR[buf_size];
 	const DWORD var_size = GetEnvironmentVariable(name, lp_buf, buf_size);
@@ -76,38 +76,8 @@ std::string CKSystemEnv::GetPathEnv()
 /// @param name upper-case is required!
 std::set<std::string> CKSystemEnv::SplitEnvValue(const char* name)
 {
-	std::set<std::string> values;
 	std::string env_value = GetEnv(name);
-	if (!env_value.empty()) {
-		// Split Env Value By ";"
-		std::string sub_str;
-		char tag = ';';
-
-		for (size_t idx = 0; idx < env_value.size(); idx++) {
-			if (tag == env_value[idx]) // Finish once
-			{
-				if (!sub_str.empty()) {
-					values.insert(sub_str);
-					sub_str.clear();
-				}
-			}
-			else // Finding next tag continue
-			{
-				sub_str.push_back(env_value[idx]);
-			}
-		}
-
-		if (!sub_str.empty()) {
-			values.insert(sub_str);
-			sub_str.clear();
-		}
-	}
-
-	//for (auto item = values.begin(); item != values.end(); item++) {
-	//	std::cout << __FUNCTION__ << item->c_str() << std::endl;
-	//}
-
-	return values;
+	return CKString::SplitStringToSet(env_value, ';');
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();
@@ -115,4 +85,51 @@ std::set<std::string> CKSystemEnv::GetPathEnvItems()
 {
 	auto path_set = SplitEnvValue("PATH");
 	return path_set;
+}
+
+/// @brief Check Env Key-Value
+bool CKSystemEnv::CheckEnv(const std::string& key, const std::string& value)
+{
+	if (key.empty() || value.empty()) {
+		return false;
+	}
+
+	bool has_key = false;
+	std::string path = "";
+	//std::string pathes = "";
+
+	auto path_set = SplitEnvValue(key.c_str());
+	for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
+		if (*iter == value) {
+			has_key = true;
+			path = *iter;
+			break;
+		}
+
+		//pathes = pathes + "\n" + iter->c_str();
+	}
+
+	return has_key;
+}
+
+/// @brief Set Env Key-Value 
+bool CKSystemEnv::SetEnv(const std::string& key, const std::string& value)
+{
+	if (CheckEnv(key, value)) {
+		return true;
+	}
+
+	// Key-Value Not Exist, add or update
+#ifdef WIN
+	int ret = SetEnvironmentVariable(key.c_str(), value.c_str());
+	if (ret == 0) {
+		DWORD err = GetLastError();
+		std::cout << __FUNCTION__ << "01: Error = " << err << std::endl;
+		return false;
+	}
+#else
+	std::string cfg = key + "=" + value;
+	putenv(cfg.c_str());
+#endif
+	return CheckEnv(key, value);
 }
