@@ -20,37 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
+// GetEnvVar: https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
 
 #pragma once
 
-#include "CCKDefines.h"
+#include <CCoreKit/CCKDefines.h>
 
 #include <iostream>
 #include <string>
 #include <set>
 #include <cstdlib> // GetEnv putenv
 
-class CKSystemEnv
-{
-public:
+namespace CK {
+
+namespace SystemEnv {
 	/// @param name upper-case is required!
-	static std::string GetEnv(const char*name);
+	std::string GetEnv(const char*name);
 
 	/// @brief Get Env PATH
-	static std::string GetPathEnv();
+	std::string GetPathEnv();
 
 	/// @brief Split Env Value By ";" and remove repeated
 	/// @param name upper-case is required!
-	static std::set<std::string> SplitEnvValue(const char* name);
+	std::set<std::string> SplitEnvValue(const char* name);
 
 	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-	static std::set<std::string> GetPathEnvItems();
+	std::set<std::string> GetPathEnvItems();
 
 	/// @brief Check Env Key-Value 
-	static bool CheckEnv(const std::string& key, const std::string& value);
+	bool CheckEnv(const std::string& key, const std::string& value);
 
 	/// @brief Set Env Key-Value 
-	static bool SetEnv(const std::string& key, const std::string& value);
-};
+	bool SetEnv(const std::string& key, const std::string& value);
+}
 
+} //namespace CK

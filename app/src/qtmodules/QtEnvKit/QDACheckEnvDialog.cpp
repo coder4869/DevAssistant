@@ -30,6 +30,7 @@
 #include <QMessageBox>
 
 #include <CCoreKit/CCoreKit.h>
+#include <CCoreKit/os/CKSystemEnv.h>
 #include <CCoreKit/os/CKRegisterTable.h>
 
 #include <QtUIInfra/QtUIInfra.h>
@@ -92,7 +93,7 @@ void QDACheckEnvDialog::OnCheckEnv()
                 bool has_key = false;
                 std::string pathes = "";
 
-                auto path_set = CKSystemEnv::SplitEnvValue(key_std.c_str());
+                auto path_set = CK::SystemEnv::SplitEnvValue(key_std.c_str());
                 for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
                     std::string tmp = *iter;
                     if (tmp.find(soft_std) != std::string::npos) {
@@ -110,7 +111,7 @@ void QDACheckEnvDialog::OnCheckEnv()
                 }
             }
             else { // Get Info From Register Table
-                std::string value = CKRegisterTable::GetRegValue(key_std);
+                std::string value = CK::RegisterTable::GetRegValue(key_std);
                 path = QString::fromStdString(value);
                 if (value.empty()) {
                     path = "Query Register Table Failed !";
@@ -137,6 +138,7 @@ void QDACheckEnvDialog::OnCheckEnv()
     //    QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
     //    return;
     //}
+    //CK::SystemEnv::SetEnv("TEST", "D:\\Research\\Dev Assistant");
     QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
 }
 

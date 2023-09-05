@@ -20,7 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
+// Right Action: https://www.cnblogs.com/pengsn/p/13563551.html
+// Right Action: https://zhuanlan.zhihu.com/p/369716586
+// Register Table Read-Write : https://www.cnblogs.com/LyShark/p/15019685.html
+// Register Table Read-Write : https://blog.csdn.net/xhlzjd/article/details/85250741
 
 #pragma once
 
@@ -28,15 +31,30 @@
 
 #include <string>
 
-class CKRegisterTable
-{
-public:
+namespace CK {
+
+namespace RegisterTable {
 	/// @param key e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
-	static std::string GetRegValue(const std::string &key);
+	std::string GetRegValue(const std::string &key);
 
 	/// @param hkey HKEY_LOCAL_MACHINE, HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_USERS, HKEY_CURRENT_CONFIG
 	/// @param reg_path hkey Removed (start without '\'，end with '\'). e.g. 
 	///		"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
 	/// @param reg_key key in reg_path. Default is "". e.g. "PackageRepositoryRoot"
-	static std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "");
-};
+	std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "");
+	
+	/// @param key e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
+	/// @param value e.g. "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+	bool SetRegValue(const std::string& key, const std::string& value);
+
+	/// @param hkey HKEY_LOCAL_MACHINE, HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_USERS, HKEY_CURRENT_CONFIG
+	/// @param reg_path hkey Removed (start without '\'，end with '\'). e.g. 
+	///		"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
+	/// @param reg_key key in reg_path. Default is "". e.g. "PackageRepositoryRoot"
+	/// @param reg_value value for reg_path. e.g. 
+	///		"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+	bool SetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "",
+							const std::string& reg_value = "");
+}
+
+} //namespace CK

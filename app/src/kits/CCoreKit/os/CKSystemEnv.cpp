@@ -23,14 +23,19 @@
 #include "CKSystemEnv.h"
 
 #include <iostream>
-#include "../utils/CKString.h"
+#include <fstream>
+
+#include <CCoreKit/log/CKLog.h>
+#include <CCoreKit/utils/CKString.h>
 
 #ifdef WIN
 #	include <windows.h>
 #endif // WIN
 
+namespace CK {
+
 /// @param name upper-case is required!
-std::string CKSystemEnv::GetEnv(const char* name)
+std::string SystemEnv::GetEnv(const char* name)
 {
 #ifdef WIN
 	// https://www.orcode.com/question/1012464_k5c59b.html
@@ -67,32 +72,34 @@ std::string CKSystemEnv::GetEnv(const char* name)
 }
 
 /// @brief Get Env PATH
-std::string CKSystemEnv::GetPathEnv()
+std::string SystemEnv::GetPathEnv()
 {
 	return GetEnv("PATH");
 }
 
 /// @brief Split Env Value By ";" and remove repeated
 /// @param name upper-case is required!
-std::set<std::string> CKSystemEnv::SplitEnvValue(const char* name)
+std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
 	return CKString::SplitStringToSet(env_value, ";");
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-std::set<std::string> CKSystemEnv::GetPathEnvItems()
+std::set<std::string> SystemEnv::GetPathEnvItems()
 {
 	auto path_set = SplitEnvValue("PATH");
 	return path_set;
 }
 
 /// @brief Check Env Key-Value
-bool CKSystemEnv::CheckEnv(const std::string& key, const std::string& value)
+bool SystemEnv::CheckEnv(const std::string& key, const std::string& value)
 {
 	if (key.empty() || value.empty()) {
 		return false;
 	}
+
+	//log_open();
 
 	bool has_key = false;
 	std::string path = "";
@@ -109,27 +116,38 @@ bool CKSystemEnv::CheckEnv(const std::string& key, const std::string& value)
 		//pathes = pathes + "\n" + iter->c_str();
 	}
 
+	//LOG_INFO << pathes << std::endl;
+	//log_close();
+
 	return has_key;
 }
 
 /// @brief Set Env Key-Value 
-bool CKSystemEnv::SetEnv(const std::string& key, const std::string& value)
+bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 {
+	//log_open();
+
 	if (CheckEnv(key, value)) {
 		return true;
 	}
 
 	// Key-Value Not Exist, add or update
+	std::string old_val = GetEnv(key.c_str());
+	const std::string new_val = old_val.empty() ? value : old_val.append(";").append(value);
 #ifdef WIN
-	int ret = SetEnvironmentVariable(key.c_str(), value.c_str());
-	if (ret == 0) {
+	std::string cmd = "SETX " + key + " " + "\"" + new_val;
+	int ret = system(cmd.c_str());
+	if (ret != 0) {
 		DWORD err = GetLastError();
-		std::cout << __FUNCTION__ << "01: Error = " << err << std::endl;
+		//LOG_ERR << "01: Error = " << err << std::endl;
 		return false;
 	}
 #else
 	std::string cfg = key + "=" + value;
 	putenv(cfg.c_str());
 #endif
-	return CheckEnv(key, value);
+	//log_close();
+	return CheckEnv(key, new_val);
 }
+
+} //namespace CK

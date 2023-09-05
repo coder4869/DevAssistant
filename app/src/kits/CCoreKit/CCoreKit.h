@@ -26,6 +26,8 @@
 #include <CCoreKit/CCKDefines.h>
 #include <CCoreKit/CKAppConf.h>
 
+#include <CCoreKit/log/CKLog.h>
+
 #include <CCoreKit/os/CKSystemEnv.h>
 #include <CCoreKit/os/CKRegisterTable.h>	// WIN
 
