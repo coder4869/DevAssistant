@@ -28,6 +28,8 @@
 #	include <windows.h>
 #endif
 
+#include <CCoreKit/log/CKLog.h>
+
 namespace CK {
 #ifdef WIN
 HKEY GetRegHKeyRootHandle(const std::string &key) 
@@ -58,11 +60,11 @@ std::string RegisterTable::GetRegValue(const std::string& key)
 	int pos_first = key.find_first_of("\\");
 	int pos_last = key.find_last_of("\\");
 
-	std::string hkey = key.substr(0, pos_first);
-	std::string lp_sub_key = key.substr(pos_first + 1, pos_last - pos_first);
-	std::string reg_key = key.substr(pos_last + 1);
+	const std::string hkey = key.substr(0, pos_first);
+	const std::string lp_sub_key = key.substr(pos_first + 1, pos_last - pos_first);
+	const std::string reg_key = key.substr(pos_last + 1);
 
-	std::string val = RegisterTable::GetRegValue(hkey, key.substr(pos_first + 1), ""); // Take key remove hkey as lp_sub_key
+	const std::string val = RegisterTable::GetRegValue(hkey, key.substr(pos_first + 1), ""); // Take key remove hkey as lp_sub_key
 	if (!val.empty()) {
 		return val;
 	}
@@ -74,8 +76,7 @@ std::string RegisterTable::GetRegValue(const std::string& hkey, const std::strin
 	HKEY hkey_root_handle = GetRegHKeyRootHandle(hkey);
 	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
 	if (ERROR_SUCCESS != RegOpenKeyEx(hkey_root_handle, reg_path.c_str(), 0, KEY_READ, &hKey_return)) {
-
-		std::cout << __FUNCTION__ << "RegOpenKeyEx failed." << std::endl;
+		LOG_ERR << "RegOpenKeyEx failed." << std::endl;
 		return "";
 	}
 
@@ -85,11 +86,11 @@ std::string RegisterTable::GetRegValue(const std::string& hkey, const std::strin
 	// 0 不定义值类型
 	if (ERROR_SUCCESS != RegQueryValueEx(hKey_return, reg_key.c_str(), 0, &keySz_type, (LPBYTE)&key_value, &key_size)) {
 		RegCloseKey(hkey_root_handle);
-		std::cout << __FUNCTION__ << "RegQueryValueEx failed." << std::endl;
+		LOG_ERR << "RegQueryValueEx failed." << std::endl;
 		return "";
 	}
 
-	std::cout << __FUNCTION__ << key_value << std::endl;
+	LOG_INFO << key_value << std::endl;
 	RegCloseKey(hkey_root_handle);
 	return std::string(key_value, key_size);
 }
@@ -119,7 +120,7 @@ bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_
 	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
 	if (ERROR_SUCCESS == RegOpenKeyEx(hkey_root_handle, reg_path.c_str(), 0, KEY_WRITE, &hKey_return)) {
 		//RegSetValueEx(hKey_return, )
-		std::cout << __FUNCTION__ << "RegOpenKeyEx failed." << std::endl;
+		LOG_ERR << "RegOpenKeyEx failed." << std::endl;
 		return false;
 	}
 
@@ -130,11 +131,11 @@ bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_
 	//if (ERROR_SUCCESS != RegReplaceKey(hKey_return, reg_key.c_str(), 0, &keySz_type, (LPBYTE)&key_value, &key_size)) {
 	//	RegCloseKey(hkey_root_handle);
 
-	//	std::cout << __FUNCTION__ << "RegQueryValueEx failed." << std::endl;
+	//	LOG_ERR << "RegQueryValueEx failed." << std::endl;
 	//	return false;
 	//}
 
-	//std::cout << __FUNCTION__ << key_value << std::endl;
+	//LOG_INFO << key_value << std::endl;
 	RegCloseKey(hkey_root_handle);
 
 	return true;

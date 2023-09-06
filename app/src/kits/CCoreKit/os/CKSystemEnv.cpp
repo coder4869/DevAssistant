@@ -27,6 +27,7 @@
 
 #include <CCoreKit/log/CKLog.h>
 #include <CCoreKit/utils/CKString.h>
+#include <CCoreKit/os/CKRegisterTable.h>
 
 #ifdef WIN
 #	include <windows.h>
@@ -41,10 +42,14 @@ std::string SystemEnv::GetEnv(const char* name)
 	// https://www.orcode.com/question/1012464_k5c59b.html
 	const DWORD buf_size = 4096;
 	LPTSTR lp_buf = new TCHAR[buf_size];
-	const DWORD var_size = GetEnvironmentVariable(name, lp_buf, buf_size);
+	const DWORD var_size = GetEnvironmentVariable(name, lp_buf, buf_size);	// GET System Environment Variable
 	if (var_size == 0) {
+		const std::string user_env = RegisterTable::GetRegValue("HKEY_CURRENT_USER\\Environment\\" + std::string(name)); // GET USER Environment Variable
+		if (!user_env.empty()) {
+			return user_env;
+		}
 		DWORD err = GetLastError();
-		std::cout << __FUNCTION__ << "01: Error = " << err << std::endl;
+		LOG_ERR << __FUNCTION__ << "01: Error = " << err << std::endl;
 		return "";
 	}
 	else if (var_size > buf_size) // buf_size not enough
@@ -54,10 +59,10 @@ std::string SystemEnv::GetEnv(const char* name)
 		}
 
 		lp_buf = new TCHAR[var_size];
-		const DWORD new_size = GetEnvironmentVariable(name, lp_buf, var_size);
+		const DWORD new_size = GetEnvironmentVariable(name, lp_buf, var_size); // GET System Environment Variable
 		if (new_size == 0 || new_size > var_size) {
 			DWORD err = GetLastError();
-			std::cout << __FUNCTION__ << "02: Error = " << err << std::endl;
+			LOG_ERR << __FUNCTION__ << "02: Error = " << err << std::endl;
 			return "";
 		}
 
@@ -82,7 +87,7 @@ std::string SystemEnv::GetPathEnv()
 std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
-	return CK::String::SplitStringToSet(env_value, ";");
+	return String::SplitStringToSet(env_value, ";");
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();
@@ -99,15 +104,13 @@ bool SystemEnv::CheckEnv(const std::string& key, const std::string& value)
 		return false;
 	}
 
-	//log_open();
-
 	bool has_key = false;
 	std::string path = "";
 	//std::string pathes = "";
 
 	auto path_set = SplitEnvValue(key.c_str());
 	for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
-		if (*iter == value) {
+		if ((*iter) == value) {
 			has_key = true;
 			path = *iter;
 			break;
@@ -115,9 +118,7 @@ bool SystemEnv::CheckEnv(const std::string& key, const std::string& value)
 
 		//pathes = pathes + "\n" + iter->c_str();
 	}
-
 	//LOG_INFO << pathes << std::endl;
-	//log_close();
 
 	return has_key;
 }
@@ -125,8 +126,6 @@ bool SystemEnv::CheckEnv(const std::string& key, const std::string& value)
 /// @brief Set Env Key-Value 
 bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 {
-	//log_open();
-
 	if (CheckEnv(key, value)) {
 		return true;
 	}
@@ -146,7 +145,6 @@ bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 	std::string cfg = key + "=" + value;
 	putenv(cfg.c_str());
 #endif
-	//log_close();
 	return CheckEnv(key, new_val);
 }
 

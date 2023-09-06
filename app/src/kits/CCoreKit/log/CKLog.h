@@ -20,7 +20,9 @@ static void log_close() {
 	}
 }
 
-#define LOG_BASE g_log << "[ "<< __FILE__ << " : " << __LINE__ << " ] " << __FUNCTION__
+#define LOG_BASE \
+		log_open(); \
+		g_log << "[ "<< __FILE__ << " : " << __LINE__ << " ] " << __FUNCTION__
 
 #ifdef DEBUG
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
