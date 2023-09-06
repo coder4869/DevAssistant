@@ -20,19 +20,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// https://blog.csdn.net/ai_admin/article/details/119784756
+
 #ifndef CK_PYTHON_H
 #define CK_PYTHON_H
 
-#include "../CCKDefines.h"
+#include <CCoreKit/CCKDefines.h>
 
 #include <string>
 
-class CKPython
-{
-public:
-    static bool InitPy();
-    static void RunPyString(const std::string& str);
-    static bool DelPy();
-};
+namespace CK {
+namespace Python {
+
+    bool InitPy();
+    void RunPyString(const std::string& str);
+    bool DelPy();
+
+} //namespace Python
+} //namespace CK
 
 #endif // CK_PYTHON_H

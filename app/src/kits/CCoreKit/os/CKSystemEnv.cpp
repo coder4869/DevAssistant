@@ -82,7 +82,7 @@ std::string SystemEnv::GetPathEnv()
 std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
-	return CKString::SplitStringToSet(env_value, ";");
+	return CK::String::SplitStringToSet(env_value, ";");
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();
@@ -138,7 +138,7 @@ bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 	std::string cmd = "SETX " + key + " " + "\"" + new_val;
 	int ret = system(cmd.c_str());
 	if (ret != 0) {
-		DWORD err = GetLastError();
+		//DWORD err = GetLastError();
 		//LOG_ERR << "01: Error = " << err << std::endl;
 		return false;
 	}

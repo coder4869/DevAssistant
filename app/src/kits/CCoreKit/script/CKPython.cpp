@@ -34,7 +34,9 @@
 #   include <Python.h>
 #endif // slots
 
-bool CKPython::InitPy()
+namespace CK {
+
+bool Python::InitPy()
 {
     Py_Initialize();
     if (!Py_IsInitialized()) {
@@ -45,14 +47,15 @@ bool CKPython::InitPy()
     return true;
 }
 
-void CKPython::RunPyString(const std::string &str)
+void Python::RunPyString(const std::string &str)
 {
     PyRun_SimpleString(str.c_str());
 }
 
-bool CKPython::DelPy()
+bool Python::DelPy()
 {
     Py_Finalize();
     return true;
 }
 
+} //namespace CK

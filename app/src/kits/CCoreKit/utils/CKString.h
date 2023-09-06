@@ -23,22 +23,22 @@
 #ifndef CK_STRING_H
 #define CK_STRING_H
 
-#include "../CCKDefines.h"
+#include <CCoreKit/CCKDefines.h>
 
 #include <string>
 #include <vector>
 #include <set>
 
-class CKString
-{
-public:
+namespace CK {
+namespace String {
     /// @brief Split str by split_tag
     /// @return set list 
-    static std::set<std::string> SplitStringToSet(const std::string& str, const std::string& split_tag = " ");
+    std::set<std::string> SplitStringToSet(const std::string& str, const std::string& split_tag = " ");
 
     /// @brief Split str by split_tag
     /// @return vector list 
-    static std::vector<std::string> SplitStringToVector(const std::string& str, const std::string& split_tag = " ");
-};
+    std::vector<std::string> SplitStringToVector(const std::string& str, const std::string& split_tag = " ");
+} // namespace String
+} //namespace CK
 
 #endif // CK_STRING_H

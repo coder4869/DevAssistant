@@ -22,9 +22,11 @@
 
 #include "CKString.h"
 
+namespace CK {
+
 /// @brief Split str by split_tag
 /// @return set list 
-std::set<std::string> CKString::SplitStringToSet(const std::string& str, const std::string& split_tag)
+std::set<std::string> String::SplitStringToSet(const std::string& str, const std::string& split_tag)
 {
 	std::set<std::string> values;
 	if (!str.empty() && !split_tag.empty()) {
@@ -61,7 +63,7 @@ std::set<std::string> CKString::SplitStringToSet(const std::string& str, const s
 
 /// @brief Split str by split_tag
 /// @return vector list 
-std::vector<std::string> CKString::SplitStringToVector(const std::string& str, const std::string& split_tag)
+std::vector<std::string> String::SplitStringToVector(const std::string& str, const std::string& split_tag)
 {
 	std::vector<std::string> values;
 	if (!str.empty() && !split_tag.empty()) {
@@ -95,3 +97,5 @@ std::vector<std::string> CKString::SplitStringToVector(const std::string& str, c
 
 	return values;
 }
+
+} //namespace CK

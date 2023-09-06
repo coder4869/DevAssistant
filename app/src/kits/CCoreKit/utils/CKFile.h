@@ -26,6 +26,7 @@
 #define CK_FILE_H
 
 #include <string>
+
 namespace CK {
 namespace File {
 	/// @return 0 succeed, other failed
