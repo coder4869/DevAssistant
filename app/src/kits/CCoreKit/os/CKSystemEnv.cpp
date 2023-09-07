@@ -110,12 +110,13 @@ bool SystemEnv::CheckEnv(const std::string& key, const std::string& value)
 
 	auto path_set = SplitEnvValue(key.c_str());
 	for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
-		if ((*iter) == value) {
-			has_key = true;
-			path = *iter;
-			break;
+		if ((*iter).size() == value.size()) {
+			if ((*iter) == value) {
+				has_key = true;
+				path = *iter;
+				break;
+			}
 		}
-
 		//pathes = pathes + "\n" + iter->c_str();
 	}
 	//LOG_INFO << pathes << std::endl;

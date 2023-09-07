@@ -138,7 +138,6 @@ void QDACheckEnvDialog::OnCheckEnv()
     //    QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
     //    return;
     //}
-    //CK::SystemEnv::SetEnv("TEST", "D:\\Research\\Dev Assistant");
     QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
 }
 
