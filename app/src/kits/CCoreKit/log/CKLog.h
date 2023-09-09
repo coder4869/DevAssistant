@@ -45,9 +45,9 @@ static void log_close() {
 #else // RELEASE
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
 // Windows
-#	define LOG_INFO() 
-#	define LOG_WARN() 
-#	define LOG_ERR() 
+#	define LOG_INFO LOG_BASE << " INFO: "
+#	define LOG_WARN LOG_BASE << " WARN: "
+#	define LOG_ERR	LOG_BASE << " ERROR: "
 
 #	elif (defined __APPLE__) || (defined __MACH__) 
 // MAC
