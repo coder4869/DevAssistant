@@ -60,6 +60,7 @@ set(QtUIInfra_SRC ${QtUIInfra_SRC} ${QtUIInfra_FORMs} ${QtUIInfra_RES} ${QtUIInf
 set(LIB_DEPS QtCoreKit )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtUIInfra_SRC})
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "modules")
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtUIInfraDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 

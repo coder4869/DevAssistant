@@ -60,6 +60,7 @@ set(QtPlan_SRC ${QtPlan_SRC} ${QtPlan_FORMs} ${QtPlan_RES} ${QtPlan_RES_UIC})
 set(LIB_DEPS QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtPlan_SRC})
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "modules")
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtPlanDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
