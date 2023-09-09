@@ -44,7 +44,8 @@ std::string SystemEnv::GetEnv(const char* name)
 	LPTSTR lp_buf = new TCHAR[buf_size];
 	const DWORD var_size = GetEnvironmentVariable(name, lp_buf, buf_size);	// GET System Environment Variable
 	if (var_size == 0) {
-		const std::string user_env = RegisterTable::GetRegValue("HKEY_CURRENT_USER\\Environment\\" + std::string(name)); // GET USER Environment Variable
+		bool is_dir = false;
+		const std::string user_env = RegisterTable::GetRegValue("HKEY_CURRENT_USER\\Environment\\" + std::string(name), is_dir); // GET USER Environment Variable
 		if (!user_env.empty()) {
 			return user_env;
 		}

@@ -32,7 +32,7 @@
 
 namespace CK {
 #ifdef WIN
-HKEY GetRegHKeyRootHandle(const std::string &key) 
+static HKEY GetRegHKeyRootHandle(const std::string &key) 
 {
 	HKEY hkey = HKEY_LOCAL_MACHINE;
 	if (key == "HKEY_LOCAL_MACHINE") {
@@ -55,28 +55,33 @@ HKEY GetRegHKeyRootHandle(const std::string &key)
 
 // Register Table Read-Write : https://www.cnblogs.com/LyShark/p/15019685.html
 // Register Table Read-Write : https://blog.csdn.net/xhlzjd/article/details/85250741
-std::string RegisterTable::GetRegValue(const std::string& key)
+std::string RegisterTable::GetRegValue(const std::string& key, bool &is_dir)
 {
+	// Get HKey
 	int pos_first = key.find_first_of("\\");
-	int pos_last = key.find_last_of("\\");
-
 	const std::string hkey = key.substr(0, pos_first);
-	const std::string lp_sub_key = key.substr(pos_first + 1, pos_last - pos_first);
-	const std::string reg_key = key.substr(pos_last + 1);
 
-	const std::string val = RegisterTable::GetRegValue(hkey, key.substr(pos_first + 1), ""); // Take key remove hkey as lp_sub_key
+	// Take key remove hkey as lp_sub_key (Dir)
+	const std::string lp_sub_key_dir = key.substr(pos_first + 1);
+	const std::string val = RegisterTable::GetRegValue(hkey, lp_sub_key_dir, ""); 
 	if (!val.empty()) {
+		is_dir = true;
 		return val;
 	}
-	return GetRegValue(hkey, lp_sub_key, reg_key);
+
+	is_dir = false;
+	int pos_last = key.find_last_of("\\");
+	const std::string lp_sub_key = key.substr(pos_first + 1, pos_last - pos_first - 1);
+	const std::string reg_key = key.substr(pos_last + 1);
+	return GetRegValue(hkey, lp_sub_key, reg_key); // reg_key is item in dir lp_sub_key
 }
 
 std::string RegisterTable::GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key)
 {
-	HKEY hkey_root_handle = GetRegHKeyRootHandle(hkey);
+	HKEY hkey_root = GetRegHKeyRootHandle(hkey);
 	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
-	if (ERROR_SUCCESS != RegOpenKeyEx(hkey_root_handle, reg_path.c_str(), 0, KEY_READ, &hKey_return)) {
-		LOG_ERR << "RegOpenKeyEx failed." << std::endl;
+	if (ERROR_SUCCESS != RegOpenKeyEx(hkey_root, reg_path.c_str(), 0, KEY_READ, &hKey_return)) {
+		LOG_ERR << "RegOpenKeyEx failed. " << reg_path << std::endl;
 		return "";
 	}
 
@@ -85,62 +90,49 @@ std::string RegisterTable::GetRegValue(const std::string& hkey, const std::strin
 	DWORD key_size;
 	// 0 不定义值类型
 	if (ERROR_SUCCESS != RegQueryValueEx(hKey_return, reg_key.c_str(), 0, &keySz_type, (LPBYTE)&key_value, &key_size)) {
-		RegCloseKey(hkey_root_handle);
-		LOG_ERR << "RegQueryValueEx failed." << std::endl;
+		RegCloseKey(hkey_root);
+		LOG_ERR << "RegQueryValueEx failed. " << reg_path << std::endl;
 		return "";
 	}
 
 	LOG_INFO << key_value << std::endl;
-	RegCloseKey(hkey_root_handle);
+	RegCloseKey(hkey_root);
 	return std::string(key_value, key_size);
 }
 
 bool RegisterTable::SetRegValue(const std::string& key, const std::string& value)
 {
-	int pos_first = key.find_first_of("\\");
-	int pos_last = key.find_last_of("\\");
+	bool is_dir = false;
+	std::string old_val = GetRegValue(key, is_dir);
+	if (old_val.size() > 0 && old_val[old_val.size() - 1] == '\0') {
+		old_val = old_val.substr(0, old_val.size() - 1);
+	}
 
-	std::string hkey = key.substr(0, pos_first);
-	std::string lp_sub_key = key.substr(pos_first + 1, pos_last - pos_first);
-	std::string reg_key = key.substr(pos_last + 1);
-
-	bool ret = SetRegValue(hkey, key.substr(pos_first + 1), "", value); // Take key remove hkey as lp_sub_key
-	return ret || SetRegValue(hkey, lp_sub_key, reg_key, value);
-}
-
-bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key,
-	const std::string& reg_value)
-{	
-	// Check key Exist Or Not
-	if (reg_value == GetRegValue(hkey, reg_path, reg_key)) {
+	// Key Exist And value Same With Old
+	if (value.size() == old_val.size() && value == old_val) {
 		return true;
 	}
 
-	HKEY hkey_root_handle = GetRegHKeyRootHandle(hkey);
-	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
-	if (ERROR_SUCCESS == RegOpenKeyEx(hkey_root_handle, reg_path.c_str(), 0, KEY_WRITE, &hKey_return)) {
-		//RegSetValueEx(hKey_return, )
-		LOG_ERR << "RegOpenKeyEx failed." << std::endl;
+	const std::string new_val = (old_val.size() > 0) ? old_val + ";" + value : value;
+	std::string cmd = "";
+	int pos_last = key.find_last_of("\\");
+	std::string lp_key = key.substr(0, pos_last);
+	if (is_dir || pos_last == key.size()-1) {
+		cmd = "REG ADD " + lp_key + " /d " + new_val + " /f";
+	}
+	else {
+		std::string reg_key = key.substr(pos_last + 1);
+		cmd = "REG ADD " + lp_key + " /v " + reg_key + " /d " + new_val + " /f";
+	}
+	LOG_INFO << cmd << std::endl;
+	int ret = system(cmd.c_str());
+	if (ret != 0) {
+		//DWORD err = GetLastError();
+		//LOG_ERR << "01: Error = " << err << std::endl;
 		return false;
 	}
-
-	//char key_value[256];
-	//DWORD keySz_type; // 接收键类型
-	//DWORD key_size;
-	//// 0 不定义值类型
-	//if (ERROR_SUCCESS != RegReplaceKey(hKey_return, reg_key.c_str(), 0, &keySz_type, (LPBYTE)&key_value, &key_size)) {
-	//	RegCloseKey(hkey_root_handle);
-
-	//	LOG_ERR << "RegQueryValueEx failed." << std::endl;
-	//	return false;
-	//}
-
-	//LOG_INFO << key_value << std::endl;
-	RegCloseKey(hkey_root_handle);
-
 	return true;
 }
-
 
 #else // Not Win
 
@@ -156,7 +148,7 @@ bool RegisterTable::SetRegValue(const std::string& key, const std::string& value
 	return false;
 }
 
-bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "",
+bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key,
 	const std::string& reg_value) {
 	return false;
 }

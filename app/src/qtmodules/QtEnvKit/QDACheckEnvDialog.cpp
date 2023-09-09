@@ -111,7 +111,8 @@ void QDACheckEnvDialog::OnCheckEnv()
                 }
             }
             else { // Get Info From Register Table
-                std::string value = CK::RegisterTable::GetRegValue(key_std);
+                bool is_dir = false;
+                std::string value = CK::RegisterTable::GetRegValue(key_std, is_dir);
                 path = QString::fromStdString(value);
                 if (value.empty()) {
                     path = "Query Register Table Failed !";
