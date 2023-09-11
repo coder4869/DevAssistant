@@ -43,7 +43,7 @@ endif(NOT ANDROID)
 set(LIB_DEPS )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${MODULE_NAME_SRC})
-set_target_properties(${LIB_NAME} PROPERTIES FOLDER "modules")
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "GROUP_NAME")
 target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${MODULE_NAMEDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 

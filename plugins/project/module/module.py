@@ -92,10 +92,10 @@ class ModuleType(enum.Enum):
     LibDeps = 4
 
 class Module(object):
-    ROOT_DIR = "."        # private, parent 
-    MOUDLE_DIR = "/src/"  # public, init required, module relative path to ROOT_DIR
-    MOUDLE_ABS_DIR = ROOT_DIR + MOUDLE_DIR  # private
-    IS_LIB_DEPS = False
+    ROOT_DIR:str = "."        # private, parent 
+    MOUDLE_DIR:str = "/src/"  # public, init required, module relative path to ROOT_DIR
+    MOUDLE_ABS_DIR:str = ROOT_DIR + MOUDLE_DIR  # private
+    IS_LIB_DEPS:bool = False
 
     TYPE_MAP:dict = { 
             "app":ModuleType.APP, "qtapp":ModuleType.QtAPP,
@@ -186,6 +186,9 @@ class Module(object):
         dst_cmake = dst_dir + "/" + name + ".cmake"
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_CMAKE + cmake, dst_cmake)
         pyt_file.File.replace_string(dst_cmake, "MODULE_NAME", name)
+        path = Module.MOUDLE_ABS_DIR[:-1]
+        gname = path.rsplit('/', 1)[-1]
+        pyt_file.File.replace_string(dst_cmake, "GROUP_NAME", gname)
 
     @staticmethod
     def add_module_header(dst_dir, name):
