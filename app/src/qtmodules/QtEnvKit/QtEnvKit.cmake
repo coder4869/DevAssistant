@@ -60,7 +60,7 @@ set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES} ${QtEnvKit_RE
 set(LIB_DEPS QtCoreKit )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtEnvKit_SRC})
-set_target_properties(${LIB_NAME} PROPERTIES FOLDER "modules")
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtEnvKitDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 

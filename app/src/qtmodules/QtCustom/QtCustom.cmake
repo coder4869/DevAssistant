@@ -60,7 +60,7 @@ set(QtCustom_SRC ${QtCustom_SRC} ${QtCustom_FORMs} ${QtCustom_RES} ${QtCustom_RE
 set(LIB_DEPS QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtCustom_SRC})
-set_target_properties(${LIB_NAME} PROPERTIES FOLDER "modules")
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtCustomDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
