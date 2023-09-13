@@ -23,7 +23,7 @@
 #ifndef QDA_PRACTICAL_DIALOG_H
 #define QDA_PRACTICAL_DIALOG_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <QDialog>
 

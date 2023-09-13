@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,22 +20,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://blog.csdn.net/weixin_45525272/article/details/109687419
+// GetEnvVar: https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
 
-#ifndef CK_FILE_H
-#define CK_FILE_H
+#pragma once
 
+#include <CLog/CKDefines.h>
+
+#include <iostream>
 #include <string>
+#include <set>
+#include <cstdlib> // GetEnv putenv
 
-namespace CK {
-namespace File {
-	/// @return 0 succeed, other failed
-	int IsFileExist(const std::string& file_path);
+#include "COSEnvDef.h"
 
-	/// @return 0 succeed, other failed
-	int LoadFileString(const std::string& file_path, std::string& out_str);
-} // namespace File
-} //namespace CK
+NS_CE_BEGIN
+namespace SystemEnv {
+	/// @param name upper-case is required!
+	std::string GetEnv(const char*name);
 
+	/// @brief Get Env PATH
+	std::string GetPathEnv();
 
-#endif // CK_FILE_H
+	/// @brief Split Env Value By ";" and remove repeated
+	/// @param name upper-case is required!
+	std::set<std::string> SplitEnvValue(const char* name);
+
+	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
+	std::set<std::string> GetPathEnvItems();
+
+	/// @brief Check Env Key-Value 
+	bool CheckEnv(const std::string& key, const std::string& value);
+
+	/// @brief Set Env Key-Value 
+	bool SetEnv(const std::string& key, const std::string& value);
+}
+NS_CE_END

@@ -20,23 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://blog.csdn.net/ai_admin/article/details/119784756
+#ifndef CU_STRING_H
+#define CU_STRING_H
 
-#ifndef CK_PYTHON_H
-#define CK_PYTHON_H
-
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <string>
+#include <vector>
+#include <set>
 
-namespace CK {
-namespace Python {
+#include "CUtilsDef.h"
 
-    bool InitPy();
-    void RunPyString(const std::string& str);
-    bool DelPy();
+NS_CU_BEGIN
+namespace String {
+    /// @brief Split str by split_tag
+    /// @return set list 
+    std::set<std::string> SplitStringToSet(const std::string& str, const std::string& split_tag = " ");
 
-} //namespace Python
-} //namespace CK
+    /// @brief Split str by split_tag
+    /// @return vector list 
+    std::vector<std::string> SplitStringToVector(const std::string& str, const std::string& split_tag = " ");
+} // namespace String
+NS_CU_END
 
-#endif // CK_PYTHON_H
+#endif // CU_STRING_H

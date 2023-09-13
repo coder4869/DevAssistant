@@ -23,7 +23,7 @@
 #ifndef QCK_JSON_H
 #define QCK_JSON_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 class QString;
 class QJsonObject;

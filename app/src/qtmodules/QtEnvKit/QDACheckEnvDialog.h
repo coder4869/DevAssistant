@@ -23,7 +23,7 @@
 #ifndef QDA_CHECK_ENV_DIALOG_H
 #define QDA_CHECK_ENV_DIALOG_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <QDialog>
 

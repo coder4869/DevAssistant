@@ -20,33 +20,42 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PLAN_DIALOG_H
-#define QDA_PLAN_DIALOG_H
+#include "CSPython.h"
 
-#include <CLog/CKDefines.h>
+#include <iostream>
 
-#include <QDialog>
+// Qt Call Python :: https://blog.csdn.net/New_codeline/article/details/123143138
+// slots in python conflicts with slots in qt
+#ifdef slots
+#   undef slots
+#   include <Python.h>
+#   define slots Q_SLOTS
+#else
+#   include <Python.h>
+#endif // slots
 
-namespace Ui {
-class QDAPlanDialog;
+NS_CS_BEGIN
+
+bool Python::InitPy()
+{
+    Py_Initialize();
+    if (!Py_IsInitialized()) {
+        PyErr_Print();
+        std::cout << "Can't Initialize python!\n" ;
+        return false;
+    }
+    return true;
 }
 
-class QDAPlanDialog : public QDialog
+void Python::RunPyString(const std::string &str)
 {
-    Q_OBJECT
+    PyRun_SimpleString(str.c_str());
+}
 
-public:
-    explicit QDAPlanDialog(QWidget *parent = nullptr);
-    ~QDAPlanDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
+bool Python::DelPy()
+{
+    Py_Finalize();
+    return true;
+}
 
-public Q_SLOTS:
-    void OnPlanShow();
-    
-private:
-    Ui::QDAPlanDialog *ui;
-};
-
-#endif // QDA_PLAN_DIALOG_H
+NS_CS_END

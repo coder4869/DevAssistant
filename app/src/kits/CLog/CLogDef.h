@@ -20,27 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
+#ifndef CLOG_DEF_H
+#define CLOG_DEF_H
 
-#pragma once
+#define NS_CLOG_BEGIN namespace CLOG {
+#define NS_CLOG_END	} //namespace CLOG
 
-#include "CCKDefines.h"
-
-#include <string>
-#include <map>
-
-class CKAppConf
-{
-public:
-	static CKAppConf *GetInstance();
-
-	bool SetRootDir(const std::string& root);
-	bool SetRelativePath(const std::string& key, const std::string& path);
-	std::string GetRelativePath(const std::string& key = "");
-	std::string GetRelativePath(const std::string& key, const std::string& path);
-
-protected:
-	std::string root_dir_;
-	std::map<std::string, std::string> relative_path_map_;
-};
-
+#endif /* CLOG_DEF_H */

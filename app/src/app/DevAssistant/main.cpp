@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <QApplication>
 #include <QCoreApplication>
 
-#include <CCoreKit/CKAppConf.h>
+#include <CLog/CAppConf.h>
 #include "QDAMainWindow.h"
 
 #include <QDir>

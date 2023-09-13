@@ -20,20 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CKSystemEnv.h"
+#include "CESystemEnv.h"
 
 #include <iostream>
 #include <fstream>
 
-#include <CCoreKit/log/CKLog.h>
-#include <CCoreKit/utils/CKString.h>
-#include <CCoreKit/os/CKRegisterTable.h>
+#include <CLog/CLLog.h>
+#include <CUtils/CUString.h>
+#include <COSEnv/CERegisterTable.h>
 
 #ifdef WIN
 #	include <windows.h>
 #endif // WIN
 
-namespace CK {
+NS_CE_BEGIN
 
 /// @param name upper-case is required!
 std::string SystemEnv::GetEnv(const char* name)
@@ -88,7 +88,7 @@ std::string SystemEnv::GetPathEnv()
 std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
-	return String::SplitStringToSet(env_value, ";");
+	return CU::String::SplitStringToSet(env_value, ";");
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();
@@ -150,4 +150,4 @@ bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 	return CheckEnv(key, new_val);
 }
 
-} //namespace CK
+NS_CE_END

@@ -23,7 +23,7 @@
 set(DevAssistantDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME DevAssistant)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtUIInfra CCoreKit )
+set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtUIInfra CLog COSEnv CHWD CUtils CScript )
 
 FILE(GLOB_RECURSE DevAssistant_SRC
     ${DevAssistantDir}/*.h
@@ -165,8 +165,32 @@ else()
     message(FATAL_ERROR "option ON for QtUIInfra is required !")
 endif(QtUIInfra)
 
-if(CCoreKit)
-    add_dependencies(${BIN_NAME} CCoreKit)
+if(CLog)
+    add_dependencies(${BIN_NAME} CLog)
 else()
-    message(FATAL_ERROR "option ON for CCoreKit is required !")
-endif(CCoreKit)
+    message(FATAL_ERROR "option ON for CLog is required !")
+endif(CLog)
+
+if(COSEnv)
+    add_dependencies(${BIN_NAME} COSEnv)
+else()
+    message(FATAL_ERROR "option ON for COSEnv is required !")
+endif(COSEnv)
+
+if(CHWD)
+    add_dependencies(${BIN_NAME} CHWD)
+else()
+    message(FATAL_ERROR "option ON for CHWD is required !")
+endif(CHWD)
+
+if(CUtils)
+    add_dependencies(${BIN_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)
+
+if(CScript)
+    add_dependencies(${BIN_NAME} CScript)
+else()
+    message(FATAL_ERROR "option ON for CScript is required !")
+endif(CScript)

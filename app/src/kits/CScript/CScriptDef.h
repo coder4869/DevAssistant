@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,42 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CKPython.h"
+#ifndef CSCRIPT_DEF_H
+#define CSCRIPT_DEF_H
 
-#include <iostream>
+#define NS_CS_BEGIN namespace CS {
+#define NS_CS_END	} //namespace CS
 
-// Qt Call Python :: https://blog.csdn.net/New_codeline/article/details/123143138
-// slots in python conflicts with slots in qt
-#ifdef slots
-#   undef slots
-#   include <Python.h>
-#   define slots Q_SLOTS
-#else
-#   include <Python.h>
-#endif // slots
-
-namespace CK {
-
-bool Python::InitPy()
-{
-    Py_Initialize();
-    if (!Py_IsInitialized()) {
-        PyErr_Print();
-        std::cout << "Can't Initialize python!\n" ;
-        return false;
-    }
-    return true;
-}
-
-void Python::RunPyString(const std::string &str)
-{
-    PyRun_SimpleString(str.c_str());
-}
-
-bool Python::DelPy()
-{
-    Py_Finalize();
-    return true;
-}
-
-} //namespace CK
+#endif /* CSCRIPT_DEF_H */

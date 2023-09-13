@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CKRegisterTable.h"
+#include "CERegisterTable.h"
 
 #include <iostream>
 
@@ -28,9 +28,10 @@
 #	include <windows.h>
 #endif
 
-#include <CCoreKit/log/CKLog.h>
+#include <CLog/CLLog.h>
 
-namespace CK {
+NS_CE_BEGIN
+
 #ifdef WIN
 static HKEY GetRegHKeyRootHandle(const std::string &key) 
 {
@@ -155,4 +156,4 @@ bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_
 
 #endif // WIN
 
-} //namespace CK
+NS_CE_END

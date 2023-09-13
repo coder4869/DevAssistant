@@ -23,7 +23,7 @@
 #ifndef QCK_OBJECT_H
 #define QCK_OBJECT_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <QObject>
 

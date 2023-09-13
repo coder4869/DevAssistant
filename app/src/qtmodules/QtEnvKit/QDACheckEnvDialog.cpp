@@ -29,9 +29,9 @@
 #include <QJsonArray>
 #include <QMessageBox>
 
-#include <CCoreKit/CCoreKit.h>
-#include <CCoreKit/os/CKSystemEnv.h>
-#include <CCoreKit/os/CKRegisterTable.h>
+#include <CLog/CAppConf.h>
+#include <COSEnv/CESystemEnv.h>
+#include <COSEnv/CERegisterTable.h>
 
 #include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
@@ -93,7 +93,7 @@ void QDACheckEnvDialog::OnCheckEnv()
                 bool has_key = false;
                 std::string pathes = "";
 
-                auto path_set = CK::SystemEnv::SplitEnvValue(key_std.c_str());
+                auto path_set = CE::SystemEnv::SplitEnvValue(key_std.c_str());
                 for (auto iter = path_set.begin(); iter != path_set.end(); iter++) {
                     std::string tmp = *iter;
                     if (tmp.find(soft_std) != std::string::npos) {
@@ -112,7 +112,7 @@ void QDACheckEnvDialog::OnCheckEnv()
             }
             else { // Get Info From Register Table
                 bool is_dir = false;
-                std::string value = CK::RegisterTable::GetRegValue(key_std, is_dir);
+                std::string value = CE::RegisterTable::GetRegValue(key_std, is_dir);
                 path = QString::fromStdString(value);
                 if (value.empty()) {
                     path = "Query Register Table Failed !";

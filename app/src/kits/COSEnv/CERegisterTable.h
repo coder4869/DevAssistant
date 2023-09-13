@@ -29,12 +29,13 @@
 
 #pragma once
 
-#include "CCKDefines.h"
+#include <CLog/CKDefines.h>
 
 #include <string>
 
-namespace CK {
+#include "COSEnvDef.h"
 
+NS_CE_BEGIN
 namespace RegisterTable {
 	/// @param key e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
 	std::string GetRegValue(const std::string &key, bool &is_dir);
@@ -49,5 +50,4 @@ namespace RegisterTable {
 	/// @param value e.g. "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
 	bool SetRegValue(const std::string& key, const std::string& value);
 }
-
-} //namespace CK
+NS_CE_END

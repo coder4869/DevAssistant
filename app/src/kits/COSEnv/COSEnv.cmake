@@ -20,31 +20,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(CCoreKitDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME CCoreKit)
+set(COSEnvDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME COSEnv)
 
-FILE(GLOB_RECURSE CCoreKit_SRC
-    ${CCoreKitDir}/*.h
-    ${CCoreKitDir}/*.hpp
+FILE(GLOB_RECURSE COSEnv_SRC
+    ${COSEnvDir}/*.h
+    ${COSEnvDir}/*.hpp
 
-    ${CCoreKitDir}/*.c
-    ${CCoreKitDir}/*.cc
-    ${CCoreKitDir}/*.cpp
+    ${COSEnvDir}/*.c
+    ${COSEnvDir}/*.cc
+    ${COSEnvDir}/*.cpp
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${CCoreKitDir}
-        PREFIX "CCoreKit"
-        FILES ${CCoreKit_SRC}
+        TREE ${COSEnvDir}
+        PREFIX "COSEnv"
+        FILES ${COSEnv_SRC}
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS )
+set(LIB_DEPS CLog )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${CCoreKit_SRC})
+add_library(${LIB_NAME} ${LIB_TYPE} ${COSEnv_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
-target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CCoreKitDir} ${INC_GROUP} )
+target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${COSEnvDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 
 # install libs & headers
@@ -55,3 +55,9 @@ INSTALL_TARGET(${LIB_NAME}) # lib bin exe
 if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
+
+if(CLog)
+    add_dependencies(${LIB_NAME} CLog)
+else()
+    message(FATAL_ERROR "option ON for CLog is required !")
+endif(CLog)

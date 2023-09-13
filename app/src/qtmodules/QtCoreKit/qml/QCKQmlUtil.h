@@ -23,7 +23,7 @@
 #ifndef QCK_QML_UTIL_H
 #define QCK_QML_UTIL_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <QObject>
 

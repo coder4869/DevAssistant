@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,19 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CCOREKIT_H
-#define CCOREKIT_H
+// https://blog.csdn.net/weixin_45525272/article/details/109687419
 
-#include <CCoreKit/CCKDefines.h>
-#include <CCoreKit/CKAppConf.h>
+#ifndef CU_FILE_H
+#define CU_FILE_H
 
-#include <CCoreKit/log/CKLog.h>
+#include <string>
 
-#include <CCoreKit/os/CKSystemEnv.h>
-#include <CCoreKit/os/CKRegisterTable.h>	// WIN
+#include "CUtilsDef.h"
 
-#include <CCoreKit/script/CKPython.h>
+NS_CU_BEGIN
+namespace File {
+	/// @return 0 succeed, other failed
+	int IsFileExist(const std::string& file_path);
 
-#include <CCoreKit/utils/CKString.h>
+	/// @return 0 succeed, other failed
+	int LoadFileString(const std::string& file_path, std::string& out_str);
+} // namespace File
+NS_CU_END
 
-#endif /* CCOREKIT_H */
+
+#endif // CU_FILE_H

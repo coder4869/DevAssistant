@@ -25,7 +25,7 @@
 
 #define QCK_CMD_TIME_LIMIT 500000
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 class QString;
 class QStringList;

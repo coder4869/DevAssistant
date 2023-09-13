@@ -20,9 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CKString.h"
+#include "CUString.h"
 
-namespace CK {
+NS_CU_BEGIN
 
 /// @brief Split str by split_tag
 /// @return set list 
@@ -98,4 +98,4 @@ std::vector<std::string> String::SplitStringToVector(const std::string& str, con
 	return values;
 }
 
-} //namespace CK
+NS_CU_END

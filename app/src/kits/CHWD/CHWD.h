@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,33 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PLAN_DIALOG_H
-#define QDA_PLAN_DIALOG_H
+#ifndef CHWD_H
+#define CHWD_H
 
-#include <CLog/CKDefines.h>
-
-#include <QDialog>
-
-namespace Ui {
-class QDAPlanDialog;
-}
-
-class QDAPlanDialog : public QDialog
-{
-    Q_OBJECT
-
-public:
-    explicit QDAPlanDialog(QWidget *parent = nullptr);
-    ~QDAPlanDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
-
-public Q_SLOTS:
-    void OnPlanShow();
-    
-private:
-    Ui::QDAPlanDialog *ui;
-};
-
-#endif // QDA_PLAN_DIALOG_H
+#endif /* CHWD_H */

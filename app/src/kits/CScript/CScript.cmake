@@ -20,31 +20,44 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(SRC_ROOT   ${CMAKE_CURRENT_LIST_DIR})
-set(INC_FILES  ${INC_FILES}  ${SRC_ROOT})
-message("SRC_ROOT = ${SRC_ROOT}")
+set(CScriptDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME CScript)
 
-# COSEnv
-if(COSEnv)
-    include(${SRC_ROOT}/COSEnv/COSEnv.cmake)
-endif(COSEnv)
+FILE(GLOB_RECURSE CScript_SRC
+    ${CScriptDir}/*.h
+    ${CScriptDir}/*.hpp
 
-# CHWD
-if(CHWD)
-    include(${SRC_ROOT}/CHWD/CHWD.cmake)
-endif(CHWD)
+    ${CScriptDir}/*.c
+    ${CScriptDir}/*.cc
+    ${CScriptDir}/*.cpp
+    )
 
-# CUtils
-if(CUtils)
-    include(${SRC_ROOT}/CUtils/CUtils.cmake)
-endif(CUtils)
+if(NOT ANDROID)
+    source_group(
+        TREE ${CScriptDir}
+        PREFIX "CScript"
+        FILES ${CScript_SRC}
+        )
+endif(NOT ANDROID)
 
-# CScript
-if(CScript)
-    include(${SRC_ROOT}/CScript/CScript.cmake)
-endif(CScript)
+set(LIB_DEPS CLog )
 
-# CLog
+add_library(${LIB_NAME} ${LIB_TYPE} ${CScript_SRC})
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
+target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CScriptDir} ${INC_GROUP} )
+target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
+
+# install libs & headers
+INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
+INSTALL_TARGET(${LIB_NAME}) # lib bin exe
+
+# from intern cmake module : apple_func.cmake
+if(APPLE)
+    XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
+endif(APPLE)
+
 if(CLog)
-    include(${SRC_ROOT}/CLog/CLog.cmake)
+    add_dependencies(${LIB_NAME} CLog)
+else()
+    message(FATAL_ERROR "option ON for CLog is required !")
 endif(CLog)

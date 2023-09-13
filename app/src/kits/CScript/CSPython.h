@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,38 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// GetEnvVar: https://www.delftstack.com/zh/howto/cpp/cpp-get-environment-variables/
+// https://blog.csdn.net/ai_admin/article/details/119784756
 
-#pragma once
+#ifndef CS_PYTHON_H
+#define CS_PYTHON_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
-#include <iostream>
 #include <string>
-#include <set>
-#include <cstdlib> // GetEnv putenv
 
-namespace CK {
+#include "CScriptDef.h"
 
-namespace SystemEnv {
-	/// @param name upper-case is required!
-	std::string GetEnv(const char*name);
+NS_CS_BEGIN
+namespace Python {
 
-	/// @brief Get Env PATH
-	std::string GetPathEnv();
+    bool InitPy();
+    void RunPyString(const std::string& str);
+    bool DelPy();
 
-	/// @brief Split Env Value By ";" and remove repeated
-	/// @param name upper-case is required!
-	std::set<std::string> SplitEnvValue(const char* name);
+} //namespace Python
+NS_CS_END
 
-	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-	std::set<std::string> GetPathEnvItems();
-
-	/// @brief Check Env Key-Value 
-	bool CheckEnv(const std::string& key, const std::string& value);
-
-	/// @brief Set Env Key-Value 
-	bool SetEnv(const std::string& key, const std::string& value);
-}
-
-} //namespace CK
+#endif // CS_PYTHON_H

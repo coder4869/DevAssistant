@@ -23,7 +23,7 @@
 #ifndef QCK_ENCODE_H
 #define QCK_ENCODE_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 #include <QString>
 #include <QPixmap>

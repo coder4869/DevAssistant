@@ -1,4 +1,4 @@
-{
+﻿{
     "dir_codes": [
         {
             "group": "QtAPP",
@@ -108,9 +108,41 @@
             "modules": [
                 {
                     "deps": [
+                        "CLog"
                     ],
                     "gen_lib": "YES",
-                    "module": "CCoreKit",
+                    "module": "COSEnv",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CHWD",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CUtils",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CScript",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CLog",
                     "option": "ON"
                 }
             ]
@@ -135,7 +167,7 @@
         "scripts": "scripts",
         "tools": "tools"
     },
-    "dir_proj": "D:/Research/DevAssistant/app1",
+    "dir_proj": "D:/Research/DevAssistant/app",
     "options": {
         "WITH_PY": "ON",
         "WITH_QT": "ON"

@@ -20,12 +20,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CKFile.h"
+#include "CUFile.h"
 
 #include <fstream>
 #include <iostream>
 
-namespace CK {
+NS_CU_BEGIN
 
 int File::IsFileExist(const std::string& file_path)
 {
@@ -63,4 +63,4 @@ int File::LoadFileString(const std::string& file_path, std::string& out_str)
     return -1;
 }
 
-} // namespace CK
+NS_CU_END

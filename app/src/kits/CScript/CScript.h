@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,25 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CK_STRING_H
-#define CK_STRING_H
+#ifndef CSCRIPT_H
+#define CSCRIPT_H
 
-#include <CCoreKit/CCKDefines.h>
+#include <CScript/CSPython.h>
 
-#include <string>
-#include <vector>
-#include <set>
-
-namespace CK {
-namespace String {
-    /// @brief Split str by split_tag
-    /// @return set list 
-    std::set<std::string> SplitStringToSet(const std::string& str, const std::string& split_tag = " ");
-
-    /// @brief Split str by split_tag
-    /// @return vector list 
-    std::vector<std::string> SplitStringToVector(const std::string& str, const std::string& split_tag = " ");
-} // namespace String
-} //namespace CK
-
-#endif // CK_STRING_H
+#endif /* CSCRIPT_H */

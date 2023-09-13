@@ -22,7 +22,7 @@
 
 #pragma once
 
-#include <CCoreKit/CCKDefines.h>
+#include <CLog/CKDefines.h>
 
 class QMainWindow;
 class QDockWidget;
