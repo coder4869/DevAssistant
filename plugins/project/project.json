@@ -7,14 +7,11 @@
     },
     "dir_codes":[
         {
-            "group" : "QtAPP",
-            "group_dir" : "/src/app",
+            "group": "QtAPP",
+            "group_dir": "/src/app",
             "modules": [
                 {
-                    "module" : "DevAssistant",
-                    "option" : "ON",
-                    "gen_lib" : "NO",
-                    "deps" : [
+                    "deps": [
                         "QtProject",
                         "QtExample",
                         "QtPractical",
@@ -24,99 +21,160 @@
                         "QtEnvKit",
                         "QtCoreKit",
                         "QtUIInfra",
-                        "CCoreKit"
-                    ]
+                        "COSEnv",
+                        "CHWD",
+                        "CUtils",
+                        "CScript",
+                        "CLog"
+                    ],
+                    "gen_lib": "NO",
+                    "module": "DevAssistant",
+                    "option": "ON"
                 }
             ]
         },
         {
-            "group" : "QtKit",
-            "group_dir" : "/src/qtmodules",
+            "group": "QtKit",
+            "group_dir": "/src/qtmodules",
             "modules": [
                 {
-                    "module" : "QtProject",
-                    "option" : "ON",
-                    "gen_lib" : "YES",
-                    "deps" : [
+                    "deps": [
                         "QtEnvKit",
                         "QtCoreKit",
                         "QtUIInfra"
-                    ]
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtProject",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtExample",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtUIInfra"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtExample",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtPractical",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtUIInfra"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtPractical",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtCustom",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtUIInfra"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtCustom",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtPlan",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtUIInfra"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtPlan",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtHelp",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtUIInfra"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtHelp",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtEnvKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES",
-                    "deps" : [
+                    "deps": [
                         "QtCoreKit"
-                    ]
-                },
-		{
-                    "module" : "QtUIInfra",
-                    "option" : "ON",
-                    "gen_lib" : "YES",
-                    "deps" : [
-                        "QtCoreKit"
-                    ]
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtEnvKit",
+                    "option": "ON"
                 },
                 {
-                    "module" : "QtCoreKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "QtCoreKit"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtUIInfra",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "QtCoreKit",
+                    "option": "ON"
                 }
             ]
         },
         {
-            "group" : "Kit",
-            "group_dir" : "/src/kits",
+            "group": "Kit",
+            "group_dir": "/src/kits",
             "modules": [
                 {
-                    "module" : "CCoreKit",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "COSEnv",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CHWD",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CUtils",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CScript",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "CLog",
+                    "option": "ON"
                 }
             ]
         },
         {
-            "group" : "Lib",
-            "group_dir" : "/deps",
+            "group": "Lib",
+            "group_dir": "/deps",
             "modules": [
                 {
-                    "module" : "QtCryptoKit",
-                    "option" : "ON"
+                    "deps": [
+                    ],
+                    "gen_lib": "",
+                    "module": "QtCryptoKit",
+                    "option": "ON"
                 }
             ]
         }
     ],
     "dir_help": {
-        "conf" : "conf", 
-        "scripts" : "scripts", 
-        "tools" : "tools", 
-        "doc" : "doc"
+        "conf": "conf",
+        "doc": "doc",
+        "scripts": "scripts",
+        "tools": "tools"
     }
 }

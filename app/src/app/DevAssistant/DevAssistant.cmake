@@ -23,7 +23,7 @@
 set(DevAssistantDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME DevAssistant)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtUIInfra CLog COSEnv CHWD CUtils CScript )
+set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtUIInfra COSEnv CHWD CUtils CScript CLog )
 
 FILE(GLOB_RECURSE DevAssistant_SRC
     ${DevAssistantDir}/*.h
@@ -165,12 +165,6 @@ else()
     message(FATAL_ERROR "option ON for QtUIInfra is required !")
 endif(QtUIInfra)
 
-if(CLog)
-    add_dependencies(${BIN_NAME} CLog)
-else()
-    message(FATAL_ERROR "option ON for CLog is required !")
-endif(CLog)
-
 if(COSEnv)
     add_dependencies(${BIN_NAME} COSEnv)
 else()
@@ -194,3 +188,9 @@ if(CScript)
 else()
     message(FATAL_ERROR "option ON for CScript is required !")
 endif(CScript)
+
+if(CLog)
+    add_dependencies(${BIN_NAME} CLog)
+else()
+    message(FATAL_ERROR "option ON for CLog is required !")
+endif(CLog)

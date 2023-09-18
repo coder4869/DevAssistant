@@ -15,7 +15,11 @@
                         "QtEnvKit",
                         "QtCoreKit",
                         "QtUIInfra",
-                        "CCoreKit"
+                        "COSEnv",
+                        "CHWD",
+                        "CUtils",
+                        "CScript",
+                        "CLog"
                     ],
                     "gen_lib": "NO",
                     "module": "DevAssistant",
