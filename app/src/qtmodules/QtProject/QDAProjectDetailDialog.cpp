@@ -41,13 +41,13 @@ QDAProjectDetailDialog::QDAProjectDetailDialog(QWidget *parent) :
     
     ui->setupUi(this);
 
-    QUIStyle::SetPushButton(ui->createProjectBtn);
+    QUI::Style::SetPushButton(ui->createProjectBtn);
     connect(ui->createProjectBtn, SIGNAL(clicked(bool)), this, SLOT(OnCreate()));
     
-    QUIStyle::SetPushButton(ui->loadProjectConfigBtn);
+    QUI::Style::SetPushButton(ui->loadProjectConfigBtn);
     connect(ui->loadProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnLoadConfig()));
 
-    QUIStyle::SetPushButton(ui->saveProjectConfigBtn);
+    QUI::Style::SetPushButton(ui->saveProjectConfigBtn);
     connect(ui->saveProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnSaveConfig()));
 }
 

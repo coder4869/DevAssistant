@@ -42,12 +42,12 @@ QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDACheckEnvDialog)
 {
     ui->setupUi(this);
-    QUIStyle::SetTreeWidget(ui->envTreeWidget);
+    QUI::Style::SetTreeWidget(ui->envTreeWidget);
 
-    QUIStyle::SetPushButton(ui->checkEnvBtn);
+    QUI::Style::SetPushButton(ui->checkEnvBtn);
     connect(ui->checkEnvBtn, SIGNAL(clicked(bool)), this, SLOT(OnCheckEnv()));
 
-    QUIStyle::SetPushButton(ui->tryFixBtn);
+    QUI::Style::SetPushButton(ui->tryFixBtn);
     connect(ui->tryFixBtn, SIGNAL(clicked(bool)), this, SLOT(OnTryFixEnvValue()));
 }
 

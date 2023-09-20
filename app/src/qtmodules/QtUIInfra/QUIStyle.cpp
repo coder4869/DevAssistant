@@ -30,7 +30,8 @@
 #include <QPushButton>
 #include <QStyleFactory>
 
-void QUIStyle::SetMainWindow(QMainWindow* window)
+NS_QUI_BEGIN
+void Style::SetMainWindow(QMainWindow* window)
 {
 	if (!window) {
 		return;
@@ -39,7 +40,7 @@ void QUIStyle::SetMainWindow(QMainWindow* window)
 	window->setStyleSheet("QMainWindow { background-color: rgb(49, 53, 64); }");
 }
 
-void QUIStyle::SetDockWidget(QDockWidget* widget)
+void Style::SetDockWidget(QDockWidget* widget)
 {
 	if (!widget) {
 		return;
@@ -50,7 +51,7 @@ void QUIStyle::SetDockWidget(QDockWidget* widget)
 	widget->setStyleSheet("QDockWidget { background-color: rgb(49, 53, 64); }");
 }
 
-void QUIStyle::SetListView(QListView* view)
+void Style::SetListView(QListView* view)
 {
 	if (!view) {
 		return;
@@ -64,7 +65,7 @@ void QUIStyle::SetListView(QListView* view)
 						");
 }
 
-void QUIStyle::SetListWidget(QListWidget* widget)
+void Style::SetListWidget(QListWidget* widget)
 {
 	if (!widget) {
 		return;
@@ -79,7 +80,7 @@ void QUIStyle::SetListWidget(QListWidget* widget)
 
 }
 
-void QUIStyle::SetTreeWidget(QTreeWidget* widget)
+void Style::SetTreeWidget(QTreeWidget* widget)
 {
 	if (!widget) {
 		return;
@@ -96,7 +97,7 @@ void QUIStyle::SetTreeWidget(QTreeWidget* widget)
 						");
 }
 
-void QUIStyle::SetPushButton(QPushButton* btn)
+void Style::SetPushButton(QPushButton* btn)
 {
 	if (!btn) {
 		return;
@@ -107,3 +108,5 @@ void QUIStyle::SetPushButton(QPushButton* btn)
                         QPushButton::hover{ color:white; background-color: #17A387; } \
                         ");
 }
+
+NS_QUI_END

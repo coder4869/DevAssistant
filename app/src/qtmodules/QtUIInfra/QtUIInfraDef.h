@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,29 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "QDAHelpDialog.h"
+#ifndef QTUIINFRA_DEF_H
+#define QTUIINFRA_DEF_H
 
-#include <QMessageBox>
-#include <QtUIInfra/QUIStyle.h>
+#define NS_QUI_BEGIN namespace QUI {
+#define NS_QUI_END	} //namespace QUI
 
-#include "ui_QDAHelpDialog.h"
+#ifdef QUI_EXPORT
 
-QDAHelpDialog::QDAHelpDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::QDAHelpDialog)
-{
-    ui->setupUi(this);
-    ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
-    QUI::Style::SetPushButton(ui->versionButton);
-}
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define QUI_CLASS __declspec(dllexport)
+#		define QUI_API extern "C" __declspec(dllexport)
+#	else
+#		define QUI_CLASS __attribute__((externally_visible))
+#		define QUI_API extern "C" __attribute__((externally_visible))
+#	endif
 
-QDAHelpDialog::~QDAHelpDialog()
-{
-    delete ui;
-}
+#else
 
-void QDAHelpDialog::OnHelpShow()
-{
-    emit SigShowWidget(this);
-//    QMessageBox::warning(NULL, QStringLiteral("Help") , QStringLiteral("Show Help View!"));
-}
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define QUI_CLASS __declspec(dllimport)
+#		define QUI_API extern "C" __declspec(dllimport)
+#	else
+#		define QUI_CLASS __attribute__((externally_visible))
+#		define QUI_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#endif // QUI_EXPORT
+
+
+#endif /* QTUIINFRA_DEF_H */

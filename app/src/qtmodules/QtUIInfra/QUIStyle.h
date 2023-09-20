@@ -23,6 +23,7 @@
 #pragma once
 
 #include <CLog/CKDefines.h>
+#include "QtUIInfraDef.h"
 
 class QMainWindow;
 class QDockWidget;
@@ -31,19 +32,22 @@ class QListWidget;
 class QTreeWidget;
 class QPushButton;
 
-class QUIStyle
+NS_QUI_BEGIN
+class QUI_CLASS Style
 {
 public:
 	static void SetMainWindow(QMainWindow* window);
 
-	static void SetDockWidget(QDockWidget *widget);
+	static void SetDockWidget(QDockWidget* widget);
 
 	static void SetListView(QListView* view);
-	
+
 	static void SetListWidget(QListWidget* widget);
-	
+
 	static void SetTreeWidget(QTreeWidget* widget);
 
 	static void SetPushButton(QPushButton* btn);
 };
+NS_QUI_END
+
 

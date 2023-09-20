@@ -34,7 +34,7 @@ QDAProjectAddDialog::QDAProjectAddDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QUIStyle::SetPushButton(ui->createProjectBtn);
+    QUI::Style::SetPushButton(ui->createProjectBtn);
 }
 
 QDAProjectAddDialog::~QDAProjectAddDialog()

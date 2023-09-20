@@ -32,8 +32,8 @@ QDAPracticalDialog::QDAPracticalDialog(QWidget *parent) :
     ui(new Ui::QDAPracticalDialog)
 {
     ui->setupUi(this);
-    QUIStyle::SetDockWidget(ui->dockWidget);
-    QUIStyle::SetTreeWidget(ui->optionsTreeWidget);
+    QUI::Style::SetDockWidget(ui->dockWidget);
+    QUI::Style::SetTreeWidget(ui->optionsTreeWidget);
     connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
 }
 

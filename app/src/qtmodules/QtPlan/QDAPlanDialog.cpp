@@ -33,8 +33,8 @@ QDAPlanDialog::QDAPlanDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
-    QUIStyle::SetPushButton(ui->loadPlanBtn);
-    QUIStyle::SetPushButton(ui->savePlanBtn);
+    QUI::Style::SetPushButton(ui->loadPlanBtn);
+    QUI::Style::SetPushButton(ui->savePlanBtn);
 }
 
 QDAPlanDialog::~QDAPlanDialog()

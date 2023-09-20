@@ -46,8 +46,8 @@ QDAProjectDialog::QDAProjectDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectDialog)
 {
     ui->setupUi(this);
-    QUIStyle::SetDockWidget(ui->dockWidget);
-    QUIStyle::SetTreeWidget(ui->optionsTreeWidget);
+    QUI::Style::SetDockWidget(ui->dockWidget);
+    QUI::Style::SetTreeWidget(ui->optionsTreeWidget);
     connect(ui->optionsTreeWidget, SIGNAL(itemClicked(QTreeWidgetItem *, int)), this, SLOT(OnSetOption(QTreeWidgetItem *, int)));
     
     // QDACheckEnvDialog

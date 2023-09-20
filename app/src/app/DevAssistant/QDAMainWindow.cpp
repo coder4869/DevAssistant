@@ -37,7 +37,7 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setMinimumSize(1280, 720);
-    QUIStyle::SetMainWindow(this);
+    QUI::Style::SetMainWindow(this);
 
     // QDAProjectDialog
     project = new QDAProjectDialog();
