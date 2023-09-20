@@ -1,4 +1,4 @@
-# coding=UTF-8
+﻿# coding=UTF-8
 ## MIT License
 # 
 # Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
@@ -50,6 +50,11 @@ if(WITH_QT AND MODULE_NAME)
     add_dependencies(${PROJECT_NAME} MODULE_NAME)
     target_link_libraries(${PROJECT_NAME} PUBLIC MODULE_NAME)
 endif(MODULE_NAME)
+"""
+
+THIRD_PARTY_APPEND = """
+set(THIRD_PARTY_INC ${THIRD_PARTY_INC} ${SRC_ROOT}/include)
+set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${SRC_ROOT}/lib/*.lib)
 """
 
 
@@ -141,6 +146,10 @@ class Project(object):
         from_srting = "# include(Module-Group.cmake)"
         to_string = "include(${PROJ_ROOT}" + group_dir + "/" + dir_name + ".cmake)"
         to_string = from_srting + "\n" + to_string
+        # Add Extra Info For Third-Party cmake
+        if gtype.lower() == "lib":
+            pyt_file.File.append_string(cmake_path, THIRD_PARTY_APPEND)
+            to_string = to_string + "\n" + "set(INC_GROUP ${THIRD_PARTY_INC} ${INC_GROUP})"
         pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", from_srting, to_string)
 
     @staticmethod

@@ -216,7 +216,7 @@ class Module(object):
             # dir_name = os.path.basename(os.path.normpath(Module.MOUDLE_ABS_DIR))
             # dir_cmake = Module.MOUDLE_ABS_DIR + dir_name + ".cmake"
             print("add_module_deps: dir_cmake=", dir_cmake)
-            lib_deps:str = "set(LIB_DEPS"
+            lib_deps:str = "set(LIB_DEPS ${THIRD_PARTY_LIB}"
             for lib in deps:
                 lib_deps = lib_deps + " " + lib
                 pyt_file.File.append_string(dir_cmake, MODULE_CMAKE_APPEND_LIB_DEPS)
@@ -224,7 +224,7 @@ class Module(object):
                 if is_app:
                     pyt_file.File.replace_string(dir_cmake, "LIB_NAME", "BIN_NAME")
             lib_deps = lib_deps + " )"
-            pyt_file.File.replace_string(dir_cmake, "set(LIB_DEPS )", lib_deps)
+            pyt_file.File.replace_string(dir_cmake, "set(LIB_DEPS ${THIRD_PARTY_LIB} )", lib_deps)
 
     @staticmethod
     def check_path(path):

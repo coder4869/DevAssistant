@@ -145,9 +145,12 @@ endif(WITH_PY)
 # subdirectory
 set(INC_FILES)
 set(SRC_FILES)
+set(THIRD_PARTY_INC)
+set(THIRD_PARTY_LIB)
 # set(INC_GROUP)
 # include(Module-Group.cmake)
 # add_subdirectory(Module-Group-Dir)
+message("INC_GROUP=${INC_GROUP}")
 message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
