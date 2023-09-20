@@ -140,7 +140,7 @@ class Project(object):
         # Add Group cmake-include to ${PROJECT}/CMakeLists.txt
         from_srting = "# include(Module-Group.cmake)"
         to_string = "include(${PROJ_ROOT}" + group_dir + "/" + dir_name + ".cmake)"
-        to_string = to_string + "\n" + from_srting
+        to_string = from_srting + "\n" + to_string
         pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", from_srting, to_string)
 
     @staticmethod
