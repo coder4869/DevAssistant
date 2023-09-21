@@ -23,7 +23,7 @@
 set(DevAssistantDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME DevAssistant)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtUIInfra COSEnv CHWD CUtils CScript CLog )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtProject QtExample QtPractical QtCustom QtPlan QtHelp QtEnvKit QtCoreKit QtUIInfra COSEnv CHWD CUtils CScript CLog )
 
 FILE(GLOB_RECURSE DevAssistant_SRC
     ${DevAssistantDir}/*.h
@@ -96,8 +96,13 @@ if(WITH_QT)
     QT_DEPLOY(${BIN_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
     target_compile_definitions(${BIN_NAME} PRIVATE
                                 $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
-                                $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>)
+                                $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>
+                                WITH_QT )
 endif(WITH_QT)
+
+if(WITH_PY)
+    target_compile_definitions(${BIN_NAME} PUBLIC WITH_PY )
+endif(WITH_PY)
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

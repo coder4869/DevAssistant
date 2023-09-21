@@ -57,12 +57,21 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtHelp_SRC
 set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES} ${QtHelp_RES_UIC})
 
-set(LIB_DEPS QtUIInfra )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtHelp_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
+target_compile_definitions(${LIB_NAME} PUBLIC QtHelp_EXPORT  )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtHelpDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
+
+if(WITH_QT)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_QT )
+endif(WITH_QT)
+
+if(WITH_PY)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+endif(WITH_PY)
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

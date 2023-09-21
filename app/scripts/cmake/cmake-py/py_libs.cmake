@@ -1,4 +1,4 @@
-# MIT License
+﻿# MIT License
 # 
 # Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 # 
@@ -23,8 +23,13 @@
 if(WITH_PY)
     if(WIN) # for windows
         SET(INC_PY ${PY_INSTALL_DIR}/include )
-        SET(LIB_PY ${PY_INSTALL_DIR}/libs/python3.lib ) 
-        
+
+        if("${LIB_TYPE}" STREQUAL "STATIC")
+            SET(LIB_PY ${PY_INSTALL_DIR}/libs/python3.lib ) 
+        else()
+            SET(LIB_PY ${PY_INSTALL_DIR}/python3.dll ) 
+        endif()
+
     elseif(OSX) # for MacOSX
         # /Applications/Xcode.app/Contents/Developer/Library
         SET(INC_PY ${PY_INSTALL_DIR}/Frameworks/Python3.framework/Headers ) 

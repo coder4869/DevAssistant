@@ -40,12 +40,17 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS CLog )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CLog )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${CUtils_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
+target_compile_definitions(${LIB_NAME} PUBLIC CUtils_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CUtilsDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
+
+if(WITH_PY)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+endif(WITH_PY)
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

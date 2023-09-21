@@ -22,6 +22,8 @@
 
 #include "CSPython.h"
 
+#ifdef WITH_PY
+
 #include <iostream>
 
 // Qt Call Python :: https://blog.csdn.net/New_codeline/article/details/123143138
@@ -59,3 +61,5 @@ bool Python::DelPy()
 }
 
 NS_CS_END
+
+#endif // WITH_PY

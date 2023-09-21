@@ -26,7 +26,7 @@
 #define NS_QUI_BEGIN namespace QUI {
 #define NS_QUI_END	} //namespace QUI
 
-#ifdef QUI_EXPORT
+#ifdef QtUIInfra_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
 #		define QUI_CLASS __declspec(dllexport)

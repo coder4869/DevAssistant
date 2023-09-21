@@ -57,12 +57,21 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtProject_SRC
 set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES} ${QtProject_RES_UIC})
 
-set(LIB_DEPS QtEnvKit QtCoreKit QtUIInfra )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtEnvKit QtCoreKit QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
+target_compile_definitions(${LIB_NAME} PUBLIC QtProject_EXPORT  )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtProjectDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
+
+if(WITH_QT)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_QT )
+endif(WITH_QT)
+
+if(WITH_PY)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+endif(WITH_PY)
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)

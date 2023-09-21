@@ -57,12 +57,21 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtPlan_SRC
 set(QtPlan_SRC ${QtPlan_SRC} ${QtPlan_FORMs} ${QtPlan_RES} ${QtPlan_RES_UIC})
 
-set(LIB_DEPS QtUIInfra )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtPlan_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
+target_compile_definitions(${LIB_NAME} PUBLIC QtPlan_EXPORT  )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtPlanDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
+
+if(WITH_QT)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_QT )
+endif(WITH_QT)
+
+if(WITH_PY)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+endif(WITH_PY)
 
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
