@@ -54,7 +54,7 @@ option(ANDROID  "Build for Android"     OFF)
 
 set(META_FILES )
 if(WIN)
-    # set(LIB_TYPE STATIC) # SHARED STATIC
+    set(LIB_TYPE STATIC) # SHARED STATIC
     set(WIN32 ON)
     set(OS_TYPE "win")
     set(OS_BUNDLE WIN32)
