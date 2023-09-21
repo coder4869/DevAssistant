@@ -26,4 +26,26 @@
 #define NS_CLOG_BEGIN namespace CLOG {
 #define NS_CLOG_END	} //namespace CLOG
 
+#ifdef CLog_EXPORT
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CLOG_CLASS __declspec(dllexport)
+#		define CLOG_API extern "C" __declspec(dllexport)
+#	else
+#		define CLOG_CLASS __attribute__((externally_visible))
+#		define CLOG_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#else
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CLOG_CLASS __declspec(dllimport)
+#		define CLOG_API extern "C" __declspec(dllimport)
+#	else
+#		define CLOG_CLASS __attribute__((externally_visible))
+#		define CLOG_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#endif // CLOG_EXPORT
+
 #endif /* CLOG_DEF_H */

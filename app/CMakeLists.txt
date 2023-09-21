@@ -1,4 +1,4 @@
-# MIT License
+﻿# MIT License
 # 
 # Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 # 
@@ -25,10 +25,11 @@ cmake_minimum_required(VERSION 3.12.0)
 
 # Global Setting
 set(PROJ_ROOT ${CMAKE_CURRENT_LIST_DIR})
+set(CMAKE_INSTALL_PREFIX "${PROJ_ROOT}/bin64")
 set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}/bin64")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64")
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJ_ROOT}/lib")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJ_ROOT}/lib")
+# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
+# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
 set(CMAKE_TOOLCHAIN_ROOT ${PROJ_ROOT}/scripts/cmake)
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake)
 message("PROJECT_ROOT = ${PROJ_ROOT} ")
@@ -53,7 +54,7 @@ option(ANDROID  "Build for Android"     OFF)
 
 set(META_FILES )
 if(WIN)
-    set(LIB_TYPE STATIC) # SHARED STATIC
+    # set(LIB_TYPE STATIC) # SHARED STATIC
     set(WIN32 ON)
     set(OS_TYPE "win")
     set(OS_BUNDLE WIN32)
@@ -118,7 +119,7 @@ endif(NOT ANDROID)
 
 
 # MODULE options
-option(WITH_PY             "Build with PY                  "	ON)
+option(WITH_PY             "Build with PY                  "	OFF)
 option(WITH_QT             "Build with QT                  "	ON)
 option(DevAssistant        "Build with DevAssistant        "	ON)
 option(QtProject           "Build with QtProject           "	ON)
@@ -163,13 +164,17 @@ endif(WITH_PY)
 # subdirectory
 set(INC_FILES)
 set(SRC_FILES)
+set(THIRD_PARTY_INC)
+set(THIRD_PARTY_LIB)
 set(INC_GROUP  ${PROJ_ROOT}/src/app ${PROJ_ROOT}/src/qtmodules ${PROJ_ROOT}/src/kits ${PROJ_ROOT}/deps)
 # include(Module-Group.cmake)
 include(${PROJ_ROOT}/deps/deps.cmake)
+set(INC_GROUP ${THIRD_PARTY_INC} ${INC_GROUP})
 include(${PROJ_ROOT}/src/kits/kits.cmake)
 include(${PROJ_ROOT}/src/qtmodules/qtmodules.cmake)
 include(${PROJ_ROOT}/src/app/app.cmake)
 # add_subdirectory(Module-Group-Dir)
+message("INC_GROUP=${INC_GROUP}")
 message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
