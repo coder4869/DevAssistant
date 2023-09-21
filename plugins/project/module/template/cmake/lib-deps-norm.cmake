@@ -48,6 +48,10 @@ target_compile_definitions(${LIB_NAME} PUBLIC MODULE_NAME_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${MODULE_NAMEDir} ${INC_GROUP} )
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 
+if(WITH_PY)
+    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+endif(WITH_PY)
+
 # install libs & headers
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
 INSTALL_TARGET(${LIB_NAME}) # lib bin exe
