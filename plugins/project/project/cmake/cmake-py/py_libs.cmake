@@ -27,7 +27,7 @@ if(WITH_PY)
         if("${LIB_TYPE}" STREQUAL "STATIC")
             SET(LIB_PY ${PY_INSTALL_DIR}/libs/python3.lib ) 
         else()
-            SET(LIB_PY ${PY_INSTALL_DIR}/python311.dll ) 
+            SET(LIB_PY ${PY_INSTALL_DIR}/python3.dll ) 
         endif()
 
     elseif(OSX) # for MacOSX
