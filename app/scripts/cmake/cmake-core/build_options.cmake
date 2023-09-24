@@ -26,6 +26,8 @@
 
 message("Build Options Setting !!!")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # Gen Debug Info
+
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "armv7-a")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--fix-cortex-a8" CACHE INTERNAL "" FORCE)
 endif()
@@ -36,7 +38,6 @@ endif()
 # [clang LTO is broken with __thread variables #498](https://github.com/android-ndk/ndk/issues/498)
 # Workaround is -Wl,-plugin-opt=-emulated-tls
 # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-plugin-opt=-emulated-tls" CACHE INTERNAL "" FORCE)
-
 
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fPIC " CACHE INTERNAL "" FORCE)
 if(NOT APPLE)

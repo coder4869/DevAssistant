@@ -29,7 +29,7 @@ set(CMAKE_INSTALL_PREFIX "${PROJ_ROOT}/bin64")
 set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}/bin64")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64")
 # set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
-# set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
 set(CMAKE_TOOLCHAIN_ROOT ${PROJ_ROOT}/scripts/cmake)
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake)
 message("PROJECT_ROOT = ${PROJ_ROOT} ")
@@ -54,6 +54,7 @@ option(ANDROID  "Build for Android"     OFF)
 
 set(META_FILES )
 if(WIN)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # required for gen lib and pdb
     set(LIB_TYPE STATIC) # SHARED STATIC
     set(WIN32 ON)
     set(OS_TYPE "win")
