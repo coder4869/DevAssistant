@@ -57,7 +57,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtCoreKit_SRC
 set(QtCoreKit_SRC ${QtCoreKit_SRC} ${QtCoreKit_FORMs} ${QtCoreKit_RES} ${QtCoreKit_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtCoreKit_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -82,3 +82,9 @@ INSTALL_TARGET(${LIB_NAME}) # lib bin exe
 if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)

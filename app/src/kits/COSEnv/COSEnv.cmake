@@ -40,7 +40,7 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} CLog )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CLog CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${COSEnv_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
@@ -67,3 +67,9 @@ if(CLog)
 else()
     message(FATAL_ERROR "option ON for CLog is required !")
 endif(CLog)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)

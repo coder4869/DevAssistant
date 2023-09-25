@@ -57,7 +57,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtEnvKit_SRC
 set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES} ${QtEnvKit_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} QtCoreKit )
+set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv QtUIInfra QtCoreKit )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtEnvKit_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -82,6 +82,18 @@ INSTALL_TARGET(${LIB_NAME}) # lib bin exe
 if(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
+
+if(COSEnv)
+    add_dependencies(${LIB_NAME} COSEnv)
+else()
+    message(FATAL_ERROR "option ON for COSEnv is required !")
+endif(COSEnv)
+
+if(QtUIInfra)
+    add_dependencies(${LIB_NAME} QtUIInfra)
+else()
+    message(FATAL_ERROR "option ON for QtUIInfra is required !")
+endif(QtUIInfra)
 
 if(QtCoreKit)
     add_dependencies(${LIB_NAME} QtCoreKit)

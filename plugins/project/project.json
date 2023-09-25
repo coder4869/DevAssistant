@@ -89,6 +89,8 @@
                 },
                 {
                     "deps": [
+                        "COSEnv",
+                        "QtUIInfra",
                         "QtCoreKit"
                     ],
                     "gen_lib": "YES",
@@ -105,6 +107,7 @@
                 },
                 {
                     "deps": [
+                        "CUtils"
                     ],
                     "gen_lib": "YES",
                     "module": "QtCoreKit",
@@ -118,7 +121,8 @@
             "modules": [
                 {
                     "deps": [
-                        "CLog"
+                        "CLog",
+                        "CUtils"
                     ],
                     "gen_lib": "YES",
                     "module": "COSEnv",
