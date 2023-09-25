@@ -109,6 +109,7 @@ endif(WITH_PY)
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
 # INSTALL_TARGET(${BIN_NAME}) # lib bin exe
 if(WIN)
+    set_target_properties(${BIN_NAME} PROPERTIES COMPILE_FLAGS "/EHsc")
     WIN_FIX_COMPILER(${BIN_NAME})
     # INSTALL_TARGET(${BIN_NAME}) # lib bin exe
 elseif(APPLE)

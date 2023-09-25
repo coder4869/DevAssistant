@@ -78,7 +78,9 @@ endif(WITH_PY)
 INSTALL_INC(${CMAKE_CURRENT_LIST_DIR} include/)
 INSTALL_TARGET(${LIB_NAME}) # lib bin exe
 
-# from intern cmake module : apple_func.cmake
-if(APPLE)
+if(WIN)
+    set_target_properties(${LIB_NAME} PROPERTIES COMPILE_FLAGS "/EHsc")
+elseif(APPLE)
+    # from intern cmake module : apple_func.cmake
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
 endif(APPLE)
