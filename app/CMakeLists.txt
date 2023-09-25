@@ -54,7 +54,7 @@ option(ANDROID  "Build for Android"     OFF)
 
 set(META_FILES )
 if(WIN)
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # required for gen lib and exp
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON) # required for gen exp
     set(LIB_TYPE STATIC) # SHARED STATIC
     set(WIN32 ON)
     set(OS_TYPE "win")

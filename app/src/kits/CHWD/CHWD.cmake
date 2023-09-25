@@ -44,12 +44,13 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} CLog )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${CHWD_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
-target_compile_definitions(${LIB_NAME} PUBLIC CHWD_EXPORT )
+target_compile_definitions(${LIB_NAME} PRIVATE CHWD_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CHWDDir} ${INC_GROUP} )
+target_link_directories(${LIB_NAME} PUBLIC ${CMAKE_BINARY_DIR} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 
 if(WITH_PY)
-    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+    target_compile_definitions(${LIB_NAME} PRIVATE WITH_PY )
 endif(WITH_PY)
 
 # install libs & headers

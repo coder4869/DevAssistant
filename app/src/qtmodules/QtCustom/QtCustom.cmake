@@ -61,16 +61,17 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtCustom_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
-target_compile_definitions(${LIB_NAME} PUBLIC QtCustom_EXPORT  )
+target_compile_definitions(${LIB_NAME} PRIVATE QtCustom_EXPORT  )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtCustomDir} ${INC_GROUP} )
+target_link_directories(${LIB_NAME} PUBLIC ${CMAKE_BINARY_DIR} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})
 
 if(WITH_QT)
-    target_compile_definitions(${LIB_NAME} PUBLIC WITH_QT )
+    target_compile_definitions(${LIB_NAME} PRIVATE WITH_QT )
 endif(WITH_QT)
 
 if(WITH_PY)
-    target_compile_definitions(${LIB_NAME} PUBLIC WITH_PY )
+    target_compile_definitions(${LIB_NAME} PRIVATE WITH_PY )
 endif(WITH_PY)
 
 # install libs & headers
