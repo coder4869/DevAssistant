@@ -53,6 +53,9 @@
 #pragma warning(disable: 5039)
 #pragma warning(disable: 5240) // 特性在此语法位置被忽略
 
+#pragma warning(disable: 4710) 
+#pragma warning(disable: 4577) 
+
 #endif // WIN
 
 
