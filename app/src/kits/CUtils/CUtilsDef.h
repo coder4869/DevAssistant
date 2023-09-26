@@ -26,4 +26,27 @@
 #define NS_CU_BEGIN namespace CU {
 #define NS_CU_END	} //namespace CU
 
+
+#ifdef CUtils_EXPORT
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CUtils_CLASS __declspec(dllexport)
+#		define CUtils_API extern "C" __declspec(dllexport)
+#	else
+#		define CUtils_CLASS __attribute__((externally_visible))
+#		define CUtils_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#else
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CUtils_CLASS __declspec(dllimport)
+#		define CUtils_API extern "C" __declspec(dllimport)
+#	else
+#		define CUtils_CLASS __attribute__((externally_visible))
+#		define CUtils_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#endif // CUtils_EXPORT
+
 #endif /* CUTILS_DEF_H */

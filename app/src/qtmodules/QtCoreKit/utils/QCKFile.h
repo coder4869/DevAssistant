@@ -28,6 +28,8 @@
 #include <QString>
 #include <QFileInfo>
 
+#include "QtCoreKitDef.h"
+
 // File Write
 // https://blog.csdn.net/kllo__/article/details/120176545
 // https://blog.csdn.net/xiao123456bin/article/details/123135669
@@ -38,7 +40,8 @@
 // https://blog.csdn.net/dengjin20104042056/article/details/102747097
 // https://blog.csdn.net/dengjin20104042056/article/details/102747691
 
-class QCKFile
+//class QCK_CLASS QCKFile
+class QCKFile 
 {
 public:
     enum class State {

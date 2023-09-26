@@ -46,7 +46,7 @@
 #		define QUI_API extern "C" __attribute__((externally_visible))
 #	endif
 
-#endif // QUI_EXPORT
+#endif // QtUIInfra_EXPORT
 
 
 #endif /* QTUIINFRA_DEF_H */

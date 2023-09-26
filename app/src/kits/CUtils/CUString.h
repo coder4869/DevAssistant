@@ -34,13 +34,17 @@
 NS_CU_BEGIN
 namespace String {
     /// @brief Split str by split_tag
-    /// @return set list 
-    std::set<std::string> SplitStringToSet(const std::string& str, const std::string& split_tag = " ");
+    /// @param values output set list 
+    //CUtils_API 
+        int SplitStringToSet(const std::string& str, const std::string& split_tag = " ", 
+                                    std::set<std::string> & values = std::set<std::string>());
 
     /// @brief Split str by split_tag
-    /// @return vector list 
-    std::vector<std::string> SplitStringToVector(const std::string& str, const std::string& split_tag = " ");
-} // namespace String
+    /// @param values output vector list 
+    //CUtils_API 
+        int SplitStringToVector(const std::string& str, const std::string& split_tag = " ",
+                                        std::vector<std::string> & values = std::vector<std::string>());
+}
 NS_CU_END
 
 #endif // CU_STRING_H

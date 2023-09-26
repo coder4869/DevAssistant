@@ -32,10 +32,10 @@
 NS_CU_BEGIN
 namespace File {
 	/// @return 0 succeed, other failed
-	int IsFileExist(const std::string& file_path);
+	CUtils_API int IsFileExist(const std::string& file_path);
 
 	/// @return 0 succeed, other failed
-	int LoadFileString(const std::string& file_path, std::string& out_str);
+	CUtils_API int LoadFileString(const std::string& file_path, std::string& out_str);
 } // namespace File
 NS_CU_END
 

@@ -34,24 +34,26 @@
 #include "COSEnvDef.h"
 
 NS_CE_BEGIN
-namespace SystemEnv {
+//class COSEnv_CLASS SystemEnv {
+class SystemEnv {
+	public:
 	/// @param name upper-case is required!
-	std::string GetEnv(const char*name);
+	static std::string GetEnv(const char* name);
 
 	/// @brief Get Env PATH
-	std::string GetPathEnv();
+	static std::string GetPathEnv();
 
 	/// @brief Split Env Value By ";" and remove repeated
 	/// @param name upper-case is required!
-	std::set<std::string> SplitEnvValue(const char* name);
+	static std::set<std::string> SplitEnvValue(const char* name);
 
 	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-	std::set<std::string> GetPathEnvItems();
+	static std::set<std::string> GetPathEnvItems();
 
 	/// @brief Check Env Key-Value 
-	bool CheckEnv(const std::string& key, const std::string& value);
+	static bool CheckEnv(const std::string& key, const std::string& value);
 
 	/// @brief Set Env Key-Value 
-	bool SetEnv(const std::string& key, const std::string& value);
-}
+	static bool SetEnv(const std::string& key, const std::string& value);
+};
 NS_CE_END

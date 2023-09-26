@@ -25,10 +25,10 @@
 NS_CU_BEGIN
 
 /// @brief Split str by split_tag
-/// @return set list 
-std::set<std::string> String::SplitStringToSet(const std::string& str, const std::string& split_tag)
+/// @param values output set list 
+int String::SplitStringToSet(const std::string& str, const std::string& split_tag, std::set<std::string>& values)
 {
-	std::set<std::string> values;
+	values.clear();
 	if (!str.empty() && !split_tag.empty()) {
 		std::string sub_str;
 		int len = split_tag.size();
@@ -52,20 +52,21 @@ std::set<std::string> String::SplitStringToSet(const std::string& str, const std
 			values.insert(sub_str);
 			sub_str.clear();
 		}
+		return 1;
 	}
 
 	//for (auto item = values.begin(); item != values.end(); item++) {
 	//	std::cout << __FUNCTION__ << item->c_str() << std::endl;
 	//}
 
-	return values;
+	return 0;
 }
 
 /// @brief Split str by split_tag
-/// @return vector list 
-std::vector<std::string> String::SplitStringToVector(const std::string& str, const std::string& split_tag)
+/// @param values output vector list 
+int String::SplitStringToVector(const std::string& str, const std::string& split_tag, std::vector<std::string>& values)
 {
-	std::vector<std::string> values;
+	values.clear();
 	if (!str.empty() && !split_tag.empty()) {
 		std::string sub_str;
 		int len = split_tag.size();
@@ -89,13 +90,15 @@ std::vector<std::string> String::SplitStringToVector(const std::string& str, con
 			values.push_back(sub_str);
 			sub_str.clear();
 		}
+
+		return 1;
 	}
 
 	//for (auto item = values.begin(); item != values.end(); item++) {
 	//	std::cout << __FUNCTION__ << item->c_str() << std::endl;
 	//}
 
-	return values;
+	return 0;
 }
 
 NS_CU_END

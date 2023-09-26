@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,36 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
+#ifndef QTCOREKIT_DEF_H
+#define QTCOREKIT_DEF_H
 
-#include <CLog/CKDefines.h>
-#include "QtUIInfraDef.h"
+#define NS_QCK_BEGIN namespace QCK {
+#define NS_QCK_END	} //namespace QCK
 
-class QMainWindow;
-class QDockWidget;
-class QListView;
-class QListWidget;
-class QTreeWidget;
-class QPushButton;
+#ifdef QtCoreKit_EXPORT
 
-NS_QUI_BEGIN
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define QCK_CLASS __declspec(dllexport)
+#		define QCK_API extern "C" __declspec(dllexport)
+#	else
+#		define QCK_CLASS __attribute__((externally_visible))
+#		define QCK_API extern "C" __attribute__((externally_visible))
+#	endif
 
-//class QUI_CLASS Style
-//{
-//public:
-namespace Style {
-	void SetMainWindow(QMainWindow* window);
+#else
 
-	void SetDockWidget(QDockWidget* widget);
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define QCK_CLASS __declspec(dllimport)
+#		define QCK_API extern "C" __declspec(dllimport)
+#	else
+#		define QCK_CLASS __attribute__((externally_visible))
+#		define QCK_API extern "C" __attribute__((externally_visible))
+#	endif
 
-	void SetListView(QListView* view);
-
-	void SetListWidget(QListWidget* widget);
-
-	void SetTreeWidget(QTreeWidget* widget);
-
-	void SetPushButton(QPushButton* btn);
-};
-NS_QUI_END
+#endif // QtCoreKit_EXPORT
 
 
+#endif /* QTCOREKIT_DEF_H */

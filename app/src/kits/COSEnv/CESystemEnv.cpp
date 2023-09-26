@@ -88,7 +88,9 @@ std::string SystemEnv::GetPathEnv()
 std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
-	return CU::String::SplitStringToSet(env_value, ";");
+	std::set<std::string> values;
+	CU::String::SplitStringToSet(env_value, ";", values);
+	return values;
 }
 
 /// @brief Get PATH Env Value and Split to items by SplitEnvValue();

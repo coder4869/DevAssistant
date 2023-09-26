@@ -29,6 +29,9 @@
 #include <string>
 #include <map>
 
+#include "CLogDef.h"
+
+//class CLOG_CLASS CKAppConf
 class CKAppConf
 {
 public:

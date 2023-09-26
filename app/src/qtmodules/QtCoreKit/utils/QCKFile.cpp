@@ -203,7 +203,8 @@ QCKFile::State QCKFile::LoadFileLines(const QString& fileName, QStringList& data
 
     // Convert fileData to dataLines
     QString qstr(fileData);
-    std::vector < std::string > str_list = CU::String::SplitStringToVector(qstr.toStdString(), "\r\n");
+    std::vector < std::string > str_list;
+    CU::String::SplitStringToVector(qstr.toStdString(), "\r\n");
     for (size_t idx = 0; idx < str_list.size(); idx++) {
         dataLines << QString::fromStdString(str_list[idx]);
     }
