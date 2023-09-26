@@ -26,8 +26,6 @@
 
 message("Build Options Setting !!!")
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # Gen Debug Info
-
 if(CMAKE_SYSTEM_PROCESSOR STREQUAL "armv7-a")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--fix-cortex-a8" CACHE INTERNAL "" FORCE)
 endif()
@@ -41,9 +39,9 @@ endif()
 
 
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fPIC " CACHE INTERNAL "" FORCE)
-if(NOT APPLE)
+if(NOT APPLE AND NOT WIN)
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--gc-sections -Wl,--as-needed" CACHE INTERNAL "" FORCE)
-endif(APPLE)
+endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     set(CMAKE_BUILD_TYPE Debug)
@@ -52,31 +50,36 @@ elseif(CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
+add_compile_options("-Wall")
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 # For Debug and RelWithDebInfo
     add_definitions(-D DEBUG)
     set(CMAKE_CONFIGURATION_TYPES "Debug" CACHE STRING "" FORCE)
     set(LIB_BUILD_TYPE_EXT d)
 
-    add_compile_options(
-        "-Wall" "-fexceptions"
-        "$<$<CONFIG:Debug>:-O0;-g3;-ggdb>"
-        )
+    if(NOT WIN)
+        add_compile_options(
+            "-fexceptions"
+            "$<$<CONFIG:Debug>:-O0;-g3;-ggdb>"
+            )
+    endif()
 
 elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
 # For Release and MinSizeRel
     add_definitions(-D NDDEBUG)
     set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "" FORCE)
 
-    add_compile_options(
-        "-Wall" "-fexceptions"
-        "$<$<CONFIG:Release>:-flto;-O3>"
-        )
+    if(NOT WIN)
+        add_compile_options(
+            "-fexceptions"
+            "$<$<CONFIG:Release>:-flto;-O3>"
+            )
+    endif()
 
     # set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flto -O3 " CACHE INTERNAL "" FORCE)
-    if(NOT APPLE)
+    if(NOT APPLE AND NOT WIN)
         set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--exclude-libs,ALL " CACHE INTERNAL "" FORCE)
-    endif(APPLE)
+    endif()
     
     # gold linker has error for Cortex-A53 on aarch64, Remove icf(reduce lib size) for it.
     if((CMAKE_SYSTEM_PROCESSOR STREQUAL "armv7-a") OR (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86") OR (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64"))

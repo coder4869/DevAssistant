@@ -27,9 +27,34 @@ message("include(${CMAKE_CURRENT_LIST_DIR}/core_func.cmake) ")
 SET_POLICY()
 SET_CXX_VERSION("c++17")
 
-# Compiler
-# set(CMAKE_C_COMPILER "/usr/local/gcc/bin/gcc")
-# set(CMAKE_CXX_COMPILER "/usr/local/gcc/bin/g++")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # Gen Debug Info
 
-include(${CMAKE_CURRENT_LIST_DIR}/build_options.cmake)
-message("include(${CMAKE_CURRENT_LIST_DIR}/build_options.cmake) ")
+# Compiler
+function(SET_COMPILER compiler)
+    if("${compiler}" STREQUAL "gcc")
+        set(CMAKE_C_COMPILER "/usr/local/gcc/bin/gcc")
+        set(CMAKE_CXX_COMPILER "/usr/local/gcc/bin/g++")
+        include(${CMAKE_CURRENT_LIST_DIR}/build_gcc.cmake)
+        message("include(${CMAKE_CURRENT_LIST_DIR}/build_gcc.cmake) ")
+
+    elseif ("${compiler}" STREQUAL "clang")
+        set(CMAKE_C_COMPILER "/usr/bin/clang")
+        set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+        include(${CMAKE_CURRENT_LIST_DIR}/build_clang.cmake)
+        message("include(${CMAKE_CURRENT_LIST_DIR}/build_clang.cmake) ")
+
+    elseif ("${compiler}" STREQUAL "nmake")
+        # set(CMAKE_GENERATOR "NMake Makefiles" CACHE INTERNAL "" FORCE)
+        include(${CMAKE_CURRENT_LIST_DIR}/build_nmake.cmake)
+        message("NMake")
+    endif()
+endfunction(SET_COMPILER)
+
+if(WIN)
+    SET_COMPILER("nmake")
+elseif(APPLE OR ANDROID)
+    SET_COMPILER("clang")
+else()
+    SET_COMPILER("gcc")
+endif(WIN)
+
