@@ -52,12 +52,6 @@ if(WITH_QT AND MODULE_NAME)
 endif(MODULE_NAME)
 """
 
-THIRD_PARTY_APPEND = """
-set(THIRD_PARTY_INC ${THIRD_PARTY_INC} ${SRC_ROOT}/include)
-set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${SRC_ROOT}/lib/*.lib)
-"""
-
-
 class Project(object):
     GROUP_LIST:list = []
 
@@ -141,14 +135,16 @@ class Project(object):
         # copy src.cmake.GROUP to group_dir
         dir_name = os.path.basename(os.path.normpath(group_abs_dir))
         cmake_path = group_abs_dir +  "/" + dir_name + ".cmake"
-        pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/src.cmake.GROUP", cmake_path)
+        if gtype.lower() == "lib":
+            pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/deps.cmake", cmake_path)
+        else:
+            pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/src.cmake.GROUP", cmake_path)
         # Add Group cmake-include to ${PROJECT}/CMakeLists.txt
         from_srting = "# include(Module-Group.cmake)"
         to_string = "include(${PROJ_ROOT}" + group_dir + "/" + dir_name + ".cmake)"
         to_string = from_srting + "\n" + to_string
         # Add Extra Info For Third-Party cmake
         if gtype.lower() == "lib":
-            pyt_file.File.append_string(cmake_path, THIRD_PARTY_APPEND)
             to_string = to_string + "\n" + "set(INC_GROUP ${THIRD_PARTY_INC} ${INC_GROUP})"
         pyt_file.File.replace_string(root_dir + "/CMakeLists.txt", from_srting, to_string)
 
