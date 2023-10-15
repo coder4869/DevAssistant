@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -137,7 +137,7 @@ bool RegisterTable::SetRegValue(const std::string& key, const std::string& value
 
 #else // Not Win
 
-std::string RegisterTable::GetRegValue(const std::string& key) {
+std::string RegisterTable::GetRegValue(const std::string& key, bool &is_dir) {
 	return ""; 
 }
 
@@ -146,11 +146,6 @@ std::string RegisterTable::GetRegValue(const std::string& hkey, const std::strin
 }
 
 bool RegisterTable::SetRegValue(const std::string& key, const std::string& value) {
-	return false;
-}
-
-bool RegisterTable::SetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key,
-	const std::string& reg_value) {
 	return false;
 }
 

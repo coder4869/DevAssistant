@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -28,7 +28,7 @@
 #include <QString>
 #include <QFileInfo>
 
-#include "QtCoreKitDef.h"
+#include "../QtCoreKitDef.h"
 
 // File Write
 // https://blog.csdn.net/kllo__/article/details/120176545

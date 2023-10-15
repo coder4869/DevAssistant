@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -26,9 +26,10 @@ NS_CU_BEGIN
 
 /// @brief Split str by split_tag
 /// @param values output set list 
-int String::SplitStringToSet(const std::string& str, const std::string& split_tag, std::set<std::string>& values)
+int String::SplitStringToSet(const std::string& str, const std::string& split, std::set<std::string>& values)
 {
 	values.clear();
+    std::string split_tag = split.empty() ? " " : split;
 	if (!str.empty() && !split_tag.empty()) {
 		std::string sub_str;
 		int len = split_tag.size();
@@ -64,9 +65,10 @@ int String::SplitStringToSet(const std::string& str, const std::string& split_ta
 
 /// @brief Split str by split_tag
 /// @param values output vector list 
-int String::SplitStringToVector(const std::string& str, const std::string& split_tag, std::vector<std::string>& values)
+int String::SplitStringToVector(const std::string& str, const std::string& split, std::vector<std::string>& values)
 {
 	values.clear();
+    std::string split_tag = split.empty() ? " " : split;
 	if (!str.empty() && !split_tag.empty()) {
 		std::string sub_str;
 		int len = split_tag.size();

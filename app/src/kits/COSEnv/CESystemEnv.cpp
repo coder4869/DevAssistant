@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 
 #include <CLog/CLLog.h>
 #include <CUtils/CUString.h>
@@ -147,7 +148,10 @@ bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 	}
 #else
 	std::string cfg = key + "=" + value;
+#if LIUNX
+//    TODO:: adapt darwin
 	putenv(cfg.c_str());
+#endif
 #endif
 	return CheckEnv(key, new_val);
 }

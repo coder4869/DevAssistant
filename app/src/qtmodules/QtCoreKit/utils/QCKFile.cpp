@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -204,7 +204,7 @@ QCKFile::State QCKFile::LoadFileLines(const QString& fileName, QStringList& data
     // Convert fileData to dataLines
     QString qstr(fileData);
     std::vector < std::string > str_list;
-    CU::String::SplitStringToVector(qstr.toStdString(), "\r\n");
+    CU::String::SplitStringToVector(qstr.toStdString(), "\r\n", str_list);
     for (size_t idx = 0; idx < str_list.size(); idx++) {
         dataLines << QString::fromStdString(str_list[idx]);
     }

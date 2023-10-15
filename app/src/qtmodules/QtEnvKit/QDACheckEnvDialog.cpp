@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -22,6 +22,8 @@
 
 #include "QDACheckEnvDialog.h"
 
+#include <set>
+
 #include <QDebug>
 #include <QDir>
 #include <QCoreApplication>
@@ -30,6 +32,7 @@
 #include <QMessageBox>
 
 #include <CLog/CAppConf.h>
+#include <CUtils/CUString.h>
 #include <COSEnv/CESystemEnv.h>
 #include <COSEnv/CERegisterTable.h>
 
@@ -79,7 +82,25 @@ void QDACheckEnvDialog::OnCheckEnv()
         QJsonObject obj = json_arr.at(idx).toObject();
 
         // 判断 OS
-
+        bool support = true;
+        if (obj.contains("System")) {
+            QString key = obj["System"].toString();
+            std::set<std::string> values;
+            CU::String::SplitStringToSet(key.toStdString(), ",", values);
+            bool has_os = false;
+            for (auto val : values) {
+#if MAC
+                if (val == "Darwin") {
+                    has_os = true;
+                }
+#endif
+            }
+            support = has_os;
+        }
+        if (!support) {
+            continue;
+        }
+        
         // 判断获取方式
         if (obj.contains("From") && obj.contains("Key") && obj.contains("Soft"))
         {

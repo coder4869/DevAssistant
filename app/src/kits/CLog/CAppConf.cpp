@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -54,7 +54,7 @@ bool CKAppConf::SetRelativePath(const std::string& key, const std::string& path)
 
 std::string CKAppConf::GetRelativePath(const std::string& key)
 {
-	auto &iter = relative_path_map_.find(key);
+	auto iter = relative_path_map_.find(key);
 	if (iter == relative_path_map_.end()) {
 		return "";
 	}
