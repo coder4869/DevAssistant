@@ -23,6 +23,7 @@
 #include "CUFile.h"
 
 #include <fstream>
+//#include <sstream>
 #include <iostream>
 
 NS_CU_BEGIN
@@ -61,6 +62,31 @@ int File::LoadFileString(const std::string& file_path, std::string& out_str)
     std::cout << __FUNCTION__ << ": Read File " + file_path + " Failed" << std::endl;
     fs.close();
     return -1;
+}
+
+
+int File::SaveFileString(const std::string& file_path, const std::string& save_str, bool is_append)
+{
+    std::ofstream fs;
+    std::locale::global(std::locale(""));  // Set global as system default
+    if (is_append) {
+        fs.open(file_path, std::ios::out | std::ios::app);
+    }
+    else {
+        fs.open(file_path, std::ios::out | std::ios::trunc);
+    }
+    std::locale::global(std::locale("C"));  // Recover system default setting
+    if (!fs.is_open()) {
+        std::cout << __FUNCTION__ << ": Open File " + file_path + " Failed" << std::endl;
+        return -1;
+    }
+
+    //std::ostringstream oss;
+    fs << save_str;
+
+    //fs.write(oss.str().c_str(), oss.str().length());
+    //fs.close();
+    return 0;
 }
 
 NS_CU_END

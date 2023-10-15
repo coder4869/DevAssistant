@@ -32,10 +32,17 @@
 NS_CU_BEGIN
 namespace File {
 	/// @return 0 succeed, other failed
-	CUtils_API int IsFileExist(const std::string& file_path);
+	//CUtils_API 
+	int IsFileExist(const std::string& file_path);
 
 	/// @return 0 succeed, other failed
-	CUtils_API int LoadFileString(const std::string& file_path, std::string& out_str);
+	//CUtils_API 
+	int LoadFileString(const std::string& file_path, std::string& out_str);
+
+	/// @return 0 succeed, other failed
+	//CUtils_API 
+	int SaveFileString(const std::string& file_path, const std::string& save_str, bool is_append = false);
+
 } // namespace File
 NS_CU_END
 
