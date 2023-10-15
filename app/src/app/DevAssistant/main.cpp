@@ -24,12 +24,12 @@
 
 #include <QApplication>
 #include <QCoreApplication>
-
-#include <CLog/CAppConf.h>
-#include "QDAMainWindow.h"
-
 #include <QDir>
 #include <QFileInfo>
+
+#include <CLog/CAppConf.h>
+
+#include "QDAMainWindow.h"
 
 QString GetBinParentDir(const QString &bin_path) {
     QFileInfo info(bin_path);
