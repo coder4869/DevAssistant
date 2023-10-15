@@ -29,7 +29,7 @@ class PytJson(object):
     def load_config(json_config):
         if not os.path.isfile(json_config):
             return None
-        with open(json_config) as json_file:
+        with open(json_config, encoding="utf-8") as json_file:
             dic = json.load(json_file)
             json_file.close()
         return dic
