@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -35,6 +35,14 @@
 #endif // WIN
 
 NS_CE_BEGIN
+
+#ifdef WIN
+const std::string OS_NAME = "Windows";
+#elif defined(MAC)
+const std::string OS_NAME = "Darwin";
+#else
+const std::string OS_NAME = "Linux";
+#endif // WIN
 
 /// @param name upper-case is required!
 std::string SystemEnv::GetEnv(const char* name)

@@ -34,6 +34,8 @@
 #include "COSEnvDef.h"
 
 NS_CE_BEGIN
+extern const std::string OS_NAME;
+
 //class COSEnv_CLASS SystemEnv {
 class SystemEnv {
 	public:

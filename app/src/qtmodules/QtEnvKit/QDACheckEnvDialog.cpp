@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -89,11 +89,9 @@ void QDACheckEnvDialog::OnCheckEnv()
             CU::String::SplitStringToSet(key.toStdString(), ",", values);
             bool has_os = false;
             for (auto val : values) {
-#if MAC
-                if (val == "Darwin") {
+                if (val == CE::OS_NAME) {
                     has_os = true;
                 }
-#endif
             }
             support = has_os;
         }
