@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -38,7 +38,7 @@ NS_CE_BEGIN
 
 #ifdef WIN
 const std::string OS_NAME = "Windows";
-#elif defined(MAC)
+#elif defined(MAC) || defined(OSX)
 const std::string OS_NAME = "Darwin";
 #else
 const std::string OS_NAME = "Linux";
@@ -81,9 +81,9 @@ std::string SystemEnv::GetEnv(const char* name)
 	return std::string(lp_buf, var_size);
 #else
 	const char* val = std::getenv(name);
-	std::string env_var(val ? "" : std::string(val));
+	std::string env_var(val == NULL ? "" : std::string(val));
 	return env_var;
-#endif 
+#endif
 }
 
 /// @brief Get Env PATH
