@@ -129,7 +129,7 @@ void QDAProjectDetailDialog::OnCreate()
     
     QString dirPath = QCoreApplication::applicationDirPath();
     qDebug() << "App Dir Path = " << dirPath << endl;
-    QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../Resources/plugins/project/run.py --type project --config " + config.json_file;
+    QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../data/plugins/project/run.py --type project --config " + config.json_file;
 
     QByteArray output;
     QMessageBox::information(NULL, "pycmd", pycmd);

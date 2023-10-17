@@ -89,9 +89,9 @@ target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
         )
 
 # add app res
-# APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "Resources/")
+# APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "conf/")
 APP_ADD_RES_RECURSE("${CONF_DIR}/" "conf/" "${CONF_DIR}/*.*")
-APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "Resources/plugins/" "${PLUGIN_DIR}/*.*")
+APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "data/plugins/" "${PLUGIN_DIR}/*.*")
 
 if(WITH_QT) 
     QT_DEPLOY(${BIN_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 

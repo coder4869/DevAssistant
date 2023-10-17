@@ -1,4 +1,4 @@
-# MIT License
+﻿# MIT License
 # 
 # Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 # 
@@ -145,7 +145,7 @@ function(XCODE_ADD_META)
     if (APPLE)
         set(ICON_NAME AppIcon)
         set(ICON_FILE ${CURRENT_CMAKE_DIR}/res/${ICON_NAME}.icns)
-        set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+        set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION data/Resource)
 
         # Identify MacOS bundle
         set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME})

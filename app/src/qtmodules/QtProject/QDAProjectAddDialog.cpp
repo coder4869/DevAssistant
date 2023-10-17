@@ -27,8 +27,6 @@
 
 #include "ui_QDAProjectAddDialog.h"
 
-const QString PROJECT_JSON_INIT = "/Resources/project.json";
-
 QDAProjectAddDialog::QDAProjectAddDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAProjectAddDialog)
 {

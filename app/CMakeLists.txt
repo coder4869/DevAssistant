@@ -63,7 +63,7 @@ if(WIN)
 
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-win/win_func.cmake)
     WIN_ADD_META(META_FILES) # Add Resource To Project - eg. AppIcon.ico
-    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-win/res/*.*"  "Resources/")
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-win/res/*.*"  "data/Resource")
 
 elseif(LINUX)
     set(OS_TYPE "linux")
@@ -81,7 +81,7 @@ elseif(OSX)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_libs.cmake)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
     XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
-    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "Resources/")
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "data/Resource")
 
 elseif(IOS)
     set(APPLE ON)

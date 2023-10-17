@@ -148,7 +148,7 @@ void QDACheckEnvDialog::OnCheckEnv()
 
     //QString dirPath = QCoreApplication::applicationDirPath();
     //qDebug() << "App Dir Path = " << dirPath << endl;
-    //QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../Resources/plugins/env/run.py --config env.json";
+    //QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../data/plugins/env/run.py --config env.json";
     //QMessageBox::information(NULL, "pycmd", pycmd);
     //
     //QByteArray output;
@@ -165,7 +165,7 @@ void QDACheckEnvDialog::OnTryFixEnvValue()
 {
     qDebug() << __FUNCTION__ << endl;
 
-    std::string run_script = CKAppConf::GetInstance()->GetRelativePath("run_script", "Resources/run_win.bat");
+    std::string run_script = CKAppConf::GetInstance()->GetRelativePath("run_script", "data/run_win.bat");
     QStringList dataLines;
     if (QCKFile::State::Succeed != QCKFile::LoadFileLines(QString::fromStdString(run_script), dataLines)) {
         qDebug() << __FUNCTION__ << " LoadFileLines Failed !" << endl;
