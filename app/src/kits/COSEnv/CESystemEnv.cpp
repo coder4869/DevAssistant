@@ -38,10 +38,13 @@ NS_CE_BEGIN
 
 #ifdef WIN
 const std::string OS_NAME = "Windows";
+const std::string ENV_PATH_SPLIT = ";";
 #elif defined(MAC) || defined(OSX)
 const std::string OS_NAME = "Darwin";
+const std::string ENV_PATH_SPLIT = ":";
 #else
 const std::string OS_NAME = "Linux";
+const std::string ENV_PATH_SPLIT = ":";
 #endif // WIN
 
 /// @param name upper-case is required!
@@ -82,6 +85,7 @@ std::string SystemEnv::GetEnv(const char* name)
 #else
 	const char* val = std::getenv(name);
 	std::string env_var(val == NULL ? "" : std::string(val));
+    std::cout << "name = " << name << ", env_var = " << env_var << std::endl;
 	return env_var;
 #endif
 }
@@ -98,7 +102,7 @@ std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 {
 	std::string env_value = GetEnv(name);
 	std::set<std::string> values;
-	CU::String::SplitStringToSet(env_value, ";", values);
+	CU::String::SplitStringToSet(env_value, ENV_PATH_SPLIT, values);
 	return values;
 }
 
