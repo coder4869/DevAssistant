@@ -73,9 +73,9 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     connect(ui->actionPlan, SIGNAL(triggered()), plan, SLOT(OnPlanShow()));
 
     // QDAHelpDialog
-    //help = new QDAHelpDialog();
+    help = new QDAHelpDialog();
     //connect(help, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
-    connect(ui->actionVersion, SIGNAL(triggered()), this, SLOT(OnShowVersion()));
+    connect(ui->actionVersion, SIGNAL(triggered()), help, SLOT(OnShowVersion()));
 }
 
 QDAMainWindow::~QDAMainWindow()
@@ -103,14 +103,4 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
-}
-
-void QDAMainWindow::OnShowVersion()
-{
-    std::string version = u8R"(
-版本号(Version) : v1.0.0
-   
-日期(Date) : 2023/10/19
-    )";
-    QMessageBox::information(NULL, QStringLiteral("Version"), QString::fromStdString(version));
 }

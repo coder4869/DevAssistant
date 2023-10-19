@@ -46,3 +46,13 @@ void QDAHelpDialog::OnHelpShow()
     emit SigShowWidget(this);
 //    QMessageBox::warning(NULL, QStringLiteral("Help") , QStringLiteral("Show Help View!"));
 }
+
+void QDAHelpDialog::OnShowVersion()
+{
+    std::string version = u8R"(
+版本号(Version) : v1.0.0
+   
+日期(Date) : 2023/10/19
+    )";
+    QMessageBox::information(NULL, QStringLiteral("Version"), QString::fromStdString(version));
+}

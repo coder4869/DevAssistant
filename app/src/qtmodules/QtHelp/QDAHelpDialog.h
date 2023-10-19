@@ -44,7 +44,8 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     void OnHelpShow();
-    
+    void OnShowVersion();
+
 private:
     Ui::QDAHelpDialog *ui;
 };

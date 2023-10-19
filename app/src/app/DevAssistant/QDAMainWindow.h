@@ -49,7 +49,6 @@ public:
     
 public Q_SLOTS:
     void OnSetCentralWidget(QWidget *widget);
-    void OnShowVersion();
 
 private:
     Ui::QDAMainWindow *ui;
@@ -58,7 +57,7 @@ private:
     QDAPracticalDialog *practical;
     QDACustomDialog *custom;
     QDAPlanDialog *plan;
-    //QDAHelpDialog *help;
+    QDAHelpDialog *help;
 };
 
 #endif // QDA_MAINWINDOW_H
