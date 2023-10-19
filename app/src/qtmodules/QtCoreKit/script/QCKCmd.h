@@ -31,6 +31,9 @@ class QString;
 class QStringList;
 class QByteArray;
 
+extern const QString CMD_BIN;
+extern const QString CMD_EXT;
+
 class QCKCmd
 {
 public:

@@ -24,13 +24,13 @@
 
 #include <set>
 
-#include <QDebug>
 #include <QDir>
 #include <QCoreApplication>
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QMessageBox>
 
+#include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
 #include <CUtils/CUString.h>
 #include <COSEnv/CESystemEnv.h>
@@ -146,38 +146,22 @@ void QDACheckEnvDialog::OnCheckEnv()
         }
     }
 
-    //QString dirPath = QCoreApplication::applicationDirPath();
-    //qDebug() << "App Dir Path = " << dirPath << endl;
-    //QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../data/plugins/env/run.py --config env.json";
-    //QMessageBox::information(NULL, "pycmd", pycmd);
-    //
-    //QByteArray output;
-    //bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
-    //if (!ret) {
-    //    qDebug() << pycmd << "\n" << output.data() << endl;
-    //    QMessageBox::critical(NULL, QStringLiteral("OnCheckEnv"), output.data());
-    //    return;
-    //}
     QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
 }
 
 void QDACheckEnvDialog::OnTryFixEnvValue()
 {
-    qDebug() << __FUNCTION__ << endl;
+    LOG_INFO << __FUNCTION__ << std::endl;
 
-    std::string run_script = CKAppConf::GetInstance()->GetRelativePath("run_script", "data/run_win.bat");
-    QStringList dataLines;
-    if (QCKFile::State::Succeed != QCKFile::LoadFileLines(QString::fromStdString(run_script), dataLines)) {
-        qDebug() << __FUNCTION__ << " LoadFileLines Failed !" << endl;
-        return;
-    }
+    std::string script_env = CKAppConf::GetInstance()->GetRelativePath("script_env", "tools/env" + CMD_EXT.toStdString());
+    QMessageBox::information(NULL, "script_env", QString::fromStdString(script_env));
     
-    if (dataLines.size() == 0) {
-        qDebug() << __FUNCTION__ << " Empty " << QString::fromStdString(run_script) << endl;
-    }
-
-    for (size_t idx = 0; idx < dataLines.size(); idx++) {
-        qDebug() << __FUNCTION__ << dataLines[idx] << endl;
+    QByteArray output;
+    bool ret = QCKCmd::ExecCmd(QString::fromStdString(script_env), QStringList(), output);
+    if (!ret) {
+        LOG_ERR << script_env << "\n" << output.data() << std::endl;
+        QMessageBox::critical(NULL, QStringLiteral("OnTryFixEnvValue"), output.data());
+        return;
     }
 
     QMessageBox::information(NULL, QStringLiteral("OnTryFixEnvValue"), "OnTryFixEnvValue() Finish !");
