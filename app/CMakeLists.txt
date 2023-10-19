@@ -118,6 +118,16 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
+set(TOOL_DIR ${PROJ_ROOT}/../tools)
+File(GLOB_RECURSE TOOL_FILEs ${TOOL_DIR}/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${TOOL_DIR}
+        PREFIX "tools"
+        FILES ${TOOL_FILEs}
+        )
+endif(NOT ANDROID)
+
 
 # MODULE options
 option(WITH_PY             "Build with PY                  "	OFF)
