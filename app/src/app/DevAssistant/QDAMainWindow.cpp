@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -22,6 +22,8 @@
 
 #include "QDAMainWindow.h"
 #include "ui_QDAMainWindow.h"
+
+#include <QMessageBox>
 
 #include <QtProject/QtProject.h>
 #include <QtExample/QtExample.h>
@@ -71,9 +73,9 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     connect(ui->actionPlan, SIGNAL(triggered()), plan, SLOT(OnPlanShow()));
 
     // QDAHelpDialog
-    help = new QDAHelpDialog();
-    connect(help, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
-    connect(ui->actionVersion, SIGNAL(triggered()), help, SLOT(OnHelpShow()));
+    //help = new QDAHelpDialog();
+    //connect(help, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
+    connect(ui->actionVersion, SIGNAL(triggered()), this, SLOT(OnShowVersion()));
 }
 
 QDAMainWindow::~QDAMainWindow()
@@ -83,7 +85,7 @@ QDAMainWindow::~QDAMainWindow()
     delete practical;
     delete custom;
     delete plan;
-    delete help;
+    //delete help;
     delete ui;
 }
 
@@ -101,4 +103,14 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
+}
+
+void QDAMainWindow::OnShowVersion()
+{
+    std::string version = u8R"(
+版本号(Version) : v1.0.0
+   
+日期(Date) : 2023/10/19
+    )";
+    QMessageBox::information(NULL, QStringLiteral("Version"), QString::fromStdString(version));
 }

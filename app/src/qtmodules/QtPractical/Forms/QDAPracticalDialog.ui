@@ -34,7 +34,7 @@
      </item>
      <item>
       <property name="text">
-       <string>数据机密(Decrypt)</string>
+       <string>数据解密(Decrypt)</string>
       </property>
      </item>
     </widget>
