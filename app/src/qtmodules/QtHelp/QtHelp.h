@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -24,5 +24,6 @@
 #define QTHELP_H
 
 #include <QtHelp/QDAHelpDialog.h>
+#include <QtHelp/QDAAppConfig.h>
 
 #endif /* QTHELP_H */

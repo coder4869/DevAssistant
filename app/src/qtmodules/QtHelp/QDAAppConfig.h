@@ -20,35 +20,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PLAN_DIALOG_H
-#define QDA_PLAN_DIALOG_H
+#ifndef QDA_APP_CONFIG_H
+#define QDA_APP_CONFIG_H
 
 #include <CLog/CKDefines.h>
 
-#include <QDialog>
-
-namespace Ui {
-class QDAPlanDialog;
-}
-
-class QDAPlanDialog : public QDialog
+class QDAAppConfig
 {
-    Q_OBJECT
-
 public:
-    explicit QDAPlanDialog(QWidget *parent = nullptr);
-    ~QDAPlanDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
+    static QDAAppConfig* GetInstance();
 
-public Q_SLOTS:
-    void OnPlanShow();
-    void OnLoadPlan();
-    void OnSavePlan();
-    
-private:
-    Ui::QDAPlanDialog *ui;
+    explicit QDAAppConfig();
+    ~QDAAppConfig();
+
+    void LoadConfig();
+
 };
 
-#endif // QDA_PLAN_DIALOG_H
+#endif // QDA_APP_CONFIG_H

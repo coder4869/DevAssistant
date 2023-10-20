@@ -108,6 +108,16 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
+set(DATA_DIR ${PROJ_ROOT}/data)
+File(GLOB_RECURSE DATA_FILES ${DATA_DIR}/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${DATA_DIR}
+        PREFIX "data"
+        FILES ${DATA_FILES}
+        )
+endif(NOT ANDROID)
+
 set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
 File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
 if(NOT ANDROID)

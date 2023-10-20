@@ -76,6 +76,8 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     help = new QDAHelpDialog();
     //connect(help, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
     connect(ui->actionVersion, SIGNAL(triggered()), help, SLOT(OnShowVersion()));
+
+    QDAAppConfig::GetInstance()->LoadConfig();
 }
 
 QDAMainWindow::~QDAMainWindow()
