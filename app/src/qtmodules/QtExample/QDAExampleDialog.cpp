@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -30,6 +30,7 @@ QDAExampleDialog::QDAExampleDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDAExampleDialog)
 {
     ui->setupUi(this);
+    ui->titleLabel->setStyleSheet("color:white;");
 }
 
 QDAExampleDialog::~QDAExampleDialog()
