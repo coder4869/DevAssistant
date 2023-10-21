@@ -109,6 +109,7 @@ void QDAProjectDetailDialog::OnProjectView()
         QDAProjectConfig::ConfigInfo config = QDAProjectConfig::GetConfig();
         QString json_str = QDAProjectConfig::JsonStringFromConfig(config);
         ui->viewProjectConfigText->setPlainText(json_str);
+        QMessageBox::critical(NULL, QStringLiteral("Project"), "TODO :: Show project Tree !");
     } else {
         QMessageBox::critical(NULL, QStringLiteral("Project"), "Ensure Create or Open Project succeed !");
     }

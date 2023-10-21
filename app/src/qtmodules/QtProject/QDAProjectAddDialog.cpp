@@ -44,11 +44,11 @@ void QDAProjectAddDialog::OnProjectAddModule()
 {
     emit SigShowWidget(this);
     
-    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnProjectAddModule!"));
+    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("TODO :: OnProjectAddModule!"));
 }
 
 void QDAProjectAddDialog::OnModuleAddClass()
 {
     emit SigShowWidget(this);
-    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("OnModuleAddClass!"));
+    QMessageBox::warning(NULL, QStringLiteral("ProjectAdd") , QStringLiteral("TODO :: OnModuleAddClass!"));
 }
