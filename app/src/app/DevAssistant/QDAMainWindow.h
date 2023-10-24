@@ -46,7 +46,9 @@ public:
     virtual ~QDAMainWindow();
     
     void LoadWelcome();
-    
+
+    virtual void changeEvent(QEvent *event);
+
 public Q_SLOTS:
     void OnSetCentralWidget(QWidget *widget);
 

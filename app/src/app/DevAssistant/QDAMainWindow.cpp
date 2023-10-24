@@ -23,7 +23,10 @@
 #include "QDAMainWindow.h"
 #include "ui_QDAMainWindow.h"
 
+#include <QWindowStateChangeEvent>
 #include <QMessageBox>
+
+#include <COSEnv/CETrayIcon.h>
 
 #include <QtProject/QtProject.h>
 #include <QtExample/QtExample.h>
@@ -105,4 +108,23 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
+}
+
+void QDAMainWindow::changeEvent(QEvent * event)
+{
+
+    if (QEvent::WindowStateChange == event->type())
+    {
+        QWindowStateChangeEvent * stateEvent = dynamic_cast<QWindowStateChangeEvent*>(event);
+        if (Q_NULLPTR != stateEvent) {
+            Qt::WindowStates x = stateEvent->oldState();
+            if (Qt::WindowMinimized == stateEvent->oldState()) {
+
+            }
+            else if (Qt::WindowMaximized == stateEvent->oldState()) {
+                //CE::TrayIcon::SetIcon(winId(), "IDI_ICON1", "应用程序", 0);
+                //CE::TrayIcon::DelIcon(winId());
+            }
+        }
+    }
 }

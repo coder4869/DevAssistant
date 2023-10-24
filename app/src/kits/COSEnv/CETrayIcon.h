@@ -20,11 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef COSENV_H
-#define COSENV_H
+// Right Action: https://www.cnblogs.com/pengsn/p/13563551.html
+// Right Action: https://zhuanlan.zhihu.com/p/369716586
+// https://blog.csdn.net/m0_43605481/article/details/121616732
 
-#include <COSEnv/CESystemEnv.h>
-#include <COSEnv/CERegisterTable.h>
-#include <COSEnv/CETrayIcon.h>
+#pragma once
 
-#endif /* COSENV_H */
+#include <CLog/CKDefines.h>
+
+#include <string>
+
+#include "COSEnvDef.h"
+
+NS_CE_BEGIN
+
+namespace TrayIcon {
+	/// @param icon_name Icon ID. e.g. Windows Icon in app .rc (IDI_ICON1)
+	/// @param mode windows : 0-NIM_ADD, 1-NIM_MODIFY, 2-NIM_DELETE, 3-NIM_SETFOCUS, 4-NIM_SETVERSION
+	void SetIcon(int winid, const std::string& icon_name, const std::string& tips, unsigned long mode = 0);
+
+	/// @param winid id of target window for removing TrayIcon.
+	void DelIcon(int winid);
+}
+
+NS_CE_END
