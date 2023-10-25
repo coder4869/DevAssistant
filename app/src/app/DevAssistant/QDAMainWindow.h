@@ -47,8 +47,6 @@ public:
     
     void LoadWelcome();
 
-    virtual void changeEvent(QEvent *event);
-
 public Q_SLOTS:
     void OnSetCentralWidget(QWidget *widget);
 
@@ -60,6 +58,11 @@ private:
     QDACustomDialog *custom;
     QDAPlanDialog *plan;
     QDAHelpDialog *help;
+
+protected:
+    ////////////////////////// TrayIcon Section //////////////////////////
+    virtual bool nativeEvent(const QByteArray& eventType, void* message, long* result) override;
+    virtual void changeEvent(QEvent* event) override;
 };
 
 #endif // QDA_MAINWINDOW_H

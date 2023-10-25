@@ -26,6 +26,12 @@
 #include <QWindowStateChangeEvent>
 #include <QMessageBox>
 
+#include <iostream>
+#ifdef WIN
+#include <windows.h>
+#endif // WIN
+
+#include <CLog/CLLog.h>
 #include <COSEnv/CETrayIcon.h>
 
 #include <QtProject/QtProject.h>
@@ -81,6 +87,8 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     connect(ui->actionVersion, SIGNAL(triggered()), help, SLOT(OnShowVersion()));
 
     QDAAppConfig::GetInstance()->LoadConfig();
+
+    CE::TrayIcon::SetIcon(winId(), "IDI_ICON1", "应用程序", 0);
 }
 
 QDAMainWindow::~QDAMainWindow()
@@ -110,21 +118,45 @@ void QDAMainWindow::LoadWelcome()
     project->OnCheckEnv();
 }
 
+/////////////////////////////////////// TrayIcon Section ///////////////////////////////////////
+
+bool QDAMainWindow::nativeEvent(const QByteArray& eventType, void* message, long* result)
+{
+#ifdef WIN
+    MSG* msg = (MSG*)message;
+    if (msg->message == WM_TO_TRAY) {
+        LOG_INFO << __FUNCTION__ << " eventType = " << QString(eventType).toStdString() << std::endl;
+        if (msg->lParam == WM_LBUTTONUP) { // Left Button Double Click        
+            CE::TrayIcon::ShowWindow(winId(), true);
+            showMaximized(); // Required
+        }
+        //else if (msg->lParam == WM_LBUTTONDBLCLK) { // Left Button Double Click        
+        //    //CE::TrayIcon::DelIcon(winId());
+        //}
+    }
+#endif // WIN
+
+    return QWidget::nativeEvent(eventType, message, result);
+}
+
 void QDAMainWindow::changeEvent(QEvent * event)
 {
-
+    LOG_INFO << __FUNCTION__ << " event->type() = " << event->type() << std::endl;
     if (QEvent::WindowStateChange == event->type())
     {
         QWindowStateChangeEvent * stateEvent = dynamic_cast<QWindowStateChangeEvent*>(event);
         if (Q_NULLPTR != stateEvent) {
             Qt::WindowStates x = stateEvent->oldState();
             if (Qt::WindowMinimized == stateEvent->oldState()) {
-
+                CE::TrayIcon::ShowWindow(winId(), true);
+                showMaximized(); // Required
             }
             else if (Qt::WindowMaximized == stateEvent->oldState()) {
-                //CE::TrayIcon::SetIcon(winId(), "IDI_ICON1", "应用程序", 0);
-                //CE::TrayIcon::DelIcon(winId());
+                CE::TrayIcon::ShowWindow(winId(), false);
             }
         }
+    }
+    else if (QEvent::Quit == event->type()) {
+        CE::TrayIcon::DelIcon(winId());
     }
 }

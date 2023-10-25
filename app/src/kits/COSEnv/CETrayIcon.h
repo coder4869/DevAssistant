@@ -32,12 +32,18 @@
 
 #include "COSEnvDef.h"
 
+#define WM_TO_TRAY (WM_USER + 5)
+
 NS_CE_BEGIN
 
 namespace TrayIcon {
 	/// @param icon_name Icon ID. e.g. Windows Icon in app .rc (IDI_ICON1)
 	/// @param mode windows : 0-NIM_ADD, 1-NIM_MODIFY, 2-NIM_DELETE, 3-NIM_SETFOCUS, 4-NIM_SETVERSION
 	void SetIcon(int winid, const std::string& icon_name, const std::string& tips, unsigned long mode = 0);
+
+	/// @brief show window from TrayIcon
+	/// @param winid window id to show
+	void ShowWindow(int winid, bool show = true);
 
 	/// @param winid id of target window for removing TrayIcon.
 	void DelIcon(int winid);

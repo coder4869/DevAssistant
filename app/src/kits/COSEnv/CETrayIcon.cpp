@@ -50,29 +50,29 @@ void TrayIcon::SetIcon(int winid, const std::string& icon_name, const std::strin
 	tray_icon.hIcon = ::LoadIcon(hinst, icon_name.c_str());
 	tray_icon.hWnd = hwnd;
 	lstrcpy(tray_icon.szTip, tips.c_str());
-	tray_icon.uCallbackMessage = WM_SHOWWINDOW;
+	tray_icon.uCallbackMessage = WM_TO_TRAY;
 	tray_icon.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
 		
 	/// mode : 0-NIM_ADD, 1-NIM_MODIFY, 2-NIM_DELETE, 3-NIM_SETFOCUS, 4-NIM_SETVERSION
 	if (mode == 0) {
 		Shell_NotifyIcon(NIM_ADD, &tray_icon);
-		ShowWindow(hwnd, SW_HIDE);
+		//ShowWindow(hwnd, SW_HIDE);
 	}
 	else if (mode == 1) {
 		Shell_NotifyIcon(NIM_MODIFY, &tray_icon);
-		ShowWindow(hwnd, SW_HIDE);
+		//ShowWindow(hwnd, SW_HIDE);
 	}
 	else if (mode == 2) {
 		Shell_NotifyIcon(NIM_DELETE, &tray_icon);
-		ShowWindow(hwnd, SW_HIDE);
+		//ShowWindow(hwnd, SW_HIDE);
 	}
 	else if (mode == 3) {
 		Shell_NotifyIcon(NIM_SETFOCUS, &tray_icon);
-		ShowWindow(hwnd, SW_SHOWNORMAL);
+		//ShowWindow(hwnd, SW_SHOWNORMAL);
 	}
 	else if (mode == 4) {
 		Shell_NotifyIcon(NIM_SETVERSION, &tray_icon);
-		ShowWindow(hwnd, SW_HIDE);
+		//ShowWindow(hwnd, SW_HIDE);
 	}
 
 #else
@@ -80,14 +80,24 @@ void TrayIcon::SetIcon(int winid, const std::string& icon_name, const std::strin
 #endif // WIN
 }
 
+void TrayIcon::ShowWindow(int winid, bool show)
+{
+#if WIN
+	ShowWindow(HWND(winid), show ? SW_SHOWNORMAL : SW_HIDE);
+#else
+
+#endif // WIN
+}
 
 void TrayIcon::DelIcon(int winid)
 {
 #if WIN
 	NOTIFYICONDATA tray_icon;
+	HWND hwnd = HWND(winid);
 	memset(&tray_icon, 0, sizeof(NOTIFYICONDATA));
-	tray_icon.hWnd = HWND(winid);
+	tray_icon.hWnd = hwnd;
 	Shell_NotifyIcon(NIM_DELETE, &tray_icon);
+	ShowWindow(hwnd, SW_SHOWNORMAL);
 #else
 
 #endif // WIN
