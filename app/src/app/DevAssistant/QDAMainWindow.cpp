@@ -88,7 +88,7 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
 
     QDAAppConfig::GetInstance()->LoadConfig();
 
-    CE::TrayIcon::SetIcon(winId(), "IDI_ICON1", "应用程序", 0);
+    CE::TrayIcon::SetIcon(winId(), "IDI_ICON1", "开发助手", 0);
 }
 
 QDAMainWindow::~QDAMainWindow()
