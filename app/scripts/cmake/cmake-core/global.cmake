@@ -1,4 +1,4 @@
-# MIT License
+﻿# MIT License
 # 
 # Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 # 
@@ -35,6 +35,9 @@ function(SET_COMPILER compiler)
         set(CMAKE_C_COMPILER "/usr/local/gcc/bin/gcc")
         set(CMAKE_CXX_COMPILER "/usr/local/gcc/bin/g++")
         include(${CMAKE_CURRENT_LIST_DIR}/build_gcc.cmake)
+
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .so ${CMAKE_FIND_LIBRARY_SUFFIXES})
         message("include(${CMAKE_CURRENT_LIST_DIR}/build_gcc.cmake) ")
 
     elseif ("${compiler}" STREQUAL "clang")
