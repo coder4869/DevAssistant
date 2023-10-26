@@ -40,10 +40,18 @@ function(SET_COMPILER compiler)
     elseif ("${compiler}" STREQUAL "clang")
         set(CMAKE_C_COMPILER "/usr/bin/clang")
         set(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .so ${CMAKE_FIND_LIBRARY_SUFFIXES})
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dylib ${CMAKE_FIND_LIBRARY_SUFFIXES})
+
         include(${CMAKE_CURRENT_LIST_DIR}/build_clang.cmake)
         message("include(${CMAKE_CURRENT_LIST_DIR}/build_clang.cmake) ")
 
     elseif ("${compiler}" STREQUAL "nmake")
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .dll ${CMAKE_FIND_LIBRARY_SUFFIXES})
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .lib ${CMAKE_FIND_LIBRARY_SUFFIXES})
+        
         # set(CMAKE_GENERATOR "NMake Makefiles" CACHE INTERNAL "" FORCE)
         include(${CMAKE_CURRENT_LIST_DIR}/build_nmake.cmake)
         message("NMake")
