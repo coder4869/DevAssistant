@@ -9,7 +9,7 @@
 - 2.Query Environment Var. Supports Windows, MacOS.
 
 #### 2. Windows(Only)
-- 1.Add RegisterTable Get and Set Functions.
+- 1.Add Regedit Get and Set Functions.
 - 1.Add TrayIcon Based Hide and Show Window Functions.
 
 #### 3. MacOS(Only)

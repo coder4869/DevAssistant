@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -20,7 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CERegisterTable.h"
+#include "CERegedit.h"
 
 #include <iostream>
 
@@ -54,9 +54,9 @@ static HKEY GetRegHKeyRootHandle(const std::string &key)
 	return hkey;
 }
 
-// Register Table Read-Write : https://www.cnblogs.com/LyShark/p/15019685.html
-// Register Table Read-Write : https://blog.csdn.net/xhlzjd/article/details/85250741
-std::string RegisterTable::GetRegValue(const std::string& key, bool &is_dir)
+// Regedit Read-Write : https://www.cnblogs.com/LyShark/p/15019685.html
+// Regedit Read-Write : https://blog.csdn.net/xhlzjd/article/details/85250741
+std::string Regedit::GetRegValue(const std::string& key, bool &is_dir)
 {
 	// Get HKey
 	int pos_first = key.find_first_of("\\");
@@ -64,7 +64,7 @@ std::string RegisterTable::GetRegValue(const std::string& key, bool &is_dir)
 
 	// Take key remove hkey as lp_sub_key (Dir)
 	const std::string lp_sub_key_dir = key.substr(pos_first + 1);
-	const std::string val = RegisterTable::GetRegValue(hkey, lp_sub_key_dir, ""); 
+	const std::string val = Regedit::GetRegValue(hkey, lp_sub_key_dir, ""); 
 	if (!val.empty()) {
 		is_dir = true;
 		return val;
@@ -77,7 +77,7 @@ std::string RegisterTable::GetRegValue(const std::string& key, bool &is_dir)
 	return GetRegValue(hkey, lp_sub_key, reg_key); // reg_key is item in dir lp_sub_key
 }
 
-std::string RegisterTable::GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key)
+std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key)
 {
 	HKEY hkey_root = GetRegHKeyRootHandle(hkey);
 	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
@@ -101,7 +101,7 @@ std::string RegisterTable::GetRegValue(const std::string& hkey, const std::strin
 	return std::string(key_value, key_size);
 }
 
-bool RegisterTable::SetRegValue(const std::string& key, const std::string& value)
+bool Regedit::SetRegValue(const std::string& key, const std::string& value)
 {
 	bool is_dir = false;
 	std::string old_val = GetRegValue(key, is_dir);
@@ -135,17 +135,26 @@ bool RegisterTable::SetRegValue(const std::string& key, const std::string& value
 	return true;
 }
 
+bool Regedit::DelRegValue(const std::string& key)
+{
+	return true;
+}
+
 #else // Not Win
 
-std::string RegisterTable::GetRegValue(const std::string& key, bool &is_dir) {
+std::string Regedit::GetRegValue(const std::string& key, bool &is_dir) {
 	return ""; 
 }
 
-std::string RegisterTable::GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key) { 
+std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key) { 
 	return "";
 }
 
-bool RegisterTable::SetRegValue(const std::string& key, const std::string& value) {
+bool Regedit::SetRegValue(const std::string& key, const std::string& value) {
+	return false;
+}
+
+bool Regedit::DelRegValue(const std::string& key) {
 	return false;
 }
 

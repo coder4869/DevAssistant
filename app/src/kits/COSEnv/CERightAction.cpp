@@ -30,7 +30,7 @@
 #endif
 
 #include <CLog/CLLog.h>
-#include "CERegisterTable.h"
+#include "CERegedit.h"
 
 NS_CE_BEGIN
 
@@ -61,9 +61,9 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 	std::string reg_val = action;
 	if (mode == RightAction::Mode::ALL_FILES) {
 		reg_path.append(key + "\\");
-		auto ret1 = CE::RegisterTable::SetRegValue(reg_path, tips);
-		auto ret2 = CE::RegisterTable::SetRegValue(reg_path + "Icon", icon_path);
-		auto ret3 = CE::RegisterTable::SetRegValue(reg_path + "command\\", reg_val);
+		auto ret1 = CE::Regedit::SetRegValue(reg_path, tips);
+		auto ret2 = CE::Regedit::SetRegValue(reg_path + "Icon", icon_path);
+		auto ret3 = CE::Regedit::SetRegValue(reg_path + "command\\", reg_val);
 		
 		return ret1 && ret2 && ret3 ? 0 : 3;
 	}
@@ -73,7 +73,7 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 	reg_path.append(key + "\\");
 
 	LOG_ERR << __FUNCTION__ << " reg_path = " << reg_path << " reg_val = " << reg_val << std::endl;
-	auto ret = CE::RegisterTable::SetRegValue(reg_path, reg_val);
+	auto ret = CE::Regedit::SetRegValue(reg_path, reg_val);
 
 	return ret;
 #else

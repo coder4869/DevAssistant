@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -28,7 +28,7 @@
 
 #include <CLog/CLLog.h>
 #include <CUtils/CUString.h>
-#include <COSEnv/CERegisterTable.h>
+#include <COSEnv/CERegedit.h>
 
 #ifdef WIN
 #	include <windows.h>
@@ -57,7 +57,7 @@ std::string SystemEnv::GetEnv(const char* name)
 	const DWORD var_size = GetEnvironmentVariable(name, lp_buf, buf_size);	// GET System Environment Variable
 	if (var_size == 0) {
 		bool is_dir = false;
-		const std::string user_env = RegisterTable::GetRegValue("HKEY_CURRENT_USER\\Environment\\" + std::string(name), is_dir); // GET USER Environment Variable
+		const std::string user_env = Regedit::GetRegValue("HKEY_CURRENT_USER\\Environment\\" + std::string(name), is_dir); // GET USER Environment Variable
 		if (!user_env.empty()) {
 			return user_env;
 		}

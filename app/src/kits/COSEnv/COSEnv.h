@@ -24,7 +24,7 @@
 #define COSENV_H
 
 #include <COSEnv/CESystemEnv.h>
-#include <COSEnv/CERegisterTable.h>
+#include <COSEnv/CERegedit.h>
 #include <COSEnv/CERightAction.h>
 #include <COSEnv/CETrayIcon.h>
 

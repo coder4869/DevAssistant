@@ -34,7 +34,7 @@
 #include <CLog/CAppConf.h>
 #include <CUtils/CUString.h>
 #include <COSEnv/CESystemEnv.h>
-#include <COSEnv/CERegisterTable.h>
+#include <COSEnv/CERegedit.h>
 
 #include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
@@ -129,12 +129,12 @@ void QDACheckEnvDialog::OnCheckEnv()
                     //QMessageBox::warning(NULL, key, QString::fromStdString(pathes));
                 }
             }
-            else { // Get Info From Register Table
+            else { // Get Info From Regedit
                 bool is_dir = false;
-                std::string value = CE::RegisterTable::GetRegValue(key_std, is_dir);
+                std::string value = CE::Regedit::GetRegValue(key_std, is_dir);
                 path = QString::fromStdString(value);
                 if (value.empty()) {
-                    path = "Query Register Table Failed !";
+                    path = "Query Regedit Failed !";
                 }
             }
 

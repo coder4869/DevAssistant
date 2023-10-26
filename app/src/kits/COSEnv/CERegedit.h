@@ -20,11 +20,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Right Action: https://www.cnblogs.com/pengsn/p/13563551.html
-// Right Action: https://zhuanlan.zhihu.com/p/369716586
-// Register Table Read-Write : https://www.cnblogs.com/LyShark/p/15019685.html
-// Register Table Read-Write : https://blog.csdn.net/xhlzjd/article/details/85250741
-// Register Table Operations : https://blog.csdn.net/BBQ_hxl/article/details/109067261
+// Regedit Read-Write : https://www.cnblogs.com/LyShark/p/15019685.html
+// Regedit Read-Write : https://blog.csdn.net/xhlzjd/article/details/85250741
+// Regedit Operations : https://blog.csdn.net/BBQ_hxl/article/details/109067261
 // https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/reg-add
 
 #pragma once
@@ -36,7 +34,7 @@
 #include "COSEnvDef.h"
 
 NS_CE_BEGIN
-namespace RegisterTable {
+namespace Regedit {
 	/// @param key e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
 	std::string GetRegValue(const std::string &key, bool &is_dir);
 
@@ -46,8 +44,15 @@ namespace RegisterTable {
 	/// @param reg_key key in reg_path. Default is "". e.g. "PackageRepositoryRoot"
 	std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "");
 	
-	/// @param key dir is end with "\\". e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe" 
+	/// @demo dir : SetRegValue("HKEY_CURRENT_USER\\Environment\\", "value/for/default/key");
+	/// @demo item : SetRegValue("HKEY_CURRENT_USER\\Environment\\TEST_REG", "path/to/bin");
+	/// @param key dir is end with "\\", detail refer to up demo.
 	/// @param value e.g. "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
 	bool SetRegValue(const std::string& key, const std::string& value);
+
+	/// @demo dir : DelRegValue("KEY_CURRENT_USER\\Environment\\TEST_REG\\")
+	/// @demo item : DelRegValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe")
+	/// @param key dir is end with "\\", detail refer to up demo. 
+	bool DelRegValue(const std::string& key);
 }
 NS_CE_END
