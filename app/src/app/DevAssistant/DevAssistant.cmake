@@ -82,8 +82,7 @@ endif()
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 add_executable(${BIN_NAME} ${OS_BUNDLE} ${DevAssistant_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs})
 target_include_directories(${BIN_NAME} PUBLIC ${INC_DEPS} ${DevAssistantDir} )
-# target_link_directories(${BIN_NAME} PUBLIC ${INC_LIB})
-target_link_directories(${BIN_NAME} PUBLIC ${CMAKE_BINARY_DIR} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+target_link_directories(${BIN_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
         )

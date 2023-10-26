@@ -160,9 +160,12 @@ option(CLog                "Build with CLog                "	ON)
 option(QtCryptoKit         "Build with QtCryptoKit         "	ON)
 # option(MODULE_OPTION  "Build with MODULE_OPTION" ON)
 
+SET(LIB_LINK_DIR ${CMAKE_BINARY_DIR} ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
+
 if(WITH_QT)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-qt/qt_func.cmake)
     QT_INIT(${QT_INSTALL_DIR})
+    SET(LIB_LINK_DIR ${QT_INSTALL_DIR}/bin ${LIB_LINK_DIR})
 
     # set Qt include and libs
     set(INC_QT)
