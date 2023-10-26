@@ -108,6 +108,16 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
+set(DATA_DIR ${PROJ_ROOT}/data)
+File(GLOB_RECURSE DATA_FILES ${DATA_DIR}/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${DATA_DIR}
+        PREFIX "data"
+        FILES ${DATA_FILES}
+        )
+endif(NOT ANDROID)
+
 set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
 File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
 if(NOT ANDROID)
@@ -115,6 +125,16 @@ if(NOT ANDROID)
         TREE ${PLUGIN_DIR}
         PREFIX "plugins"
         FILES ${PLUGIN_FILEs}
+        )
+endif(NOT ANDROID)
+
+set(TOOL_DIR ${PROJ_ROOT}/../tools)
+File(GLOB_RECURSE TOOL_FILEs ${TOOL_DIR}/*.*)
+if(NOT ANDROID)
+    source_group(
+        TREE ${TOOL_DIR}
+        PREFIX "tools"
+        FILES ${TOOL_FILEs}
         )
 endif(NOT ANDROID)
 
