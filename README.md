@@ -56,41 +56,36 @@ plugins:
 ```
 
 #### 2.2 custom project
-Custom project is depends on `plugins/project/project.json`. The Demo and rules as following:
+Custom project is depends on [`plugins/project/project.json`](./plugins/project/project.json). The format and rules as following:
 
-- `project.json` Demo 
+- format:
 
 ```json
 {
-    "proj_name" : "DevAssistant",
-    "dir_proj" : "../../../app/",
+    "proj_name" : "Project Name",
+    "dir_proj" : "path/to/project/root/dir/",
     "options": {
         "WITH_QT" : "ON",
         "WITH_PY" : "ON"
     },
     "dir_codes":[
         {
-            "group" : "QtAPP",
+            "group" : "QtAPP", // Qt Based App Group
             "group_dir" : "/src/app",
             "modules": [
                 {
-                    "module" : "DevAssistant",
+                    "module" : "APP_NAME",
                     "option" : "ON",
                     "gen_lib" : "NO",
-                    "deps" : [
+                    "deps" : [ // Deps Modules From other group
                         "QtProject",
-                        "QtExample",
-                        "QtPractical",
-                        "QtCustom",
-                        "QtPlan",
-                        "QtHelp",
-                        "DACoreKit"
+                        "CCoreKit"
                     ]
                 }
             ]
         },
         {
-            "group" : "QtKit",
+            "group" : "QtKit", // Qt Based Modules (Not App) Group
             "group_dir" : "/src/qtmodules",
             "modules": [
                 {
@@ -100,42 +95,18 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
                     "deps" : [
                         "CCoreKit"
                     ]
-                },
-                {
-                    "module" : "QtExample",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "QtPractical",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "QtCustom",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "QtPlan",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
-                },
-                {
-                    "module" : "QtHelp",
-                    "option" : "ON",
-                    "gen_lib" : "YES"
                 }
             ]
         },
         {
-            "group" : "Kit",
+            "group" : "Kit", // Modules (Not App) Without Qt Depends Group
             "group_dir" : "/src/kits",
             "modules": [
                 {
-                    "module" : "DACoreKit",
+                    "module" : "CCoreKit",
                     "option" : "ON",
-                    "gen_lib" : "YES"
+                    "gen_lib" : "YES",
+                    "deps" : [ ]
                 }
             ]
         },
@@ -144,7 +115,7 @@ Custom project is depends on `plugins/project/project.json`. The Demo and rules 
             "group_dir" : "/deps",
             "modules": [
                 {
-                    "module" : "QtCryptoKit",
+                    "module" : "CLog",
                     "option" : "ON"
                 }
             ]
