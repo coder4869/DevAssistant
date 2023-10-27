@@ -48,7 +48,7 @@ namespace RightAction {
 	/// e.g CE::RightAction::AddAction("DevAssist", "PATH/TO/Bat-Update", 
 	///									"Tips-Run bat", "Path/to/Icon",
 	///									CE::RightAction::Mode::ALL_FILES);
-	/// @param key		right action response function Register-Table key.
+	/// @param key		right action response function Regedit key.
 	/// @param action	action file path. e.g. "path/to/run.bat", "path/to/run.exe"
 	/// @param tips		Right Action Tips.	
 	/// @param icon		Right Action Tips Icon Path.	
@@ -57,6 +57,11 @@ namespace RightAction {
 	int AddAction(const std::string &key, const std::string& action,
 					const std::string& tips, const std::string& icon,
 					Mode mode, const std::string& suffix = "");
+
+	/// @demo DelAction("DevAssist", CE::RightAction::Mode::ALL_FILES);
+	/// @param key	Same to AddAction() Key !!! right action response function Regedit key. 
+	/// @param mode	Same to AddAction() mode !!! action type, type define refer to "enum class Mode : uint8_t"
+	int DelAction(const std::string& key, Mode mode);
 }
 
 NS_CE_END

@@ -75,7 +75,42 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 	LOG_ERR << __FUNCTION__ << " reg_path = " << reg_path << " reg_val = " << reg_val << std::endl;
 	auto ret = CE::Regedit::SetRegValue(reg_path, reg_val);
 
-	return ret;
+	return ret ? 0 : 3;
+#else
+	return 0;
+#endif // WIN
+}
+
+int RightAction::DelAction(const std::string& key, RightAction::Mode mode)
+{
+	if (key.empty()) {
+		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key << std::endl;
+		return 1;
+	}
+
+#ifdef WIN
+	static std::map<RightAction::Mode, std::string> mode_prefix_map;
+	mode_prefix_map[RightAction::Mode::ALL_FILES] = "HKEY_CLASSES_ROOT\\*\\shell\\";
+	mode_prefix_map[RightAction::Mode::FIX_SUFFIX] = "HKEY_CLASSES_ROOT\\.";
+	mode_prefix_map[RightAction::Mode::FOLDER] = "HKEY_CLASSES_ROOT\\Folder\\";
+	mode_prefix_map[RightAction::Mode::DIR] = "HKEY_CLASSES_ROOT\\Directory\\";
+	mode_prefix_map[RightAction::Mode::DIR_BACK] = "HKEY_CLASSES_ROOT\\Directory\\Background\\";
+
+	auto iter = mode_prefix_map.find(mode);
+	if (iter == mode_prefix_map.end()) {
+		LOG_ERR << __FUNCTION__ << " Invalid Mode ! mode = " << (int)mode << std::endl;
+		return 2;
+	}
+
+	std::string reg_path = iter->second;
+	if (mode == RightAction::Mode::ALL_FILES) {
+		reg_path.append(key + "\\");
+		auto ret = CE::Regedit::DelRegValue(reg_path);
+
+		return ret ? 0 : 3;
+	}
+
+	return 0;
 #else
 	return 0;
 #endif // WIN

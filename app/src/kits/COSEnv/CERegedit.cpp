@@ -137,6 +137,27 @@ bool Regedit::SetRegValue(const std::string& key, const std::string& value)
 
 bool Regedit::DelRegValue(const std::string& key)
 {
+	if (key.empty()) {
+		return false;
+	}
+
+	std::string cmd = "";
+	int pos_last = key.find_last_of("\\");
+	std::string lp_key = key.substr(0, pos_last);
+	if (pos_last == key.size() - 1) { // Dir
+		cmd = "echo yes | REG DELETE " + lp_key;
+	}
+	else {
+		std::string reg_key = key.substr(pos_last + 1);
+		cmd = "echo yes | REG DELETE " + lp_key + " /v " + reg_key;
+	}
+	LOG_INFO << cmd << std::endl;
+	int ret = system(cmd.c_str());
+	if (ret != 0) {
+		//DWORD err = GetLastError();
+		//LOG_ERR << "01: Error = " << err << std::endl;
+		return false;
+	}
 	return true;
 }
 
