@@ -1,4 +1,4 @@
-# MIT License
+﻿# MIT License
 # 
 # Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 # 
@@ -19,6 +19,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+
+# https://wiki.qt.io/Using_CMake_build_system
 
 if(WITH_QT)
     if(WIN) # for windows
@@ -43,24 +45,24 @@ if(WITH_QT)
         )
         
         # LIB_BUILD_TYPE_EXT = d for debug, empty for release
-        SET(LIB_QT
-            ${QT_INSTALL_DIR}/lib/Qt5Core${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Gui${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Sql${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5OpenGL${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Widgets${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Charts${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Network${LIB_BUILD_TYPE_EXT}.lib
-            # Camera
-            ${QT_INSTALL_DIR}/lib/Qt5Multimedia${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5MultimediaWidgets${LIB_BUILD_TYPE_EXT}.lib
-            # qml - Quick
-            ${QT_INSTALL_DIR}/lib/Qt5Qml${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Quick${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5QuickWidgets${LIB_BUILD_TYPE_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5QuickControls2${LIB_BUILD_TYPE_EXT}.lib
-            # ${QT_INSTALL_DIR}/lib/QtQuick2Plugin${LIB_BUILD_TYPE_EXT}.lib            
-        ) 
+            SET(LIB_QT
+                ${QT_INSTALL_DIR}/lib/Qt5Core${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5Gui${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5Sql${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5OpenGL${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5Widgets${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5Charts${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5Network${LIB_BUILD_TYPE_EXT}.lib
+                # Camera
+                ${QT_INSTALL_DIR}/lib/Qt5Multimedia${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5MultimediaWidgets${LIB_BUILD_TYPE_EXT}.lib
+                # qml - Quick
+                ${QT_INSTALL_DIR}/lib/Qt5Qml${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5Quick${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5QuickWidgets${LIB_BUILD_TYPE_EXT}.lib
+                ${QT_INSTALL_DIR}/lib/Qt5QuickControls2${LIB_BUILD_TYPE_EXT}.lib
+                # ${QT_INSTALL_DIR}/lib/QtQuick2Plugin${LIB_BUILD_TYPE_EXT}.lib            
+            ) 
         
     elseif(OSX) # for MacOSX
         SET(INC_QT
@@ -105,7 +107,9 @@ if(WITH_QT)
     SET(QT_MODULES Core Gui OpenGL Widgets Charts Network Sql)
     SET(QT_MODULES_CAMERA Multimedia MultimediaWidgets) 
     SET(QT_MODULES_QUICK Qml Quick QuickWidgets QuickControls2 ) #Quick2Plugin
+    # https://blog.csdn.net/wu10188/article/details/129924779
     FIND_PACKAGE(Qt5 COMPONENTS ${QT_MODULES} ${QT_MODULES_CAMERA} ${QT_MODULES_QUICK} REQUIRED)
+    # FIND_PACKAGE(Qt5 5.14.2 EXACT COMPONENTS ${QT_MODULES} ${QT_MODULES_CAMERA} ${QT_MODULES_QUICK} REQUIRED)
     set(CMAKE_AUTOUIC OFF)
 
 endif(WITH_QT)

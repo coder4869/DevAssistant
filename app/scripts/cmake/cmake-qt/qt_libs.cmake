@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+# https://wiki.qt.io/Using_CMake_build_system
+
 if(WITH_QT)
     if(WIN) # for windows
         SET(INC_QT
@@ -105,7 +107,9 @@ if(WITH_QT)
     SET(QT_MODULES Core Gui OpenGL Widgets Charts Network Sql)
     SET(QT_MODULES_CAMERA Multimedia MultimediaWidgets) 
     SET(QT_MODULES_QUICK Qml Quick QuickWidgets QuickControls2 ) #Quick2Plugin
+    # https://blog.csdn.net/wu10188/article/details/129924779
     FIND_PACKAGE(Qt5 COMPONENTS ${QT_MODULES} ${QT_MODULES_CAMERA} ${QT_MODULES_QUICK} REQUIRED)
+    # FIND_PACKAGE(Qt5 5.14.2 EXACT COMPONENTS ${QT_MODULES} ${QT_MODULES_CAMERA} ${QT_MODULES_QUICK} REQUIRED)
     set(CMAKE_AUTOUIC OFF)
 
 endif(WITH_QT)
