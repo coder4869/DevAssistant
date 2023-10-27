@@ -34,83 +34,86 @@
 
 NS_CE_BEGIN
 
+
+static std::string GetRegPrefix(RightAction::Mode mode) 
+{
+	static std::map<RightAction::Mode, std::string> mode_prefix_map;
+	mode_prefix_map[RightAction::Mode::ALL_FILES] = "HKEY_CLASSES_ROOT\\*\\shell\\";
+	mode_prefix_map[RightAction::Mode::FIX_SUFFIX] = "HKEY_CLASSES_ROOT\\";	
+	mode_prefix_map[RightAction::Mode::FOLDER] = "HKEY_CLASSES_ROOT\\Folder\\shell\\";
+	mode_prefix_map[RightAction::Mode::DIR] = "HKEY_CLASSES_ROOT\\Directory\\shell\\";
+	mode_prefix_map[RightAction::Mode::DIR_BACK] = "HKEY_CLASSES_ROOT\\Directory\\Background\\shell\\";
+
+	auto iter = mode_prefix_map.find(mode);
+	if (iter == mode_prefix_map.end()) {
+		return "";
+	}
+	return iter->second;
+}
+
 int RightAction::AddAction(const std::string& key, const std::string& action, 
 							const std::string& tips, const std::string& icon_path,
 							RightAction::Mode mode, const std::string& suffix)
 {
-	if (key.empty() || action.empty() || tips.empty()) {
-		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key << " action = " << action << std::endl;
+	if (key.empty() || action.empty() || tips.empty() 
+		|| (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
+		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key 
+				<< " action = " << action << " tips = " << tips
+				<< " mode = " << (int)mode << " suffix = " << suffix << std::endl;
 		return 1;
 	}
 
 #ifdef WIN
-	static std::map<RightAction::Mode, std::string> mode_prefix_map;
-	mode_prefix_map[RightAction::Mode::ALL_FILES]	= "HKEY_CLASSES_ROOT\\*\\shell\\";
-	mode_prefix_map[RightAction::Mode::FIX_SUFFIX]	= "HKEY_CLASSES_ROOT\\.";
-	mode_prefix_map[RightAction::Mode::FOLDER]		= "HKEY_CLASSES_ROOT\\Folder\\";
-	mode_prefix_map[RightAction::Mode::DIR]			= "HKEY_CLASSES_ROOT\\Directory\\";
-	mode_prefix_map[RightAction::Mode::DIR_BACK]	= "HKEY_CLASSES_ROOT\\Directory\\Background\\";
-
-	auto iter = mode_prefix_map.find(mode);
-	if (iter == mode_prefix_map.end()) {
+	std::string reg_path = GetRegPrefix(mode);
+	if (reg_path.empty()) {
 		LOG_ERR << __FUNCTION__ << " Invalid Mode ! mode = " << (int)mode << std::endl;
 		return 2;
 	}
 
-	std::string reg_path = iter->second;
 	std::string reg_val = action;
-	if (mode == RightAction::Mode::ALL_FILES) {
+	if (mode == CE::RightAction::Mode::FIX_SUFFIX) {
+		reg_path.append(suffix + "\\shell\\" + key + "\\");
+	} else {
 		reg_path.append(key + "\\");
-		auto ret1 = CE::Regedit::SetRegValue(reg_path, tips);
-		auto ret2 = CE::Regedit::SetRegValue(reg_path + "Icon", icon_path);
-		auto ret3 = CE::Regedit::SetRegValue(reg_path + "command\\", reg_val);
-		
-		return ret1 && ret2 && ret3 ? 0 : 3;
 	}
-	if (mode == RightAction::Mode::FIX_SUFFIX) {
-		reg_path.append(suffix + "\\");
-	}
-	reg_path.append(key + "\\");
 
-	LOG_ERR << __FUNCTION__ << " reg_path = " << reg_path << " reg_val = " << reg_val << std::endl;
-	auto ret = CE::Regedit::SetRegValue(reg_path, reg_val);
+	LOG_ERR << __FUNCTION__ << " reg_path = " << reg_path 
+							<< " reg_icon = " << icon_path
+							<< " reg_command = " << reg_val << std::endl;
 
-	return ret ? 0 : 3;
+	auto ret1 = CE::Regedit::SetRegValue(reg_path, tips);
+	auto ret2 = CE::Regedit::SetRegValue(reg_path + "Icon", icon_path);
+	auto ret3 = CE::Regedit::SetRegValue(reg_path + "command\\", reg_val);
+
+	return ret1 && ret2 && ret3 ? 0 : 3;
 #else
 	return 0;
 #endif // WIN
 }
 
-int RightAction::DelAction(const std::string& key, RightAction::Mode mode)
+int RightAction::DelAction(const std::string& key, RightAction::Mode mode, const std::string& suffix)
 {
-	if (key.empty()) {
-		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key << std::endl;
+	if (key.empty() || (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
+		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key 
+				<< " mode = " << (int)mode << " suffix = " << suffix << std::endl;
 		return 1;
 	}
 
 #ifdef WIN
-	static std::map<RightAction::Mode, std::string> mode_prefix_map;
-	mode_prefix_map[RightAction::Mode::ALL_FILES] = "HKEY_CLASSES_ROOT\\*\\shell\\";
-	mode_prefix_map[RightAction::Mode::FIX_SUFFIX] = "HKEY_CLASSES_ROOT\\.";
-	mode_prefix_map[RightAction::Mode::FOLDER] = "HKEY_CLASSES_ROOT\\Folder\\";
-	mode_prefix_map[RightAction::Mode::DIR] = "HKEY_CLASSES_ROOT\\Directory\\";
-	mode_prefix_map[RightAction::Mode::DIR_BACK] = "HKEY_CLASSES_ROOT\\Directory\\Background\\";
-
-	auto iter = mode_prefix_map.find(mode);
-	if (iter == mode_prefix_map.end()) {
+	std::string reg_path = GetRegPrefix(mode);
+	if (reg_path.empty()) {
 		LOG_ERR << __FUNCTION__ << " Invalid Mode ! mode = " << (int)mode << std::endl;
 		return 2;
-	}
+}
 
-	std::string reg_path = iter->second;
-	if (mode == RightAction::Mode::ALL_FILES) {
+	if (mode == CE::RightAction::Mode::FIX_SUFFIX) {
+		reg_path.append(suffix + "\\shell\\" + key + "\\");
+	} else {
 		reg_path.append(key + "\\");
-		auto ret = CE::Regedit::DelRegValue(reg_path);
-
-		return ret ? 0 : 3;
 	}
 
-	return 0;
+	auto ret = CE::Regedit::DelRegValue(reg_path);
+	return ret ? 0 : 3;
 #else
 	return 0;
 #endif // WIN

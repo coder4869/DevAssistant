@@ -53,15 +53,23 @@ namespace RightAction {
 	/// @param tips		Right Action Tips.	
 	/// @param icon		Right Action Tips Icon Path.	
 	/// @param mode		action type, type define refer to "enum class Mode : uint8_t"
-	/// @param suffix	only useful for mode == FIX_SUFFIX. e.g. bat/sh/xls/doc etc.
+	/// @param suffix	only useful for mode == FIX_SUFFIX. mapping "key-regeditDir"e.g. 
+	///					bat-batfile; sh; xls; doc
+	/// @return	error code. 0-succeed, 1-param error, 
+	///						2-mode invalid, 3-regedit error.
 	int AddAction(const std::string &key, const std::string& action,
 					const std::string& tips, const std::string& icon,
 					Mode mode, const std::string& suffix = "");
 
 	/// @demo DelAction("DevAssist", CE::RightAction::Mode::ALL_FILES);
+	/// @demo DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
 	/// @param key	Same to AddAction() Key !!! right action response function Regedit key. 
 	/// @param mode	Same to AddAction() mode !!! action type, type define refer to "enum class Mode : uint8_t"
-	int DelAction(const std::string& key, Mode mode);
+	/// @param suffix	only useful for mode == FIX_SUFFIX. mapping "key-regeditDir"e.g. 
+	///					bat-batfile; sh; xls; doc
+	/// @return	error code. 0-succeed, 1-param error, 
+	///						2-mode invalid, 3-regedit error.
+	int DelAction(const std::string& key, Mode mode, const std::string& suffix = "");
 }
 
 NS_CE_END
