@@ -38,6 +38,8 @@ public:
 	static CKAppConf *GetInstance();
 
 	bool SetRootDir(const std::string& root);
+	std::string GetRootDir() { return root_dir_; }
+
 	bool SetRelativePath(const std::string& key, const std::string& path);
 	std::string GetRelativePath(const std::string& key = "");
 	std::string GetRelativePath(const std::string& key, const std::string& path);

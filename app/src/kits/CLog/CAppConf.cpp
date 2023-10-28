@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -34,11 +34,11 @@ CKAppConf* CKAppConf::GetInstance()
 
 bool CKAppConf::SetRootDir(const std::string &root)
 {
-	root_dir_ = root;
-
 	if (root.empty()) {
 		return false;
 	}
+
+	root_dir_ = root[root.size()-1] == '/' ? root : root + '/';
 	return true;
 }
 
