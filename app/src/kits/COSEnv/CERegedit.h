@@ -34,25 +34,29 @@
 #include "COSEnvDef.h"
 
 NS_CE_BEGIN
+
+/// @note Use "\\" as path split character for windows !!!
+
 namespace Regedit {
 	/// @param key e.g. "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
 	std::string GetRegValue(const std::string &key, bool &is_dir);
 
-	/// @param hkey HKEY_LOCAL_MACHINE, HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_USERS, HKEY_CURRENT_CONFIG
+	/// @param hkey		HKEY_LOCAL_MACHINE, HKEY_CLASSES_ROOT, HKEY_CURRENT_USER, HKEY_USERS, HKEY_CURRENT_CONFIG
 	/// @param reg_path hkey Removed (start without '\'，end with '\'). e.g. 
 	///		"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe"
-	/// @param reg_key key in reg_path. Default is "". e.g. "PackageRepositoryRoot"
+	/// @param reg_key	key in reg_path. Default is "". e.g. "PackageRepositoryRoot"
 	std::string GetRegValue(const std::string& hkey, const std::string& reg_path, const std::string& reg_key = "");
 	
 	/// @demo dir : SetRegValue("HKEY_CURRENT_USER\\Environment\\", "value/for/default/key");
-	/// @demo item : SetRegValue("HKEY_CURRENT_USER\\Environment\\TEST_REG", "path/to/bin");
-	/// @param key dir is end with "\\", detail refer to up demo.
-	/// @param value e.g. "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
-	bool SetRegValue(const std::string& key, const std::string& value);
+	/// @demo item : SetRegValue("HKEY_CURRENT_USER\\Environment\\TEST_REG", "value/for/item/key-TEST_REG");
+	/// @param key		dir is end with "\\", detail refer to up demo.
+	/// @param value	e.g. "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+	/// @param reg_type	values from : REG_SZ, REG_MULTI_SZ, REG_EXPAND_SZ, REG_DWORD, REG_QWORD, REG_BINARY, REG_NONE
+	bool SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type = "REG_SZ");
 
 	/// @demo dir : DelRegValue("KEY_CURRENT_USER\\Environment\\TEST_REG\\")
 	/// @demo item : DelRegValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe")
-	/// @param key dir is end with "\\", detail refer to up demo. 
+	/// @param key	dir is end with "\\", detail refer to up demo. 
 	bool DelRegValue(const std::string& key);
 }
 NS_CE_END

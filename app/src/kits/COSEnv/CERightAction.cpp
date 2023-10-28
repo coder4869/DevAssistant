@@ -53,7 +53,8 @@ static std::string GetRegPrefix(RightAction::Mode mode)
 
 int RightAction::AddAction(const std::string& key, const std::string& action, 
 							const std::string& tips, const std::string& icon_path,
-							RightAction::Mode mode, const std::string& suffix)
+							RightAction::Mode mode, const std::string& suffix,
+							bool clear_old)
 {
 	if (key.empty() || action.empty() || tips.empty() 
 		|| (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
@@ -80,10 +81,13 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 	LOG_ERR << __FUNCTION__ << " reg_path = " << reg_path 
 							<< " reg_icon = " << icon_path
 							<< " reg_command = " << reg_val << std::endl;
+	if (clear_old) {
+		DelAction(key, mode, suffix);
+	}
 
 	auto ret1 = CE::Regedit::SetRegValue(reg_path, tips);
 	auto ret2 = CE::Regedit::SetRegValue(reg_path + "Icon", icon_path);
-	auto ret3 = CE::Regedit::SetRegValue(reg_path + "command\\", reg_val);
+	auto ret3 = CE::Regedit::SetRegValue(reg_path + "command\\", reg_val, "REG_EXPAND_SZ");
 
 	return ret1 && ret2 && ret3 ? 0 : 3;
 #else

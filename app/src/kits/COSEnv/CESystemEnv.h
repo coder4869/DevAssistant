@@ -36,6 +36,8 @@
 NS_CE_BEGIN
 extern const std::string OS_NAME;
 
+/// @note Use "\\" as path split character for windows !!!
+
 //class COSEnv_CLASS SystemEnv {
 class SystemEnv {
 	public:

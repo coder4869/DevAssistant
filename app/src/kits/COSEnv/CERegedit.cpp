@@ -101,7 +101,7 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	return std::string(key_value, key_size);
 }
 
-bool Regedit::SetRegValue(const std::string& key, const std::string& value)
+bool Regedit::SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type)
 {
 	bool is_dir = false;
 	std::string old_val = GetRegValue(key, is_dir);
@@ -119,11 +119,11 @@ bool Regedit::SetRegValue(const std::string& key, const std::string& value)
 	int pos_last = key.find_last_of("\\");
 	std::string lp_key = key.substr(0, pos_last);
 	if (is_dir || pos_last == key.size()-1) {
-		cmd = "REG ADD " + lp_key + " /d " + new_val + " /f";
+		cmd = "REG ADD \"" + lp_key + "\" /t " + reg_type + " /d \"" + new_val + "\" /f";
 	}
 	else {
 		std::string reg_key = key.substr(pos_last + 1);
-		cmd = "REG ADD " + lp_key + " /v " + reg_key + " /d " + new_val + " /f";
+		cmd = "REG ADD \"" + lp_key + "\" /v \"" + reg_key + "\" /t " + reg_type + " /d \"" + new_val + "\" /f";
 	}
 	LOG_INFO << cmd << std::endl;
 	int ret = system(cmd.c_str());
@@ -171,7 +171,7 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	return "";
 }
 
-bool Regedit::SetRegValue(const std::string& key, const std::string& value) {
+bool Regedit::SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type) {
 	return false;
 }
 
