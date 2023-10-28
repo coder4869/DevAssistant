@@ -32,10 +32,25 @@
 
 #include "QDAMainWindow.h"
 
-QString GetBinParentDir(const QString &bin_path) {
+QString GetRootDir(const QString &bin_path) {
     QFileInfo info(bin_path);
     if (info.isFile()) {
-        return info.absoluteDir().absolutePath();
+        QDir bin_dir = info.absoluteDir();
+        bin_dir.cdUp();
+        return bin_dir.absolutePath();
+    }
+
+    return "";
+}
+
+QString GetBinRelativePath(const QString& bin_path) {
+    QFileInfo info(bin_path);
+    if (info.isFile()) {
+        QDir bin_dir = info.absoluteDir();
+        bin_dir.cdUp();
+        QString bin_abs = info.absolutePath();
+        QString dir_abs = bin_dir.absolutePath();
+        return bin_abs.mid(dir_abs.length()+1);
     }
 
     return "";
@@ -43,8 +58,11 @@ QString GetBinParentDir(const QString &bin_path) {
 
 int main(int argc, char *argv[])
 {
-    QString bin_dir = GetBinParentDir(argv[0]);
-    CKAppConf::GetInstance()->SetRootDir(bin_dir.toStdString() + "/../");
+    QString root_dir = GetRootDir(argv[0]);
+    QString app_bin = GetBinRelativePath(argv[0]);
+
+    CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
+    CKAppConf::GetInstance()->SetRelativePath("app_bin", app_bin.toStdString());
 
     for (size_t idx = 0; idx < argc; idx++) {
         LOG_INFO << argv[idx] << std::endl;

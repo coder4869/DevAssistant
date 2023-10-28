@@ -32,6 +32,7 @@
 #endif // WIN
 
 #include <CLog/CLLog.h>
+#include <CLog/CAppConf.h>
 #include <COSEnv/CETrayIcon.h>
 #include <COSEnv/CERegedit.h>
 #include <COSEnv/CERightAction.h>
@@ -118,9 +119,15 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
-    CE::RightAction::AddAction("DevAssist", "D:\\Research\\DevAssistant\\app\\bin64\\Release\\DevAssistant.exe %1",
-        "DevAssist", "D:/Research/DevAssistant/app/scripts/cmake/cmake-win/res/AppIcon.ico",
-        CE::RightAction::Mode::FIX_SUFFIX, "batfile", true);
+
+    std::string app_bin = CKAppConf::GetInstance()->GetRelativePath("app_bin") + "/DevAssistant.exe %1";
+    std::string root_dir = CKAppConf::GetInstance()->GetRootDir();
+#ifdef WIN
+    std::replace(app_bin.begin(), app_bin.end(), '/', '\\');
+#endif // WIN
+    CE::RightAction::AddAction("DevAssist", app_bin,
+                                "DevAssist", root_dir + "data/Resource/AppIcon.ico",
+                                CE::RightAction::Mode::FIX_SUFFIX, "batfile", true);
     //CE::RightAction::AddAction("DevAssist", "D:/Research/DevAssistant/app/bin64/Release/DevAssistant.exe", 
     //                            "DevAssist", "D:/Research/DevAssistant/app/scripts/cmake/cmake-win/res/AppIcon.ico",
     //                            CE::RightAction::Mode::FIX_SUFFIX, "batfile");
