@@ -27,6 +27,7 @@
 #include <QDir>
 #include <QFileInfo>
 
+#include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
 
 #include "QDAMainWindow.h"
@@ -42,12 +43,16 @@ QString GetBinParentDir(const QString &bin_path) {
 
 int main(int argc, char *argv[])
 {
+    QString bin_dir = GetBinParentDir(argv[0]);
+    CKAppConf::GetInstance()->SetRootDir(bin_dir.toStdString() + "/../");
+
+    for (size_t idx = 0; idx < argc; idx++) {
+        LOG_INFO << argv[idx] << std::endl;
+    }
+
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("DevAssistant");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
-
-    QString bin_dir = GetBinParentDir(argv[0]);
-    CKAppConf::GetInstance()->SetRootDir(bin_dir.toStdString() + "/../");
 
     QDAMainWindow window;
     window.setWindowTitle("DevAssistant");

@@ -151,7 +151,7 @@ void QDACheckEnvDialog::OnCheckEnv()
 
 void QDACheckEnvDialog::OnTryFixEnvValue()
 {
-    LOG_INFO << __FUNCTION__ << std::endl;
+    LOG_INFO << std::endl;
 
     std::string script_env = CKAppConf::GetInstance()->GetRelativePath("script_env", "tools/env" + CMD_EXT.toStdString());
     QMessageBox::information(NULL, "script_env", QString::fromStdString(script_env));

@@ -125,7 +125,7 @@ bool QDAMainWindow::nativeEvent(const QByteArray& eventType, void* message, long
 #ifdef WIN
     MSG* msg = (MSG*)message;
     if (msg->message == WM_TO_TRAY) {
-        LOG_INFO << __FUNCTION__ << " eventType = " << QString(eventType).toStdString() << std::endl;
+        LOG_INFO << " eventType = " << QString(eventType).toStdString() << std::endl;
         if (msg->lParam == WM_LBUTTONUP) { // Left Button Double Click        
             CE::TrayIcon::ShowWindow(winId(), true);
             showMaximized(); // Required
@@ -141,7 +141,7 @@ bool QDAMainWindow::nativeEvent(const QByteArray& eventType, void* message, long
 
 void QDAMainWindow::changeEvent(QEvent * event)
 {
-    LOG_INFO << __FUNCTION__ << " event->type() = " << event->type() << std::endl;
+    LOG_INFO << " event->type() = " << event->type() << std::endl;
     if (QEvent::WindowStateChange == event->type())
     {
         QWindowStateChangeEvent * stateEvent = dynamic_cast<QWindowStateChangeEvent*>(event);

@@ -58,7 +58,7 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 {
 	if (key.empty() || action.empty() || tips.empty() 
 		|| (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
-		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key 
+		LOG_ERR << " Empty Parameter Exist! key = " << key 
 				<< " action = " << action << " tips = " << tips
 				<< " mode = " << (int)mode << " suffix = " << suffix << std::endl;
 		return 1;
@@ -67,7 +67,7 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 #ifdef WIN
 	std::string reg_path = GetRegPrefix(mode);
 	if (reg_path.empty()) {
-		LOG_ERR << __FUNCTION__ << " Invalid Mode ! mode = " << (int)mode << std::endl;
+		LOG_ERR << " Invalid Mode ! mode = " << (int)mode << std::endl;
 		return 2;
 	}
 
@@ -78,7 +78,7 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 		reg_path.append(key + "\\");
 	}
 
-	LOG_ERR << __FUNCTION__ << " reg_path = " << reg_path 
+	LOG_ERR << " reg_path = " << reg_path 
 							<< " reg_icon = " << icon_path
 							<< " reg_command = " << reg_val << std::endl;
 	if (clear_old) {
@@ -98,7 +98,7 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 int RightAction::DelAction(const std::string& key, RightAction::Mode mode, const std::string& suffix)
 {
 	if (key.empty() || (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
-		LOG_ERR << __FUNCTION__ << " Empty Parameter Exist! key = " << key 
+		LOG_ERR << " Empty Parameter Exist! key = " << key 
 				<< " mode = " << (int)mode << " suffix = " << suffix << std::endl;
 		return 1;
 	}
@@ -106,7 +106,7 @@ int RightAction::DelAction(const std::string& key, RightAction::Mode mode, const
 #ifdef WIN
 	std::string reg_path = GetRegPrefix(mode);
 	if (reg_path.empty()) {
-		LOG_ERR << __FUNCTION__ << " Invalid Mode ! mode = " << (int)mode << std::endl;
+		LOG_ERR << " Invalid Mode ! mode = " << (int)mode << std::endl;
 		return 2;
 }
 

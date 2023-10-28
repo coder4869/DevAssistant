@@ -62,7 +62,7 @@ std::string SystemEnv::GetEnv(const char* name)
 			return user_env;
 		}
 		DWORD err = GetLastError();
-		LOG_ERR << __FUNCTION__ << "01: Error = " << err << std::endl;
+		LOG_ERR << "01: Error = " << err << std::endl;
 		return "";
 	}
 	else if (var_size > buf_size) // buf_size not enough
@@ -75,7 +75,7 @@ std::string SystemEnv::GetEnv(const char* name)
 		const DWORD new_size = GetEnvironmentVariable(name, lp_buf, var_size); // GET System Environment Variable
 		if (new_size == 0 || new_size > var_size) {
 			DWORD err = GetLastError();
-			LOG_ERR << __FUNCTION__ << "02: Error = " << err << std::endl;
+			LOG_ERR << "02: Error = " << err << std::endl;
 			return "";
 		}
 
