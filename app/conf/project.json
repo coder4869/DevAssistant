@@ -28,6 +28,23 @@
             ]
         },
         {
+            "group": "APP",
+            "group_dir": "/src/app",
+            "modules": [
+                {
+                    "deps": [
+                        "COSEnv",
+                        "CHWD",
+                        "CUtils",
+                        "CLog"
+                    ],
+                    "gen_lib": "NO",
+                    "module": "UnInstall",
+                    "option": "ON"
+                }
+            ]
+        },
+        {
             "group": "QtKit",
             "group_dir": "/src/qtmodules",
             "modules": [
