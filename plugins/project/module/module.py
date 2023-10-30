@@ -156,7 +156,7 @@ class Module(object):
             cmake_append_str = MODULE_CMAKE_APPEND_LIB_DEPS_QT if Module.IS_LIB_DEPS else MODULE_CMAKE_APPEND_QT
             Module.add_module_to_project(cmake_append_str, name)
             if is_app:
-                Module.add_module_cmake(dst_dir, name, "bin-deps.cmake")
+                Module.add_module_cmake(dst_dir, name, "bin-deps-qt.cmake")
                 Module.add_module_main(dst_dir, "main.cpp.QT") # add module main.cpp
             elif Module.IS_LIB_DEPS:
                 Module.add_module_cmake(dst_dir, name, "lib-deps-qt.cmake")

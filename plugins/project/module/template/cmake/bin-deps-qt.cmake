@@ -34,6 +34,28 @@ FILE(GLOB_RECURSE MODULE_NAME_SRC
     ${MODULE_NAMEDir}/*.cpp
     )
 
+# Special For Qt
+if(WITH_QT)
+    FILE(GLOB_RECURSE MODULE_NAME_FORMs 
+        ${MODULE_NAMEDir}/Forms/*.ui
+        )
+
+    FILE(GLOB_RECURSE MODULE_NAME_RES
+        ${MODULE_NAMEDir}/Res/*.qrc
+        ${MODULE_NAMEDir}/Res/*.qml
+        ${MODULE_NAMEDir}/Res/*.js
+        )
+
+    # gen src by forms
+    # qt5_wrap_ui(MODULE_NAME_RES_UIC ${MODULE_NAME_FORMs})
+    # set(MODULE_NAME_SRC ${MODULE_NAME_SRC} ${MODULE_NAME_FORMs} ${MODULE_NAME_RES} ${MODULE_NAME_RES_UIC})
+
+    set(MODULE_NAME_SRC ${MODULE_NAME_SRC} ${MODULE_NAME_FORMs} ${MODULE_NAME_RES})
+
+    set(INC_DEPS ${INC_DEPS} ${INC_QT})
+    set(LIB_DEPS ${LIB_DEPS} ${LIB_QT})
+endif()
+
 # Special For Python
 if(WITH_PY)
     set(INC_DEPS ${INC_DEPS} ${INC_PY})
@@ -48,6 +70,13 @@ if(NOT ANDROID)
         FILES ${MODULE_NAME_SRC}
         )
 endif(NOT ANDROID)
+
+if(WITH_QT)
+    # gen src by forms
+    qt5_wrap_ui(MODULE_NAME_RES_UIC ${MODULE_NAME_FORMs})
+    set(MODULE_NAME_SRC ${MODULE_NAME_SRC} ${MODULE_NAME_RES_UIC})
+endif()
+
 
 ################################## build bin ##################################
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
@@ -64,6 +93,14 @@ APP_ADD_RES_RECURSE("${CONF_DIR}/" "conf/" "${CONF_DIR}/*")
 APP_ADD_RES_RECURSE("${DATA_DIR}/" "data/" "${DATA_DIR}/*")
 APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "data/plugins/" "${PLUGIN_DIR}/*")
 APP_ADD_RES_RECURSE("${TOOL_DIR}/" "tools/" "${TOOL_DIR}/*")
+
+if(WITH_QT) 
+    QT_DEPLOY(${BIN_NAME}) # From qt_func.cmake. Deploy Qt Libs To APP 
+    target_compile_definitions(${BIN_NAME} PRIVATE
+                                $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
+                                $<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:QT_NO_DEBUG_OUTPUT>
+                                WITH_QT )
+endif(WITH_QT)
 
 if(WITH_PY)
     target_compile_definitions(${LIB_NAME} PRIVATE WITH_PY )
