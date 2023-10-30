@@ -120,13 +120,9 @@ void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
 
-    std::string app_bin = CKAppConf::GetInstance()->GetRelativePath("app_bin") + "/DevAssistant.exe %1";
-    std::string root_dir = CKAppConf::GetInstance()->GetRootDir();
-#ifdef WIN
-    std::replace(app_bin.begin(), app_bin.end(), '/', '\\');
-#endif // WIN
-    CE::RightAction::AddAction("DevAssist", app_bin,
-                                "DevAssist", root_dir + "data/Resource/AppIcon.ico",
+    std::string app_bin = CKAppConf::GetInstance()->GetRelativePath("app_bin") + " %1";
+    std::string app_icon = CKAppConf::GetInstance()->GetRelativePath("app_icon");
+    CE::RightAction::AddAction("DevAssist", app_bin, "DevAssist", app_icon,
                                 CE::RightAction::Mode::FIX_SUFFIX, "batfile", true);
     //CE::RightAction::AddAction("DevAssist", "D:/Research/DevAssistant/app/bin64/Release/DevAssistant.exe", 
     //                            "DevAssist", "D:/Research/DevAssistant/app/scripts/cmake/cmake-win/res/AppIcon.ico",

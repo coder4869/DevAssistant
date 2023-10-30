@@ -37,11 +37,25 @@ class CKAppConf
 public:
 	static CKAppConf *GetInstance();
 
+	/// @param	root	root dir path, path component separator is '/'
+	/// @return false for empty root
 	bool SetRootDir(const std::string& root);
-	std::string GetRootDir() { return root_dir_; }
 
+	/// @return root dir path, path component separator is '\\' for windows, otherwhise is '/' 
+	std::string GetRootDir();
+
+	/// @param	key		key for relative path
+	/// @param	path	root_dir_ based relative file/dir path. path component separator is '/'
 	bool SetRelativePath(const std::string& key, const std::string& path);
+
+	/// @param	key		key for relative path
+	/// @return root_dir_ append relative file/dir path.
 	std::string GetRelativePath(const std::string& key = "");
+
+	/// @brief	Call SetRelativePath() first, and GetRelativePath() then
+	/// @param	key		key for relative path
+	/// @param	path	root_dir_ based relative file/dir path. path component separator is '/'
+	/// @return root_dir_ append relative file/dir path.
 	std::string GetRelativePath(const std::string& key, const std::string& path);
 
 protected:

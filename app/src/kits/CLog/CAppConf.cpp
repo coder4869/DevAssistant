@@ -22,6 +22,8 @@
 
 #include "CAppConf.h"
 
+#include <algorithm>
+
 static CKAppConf* instance = nullptr;
 
 CKAppConf* CKAppConf::GetInstance()
@@ -42,6 +44,14 @@ bool CKAppConf::SetRootDir(const std::string &root)
 	return true;
 }
 
+std::string CKAppConf::GetRootDir() { 
+	auto ret = root_dir_;
+#ifdef WIN
+	std::replace(ret.begin(), ret.end(), '/', '\\');
+#endif // WIN
+	return ret; 
+}
+
 bool CKAppConf::SetRelativePath(const std::string& key, const std::string& path)
 {
 	if (key.empty() || path.empty()) {
@@ -59,7 +69,13 @@ std::string CKAppConf::GetRelativePath(const std::string& key)
 		return "";
 	}
 
-	return root_dir_ + "/" + iter->second;
+	auto ret = root_dir_ + "/" + iter->second;
+
+#ifdef WIN
+	std::replace(ret.begin(), ret.end(), '/', '\\');
+#endif // WIN
+
+	return ret;
 }
 
 std::string CKAppConf::GetRelativePath(const std::string& key, const std::string& path)
