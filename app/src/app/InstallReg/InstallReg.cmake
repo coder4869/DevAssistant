@@ -20,18 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(MODULE_NAMEDir ${CMAKE_CURRENT_LIST_DIR})
-set(BIN_NAME MODULE_NAME)
+set(InstallRegDir ${CMAKE_CURRENT_LIST_DIR})
+set(BIN_NAME InstallReg)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS ${THIRD_PARTY_LIB} )
+set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv CHWD CUtils CLog )
 
-FILE(GLOB_RECURSE MODULE_NAME_SRC
-    ${MODULE_NAMEDir}/*.h
-    ${MODULE_NAMEDir}/*.hpp
+FILE(GLOB_RECURSE InstallReg_SRC
+    ${InstallRegDir}/*.h
+    ${InstallRegDir}/*.hpp
 
-    ${MODULE_NAMEDir}/*.c
-    ${MODULE_NAMEDir}/*.cc
-    ${MODULE_NAMEDir}/*.cpp
+    ${InstallRegDir}/*.c
+    ${InstallRegDir}/*.cc
+    ${InstallRegDir}/*.cpp
     )
 
 # Special For Python
@@ -43,16 +43,16 @@ endif(WITH_PY)
 # Gen Source Tree
 if(NOT ANDROID)
     source_group(
-        TREE ${MODULE_NAMEDir}
-        PREFIX "MODULE_NAME"
-        FILES ${MODULE_NAME_SRC}
+        TREE ${InstallRegDir}
+        PREFIX "InstallReg"
+        FILES ${InstallReg_SRC}
         )
 endif(NOT ANDROID)
 
 ################################## build bin ##################################
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-add_executable(${BIN_NAME} ${OS_BUNDLE} ${MODULE_NAME_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs})
-target_include_directories(${BIN_NAME} PUBLIC ${INC_DEPS} ${MODULE_NAMEDir} )
+add_executable(${BIN_NAME} ${OS_BUNDLE} ${InstallReg_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs})
+target_include_directories(${BIN_NAME} PUBLIC ${INC_DEPS} ${InstallRegDir} )
 target_link_directories(${BIN_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
@@ -67,7 +67,7 @@ APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "data/plugins/" "${PLUGIN_DIR}/*")
 APP_ADD_RES_RECURSE("${TOOL_DIR}/" "tools/" "${TOOL_DIR}/*")
 
 if(WITH_PY)
-    target_compile_definitions(${LIB_NAME} PRIVATE WITH_PY )
+    target_compile_definitions(${BIN_NAME} PRIVATE WITH_PY )
 endif(WITH_PY)
 
 # install libs & headers
@@ -82,3 +82,27 @@ elseif(APPLE)
     XCODE_SETTING(${BIN_NAME} ${OS_MIN_VERSION})
     XCODE_ADD_INFO_PLIST(${BIN_NAME})
 endif(APPLE)
+
+if(COSEnv)
+    add_dependencies(${BIN_NAME} COSEnv)
+else()
+    message(FATAL_ERROR "option ON for COSEnv is required !")
+endif(COSEnv)
+
+if(CHWD)
+    add_dependencies(${BIN_NAME} CHWD)
+else()
+    message(FATAL_ERROR "option ON for CHWD is required !")
+endif(CHWD)
+
+if(CUtils)
+    add_dependencies(${BIN_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)
+
+if(CLog)
+    add_dependencies(${BIN_NAME} CLog)
+else()
+    message(FATAL_ERROR "option ON for CLog is required !")
+endif(CLog)

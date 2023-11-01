@@ -86,6 +86,7 @@ target_link_directories(${BIN_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
         ${OPENGL_gl_LIBRARY} # https://cmake.org/cmake/help/v3.0/module/FindOpenGL.html
         )
+# set_target_properties(${BIN_NAME} PROPERTIES DEBUG_POSTFIX ${CMAKE_DEBUG_POSTFIX})
 
 # add app res
 # APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "conf/")

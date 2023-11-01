@@ -32,10 +32,7 @@
 #endif // WIN
 
 #include <CLog/CLLog.h>
-#include <CLog/CAppConf.h>
 #include <COSEnv/CETrayIcon.h>
-#include <COSEnv/CERegedit.h>
-#include <COSEnv/CERightAction.h>
 
 #include <QtProject/QtProject.h>
 #include <QtExample/QtExample.h>
@@ -119,15 +116,6 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
 void QDAMainWindow::LoadWelcome()
 {
     project->OnCheckEnv();
-
-    std::string app_bin = CKAppConf::GetInstance()->GetRelativePath("app_bin") + " %1";
-    std::string app_icon = CKAppConf::GetInstance()->GetRelativePath("app_icon");
-    CE::RightAction::AddAction("DevAssist", app_bin, "DevAssist", app_icon,
-                                CE::RightAction::Mode::FIX_SUFFIX, "batfile", true);
-    //CE::RightAction::AddAction("DevAssist", "D:/Research/DevAssistant/app/bin64/Release/DevAssistant.exe", 
-    //                            "DevAssist", "D:/Research/DevAssistant/app/scripts/cmake/cmake-win/res/AppIcon.ico",
-    //                            CE::RightAction::Mode::FIX_SUFFIX, "batfile");
-    //CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
 }
 
 /////////////////////////////////////// TrayIcon Section ///////////////////////////////////////

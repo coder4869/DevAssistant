@@ -43,27 +43,10 @@ QString GetRootDir(const QString &bin_path) {
     return "";
 }
 
-QString GetBinRelativePath(const QString& bin_path) {
-    QFileInfo info(bin_path);
-    if (info.isFile()) {
-        QString bin_abs = info.absolutePath();
-        QDir bin_dir = info.absoluteDir();
-        bin_dir.cdUp();
-        QString dir_abs = bin_dir.absolutePath();
-        return bin_abs.mid(dir_abs.length()+1);
-    }
-
-    return "";
-}
-
 int main(int argc, char *argv[])
 {
     QString root_dir = GetRootDir(argv[0]);
-    QString app_bin = GetBinRelativePath(argv[0]);
-
     CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
-    CKAppConf::GetInstance()->SetRelativePath("app_bin", app_bin.toStdString()+ "/DevAssistant.exe");
-    CKAppConf::GetInstance()->SetRelativePath("app_icon", "data/Resource/AppIcon.ico");
     
     for (size_t idx = 0; idx < argc; idx++) {
         LOG_INFO << argv[idx] << std::endl;

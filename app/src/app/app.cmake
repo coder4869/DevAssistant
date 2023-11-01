@@ -33,3 +33,8 @@ endif(WITH_QT AND DevAssistant)
 if(UnInstall)
     include(${SRC_ROOT}/UnInstall/UnInstall.cmake)
 endif(UnInstall)
+
+# InstallReg
+if(InstallReg)
+    include(${SRC_ROOT}/InstallReg/InstallReg.cmake)
+endif(InstallReg)

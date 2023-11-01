@@ -41,6 +41,17 @@
                     "gen_lib": "NO",
                     "module": "UnInstall",
                     "option": "ON"
+                },
+                {
+                    "deps": [
+                        "COSEnv",
+                        "CHWD",
+                        "CUtils",
+                        "CLog"
+                    ],
+                    "gen_lib": "NO",
+                    "module": "InstallReg",
+                    "option": "ON"
                 }
             ]
         },
