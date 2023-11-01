@@ -3,12 +3,25 @@
 // https://blog.csdn.net/ouyang_peng/article/details/124703411
 
 #include <fstream>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#ifdef WIN
+#include <direct.h>
+#endif // WIN
+
+
 static std::ofstream g_log;
 static bool g_log_open = false;
 
 static void log_open() {
+#ifdef WIN
+	_mkdir("logs");
+#else
+	// TDDO :: Linux mkdir
+#endif
 	if (!g_log_open) {
-		g_log.open("../bin64/test.log", std::ofstream::app);
+		g_log.open("logs/test.log", std::ofstream::app);
 		g_log_open = true;
 	}
 }
