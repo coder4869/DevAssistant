@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -44,6 +44,8 @@ namespace String {
     //CUtils_API 
         int SplitStringToVector(const std::string& str, const std::string& split_tag,
                                         std::vector<std::string> & values);
+        
+        std::string Replace(const std::string& str, const std::string& from, const std::string& to);
 }
 NS_CU_END
 

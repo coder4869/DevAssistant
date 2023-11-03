@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2022 [coder4869](https://github.com/coder4869)
 //
@@ -21,6 +21,8 @@
 // SOFTWARE.
 
 #include "CUString.h"
+
+#include <sstream>
 
 NS_CU_BEGIN
 
@@ -101,6 +103,20 @@ int String::SplitStringToVector(const std::string& str, const std::string& split
 	//}
 
 	return 0;
+}
+
+std::string String::Replace(const std::string& str, const std::string& from, const std::string& to)
+{
+	auto str_cp = str;
+	std::stringstream ss;
+	size_t start_pos = 0;
+	while (start_pos == str_cp.find(from, start_pos)) {
+		ss << str_cp.substr(0, start_pos) << to;
+		start_pos + from.length();
+		str_cp = str_cp.substr(start_pos);
+	}
+	ss << str;
+	return ss.str();
 }
 
 NS_CU_END
