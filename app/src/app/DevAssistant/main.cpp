@@ -26,6 +26,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFileInfo>
+#include <QMessageBox>
 
 #include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
@@ -65,10 +66,15 @@ int FixBuildScript(const std::string& script_path) {
 
     if (ret) {
         CU::File::SaveFileString(script_path, err_msg);
-        LOG_INFO << " Fix BuildScript " + script_path +  " Succeed: \n" << err_msg << std::endl;
+        std::string info = " Fix BuildScript " + script_path + " Succeed: \n" + err_msg;
+        LOG_INFO << info << std::endl;
+        QMessageBox::information(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
         return 0;
     }
-    LOG_INFO << " Fix BuildScript " + script_path + " Failed: \n" << err_msg << std::endl;
+
+    std::string info = " Fix BuildScript " + script_path + " Failed: \n" + err_msg;
+    LOG_INFO << info << std::endl;
+    QMessageBox::critical(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
     return 1;
 }
 
