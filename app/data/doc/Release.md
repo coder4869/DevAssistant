@@ -10,7 +10,8 @@
 
 #### 2. Windows(Only)
 - 1.Add Regedit Get and Set Functions.
-- 1.Add TrayIcon Based Hide and Show Window Functions.
+- 2.Add TrayIcon Based Hide and Show Window Functions.
+- 3.Add RightAction based adapter to any `run_win.bat` for VS2019 and VS2022. e.g. `app/scripts/build/run_win.bat`
 
 #### 3. MacOS(Only)
 
