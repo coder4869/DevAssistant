@@ -45,7 +45,7 @@ namespace String {
         int SplitStringToVector(const std::string& str, const std::string& split_tag,
                                         std::vector<std::string> & values);
         
-        std::string Replace(const std::string& str, const std::string& from, const std::string& to);
+        int Replace(std::string& str, const std::string& from, const std::string& to);
 }
 NS_CU_END
 

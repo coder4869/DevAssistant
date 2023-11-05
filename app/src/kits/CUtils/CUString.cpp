@@ -105,18 +105,18 @@ int String::SplitStringToVector(const std::string& str, const std::string& split
 	return 0;
 }
 
-std::string String::Replace(const std::string& str, const std::string& from, const std::string& to)
+int String::Replace(std::string& str, const std::string& from, const std::string& to)
 {
-	auto str_cp = str;
-	std::stringstream ss;
-	size_t start_pos = 0;
-	while (start_pos == str_cp.find(from, start_pos)) {
-		ss << str_cp.substr(0, start_pos) << to;
-		start_pos + from.length();
-		str_cp = str_cp.substr(start_pos);
+	for (std::string::size_type pos(0); pos != std::string::npos; pos += to.length()) 
+	{
+		pos = str.find(from, pos);
+		if (pos != std::string::npos) {
+			str.replace(pos, from.length(), to);
+		} else {
+			break;
+		}
 	}
-	ss << str;
-	return ss.str();
+	return 0;
 }
 
 NS_CU_END
