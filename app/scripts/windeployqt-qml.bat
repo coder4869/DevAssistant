@@ -1,6 +1,6 @@
-﻿
-set ROOT=%~dp0\..
+﻿set ROOT=%~dp0\..
 
+start /wait %QT_HOME%\bin\windeployqt.exe -qmldir %QT_HOME%/qml %ROOT%\bin64\Debug\DevAssistant.exe
 start /wait %QT_HOME%\bin\windeployqt.exe -qmldir %QT_HOME%/qml %ROOT%\bin64\Release\DevAssistant.exe
 
 @REM Fix "QtQuick.Shapes" load failed issue
