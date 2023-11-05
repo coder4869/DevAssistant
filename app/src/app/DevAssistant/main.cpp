@@ -29,6 +29,9 @@
 
 #include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
+#include <CUtils/CUFile.h>
+
+#include <QtEnvKit/DABuildScript.h>
 
 #include "QDAMainWindow.h"
 
@@ -43,15 +46,7 @@ QString GetRootDir(const QString &bin_path) {
     return "";
 }
 
-int main(int argc, char *argv[])
-{
-    QString root_dir = GetRootDir(argv[0]);
-    CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
-    
-    for (size_t idx = 0; idx < argc; idx++) {
-        LOG_INFO << argv[idx] << std::endl;
-    }
-
+int LoadApp(int argc, char* argv[]) {
     QApplication app(argc, argv);
     QCoreApplication::setApplicationName("DevAssistant");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
@@ -62,4 +57,34 @@ int main(int argc, char *argv[])
     window.LoadWelcome();
 
     return app.exec();
+}
+
+int FixBuildScript(const std::string& script_path) {
+    std::string err_msg = "";
+    bool ret = QEK::BuildScript::Update(script_path, err_msg);
+
+    if (ret) {
+        CU::File::SaveFileString(script_path, err_msg);
+        LOG_INFO << " Fix BuildScript " + script_path +  " Succeed: \n" << err_msg << std::endl;
+        return 0;
+    }
+    LOG_INFO << " Fix BuildScript " + script_path + " Failed: \n" << err_msg << std::endl;
+    return 1;
+}
+
+int main(int argc, char *argv[])
+{
+    QString root_dir = GetRootDir(argv[0]);
+    CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
+    
+    for (size_t idx = 0; idx < argc; idx++) {
+        LOG_INFO << argv[idx] << std::endl;
+    }
+
+    if (argc >= 2) {
+        // Update run_win.bat / run_arm.sh / run_unix.sh
+        return FixBuildScript(argv[1]);
+    }
+
+    return LoadApp(argc, argv);
 }

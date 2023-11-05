@@ -20,10 +20,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QTENVKIT_H
-#define QTENVKIT_H
+#ifndef QTENVKIT_DEF_H
+#define QTENVKIT_DEF_H
 
-#include <QtEnvKit/QDACheckEnvDialog.h>
-#include <QtEnvKit/DABuildScript.h>
+#define NS_QEK_BEGIN	namespace QEK {
+#define NS_QEK_END		} //namespace QEK
 
-#endif /* QTENVKIT_H */
+
+#ifdef QtEnvKit_EXPORT
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define QtEnvKit_CLASS __declspec(dllexport)
+#		define QtEnvKit_API extern "C" __declspec(dllexport)
+#	else
+#		define QtEnvKit_CLASS __attribute__((externally_visible))
+#		define QtEnvKit_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#else
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define QtEnvKit_CLASS __declspec(dllimport)
+#		define QtEnvKit_API extern "C" __declspec(dllimport)
+#	else
+#		define QtEnvKit_CLASS __attribute__((externally_visible))
+#		define QtEnvKit_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#endif // QtEnvKit_EXPORT
+
+#endif /* QTENVKIT_DEF_H */
