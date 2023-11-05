@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 // https://blog.csdn.net/ouyang_peng/article/details/124703411
 
@@ -72,6 +72,9 @@ static void log_close() {
 
 #	elif (defined __APPLE__) || (defined __MACH__) 
 // MAC
+#    define LOG_INFO LOG_BASE << " INFO: " << __FUNCTION__ << " "
+#    define LOG_WARN LOG_BASE << " WARN: " << __FUNCTION__ << " "
+#    define LOG_ERR  LOG_BASE << " ERROR: " << __FUNCTION__ << " "
 
 #	elif (defined __ANDROID__)
 // Android
