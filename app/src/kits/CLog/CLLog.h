@@ -5,11 +5,12 @@
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/timeb.h>
+#include <time.h>
 
 #ifdef WIN
 #include <direct.h>
 #endif // WIN
-
 
 static std::ofstream g_log;
 static bool g_log_open = false;
@@ -21,7 +22,14 @@ static void log_open() {
 	// TDDO :: Linux mkdir
 #endif
 	if (!g_log_open) {
-		g_log.open("logs/test.log", std::ofstream::app);
+		timeb tmb;
+		ftime(&tmb); // Get ms time
+		char tim_str[100];
+		struct tm t = *localtime(&tmb.time);
+		strftime(tim_str, sizeof(tim_str), "%Y%m%d-%H%M%S", &t);
+		char log_name[80];
+		sprintf(log_name, "logs/log-%s.log", tim_str);
+		g_log.open(log_name, std::ofstream::app);
 		g_log_open = true;
 	}
 }
