@@ -80,6 +80,16 @@ class File(object):
             return True
 
     @staticmethod
+    def has_string(file_path, dst_str):
+    # https://blog.csdn.net/u012206617/article/details/121673782
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="utf-8") as f: 
+                for line in f:
+                    if dst_str in line:
+                        return True
+        return False
+    
+    @staticmethod
     def replace_string(file_path, old_str, new_str):
     # https://blog.csdn.net/u012206617/article/details/121673782
         if os.path.exists(file_path):

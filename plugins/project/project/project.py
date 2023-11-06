@@ -142,6 +142,9 @@ class Project(object):
         # Add Group cmake-include to ${PROJECT}/CMakeLists.txt
         from_srting = "# include(Module-Group.cmake)"
         to_string = "include(${PROJ_ROOT}" + group_dir + "/" + dir_name + ".cmake)"
+        if pyt_file.File.has_string(root_dir + "/CMakeLists.txt", to_string):
+            return
+
         to_string = from_srting + "\n" + to_string
         # Add Extra Info For Third-Party cmake
         if gtype.lower() == "lib":
