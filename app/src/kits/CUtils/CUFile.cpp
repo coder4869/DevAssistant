@@ -22,6 +22,7 @@
 
 #include "CUFile.h"
 
+#include <algorithm>
 #include <fstream>
 //#include <sstream>
 #include <iostream>
@@ -82,7 +83,9 @@ int File::SaveFileString(const std::string& file_path, const std::string& save_s
     }
 
     //std::ostringstream oss;
-    fs << save_str;
+    std::string str_copy = save_str;
+    std::replace(str_copy.begin(), str_copy.end(), '\0', ' ');
+    fs << str_copy;
 
     //fs.write(oss.str().c_str(), oss.str().length());
     //fs.close();
