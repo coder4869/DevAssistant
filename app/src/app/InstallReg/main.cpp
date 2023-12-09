@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2023 [coder4869](https://github.com/coder4869)
 //
@@ -94,5 +94,14 @@ int main(int argc, char *argv[])
     //                            "DevAssist", "D:/Research/DevAssistant/app/scripts/cmake/cmake-win/res/AppIcon.ico",
     //                            CE::RightAction::Mode::FIX_SUFFIX, "batfile");
     //CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
+
+    // Auto Start
+#ifdef WIN
+    std::string regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\";
+    std::replace(root_dir.begin(), root_dir.end(), '/', '\\');
+    //CE::Regedit::DelRegValue(regkey + "DevTools");
+    auto ret2 = CE::Regedit::SetRegValue(regkey + "DevTools", root_dir + "\\bin64\\DevAssistant.exe");
+#endif // WIN
+
     return 0;
 }
