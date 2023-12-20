@@ -26,7 +26,7 @@
 #define NS_CLOG_BEGIN namespace CLOG {
 #define NS_CLOG_END	} //namespace CLOG
 
-#ifdef CLog_EXPORT
+#ifdef CLOG_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
 #		define CLOG_CLASS __declspec(dllexport)

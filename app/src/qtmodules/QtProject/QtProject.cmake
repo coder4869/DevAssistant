@@ -61,7 +61,7 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} QtEnvKit QtCoreKit QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
-target_compile_definitions(${LIB_NAME} PRIVATE QtProject_EXPORT  )
+target_compile_definitions(${LIB_NAME} PRIVATE QTPROJECT_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtProjectDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})

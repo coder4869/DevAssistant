@@ -20,32 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CUTILS_DEF_H
-#define CUTILS_DEF_H
+#ifndef QTPLAN_DEF_H
+#define QTPLAN_DEF_H
 
-#define NS_CU_BEGIN namespace CU {
-#define NS_CU_END	} //namespace CU
+#define NS_QPL_BEGIN namespace QPL {
+#define NS_QPL_END	} //namespace QPL
 
-#ifdef CUTILS_EXPORT
+#ifdef QTPLAN_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define CUTILS_CLASS __declspec(dllexport)
-#		define CUTILS_API extern "C" __declspec(dllexport)
+#		define QTPLAN_CLASS __declspec(dllexport)
+#		define QTPLAN_API extern "C" __declspec(dllexport)
 #	else
-#		define CUTILS_CLASS __attribute__((externally_visible))
-#		define CUTILS_API extern "C" __attribute__((externally_visible))
+#		define QTPLAN_CLASS __attribute__((externally_visible))
+#		define QTPLAN_API extern "C" __attribute__((externally_visible))
 #	endif
 
 #else
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define CUTILS_CLASS __declspec(dllimport)
-#		define CUTILS_API extern "C" __declspec(dllimport)
+#		define QTPLAN_CLASS __declspec(dllimport)
+#		define QTPLAN_API extern "C" __declspec(dllimport)
 #	else
-#		define CUTILS_CLASS __attribute__((externally_visible))
-#		define CUTILS_API extern "C" __attribute__((externally_visible))
+#		define QTPLAN_CLASS __attribute__((externally_visible))
+#		define QTPLAN_API extern "C" __attribute__((externally_visible))
 #	endif
 
-#endif // CUTILS_EXPORT
+#endif // QTPLAN_EXPORT
 
-#endif /* CUTILS_DEF_H */
+#endif /* QTPLAN_DEF_H */

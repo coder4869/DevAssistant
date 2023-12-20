@@ -26,27 +26,27 @@
 #define NS_QUI_BEGIN namespace QUI {
 #define NS_QUI_END	} //namespace QUI
 
-#ifdef QtUIInfra_EXPORT
+#ifdef QTUIINFRA_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define QUI_CLASS __declspec(dllexport)
-#		define QUI_API extern "C" __declspec(dllexport)
+#		define QTUIINFRA_CLASS __declspec(dllexport)
+#		define QTUIINFRA_API extern "C" __declspec(dllexport)
 #	else
-#		define QUI_CLASS __attribute__((externally_visible))
-#		define QUI_API extern "C" __attribute__((externally_visible))
+#		define QTUIINFRA_CLASS __attribute__((externally_visible))
+#		define QTUIINFRA_API extern "C" __attribute__((externally_visible))
 #	endif
 
 #else
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define QUI_CLASS __declspec(dllimport)
-#		define QUI_API extern "C" __declspec(dllimport)
+#		define QTUIINFRA_CLASS __declspec(dllimport)
+#		define QTUIINFRA_API extern "C" __declspec(dllimport)
 #	else
-#		define QUI_CLASS __attribute__((externally_visible))
-#		define QUI_API extern "C" __attribute__((externally_visible))
+#		define QTUIINFRA_CLASS __attribute__((externally_visible))
+#		define QTUIINFRA_API extern "C" __attribute__((externally_visible))
 #	endif
 
-#endif // QtUIInfra_EXPORT
+#endif // QTUIINFRA_EXPORT
 
 
 #endif /* QTUIINFRA_DEF_H */

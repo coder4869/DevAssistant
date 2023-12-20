@@ -26,27 +26,26 @@
 #define NS_QEK_BEGIN	namespace QEK {
 #define NS_QEK_END		} //namespace QEK
 
-
-#ifdef QtEnvKit_EXPORT
+#ifdef QTENVKIT_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define QtEnvKit_CLASS __declspec(dllexport)
-#		define QtEnvKit_API extern "C" __declspec(dllexport)
+#		define QTENVKIT_CLASS __declspec(dllexport)
+#		define QTENVKIT_API extern "C" __declspec(dllexport)
 #	else
-#		define QtEnvKit_CLASS __attribute__((externally_visible))
-#		define QtEnvKit_API extern "C" __attribute__((externally_visible))
+#		define QTENVKIT_CLASS __attribute__((externally_visible))
+#		define QTENVKIT_API extern "C" __attribute__((externally_visible))
 #	endif
 
 #else
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define QtEnvKit_CLASS __declspec(dllimport)
-#		define QtEnvKit_API extern "C" __declspec(dllimport)
+#		define QTENVKIT_CLASS __declspec(dllimport)
+#		define QTENVKIT_API extern "C" __declspec(dllimport)
 #	else
-#		define QtEnvKit_CLASS __attribute__((externally_visible))
-#		define QtEnvKit_API extern "C" __attribute__((externally_visible))
+#		define QTENVKIT_CLASS __attribute__((externally_visible))
+#		define QTENVKIT_API extern "C" __attribute__((externally_visible))
 #	endif
 
-#endif // QtEnvKit_EXPORT
+#endif // QTENVKIT_EXPORT
 
 #endif /* QTENVKIT_DEF_H */

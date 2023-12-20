@@ -185,6 +185,7 @@ class Module(object):
     def add_module_cmake(dst_dir:str, name:str, cmake:str):
         dst_cmake = dst_dir + "/" + name + ".cmake"
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_CMAKE + cmake, dst_cmake)
+        pyt_file.File.replace_string(dst_cmake, "MODULE_NAME_EXPORT", name.upper() + "_EXPORT")
         pyt_file.File.replace_string(dst_cmake, "MODULE_NAME", name)
         path = Module.MOUDLE_ABS_DIR[:-1]
         gname = path.rsplit('/', 1)[-1]
@@ -195,6 +196,9 @@ class Module(object):
         dst_header = dst_dir + "/" + name + ".h"
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_CODE + "MODULE_NAME.h", dst_header)
         pyt_file.File.replace_string(dst_header, "MODULE_NAME", name.upper())
+        def_header = dst_dir + "/" + name + "Def.h"
+        pyt_file.File.copy_to_file(MODULE_TEMPLATE_CODE + "MODULE_NAMEDef.h", def_header)
+        pyt_file.File.replace_string(def_header, "MODULE_NAME", name.upper())
 
     @staticmethod
     def add_module_main(dst_dir:str, main:str):

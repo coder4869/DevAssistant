@@ -20,32 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CUTILS_DEF_H
-#define CUTILS_DEF_H
+#ifndef MODULE_NAME_DEF_H
+#define MODULE_NAME_DEF_H
 
-#define NS_CU_BEGIN namespace CU {
-#define NS_CU_END	} //namespace CU
+#define NS_MODULE_NAME_BEGIN namespace MODULE_NAME {
+#define NS_MODULE_NAME_END	} //namespace MODULE_NAME
 
-#ifdef CUTILS_EXPORT
+#ifdef MODULE_NAME_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define CUTILS_CLASS __declspec(dllexport)
-#		define CUTILS_API extern "C" __declspec(dllexport)
+#		define MODULE_NAME_CLASS __declspec(dllexport)
+#		define MODULE_NAME_API extern "C" __declspec(dllexport)
 #	else
-#		define CUTILS_CLASS __attribute__((externally_visible))
-#		define CUTILS_API extern "C" __attribute__((externally_visible))
+#		define MODULE_NAME_CLASS __attribute__((externally_visible))
+#		define MODULE_NAME_API extern "C" __attribute__((externally_visible))
 #	endif
 
 #else
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define CUTILS_CLASS __declspec(dllimport)
-#		define CUTILS_API extern "C" __declspec(dllimport)
+#		define MODULE_NAME_CLASS __declspec(dllimport)
+#		define MODULE_NAME_API extern "C" __declspec(dllimport)
 #	else
-#		define CUTILS_CLASS __attribute__((externally_visible))
-#		define CUTILS_API extern "C" __attribute__((externally_visible))
+#		define MODULE_NAME_CLASS __attribute__((externally_visible))
+#		define MODULE_NAME_API extern "C" __attribute__((externally_visible))
 #	endif
 
-#endif // CUTILS_EXPORT
+#endif // MODULE_NAME_EXPORT
 
-#endif /* CUTILS_DEF_H */
+#endif /* MODULE_NAME_DEF_H */

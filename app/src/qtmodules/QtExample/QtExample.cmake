@@ -61,7 +61,7 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtExample_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
-target_compile_definitions(${LIB_NAME} PRIVATE QtExample_EXPORT  )
+target_compile_definitions(${LIB_NAME} PRIVATE QTEXAMPLE_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtExampleDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${LIB_NAME} ${LIB_QT} ${LIB_PY} ${LIB_DEPS})

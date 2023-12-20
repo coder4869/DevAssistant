@@ -26,27 +26,26 @@
 #define NS_QCK_BEGIN namespace QCK {
 #define NS_QCK_END	} //namespace QCK
 
-#ifdef QtCoreKit_EXPORT
+#ifdef QTCOREKIT_EXPORT
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define QCK_CLASS __declspec(dllexport)
-#		define QCK_API extern "C" __declspec(dllexport)
+#		define QTCOREKIT_CLASS __declspec(dllexport)
+#		define QTCOREKIT_API extern "C" __declspec(dllexport)
 #	else
-#		define QCK_CLASS __attribute__((externally_visible))
-#		define QCK_API extern "C" __attribute__((externally_visible))
+#		define QTCOREKIT_CLASS __attribute__((externally_visible))
+#		define QTCOREKIT_API extern "C" __attribute__((externally_visible))
 #	endif
 
 #else
 
 #	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define QCK_CLASS __declspec(dllimport)
-#		define QCK_API extern "C" __declspec(dllimport)
+#		define QTCOREKIT_CLASS __declspec(dllimport)
+#		define QTCOREKIT_API extern "C" __declspec(dllimport)
 #	else
-#		define QCK_CLASS __attribute__((externally_visible))
-#		define QCK_API extern "C" __attribute__((externally_visible))
+#		define QTCOREKIT_CLASS __attribute__((externally_visible))
+#		define QTCOREKIT_API extern "C" __attribute__((externally_visible))
 #	endif
 
-#endif // QtCoreKit_EXPORT
-
+#endif // QTCOREKIT_EXPORT
 
 #endif /* QTCOREKIT_DEF_H */

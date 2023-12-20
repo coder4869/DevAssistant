@@ -26,4 +26,26 @@
 #define NS_CHWD_BEGIN namespace CHWD {
 #define NS_CHWD_END	} //namespace CHWD
 
+#ifdef CHWD_EXPORT
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CHWD_CLASS __declspec(dllexport)
+#		define CHWD_API extern "C" __declspec(dllexport)
+#	else
+#		define CHWD_CLASS __attribute__((externally_visible))
+#		define CHWD_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#else
+
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CHWD_CLASS __declspec(dllimport)
+#		define CHWD_API extern "C" __declspec(dllimport)
+#	else
+#		define CHWD_CLASS __attribute__((externally_visible))
+#		define CHWD_API extern "C" __attribute__((externally_visible))
+#	endif
+
+#endif // CHWD_EXPORT
+
 #endif /* CHWD_DEF_H */
