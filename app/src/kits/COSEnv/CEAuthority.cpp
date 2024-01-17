@@ -23,12 +23,14 @@
 #include "CEAuthority.h"
 
 #include <iostream>
+#include <algorithm>
 
 #ifdef WIN
 #	include <windows.h>
 #endif
 
 #include <CLog/CLLog.h>
+#include "CERegedit.h"
 
 NS_CE_BEGIN
 
@@ -37,9 +39,24 @@ bool Authority::RunAsRoot(const std::string& bin_path)
 #ifdef WIN
 	HINSTANCE hResult = ShellExecute(NULL, "runas", bin_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 	return true;
-#endif
-
+#else
 	return false;
+#endif // OSX
+}
+
+bool Authority::RunAsOSStart(const std::string& app_key, const std::string& app_path)
+{
+#ifdef WIN
+	std::string regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\";
+	auto tmp_path = app_path;
+	std::replace(tmp_path.begin(), tmp_path.end(), '/', '\\');
+	//CE::Regedit::DelRegValue(regkey + app_key);
+	auto ret2 = CE::Regedit::SetRegValue(regkey + app_key, tmp_path);
+
+	return ret2;
+#else
+	return false;
+#endif // OSX
 }
 
 NS_CE_END

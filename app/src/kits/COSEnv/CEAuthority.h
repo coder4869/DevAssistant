@@ -33,6 +33,12 @@ NS_CE_BEGIN
 namespace Authority {
 	/// @brief Run Application As Root Authority
 	bool RunAsRoot(const std::string &bin_path);
+
+	/// @brief Run Application When OS Start
+	/// @param app_key		application key. e.g. "DevTool"
+	/// @param app_path		application path. e.g. "C:\\path\\to\\app\\bin"
+	/// @return	Run Result.
+	bool RunAsOSStart(const std::string &app_key, const std::string & app_path);
 }
 
 NS_CE_END

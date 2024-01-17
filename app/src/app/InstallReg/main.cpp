@@ -26,9 +26,9 @@
 
 #include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
-#include <COSEnv/CETrayIcon.h>
-#include <COSEnv/CERegedit.h>
+#include <COSEnv/CEAuthority.h>
 #include <COSEnv/CERightAction.h>
+#include <COSEnv/CETrayIcon.h>
 
 std::string GetRootDir(const std::string &bin_path) {
     if (bin_path.empty()) {
@@ -96,12 +96,7 @@ int main(int argc, char *argv[])
     //CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
 
     // Auto Start
-#ifdef WIN
-    std::string regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\";
-    std::replace(root_dir.begin(), root_dir.end(), '/', '\\');
-    //CE::Regedit::DelRegValue(regkey + "DevTools");
-    auto ret2 = CE::Regedit::SetRegValue(regkey + "DevTools", root_dir + "\\bin64\\DevAssistant.exe");
-#endif // WIN
+    auto ret2 = CE::Authority::RunAsOSStart("DevTools", root_dir + "/bin64/DevAssistant.exe");
 
     return 0;
 }
