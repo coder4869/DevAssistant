@@ -116,8 +116,13 @@ int main(int argc, char *argv[])
 
     // Run InstallReg.exe as Root Authority
     auto app_bin = GetBinRelativePath(argv[0]);
-    auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
-    CE::Authority::RunAsRoot(bin_install);
+    auto root_flag = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/root_flag");
+    if (CU::File::IsFileExist(root_flag) != 0) {
+        auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
+        if (CE::Authority::RunAsRoot(bin_install)) {
+            CU::File::SaveFileString(root_flag, "AutoStart");
+        }
+    }
 
     return LoadApp(argc, argv);
 }
