@@ -20,13 +20,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef COSENV_H
-#define COSENV_H
+#pragma once
 
-#include <COSEnv/CEAuthority.h>
-#include <COSEnv/CERegedit.h>
-#include <COSEnv/CERightAction.h>
-#include <COSEnv/CESystemEnv.h>
-#include <COSEnv/CETrayIcon.h>
+#include <CLog/CKDefines.h>
 
-#endif /* COSENV_H */
+#include <string>
+
+#include "COSEnvDef.h"
+
+NS_CE_BEGIN
+
+namespace Authority {
+	/// @brief Run Application As Root Authority
+	bool RunAsRoot(const std::string &bin_path);
+}
+
+NS_CE_END

@@ -31,6 +31,7 @@
 #include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
 #include <CUtils/CUFile.h>
+#include <COSEnv/CEAuthority.h>
 
 #include <QtEnvKit/DABuildScript.h>
 
@@ -45,6 +46,27 @@ QString GetRootDir(const QString &bin_path) {
     }
 
     return "";
+}
+
+std::string GetBinRelativePath(const std::string& bin_path) {
+    if (bin_path.empty()) {
+        return "";
+    }
+
+    auto bin_path_tmp = bin_path;
+#ifdef WIN
+    std::replace(bin_path_tmp.begin(), bin_path_tmp.end(), '\\', '/');
+#endif // WIN
+    auto pos_l = bin_path_tmp.find_last_not_of('/');
+    if (pos_l < bin_path_tmp.length() - 1) {
+        bin_path_tmp = bin_path_tmp.substr(0, pos_l + 1);
+    }
+
+    auto pos_e = bin_path_tmp.find_last_of('/');
+    bin_path_tmp = bin_path_tmp.substr(0, pos_e);
+    pos_e = bin_path_tmp.find_last_of('/');
+
+    return  bin_path_tmp.substr(pos_e + 1);
 }
 
 int LoadApp(int argc, char* argv[]) {
@@ -82,7 +104,7 @@ int main(int argc, char *argv[])
 {
     QString root_dir = GetRootDir(argv[0]);
     CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
-    
+
     for (size_t idx = 0; idx < argc; idx++) {
         LOG_INFO << argv[idx] << std::endl;
     }
@@ -91,6 +113,11 @@ int main(int argc, char *argv[])
         // Update run_win.bat / run_arm.sh / run_unix.sh
         return FixBuildScript(argv[1]);
     }
+
+    // Run InstallReg.exe as Root Authority
+    auto app_bin = GetBinRelativePath(argv[0]);
+    auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
+    CE::Authority::RunAsRoot(bin_install);
 
     return LoadApp(argc, argv);
 }

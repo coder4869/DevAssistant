@@ -20,13 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef COSENV_H
-#define COSENV_H
+#include "CEAuthority.h"
 
-#include <COSEnv/CEAuthority.h>
-#include <COSEnv/CERegedit.h>
-#include <COSEnv/CERightAction.h>
-#include <COSEnv/CESystemEnv.h>
-#include <COSEnv/CETrayIcon.h>
+#include <iostream>
 
-#endif /* COSENV_H */
+#ifdef WIN
+#	include <windows.h>
+#endif
+
+#include <CLog/CLLog.h>
+
+NS_CE_BEGIN
+
+bool Authority::RunAsRoot(const std::string& bin_path) 
+{
+#ifdef WIN
+	HINSTANCE hResult = ShellExecute(NULL, "runas", bin_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
+	return true;
+#endif
+
+	return false;
+}
+
+NS_CE_END
