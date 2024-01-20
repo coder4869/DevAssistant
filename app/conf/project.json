@@ -184,6 +184,19 @@
             ]
         },
         {
+            "group": "Kit",
+            "group_dir": "/src/tools",
+            "modules": [
+                {
+                    "deps": [
+                    ],
+                    "gen_lib": "YES",
+                    "module": "GitTool",
+                    "option": "ON"
+                }
+            ]
+        },
+        {
             "group": "Lib",
             "group_dir": "/deps",
             "modules": [
