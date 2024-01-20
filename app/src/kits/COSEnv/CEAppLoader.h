@@ -20,43 +20,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "CEAuthority.h"
+#pragma once
 
-#include <iostream>
-#include <algorithm>
+#include <CLog/CKDefines.h>
 
-#ifdef WIN
-#	include <windows.h>
-#endif
+#include <string>
 
-#include <CLog/CLLog.h>
-#include "CERegedit.h"
+#include "COSEnvDef.h"
 
 NS_CE_BEGIN
 
-bool Authority::RunAsRoot(const std::string& bin_path) 
-{
-#ifdef WIN
-	HINSTANCE hResult = ShellExecute(NULL, "runas", bin_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
-	return true;
-#else
-	return false;
-#endif // OSX
-}
+namespace AppLoader {
+	/// @brief Run Application As Root Authority
+	bool RunAsRoot(const std::string &bin_path);
 
-bool Authority::RunAsOSStart(const std::string& app_key, const std::string& app_path)
-{
-#ifdef WIN
-	std::string regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\";
-	auto tmp_path = app_path;
-	std::replace(tmp_path.begin(), tmp_path.end(), '/', '\\');
-	//CE::Regedit::DelRegValue(regkey + app_key);
-	auto ret2 = CE::Regedit::SetRegValue(regkey + app_key, tmp_path);
-
-	return ret2;
-#else
-	return false;
-#endif // OSX
+	/// @brief Run Application When OS Start
+	/// @param app_key		application key. e.g. "DevTool"
+	/// @param app_path		application path. e.g. "C:\\path\\to\\app\\bin"
+	/// @return	Run Result.
+	bool RunAsOSStart(const std::string &app_key, const std::string & app_path);
 }
 
 NS_CE_END

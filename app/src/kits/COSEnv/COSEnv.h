@@ -23,7 +23,7 @@
 #ifndef COSENV_H
 #define COSENV_H
 
-#include <COSEnv/CEAuthority.h>
+#include <COSEnv/CEAppLoader.h>
 #include <COSEnv/CERegedit.h>
 #include <COSEnv/CERightAction.h>
 #include <COSEnv/CESystemEnv.h>

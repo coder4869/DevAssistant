@@ -26,7 +26,7 @@
 
 #include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
-#include <COSEnv/CEAuthority.h>
+#include <COSEnv/CEAppLoader.h>
 #include <COSEnv/CERightAction.h>
 #include <COSEnv/CETrayIcon.h>
 
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
     //CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
 
     // Auto Start
-    auto ret2 = CE::Authority::RunAsOSStart("DevTools", root_dir + "/bin64/DevAssistant.exe");
+    auto ret2 = CE::AppLoader::RunAsOSStart("DevTools", root_dir + "/bin64/DevAssistant.exe");
 
     return 0;
 }

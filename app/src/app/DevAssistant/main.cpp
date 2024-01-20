@@ -31,7 +31,7 @@
 #include <CLog/CLLog.h>
 #include <CLog/CAppConf.h>
 #include <CUtils/CUFile.h>
-#include <COSEnv/CEAuthority.h>
+#include <COSEnv/CEAppLoader.h>
 
 #include <QtEnvKit/DABuildScript.h>
 
@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
     auto root_flag = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/root_flag");
     if (CU::File::IsFileExist(root_flag) != 0) {
         auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
-        if (CE::Authority::RunAsRoot(bin_install)) {
+        if (CE::AppLoader::RunAsRoot(bin_install)) {
             CU::File::SaveFileString(root_flag, "AutoStart");
         }
     }
