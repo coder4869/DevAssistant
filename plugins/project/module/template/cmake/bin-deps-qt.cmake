@@ -81,6 +81,7 @@ endif()
 ################################## build bin ##################################
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 add_executable(${BIN_NAME} ${OS_BUNDLE} ${MODULE_NAME_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs})
+set_target_properties(${BIN_NAME} PROPERTIES FOLDER "GROUP_NAME")
 target_include_directories(${BIN_NAME} PUBLIC ${INC_DEPS} ${MODULE_NAMEDir} )
 target_link_directories(${BIN_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
