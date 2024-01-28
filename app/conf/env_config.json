@@ -24,6 +24,12 @@
         "Soft" : "Visual Studio"
     },
     {
+        "System" : "Windows",
+        "From" : "REG",
+        "Key" : "HKEY_CURRENT_USER\\Software\\Scooter Software\\Beyond Compare 4\\CacheId",
+        "Soft" : "BeyondCompare"
+    },
+    {
         "System" : "Darwin",
         "From" : "EnvVar",
         "Key" : "PATH",
