@@ -57,7 +57,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtEnvKit_SRC
 set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES} ${QtEnvKit_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv QtUIInfra QtCoreKit )
+set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv DevEnv QtUIInfra QtCoreKit )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtEnvKit_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -90,6 +90,12 @@ if(COSEnv)
 else()
     message(FATAL_ERROR "option ON for COSEnv is required !")
 endif(COSEnv)
+
+if(DevEnv)
+    add_dependencies(${LIB_NAME} DevEnv)
+else()
+    message(FATAL_ERROR "option ON for DevEnv is required !")
+endif(DevEnv)
 
 if(QtUIInfra)
     add_dependencies(${LIB_NAME} QtUIInfra)

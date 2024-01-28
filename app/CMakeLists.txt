@@ -161,6 +161,7 @@ option(CUtils              "Build with CUtils              "	ON)
 option(CScript             "Build with CScript             "	ON)
 option(CLog                "Build with CLog                "	ON)
 option(GitTool             "Build with GitTool             "	ON)
+option(DevEnv              "Build with DevEnv              "	ON)
 option(QtCryptoKit         "Build with QtCryptoKit         "	ON)
 # option(MODULE_OPTION  "Build with MODULE_OPTION" ON)
 

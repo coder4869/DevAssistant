@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 // https://blog.csdn.net/ouyang_peng/article/details/124703411
 
@@ -28,7 +28,7 @@ static void log_open() {
 		struct tm t = *localtime(&tmb.time);
 		strftime(tim_str, sizeof(tim_str), "%Y%m%d-%H%M%S", &t);
 		char log_name[80];
-		sprintf(log_name, "logs/log-%s.log", tim_str);
+		sprintf(log_name, "logs/log-%s.log", tim_str); // std::cerr
 		g_log.open(log_name, std::ofstream::app);
 		g_log_open = true;
 	}

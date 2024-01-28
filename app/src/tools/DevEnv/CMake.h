@@ -20,22 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef GITHUB_ENV_H
-#define GITHUB_ENV_H
+#ifndef DE_CMAKE_H
+#define DE_CMAKE_H
 
 #include <CLog/CKDefines.h>
 
 #include <string>
 
-#include "GitToolDef.h"
+#include "DevEnvDef.h"
 
-NS_GIT_BEGIN
-namespace Github {
+//NS_DE_BEGIN
+namespace CMake {
 
-	/// @brief Try Fix Github Connnect Issue
-	bool GithubConnectFix();
+	/// @brief Get APP Query Key. RegVar(Windows) or EnvPath
+	std::string GetQueryKey();
 
-} //namespace Github
-NS_GIT_END
+	/// @brief Get APP Installed Path 
+	std::string GetRootDir();
 
-#endif // GITHUB_ENV_H
+	/// @brief Check APP Env. e.g. Install Path Exist or not in PATH EnvVar, Pkg-config Exist or Not.
+	std::string CheckEnv();
+
+} //namespace CMake
+//NS_DE_BEGIN
+
+#endif // DE_CMAKE_H

@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,22 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef GITHUB_ENV_H
-#define GITHUB_ENV_H
+#ifndef DEVENV_DEF_H
+#define DEVENV_DEF_H
 
-#include <CLog/CKDefines.h>
+#define NS_DE_BEGIN namespace DE {
+#define NS_DE_END	} //namespace DE
 
-#include <string>
+#ifdef DEVENV_EXPORT
 
-#include "GitToolDef.h"
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define DEVENV_CLASS __declspec(dllexport)
+#		define DEVENV_API extern "C" __declspec(dllexport)
+#	else
+#		define DEVENV_CLASS __attribute__((externally_visible))
+#		define DEVENV_API extern "C" __attribute__((externally_visible))
+#	endif
 
-NS_GIT_BEGIN
-namespace Github {
+#else
 
-	/// @brief Try Fix Github Connnect Issue
-	bool GithubConnectFix();
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define DEVENV_CLASS __declspec(dllimport)
+#		define DEVENV_API extern "C" __declspec(dllimport)
+#	else
+#		define DEVENV_CLASS __attribute__((externally_visible))
+#		define DEVENV_API extern "C" __attribute__((externally_visible))
+#	endif
 
-} //namespace Github
-NS_GIT_END
+#endif // DEVENV_EXPORT
 
-#endif // GITHUB_ENV_H
+#endif /* DEVENV_DEF_H */

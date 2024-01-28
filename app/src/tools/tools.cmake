@@ -28,3 +28,8 @@ message("SRC_ROOT = ${SRC_ROOT}")
 if(GitTool)
     include(${SRC_ROOT}/GitTool/GitTool.cmake)
 endif(GitTool)
+
+# DevEnv
+if(DevEnv)
+    include(${SRC_ROOT}/DevEnv/DevEnv.cmake)
+endif(DevEnv)

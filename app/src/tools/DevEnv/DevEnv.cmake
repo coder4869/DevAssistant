@@ -20,32 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(GitToolDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME GitTool)
+set(DevEnvDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME DevEnv)
 
-FILE(GLOB_RECURSE GitTool_SRC
-    ${GitToolDir}/*.h
-    ${GitToolDir}/*.hpp
+FILE(GLOB_RECURSE DevEnv_SRC
+    ${DevEnvDir}/*.h
+    ${DevEnvDir}/*.hpp
 
-    ${GitToolDir}/*.c
-    ${GitToolDir}/*.cc
-    ${GitToolDir}/*.cpp
+    ${DevEnvDir}/*.c
+    ${DevEnvDir}/*.cc
+    ${DevEnvDir}/*.cpp
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${GitToolDir}
-        PREFIX "GitTool"
-        FILES ${GitTool_SRC}
+        TREE ${DevEnvDir}
+        PREFIX "DevEnv"
+        FILES ${DevEnv_SRC}
         )
 endif(NOT ANDROID)
 
 set(LIB_DEPS ${THIRD_PARTY_LIB} CLog CUtils )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${GitTool_SRC})
+add_library(${LIB_NAME} ${LIB_TYPE} ${DevEnv_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "tools")
-target_compile_definitions(${LIB_NAME} PRIVATE GITTOOL_EXPORT )
-target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${GitToolDir} ${INC_GROUP} )
+target_compile_definitions(${LIB_NAME} PRIVATE DEVENV_EXPORT )
+target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${DevEnvDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 

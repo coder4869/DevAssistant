@@ -20,22 +20,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef GITHUB_ENV_H
-#define GITHUB_ENV_H
+#include "CMake.h"
 
-#include <CLog/CKDefines.h>
+#include <iostream>
 
-#include <string>
+#include <CLog/CLLog.h>
+#include <COSEnv/CERegedit.h>
+#include <COSEnv/CESystemEnv.h>
 
-#include "GitToolDef.h"
+//NS_DE_BEGIN
+std::string CMake::GetQueryKey()
+{
+#if WIN
+	return "HKEY_LOCAL_MACHINE\\SOFTWARE\\Kitware\\CMake\\InstallDir";
+#else
+	return "";
+#endif // WIN
+}
 
-NS_GIT_BEGIN
-namespace Github {
+std::string CMake::GetRootDir() {
+	bool is_dir = false;
+	return CE::Regedit::GetRegValue(GetQueryKey(), is_dir);
+}
 
-	/// @brief Try Fix Github Connnect Issue
-	bool GithubConnectFix();
+std::string CMake::CheckEnv()
+{
+	// Check Install Root Dir
+	auto root_dir = CMake::GetRootDir();
+	if (root_dir.empty()) {
+		LOG_ERR << "Error: APP Not Installed !";
+		return "Error: APP Not Installed !";
+	}
 
-} //namespace Github
-NS_GIT_END
+	// Add APP bin_dir to PATH
+	auto bin_dir = root_dir + "bin";
+	if (!CE::SystemEnv::CheckEnv("PATH", bin_dir)) {
+		CE::SystemEnv::SetEnv("PATH", bin_dir);
+	}
 
-#endif // GITHUB_ENV_H
+	// Check pkg-config
+
+	return "Succeed: Use Install Dir [" + root_dir + "] !";
+}
+
+//NS_DE_END

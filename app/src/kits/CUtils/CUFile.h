@@ -26,14 +26,27 @@
 #define CU_FILE_H
 
 #include <string>
+#include <vector>
 
 #include "CUtilsDef.h"
 
 NS_CU_BEGIN
 namespace File {
+	enum class CopyMode
+	{
+		File2File,	// Copy File From Path To File-Path
+		File2Dir,	// Copy Files From Path To Dir-Path
+		Dir2Dir		// Copy All Files In Dir To Dir-Path
+	};
+
 	/// @return 0 succeed, other failed
 	//CUtils_API 
 	int IsFileExist(const std::string& file_path);
+
+	/// @brief Copy Files By Mode
+	/// @return 0 succeed, other failed
+	//CUtils_API 
+	int CopyFiles(const std::vector<std::string>& src_list, const std::string& dst_path, CopyMode cmode= CopyMode::File2Dir);
 
 	/// @return 0 succeed, other failed
 	//CUtils_API 

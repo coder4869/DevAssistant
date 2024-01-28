@@ -23,9 +23,14 @@
 #include "CUFile.h"
 
 #include <algorithm>
+#include <iostream>
 #include <fstream>
 //#include <sstream>
-#include <iostream>
+#include <fstream>
+
+#if _HAS_CXX17
+#include <filesystem> // C++17 and above is required for this header
+#endif
 
 NS_CU_BEGIN
 
@@ -39,6 +44,41 @@ int File::IsFileExist(const std::string& file_path)
     }
     fs.close();
     return 0;
+}
+
+int File::CopyFiles(const std::vector<std::string>& src_list, const std::string& dst_path, CopyMode cmode)
+{
+    if (src_list.size() == 0) {
+        std::cout << __FUNCTION__ << ": src_list is Empty !" << std::endl;
+        return -1;
+    }
+
+    //File2File,	// Copy File From Path To File-Path
+    //File2Dir,	// Copy Files From Path To Dir-Path
+    //Dir2Dir		// Copy All Files In Dir To Dir-Path
+#if _HAS_CXX17
+    try {
+        for (size_t idx = 0; idx < src_list.size(); idx++)
+        {
+            if (std::filesystem::exists(src_list[idx])) {
+                std::filesystem::copy_file(src_list[idx], dst_path + std::filesystem::path(src_list[idx]).filename(),
+                    std::filesystem::copy_options::overwrite_existing);
+
+                std::cout << __FUNCTION__ << " Info: Source File " << src_list[idx] << " Copy Succeed !" << std::endl;
+            } else {
+                std::cout << __FUNCTION__ << " Error: Source File " << src_list[idx] << " Not Exist !" << std::endl;
+            }
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << __FUNCTION__ << " Error: " << e.what() << std::endl;
+    }
+
+    return 0;
+#else
+    std::cout << __FUNCTION__ << " Error: C++17 Not Support !" << std::endl;
+    return -2;
+#endif
 }
 
 int File::LoadFileString(const std::string& file_path, std::string& out_str)

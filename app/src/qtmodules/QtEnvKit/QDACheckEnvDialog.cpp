@@ -35,6 +35,7 @@
 #include <CUtils/CUString.h>
 #include <COSEnv/CESystemEnv.h>
 #include <COSEnv/CERegedit.h>
+#include <DevEnv/CMake.h>
 
 #include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
@@ -145,6 +146,14 @@ void QDACheckEnvDialog::OnCheckEnv()
             ui->envTreeWidget->insertTopLevelItem(0, item);
         }
     }
+
+    auto cmake_key = CMake::GetQueryKey();
+    auto cmake_path = CMake::GetRootDir(); //CMake::CheckEnv();
+    QTreeWidgetItem* item = new QTreeWidgetItem;
+    item->setText(0, "CMake");
+    item->setText(1, QString::fromStdString(cmake_key));
+    item->setText(2, QString::fromStdString(cmake_path));
+    ui->envTreeWidget->insertTopLevelItem(0, item);
 
     QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
 }

@@ -189,9 +189,20 @@
             "modules": [
                 {
                     "deps": [
+                        "CLog",
+                        "CUtils"
                     ],
                     "gen_lib": "YES",
                     "module": "GitTool",
+                    "option": "ON"
+                },
+                {
+                    "deps": [
+                        "CLog",
+                        "CUtils"
+                    ],
+                    "gen_lib": "YES",
+                    "module": "DevEnv",
                     "option": "ON"
                 }
             ]
