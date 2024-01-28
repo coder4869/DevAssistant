@@ -61,6 +61,8 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtCoreKit_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
+include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
+SET_TARGET_CXX_VERSION(${LIB_NAME})
 target_compile_definitions(${LIB_NAME} PRIVATE QTCOREKIT_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtCoreKitDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})

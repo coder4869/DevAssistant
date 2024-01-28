@@ -44,6 +44,8 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} CLog CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${GitTool_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "tools")
+include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
+SET_TARGET_CXX_VERSION(${LIB_NAME})
 target_compile_definitions(${LIB_NAME} PRIVATE GITTOOL_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${GitToolDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})

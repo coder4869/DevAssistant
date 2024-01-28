@@ -61,8 +61,8 @@ int File::CopyFiles(const std::vector<std::string>& src_list, const std::string&
         for (size_t idx = 0; idx < src_list.size(); idx++)
         {
             if (std::filesystem::exists(src_list[idx])) {
-                std::filesystem::copy_file(src_list[idx], dst_path + std::filesystem::path(src_list[idx]).filename(),
-                    std::filesystem::copy_options::overwrite_existing);
+                std::string fname = std::filesystem::path(src_list[idx]).filename().string();
+                std::filesystem::copy_file(src_list[idx], dst_path + fname, std::filesystem::copy_options::overwrite_existing);
 
                 std::cout << __FUNCTION__ << " Info: Source File " << src_list[idx] << " Copy Succeed !" << std::endl;
             } else {

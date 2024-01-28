@@ -1,4 +1,4 @@
-# MIT License
+﻿# MIT License
 # 
 # Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 # 
@@ -44,6 +44,8 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} CLog )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${CUtils_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
+include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
+SET_TARGET_CXX_VERSION(${LIB_NAME})
 target_compile_definitions(${LIB_NAME} PRIVATE CUTILS_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CUtilsDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})

@@ -25,7 +25,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include(${CMAKE_CURRENT_LIST_DIR}/core_func.cmake)
 message("include(${CMAKE_CURRENT_LIST_DIR}/core_func.cmake) ")
 SET_POLICY()
-SET_CXX_VERSION("c++17")
+SET_CXX_VERSION(17)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # Gen Debug Info
 

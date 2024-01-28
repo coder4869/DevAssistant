@@ -61,6 +61,8 @@ set(LIB_DEPS ${THIRD_PARTY_LIB} QtEnvKit QtCoreKit QtUIInfra )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtProject_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
+include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
+SET_TARGET_CXX_VERSION(${LIB_NAME})
 target_compile_definitions(${LIB_NAME} PRIVATE QTPROJECT_EXPORT )
 target_include_directories(${LIB_NAME} PRIVATE ${INC_QT} ${INC_PY} ${QtProjectDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})
