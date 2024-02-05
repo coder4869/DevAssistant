@@ -200,7 +200,8 @@
                 {
                     "deps": [
                         "CLog",
-                        "CUtils"
+                        "CUtils",
+                        "COSEnv"
                     ],
                     "gen_lib": "YES",
                     "module": "DevEnv",

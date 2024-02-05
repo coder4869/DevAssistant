@@ -40,7 +40,7 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} CLog CUtils )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CLog CUtils COSEnv )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${DevEnv_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "tools")
@@ -77,3 +77,9 @@ if(CUtils)
 else()
     message(FATAL_ERROR "option ON for CUtils is required !")
 endif(CUtils)
+
+if(COSEnv)
+    add_dependencies(${LIB_NAME} COSEnv)
+else()
+    message(FATAL_ERROR "option ON for COSEnv is required !")
+endif(COSEnv)
