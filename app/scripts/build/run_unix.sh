@@ -25,14 +25,14 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd ${script_dir}
 # set var
-APP_NAME=DevAssistant
+PROJ_NAME=DevAssistant
 QT_DIR="$HOME/Qt5.14.2/"
 QT_INSTALL_DIR="$QT_DIR/5.14.2/clang_64/"
 PY_INSTALL_DIR="/Applications/Xcode.app/Contents/Developer/Library"
 
 ROOT_DIR=${script_dir}/../..
 BUILD_DIR=${ROOT_DIR}/build_unix
-BIN_DIR=${ROOT_DIR}/bin
+BIN_DIR=${ROOT_DIR}/bin64
 
 function do_mkdir() {
     if [[ -d ${BUILD_DIR} ]]; then
@@ -59,7 +59,7 @@ function do_gen {
         -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
         -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
         -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
-        -DPROJECT_NAME=${APP_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
+        -DPROJECT_NAME=${PROJ_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
 }
 
 function walk_dir() {
@@ -82,8 +82,8 @@ function clean_plugins() {
 
 function do_open() {
     if [[ `uname` == "Darwin" ]]; then
-        # xcodebuild -project ${BUILD_DIR}/${APP_NAME}.xcodeproj -scheme install -configuration Release build
-        open ${BUILD_DIR}/${APP_NAME}.xcodeproj
+        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+        open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
     else
         make
         make install

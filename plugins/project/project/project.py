@@ -96,7 +96,7 @@ class Project(object):
         for fitem in flist:
             file = script_abs_dir + "/build/" + fitem
             if not os.path.isdir(fitem):
-                pyt_file.File.replace_string(file, "PROJ_NAME", proj_name) # Set ${PROJECT_NAME}
+                pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
         
     @staticmethod
     def add_options(root_dir:str,  options:object):

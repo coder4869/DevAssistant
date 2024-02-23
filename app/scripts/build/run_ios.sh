@@ -24,14 +24,15 @@
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 cd ${script_dir}
+
 # set var
-PROJ_NAME=_PROJ_NAME_
+PROJ_NAME=DevAssistant
 QT_DIR="$HOME/Qt5.14.2/"
 QT_INSTALL_DIR="$QT_DIR/5.14.2/clang_64/"
 PY_INSTALL_DIR="/Applications/Xcode.app/Contents/Developer/Library"
 
 ROOT_DIR=${script_dir}/../..
-BUILD_DIR=${ROOT_DIR}/build_unix
+BUILD_DIR=${ROOT_DIR}/build_ios
 BIN_DIR=${ROOT_DIR}/bin64
 
 function do_mkdir() {
@@ -46,20 +47,13 @@ function do_mkdir() {
 }
 
 function do_gen {
-    # Unix Makefiles, Xcode
-    generator=-G"Unix Makefiles"
-    platform=LINUX
-    if [[ `uname` == "Darwin" ]]; then
-        generator="-GXcode"
-        platform="OSX"
-    fi
-
-    cmake -Wno-dev ${ROOT_DIR} ${generator} -DCMAKE_BUILD_TYPE=Release \
+    cmake -Wno-dev ${ROOT_DIR} -GXcode -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
         -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
         -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
         -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
-        -DPROJECT_NAME=${PROJ_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
+        -DWITH_QT=OFF \
+        -DPROJECT_NAME=${PROJ_NAME} -DIOS=ON -H$ROOT_DIR -B$BUILD_DIR
 }
 
 function walk_dir() {
@@ -81,17 +75,15 @@ function clean_plugins() {
 }
 
 function do_open() {
-    if [[ `uname` == "Darwin" ]]; then
-        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-        open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
-    else
-        make
-        make install
-    fi
+    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+    open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
 }
 
 
-do_mkdir
-clean_plugins
-do_gen
-do_open
+if [[ `uname` == "Darwin" ]]; then
+    do_mkdir
+    clean_plugins
+    do_gen
+    do_open
+fi
+
