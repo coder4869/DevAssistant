@@ -90,6 +90,13 @@ elseif(IOS)
     set(OS_MIN_VERSION 10.0)
     add_definitions(-DIOS )
 
+    # set iOS Libs
+    set(LIB_FMWKs)
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_libs.cmake)
+    include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
+    XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "data/Resource")
+
 elseif(ANDROID)
     set(OS_TYPE "linux")
     add_definitions(-DANDROID )
