@@ -85,4 +85,5 @@ if(WIN)
 elseif(APPLE)
     # from intern cmake module : apple_func.cmake
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
+    XCODE_ADD_INFO_PLIST(${LIB_NAME})
 endif(APPLE)
