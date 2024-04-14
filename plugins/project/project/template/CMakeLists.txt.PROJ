@@ -75,6 +75,9 @@ elseif(OSX)
     set(OS_TYPE "osx")
     set(OS_BUNDLE MACOSX_BUNDLE)
     set(OS_MIN_VERSION 10.13)
+    set(XCODE_DEVELOPMENT_TEAM "")
+    set(XCODE_CODE_SIGN_IDENTITY "")
+    set(XCODE_PROVISIONING_PROFILE "")
     add_definitions(-DOSX )
 
     # set OSX Libs
@@ -83,11 +86,15 @@ elseif(OSX)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
     XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
     APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "data/Resource")
+    set(META_FILES ${META_FILES} ${PROJECT_BINARY_DIR}/Info.plist)
 
 elseif(IOS)
     set(APPLE ON)
     set(OS_TYPE "iOS")
-    set(OS_MIN_VERSION 10.0)
+    set(OS_MIN_VERSION 12.0)
+    set(XCODE_DEVELOPMENT_TEAM "1111111111@qq.com")
+    set(XCODE_CODE_SIGN_IDENTITY "iPhone Developer")
+    set(XCODE_PROVISIONING_PROFILE "")
     add_definitions(-DIOS )
 
     # set iOS Libs
@@ -96,6 +103,7 @@ elseif(IOS)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
     XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
     APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "data/Resource")
+    set(META_FILES ${META_FILES} ${PROJECT_BINARY_DIR}/Info.plist)
 
 elseif(ANDROID)
     set(OS_TYPE "linux")

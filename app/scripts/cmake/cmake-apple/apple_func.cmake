@@ -161,12 +161,43 @@ function(XCODE_ADD_META)
 endfunction(XCODE_ADD_META)
 
 
+# set(XCODE_DEVELOPMENT_TEAM "111111111@qq.com")
+# set(XCODE_CODE_SIGN_IDENTITY "iPhone Developer")
+# set(XCODE_PROVISIONING_PROFILE "")
+# XCODE_ADD_INFO_PLIST(bin_name)
 function(XCODE_ADD_INFO_PLIST bin_name)
-    if (IOS)
-        configure_file(${CURRENT_CMAKE_DIR}/res/IOSBundleInfo.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
-        set_target_properties(${bin_name} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
-    elseif(OSX)
-        configure_file(${CURRENT_CMAKE_DIR}/res/MacOSXBundleInfo.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
-        set_target_properties(${bin_name} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
+    if(IOS OR OSX)
+        if (IOS)
+            configure_file(${CURRENT_CMAKE_DIR}/res/IOSBundleInfo.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
+        elseif(OSX)
+            configure_file(${CURRENT_CMAKE_DIR}/res/MacOSXBundleInfo.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
+        endif()
+
+        set_target_properties(${bin_name} PROPERTIES XCODE_ATTRIBUTE_INFOPLIST_FILE ${PROJECT_BINARY_DIR}/Info.plist)
+        # set_target_properties(${bin_name} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
+        
+        # Set Apple Development ID
+        if(NOT "${XCODE_DEVELOPMENT_TEAM}" STREQUAL "")
+            set_target_properties(${bin_name} PROPERTIES XCODE_ATTRIBUTE_DEVELOPMENT_TEAM ${XCODE_DEVELOPMENT_TEAM}) 
+        endif()
+
+        # Set Code Sign Identifier
+        if(NOT "${XCODE_CODE_SIGN_IDENTITY}" STREQUAL "")
+            set_target_properties(${bin_name} PROPERTIES XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ${XCODE_CODE_SIGN_IDENTITY})
+        endif()
+
+        # set Provisioning Profile(.mobileprovision) file
+        if( EXISTS "${XCODE_PROVISIONING_PROFILE}" )  # "path/to/provisioning_profile.mobileprovision"
+            get_filename_component(file_name ${XCODE_PROVISIONING_PROFILE} NAME)
+            string(FIND ${file_name} ".mobileprovision" suffix_pos)
+            if(NOT ${suffix_pos} EQUAL -1)
+                set_target_properties(${bin_name} PROPERTIES XCODE_ATTRIBUTE_PROVISIONING_PROFILE "${XCODE_PROVISIONING_PROFILE}")
+            else()
+                message(STATUS "File ${XCODE_PROVISIONING_PROFILE} exist but not end with .mobileprovision")
+            endif()
+        else()
+            message("Warning: XCODE_ATTRIBUTE_PROVISIONING_PROFILE ${XCODE_PROVISIONING_PROFILE} not exist")
+        endif()
+    
     endif()
 endfunction(XCODE_ADD_INFO_PLIST)
