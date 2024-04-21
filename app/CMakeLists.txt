@@ -75,6 +75,8 @@ elseif(OSX)
     set(OS_TYPE "osx")
     set(OS_BUNDLE MACOSX_BUNDLE)
     set(OS_MIN_VERSION 10.13)
+    # developer team id, not apple id email
+    # https://developer.apple.com/cn/help/account/manage-your-team/locate-your-team-id
     set(XCODE_DEVELOPMENT_TEAM "")
     set(XCODE_CODE_SIGN_IDENTITY "")
     set(XCODE_PROVISIONING_PROFILE "")
@@ -92,7 +94,9 @@ elseif(IOS)
     set(APPLE ON)
     set(OS_TYPE "iOS")
     set(OS_MIN_VERSION 12.0)
-    set(XCODE_DEVELOPMENT_TEAM "1111111111@qq.com")
+    # developer team id, not apple id email
+    # https://developer.apple.com/cn/help/account/manage-your-team/locate-your-team-id
+    set(XCODE_DEVELOPMENT_TEAM "XXXXXXXXXX") 
     set(XCODE_CODE_SIGN_IDENTITY "Apple Development")
     set(XCODE_PROVISIONING_PROFILE "")
     add_definitions(-DIOS )

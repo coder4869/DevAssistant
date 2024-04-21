@@ -198,6 +198,7 @@ Custom project is depends on [`plugins/project/project.json`](./plugins/project/
 - 3.Check options in `${Project_Dir}/CMakeLists.txt`. e.g.
     * `platform options`:
     * `MODULE options`:
+    * **`XCODE_DEVELOPMENT_TEAM` for apple**
     * ...
 
 - 4.Check options in build script(in dir `${Project_Dir}/scripts/build`). E.g.

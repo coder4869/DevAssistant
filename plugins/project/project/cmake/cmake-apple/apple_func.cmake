@@ -183,7 +183,7 @@ function(XCODE_ADD_INFO_PLIST bin_name)
 
         # Set Code Sign Identifier
         if(NOT "${XCODE_CODE_SIGN_IDENTITY}" STREQUAL "")
-            set_target_properties(${bin_name} PROPERTIES XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY ${XCODE_CODE_SIGN_IDENTITY})
+            set_target_properties(${bin_name} PROPERTIES XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "${XCODE_CODE_SIGN_IDENTITY}")
         endif()
 
         # set Provisioning Profile(.mobileprovision) file
