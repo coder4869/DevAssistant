@@ -1,0 +1,47 @@
+apply plugin: 'maven-publish'
+
+task androidJavadoc(type: Javadoc) {
+    failOnError = false
+    source = android.sourceSets.main.java.srcDirs
+    ext.androidJar = "${android.sdkDirectory}/platforms/${android.compileSdkVersion}.jar"
+    classpath += files(ext.androidJar)
+}
+
+task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+    archiveClassifier.set('javadoc')
+    from androidJavadoc.destinationDir
+}
+
+task androidSourceJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) { // publish release to maven
+//                from components.release
+
+                // values from build.gradle(gradle using publish.gradle)
+                groupId     = project.ext.GROUP_ID
+                artifactId  = project.ext.POM_ARTIFACT_ID
+                version     = project.ext.VERSION_NAME
+//                artifact    = androidJavadocJar
+//                artifact    = androidSourceJar
+            }
+        }
+        repositories {
+            maven {
+                // REPOSITORIES_URL, ARTIFACT_USERNAME, ARTIFACT_PASSWORD values from gradle.properties
+                url = REPOSITORIES_URL
+                println "maven url: " + url
+                credentials {
+                    username = ARTIFACT_USERNAME
+                    password = ARTIFACT_PASSWORD
+                    println "maven username: " + username
+                }
+            }
+        }
+    }
+}

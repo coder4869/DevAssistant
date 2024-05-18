@@ -1,0 +1,421 @@
+// Usage: in target project add following line 
+// apply from: rootProject.file('gradle/plugins/pick-latest.gradle')
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+import java.nio.file.StandardCopyOption
+import org.gradle.api.Project
+
+class GradleFile {
+    public static void createDir(String path) {
+        File folder = new File(path)
+        if (!folder.exists()) {
+            folder.mkdirs();
+            println "GradleFile: Folder ${folder.absolutePath} created!"
+        } else {
+            println "GradleFile: Folder ${folder.absolutePath} already exist!"
+        }
+    }
+
+    /// @param dstDir   dir path, end with /
+    public static void copyFiles(Set<File> fileList, String dstDir) {
+        println("GradleFile: copyFiles begin !")
+        createDir(dstDir)
+
+        fileList.forEach { File f ->
+            String srcPath = f.toString()
+            String fullName = f.getName()
+            println("srcPath is ${srcPath}; fullName is ${fullName}")
+
+            try {
+                Files.copy(Paths.get(srcPath), Paths.get(dstDir + fullName), StandardCopyOption.REPLACE_EXISTING)
+                System.out.println("File copy succeed")
+            } catch (IOException exc) {
+                System.out.println("File copy error: " + exc.getMessage())
+            }
+        }
+        println("GradleFile: copyFiles end !")
+    }
+
+    public static Set<String> unzipArchives(Project project, Set<File> fileList, String dstDir, Boolean isCopy) {
+        println("GradleFile: unzipArchives begin !")
+        createDir(dstDir)
+
+        Set<String> dirList = new HashSet<String>()
+        File record = new File(dstDir + '/path_list.txt')
+        record.write(isCopy ? "Copy" : "NoCopy") // clear text content
+
+        fileList.forEach { File f ->
+            String srcPath = f.toString()
+            String fullName = f.getName()
+            String baseName = fullName.substring(0, fullName.length() - 4) // remove .jar or .aar
+
+            // unzip archive
+            project.exec {
+                commandLine 'unzip', '-o', srcPath, '-d', dstDir + baseName
+                println("unzip ${srcPath} to ${dstDir +  baseName}")
+            }
+
+            // copy archive from srcPath to dstDir and save "archive path + unzip dir"
+            try {
+                if (isCopy) {
+                    Files.copy(Paths.get(srcPath), Paths.get(dstDir + fullName), StandardCopyOption.REPLACE_EXISTING)
+                    System.out.println("File copy succeed")
+                    record.append("\n" + dstDir + fullName)
+                }
+                record.append("\n" + srcPath)
+                record.append("\n" + dstDir + baseName)
+                dirList.add(dstDir + baseName)
+            } catch (IOException exc) {
+                System.out.println("File copy error: " + exc.getMessage())
+            }
+        }
+
+        println("GradleFile: unzipArchives end !")
+        return dirList
+    }
+
+
+}
+
+
+class GradleDepends {
+    public static Project project;
+
+    public static void clearDir(String path) {
+        project.delete(path)
+    }
+
+    public static String getDependsDir() {
+        if (project.gradle.hasProperty("gradleUserHomeDir")) {
+            return project.gradle.properties["gradleUserHomeDir"].toString() + "/caches/modules-2/files-2.1";
+        }
+        throw new GradleException("getGradleDepsHome");
+    }
+
+    public static String getTransformRootDir(int num = 3) {
+        return project.gradle.properties["gradleUserHomeDir"].toString() + "/caches/transforms-${num}"
+    }
+
+    /// @suffix transforms files‘ suffix. e.g. ['.so', '.bin']
+    public static ArrayList<String> getTransformFileList(ArrayList<String> suffix = []) {
+        println("getTransformFileList begin !")
+        ArrayList<String> fileList = getTransformFileList(getTransformRootDir(3), suffix)
+        ArrayList<String> fileList4 = getTransformFileList(getTransformRootDir(4), suffix)
+        fileList4.forEach {
+            fileList.add(it)
+        }
+        println("getTransformFileList end !")
+        return fileList
+    }
+
+    /// @suffix transforms files‘ suffix. e.g. ['.so', '.bin']
+    public static ArrayList<String> getTransformFileList(String transRootDir, ArrayList<String> suffix = []) {
+        println("getTransformFileList begin. transformDir is: " + transRootDir)
+
+        ArrayList<String> fileList = new ArrayList<String>();
+        if (suffix.size() == 0) {
+            project.fileTree(transRootDir).forEach {
+                println("add file: " + it.toString())
+                fileList.add(it.toString())
+            }
+        } else {
+            project.fileTree(transRootDir).forEach {
+                for (final String sf in suffix) {
+                    if (it.toString().endsWith(sf)) {
+                        println("add file: " + it.toString())
+                        fileList.add(it.toString())
+                        break
+                    }
+                }
+            }
+        }
+
+        println("getTransformFileList end. Found ${fileList.size()} file for suffixs : " + suffix.toString())
+        return fileList
+    }
+
+    // @param suffix    search file suffix. e.g. .so or .jar
+    public static Set<String> getTransformSubDirs(String suffix) {
+        println("getTransformSubDirs begin !")
+        Set<String> dirList = getTransformSubDirs(getTransformRootDir(3), suffix)
+        Set<String> dirList4 = getTransformSubDirs(getTransformRootDir(4), suffix)
+        dirList4.forEach {
+            dirList.add(it)
+        }
+        println("getTransformSubDirs end !")
+        return dirList
+    }
+
+    // @param suffix    search file suffix. e.g. .so or .jar
+    public static Set<String> getTransformSubDirs(String transRootDir, String suffix) {
+        println("getTransformSubDirs begin. transformDir is: " + transRootDir)
+
+        Set<String> dirList = new HashSet<String>()
+        if (suffix.equals('.so')) {
+            project.fileTree(transRootDir).forEach {
+                if (it.toString().endsWith('.so')) {
+                    String soPath = it.toString()
+                    if (soPath.contains("/jni/arm64-v8a")) {
+                        String depsDir = soPath.substring(0, soPath.indexOf("/jni/arm64-v8a"))
+                        int size = dirList.size()
+                        dirList.add(depsDir)
+                        if (dirList.size() > size) {
+                            println("add dir : " + depsDir)
+                        }
+                    }
+                }
+            }
+        } else if (suffix.equals('.jar')) {
+            project.fileTree(transRootDir).forEach {
+                if (it.toString().endsWith('.jar')) {
+                    String jarPath = it.toString()
+                    if (jarPath.contains("/jars/classes.jar")) {
+                        String depsDir = jarPath.substring(0, jarPath.indexOf("/jars/classes.jar"))
+                        int size = dirList.size()
+                        dirList.add(depsDir)
+                        if (dirList.size() > size) {
+                            println("add dir : " + depsDir)
+                        }
+                    }
+                }
+            }
+        }
+
+        println("getTransformSubDirs end. Found ${dirList.size()} directories ! ")
+        return dirList
+    }
+
+    public static void resetTransformSo(Set<String> aarUnzipDirs, Set<String> transformDirs) {
+        println("resetTransformSo begin.")
+        if (aarUnzipDirs == null || transformDirs == null) {
+            throw new GradleException("Error: aarUnzipDirs or transformDirs is null");
+        }
+
+        aarUnzipDirs.forEach {
+            String[] pathComps = it.split('/')
+            String aarName = pathComps[pathComps.length - 1]
+            project.fileTree(it).forEach { File f ->
+                if (f.toString().endsWith('.so')) {
+                    String soPath = f.toString()
+                    String soName = f.getName()
+
+                    // move so to .gradle/cache/transforms-3 '/jni/arm64-v8a/'
+                    transformDirs.forEach { String dir ->
+                        if (dir.endsWith(aarName)) {
+                            println("copy ${soPath} to ${dir}/jni/arm64-v8a/${soName}")
+                            Files.copy(Paths.get(soPath), Paths.get(dir + '/jni/arm64-v8a/' + soName),
+                                    StandardCopyOption.REPLACE_EXISTING)
+                        }
+                    }
+                }
+            }
+        }
+
+        println("resetTransformSo end.")
+    }
+
+    public static void deleteOldSo(Set<String> unzipDirs, Set<String> transformDirs,
+                                    String libKey, ArrayList<String> bindedLibs) {
+        println("deleteOldSo begin.")
+        if (unzipDirs == null || transformDirs == null) {
+            throw new GradleException("Error: unzipDirs or transformDirs is null");
+        }
+        // get latest version: use first as default if no version info
+        String latestVer = '0'
+        String latestVerUnzipDir = unzipDirs[0]
+        unzipDirs.forEach { String dir ->
+            File verFile = new File(dir + '/assets/lib_deps.txt')
+            if (verFile.exists()) {
+                def prop = new Properties()
+                try {
+                    prop.load(verFile.newInputStream())
+                } catch (IOException e) {
+                    e.printStackTrace()
+                }
+                if (prop.hasProperty(libKey)) {
+                    String versionStr = prop[libKey].toString()
+                    println("find versionStr: ${versionStr}")
+                    if (versionStr.compareTo(latestVer) > 0) {
+                        latestVer = versionStr
+                        latestVerUnzipDir = dir
+                    }
+                }
+            }
+        }
+        println("${libKey} find latestVersion: ${latestVer}, latestVerUnzipDir: ${latestVerUnzipDir}")
+
+        // remove old bindedLibs from .gradle/cache/transforms-3
+        File dir = new File(latestVerUnzipDir)
+        String latestVerPkgName = dir.getName()
+        transformDirs.forEach { String transDir ->
+            if (!transDir.endsWith(latestVerPkgName)) {
+                bindedLibs.forEach {
+                    File soFile = new File(transDir + it)
+                    println("${libKey} so file: ${transDir + it}")
+                    if (soFile.exists()) {
+                        soFile.delete()
+                    }
+                }
+            }
+        }
+        println("deleteOldSo end.")
+    }
+
+    public static void showConfigurationInfo(Configuration cfg) {
+        println cfg.getIncoming().toString()
+        Configuration cfgCopy = cfg.copyRecursive()
+        cfgCopy.setCanBeResolved(true)
+        println("ConfigurationFiles = " + cfgCopy.getFiles().toString())
+
+        ResolvedConfiguration resolvedCfg = cfgCopy.getResolvedConfiguration()
+        println("ResolvedConfiguration = " + resolvedCfg.getFiles().toString())
+    }
+
+    public static Set<File> getConfigurationDependencies(Configuration cfg,
+                                                         String suffix = '.aar',
+                                                         boolean isAll = false)
+    {
+        println cfg.getIncoming().toString()
+        println("getConfigurationDependencies begin !")
+
+        Set<File> depends = []
+        Configuration cfgCopy = cfg.copyRecursive()
+        cfgCopy.setCanBeResolved(true)
+        if (isAll) {
+            for (final File f in cfgCopy.getFiles()) {
+                if (f.toString().endsWith(suffix)) {
+                    int size = depends.size()
+                    depends.add(f)
+                    if (depends.size() > size) {
+                        println f.toString()
+                    }
+                }
+            }
+        } else { // Only first level
+            for (final Dependency dep in cfgCopy.getDependencies()) {
+                def dep_str = dep.group + '/' + dep.name + '/' + dep.version
+                println dep_str
+
+                for (final File f in cfgCopy.getFiles()) {
+                    if (f.toString().contains(dep_str)) {
+                        int size = depends.size()
+                        depends.add(f)
+                        if (depends.size() > size) {
+                            println f.toString()
+                        }
+                    }
+                }
+            }
+        }
+
+        println("getConfigurationDependencies end !")
+        return depends
+    }
+
+    // getTypedDependencies("api")
+    // getTypedDependencies("implementation")
+    /// @param type target type in dependencies. e.g. api, implementation
+    public static Set<File> getTypedDependencies(String type = "",
+                                                 String suffix = '.aar',
+                                                 boolean isAll = false)
+    {
+        println("getTypedDependencies begin !")
+
+        Set<File> fileSet = []
+        project.configurations.findAll {
+            boolean stop = false
+            it.getExtendsFrom().forEach {
+                if (!stop) {
+                    stop = true
+                    if (it.getName().contains(type)) {
+                        fileSet = getConfigurationDependencies(it, suffix, isAll)
+//                        showConfigurationInfo(it)
+                    }
+                }
+            }
+        }
+
+        println("getTypedDependencies end !")
+        return fileSet
+    }
+
+    public static Set<File> getDependencies(String suffix = '.aar', boolean isAll = false)
+    {
+        println("getDependencies begin !")
+
+        Set<File> fileSet = getTypedDependencies("api", suffix, isAll)
+        Set<File> implSet = getTypedDependencies("implementation", suffix, isAll)
+        implSet.forEach { fileSet.add(it) }
+
+        println("getDependencies end !")
+        return fileSet
+    }
+
+    public static void pickLatest() {
+        println("pickLatest begin !")
+        String cacheDir = (project.buildDir.toString() + "/cache/deps-aar/").toString()
+        clearDir(cacheDir)
+
+        Set<File> list = getDependencies(".aar", true)
+        GradleFile.copyFiles(list, cacheDir)
+        Set<String> unzipDirs = GradleFile.unzipArchives(project, list, cacheDir, false)
+
+        Set<String> transformDirs = getTransformSubDirs('.so')
+        println "transformDirs = " + transformDirs
+        resetTransformSo(unzipDirs, transformDirs)
+        deleteOldSo(unzipDirs, transformDirs, 'c++_shared', ['/jni/arm64-v8a/libc++_shared.so'])
+
+        println("pickLatest end !")
+    }
+}
+
+class PickLatestPlugin implements Plugin<Project> {
+    @Override
+    void apply(Project project) {
+        println("PickLatestPlugin apply")
+	
+	// ./gradlew app:pickLatestSo
+        Task pickLatestSo = project.task("pickLatestSo", group:'coder4869') {
+            doLast {
+                GradleDepends.project = project
+                GradleDepends.pickLatest()
+            }
+        }
+
+        Task runShell = project.task("runShell", group:'coder4869') {
+            doLast {
+                String shellScript = (project.rootDir.toString() + "/scripts/deps.sh").toString()
+                exec {
+                    println shellScript
+                    commandLine 'sh', shellScript
+                }
+            }
+        }
+
+        Task preBuild = project.tasks.findByPath("preBuild")
+        if (preBuild) {
+            preBuild.dependsOn pickLatestSo
+//            preBuild.dependsOn runShell // Demo for run shell
+        }
+    }
+}
+apply plugin: PickLatestPlugin
+
+// ./gradlew app:pickLatestTask
+task gradleDependsTask {
+    doLast {
+        String cacheDir = (project.buildDir.toString() + "/cache/deps-aar/").toString()
+
+        GradleDepends.project = project
+
+        String dependsDir = GradleDepends.getDependsDir()
+        println "dependsDir = " + dependsDir
+
+        GradleDepends.getTransformFileList(['.so'])
+        String transformDir = GradleDepends.getTransformRootDir(4)
+        Set<String> transformDirs = GradleDepends.getTransformSubDirs(transformDir, '.jar')
+        println "transformDirs = " + transformDirs
+    }
+}

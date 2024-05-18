@@ -1,0 +1,35 @@
+def getAppVersion() {
+    def versionName = ""
+
+    // get versionName from target 'COMMIT_TAG'
+    if (project.hasProperty("COMMIT_TAG")) {
+        versionName = COMMIT_TAG
+        println "versionName from COMMIT_TAG: ${versionName}"
+        return versionName
+    } 
+    
+    // get latest COMMIT_ID
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = stdout
+    }
+    def commitId = stdout.toString().replace("\n", "").release("\r", "").trim()
+
+    // get latest COMMIT_ID related tag-name
+    stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'tag', '--points-at', commitId
+        standardOutput = stdout
+    }
+    def tagName = stdout.toString().replace("\n", "").release("\r", "").trim()
+
+    versionName = 'git-' + commitId
+    if (tagName != null && "" != tagName) {
+        versionName = tagName
+        println "versionName from {git tag}: ${versionName}"
+    }
+
+    println "versionName: ${versionName}"
+    return versionName
+}

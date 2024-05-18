@@ -1,0 +1,15 @@
+plugins {
+    id 'org.ajoberstar.grgit' version '4.1.0'  // git plugin
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+task gitRepoClone(type: Exec) {
+    println "clone repo in ${project.buildDir}/deps"
+    commandLine 'git', 'clone', '-b', 'main',
+            'https://github.com/coder4869/DevAssistant.git',
+            "${project.buildDir}/deps/DevAssistant"
+}
+// gitRepoClone.dependsOn "clean"
