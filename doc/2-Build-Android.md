@@ -6,8 +6,16 @@
     * `procyon-decompiler -jar <xx.jar> -o out_dir`
 
 ### Gradle
+- 多版本jdk，需要保证环境变量中的 JAVA_HOME 与 Android Studio 选择的版本一致，否则在命令行运行 `./gradlew task` 时会失败。
+    * 常见提示：Could not resolve all files for configuration ':classpath': 
+    * jdk 版本不兼容：
+
 - Plugin
     * [Developing Custom Gradle Plugins](https://docs.gradle.org/7.2/userguide/custom_plugins.html)
+    * [https://plugins.gradle.org](https://plugins.gradle.org/u/coder4869?tab=publishing)
+        * Copy the following to your `HOME_DIR/.gradle/gradle.properties (~/.gradle/gradle.properties)` file:
+            * `gradle.publish.key=g2fXs50kSGudoenTcYTdOYvdOJBCnUKt`
+            * `gradle.publish.secret=yAluquvwuM0y4YIjPM8GPrij1AenuhOy`
 
 - Tasks
     *  `./gradlew task --all`
