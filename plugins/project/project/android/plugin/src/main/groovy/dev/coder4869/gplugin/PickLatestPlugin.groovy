@@ -1,5 +1,6 @@
 // Usage: in target project add following line 
-// apply from: rootProject.file('gradle/plugins/pick-latest.gradle')
+package dev.coder4869.gplugin
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -452,23 +453,5 @@ public class PickLatestPlugin implements Plugin<Project> {
             preBuild.dependsOn pickLatestSo
 //            preBuild.dependsOn runShell // Demo for run shell
         }
-    }
-}
-apply plugin: PickLatestPlugin
-
-// ./gradlew app:pickLatestTask
-task gradleDependsTask {
-    doLast {
-        String cacheDir = (project.buildDir.toString() + "/cache/deps-aar/").toString()
-
-        GradleDepends.project = project
-
-        String dependsDir = GradleDepends.getDependsDir()
-        println "dependsDir = " + dependsDir
-
-        GradleDepends.getTransformFileList(['.so'])
-        String transformDir = GradleDepends.getTransformRootDir(4)
-        Set<String> transformDirs = GradleDepends.getTransformSubDirs(transformDir, '.jar')
-        println "transformDirs = " + transformDirs
     }
 }

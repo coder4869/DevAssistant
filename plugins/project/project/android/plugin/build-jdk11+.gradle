@@ -1,0 +1,76 @@
+// // For plugin usage only
+// // 1-Add to top of root project's build.gradle
+// buildscript {
+//     repositories {
+//         mavenLocal()
+//         maven {
+//             url '../release/maven'
+//             allowInsecureProtocol = true
+//             if (url.toString().startsWith("http")) {
+//                 credentials {
+//                     username = ''
+//                     password = ''
+//                 }
+//             }
+//         }
+//     }
+//     dependencies {
+//         classpath 'dev.coder4869.gplugin:gradle_plugin:0.0.1'
+//     }
+// }
+// 
+// // 2-Add to project that use the plugin. e.g. app or module project
+// plugins {
+//     id 'PluginDemo' // Name of xx.properties in plugin/src/main/resources/META-INF/gradle-plugins/
+//     id 'PickLatestPlugin' 
+// }
+// 
+// // For plugin both push and usage
+// // 1-Add to root project's build.gradle
+// plugins {
+//     id 'com.android.application' version '7.4.2' apply false
+//     id 'com.android.library' version '7.4.2' apply false
+// }
+
+
+plugins {
+    id 'groovy'
+    id 'groovy-gradle-plugin'
+    id 'maven-publish'
+}
+apply plugin: 'maven-publish'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation gradleTestKit()
+
+    implementation 'com.android.tools.build:gradle:7.4.2'       // jdk 11+
+    implementation 'com.android.tools.build:gradle-api:7.4.2'   // jdk 11+
+}
+
+publishing {
+    repositories { 
+        maven { // Release Repository
+            url '../release/maven'
+            allowInsecureProtocol = true
+            if (url.toString().startsWith("http")) {
+                credentials {
+                    username = ''
+                    password = ''
+                }
+            }
+        }
+        mavenLocal() //  ~/.m2/repository/
+    }
+
+    publications {
+        plugin(MavenPublication) {
+            from components.java
+
+            version     '0.0.1'
+            artifactId  'gradle_plugin'
+            groupId     'dev.coder4869.gplugin'
+        }
+    }
+}
