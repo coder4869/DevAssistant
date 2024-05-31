@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -31,6 +31,13 @@
 NS_CE_BEGIN
 
 namespace AppLoader {
+
+    /// @brief Get System Installed App Path
+    /// @param  app_name   app bin name
+    /// @param  output   app_name bin path for return succeed, error message for return false
+    /// @return  Query Result.  false for not find app, true for query succed
+    bool GetAppInstallPath(const std::string &app_name, std::string &output);
+
 	/// @brief Run Application As Root Authority
 	bool RunAsRoot(const std::string &bin_path);
 

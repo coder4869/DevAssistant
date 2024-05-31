@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -70,6 +70,9 @@
 
 #ifndef CCK_DEFINE_H
 #define CCK_DEFINE_H
+
+#define RET_OK      0
+#define RET_ERROR   1
 
 //#ifdef WIN
 //const char* PATH_SPLIT_TAG = "\\";

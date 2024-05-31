@@ -8,12 +8,6 @@
     {
         "System" : "Windows,Darwin,Linux",
         "From" : "EnvVar",
-        "Key" : "PATH",
-        "Soft" : "CMake"
-    },
-    {
-        "System" : "Windows,Darwin,Linux",
-        "From" : "EnvVar",
         "Key" : "QT_HOME",
         "Soft" : "Qt"
     },
@@ -33,6 +27,6 @@
         "System" : "Darwin",
         "From" : "EnvVar",
         "Key" : "PATH",
-        "Soft" : "XCode"
+        "Soft" : "XCode*.app"
     }
 ]

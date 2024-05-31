@@ -23,6 +23,6 @@
 #ifndef DEVENV_H
 #define DEVENV_H
 
-#include <DevEnv/CMake.h>
+#include <DevEnv/CodingTools.h>
 
 #endif /* DEVENV_H */

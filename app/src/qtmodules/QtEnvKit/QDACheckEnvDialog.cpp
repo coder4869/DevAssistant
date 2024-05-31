@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -35,7 +35,8 @@
 #include <CUtils/CUString.h>
 #include <COSEnv/CESystemEnv.h>
 #include <COSEnv/CERegedit.h>
-#include <DevEnv/CMake.h>
+#include <COSEnv/CEAppLoader.h>
+#include <DevEnv/CodingTools.h>
 
 #include <QtUIInfra/QtUIInfra.h>
 #include <QtCoreKit/QtCoreKit.h>
@@ -69,6 +70,17 @@ void QDACheckEnvDialog::OnCheckEnv()
     QJsonArray json_arr;
     if (!QCKJson::LoadJsonArrayFromFile(QString::fromStdString(json_file), json_arr)) {
         return;
+    }
+    
+    auto infos = CodingTool::GetSoftInfos();
+    int index = 0;
+    for (auto &it : infos) {
+        QTreeWidgetItem* item = new QTreeWidgetItem;
+        item->setText(0, QString::fromStdString(it.first));
+        item->setText(1, QString::fromStdString(it.second.search_key));
+        item->setText(2, QString::fromStdString(it.second.install_path));
+        ui->envTreeWidget->insertTopLevelItem(index, item);
+        index ++;
     }
     
     // Item
@@ -126,8 +138,14 @@ void QDACheckEnvDialog::OnCheckEnv()
                 }
 
                 if (!has_key) {
-                    path = soft + " in EnvVar " + key + " Not Found !";
-                    //QMessageBox::warning(NULL, key, QString::fromStdString(pathes));
+                    std::string app_path;
+                    if (CE::AppLoader::GetAppInstallPath(soft_std, app_path)) {
+                        path = QString::fromStdString(app_path);
+                        key = "";
+                    } else {
+                       path = soft + " in EnvVar " + key + " Not Found !";
+                       //QMessageBox::warning(NULL, key, QString::fromStdString(pathes));
+                    }
                 }
             }
             else { // Get Info From Regedit
@@ -143,19 +161,12 @@ void QDACheckEnvDialog::OnCheckEnv()
             item->setText(0, soft);
             item->setText(1, key);
             item->setText(2, path);
-            ui->envTreeWidget->insertTopLevelItem(0, item);
+            ui->envTreeWidget->insertTopLevelItem(index, item);
+            index++;
         }
     }
-
-    auto cmake_key = CMake::GetQueryKey();
-    auto cmake_path = CMake::GetRootDir(); //CMake::CheckEnv();
-    QTreeWidgetItem* item = new QTreeWidgetItem;
-    item->setText(0, "CMake");
-    item->setText(1, QString::fromStdString(cmake_key));
-    item->setText(2, QString::fromStdString(cmake_path));
-    ui->envTreeWidget->insertTopLevelItem(0, item);
-
-    QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
+    
+//    QMessageBox::information(NULL, QStringLiteral("OnCheckEnv"), "OnCheckEnv() Finish !");
 }
 
 void QDACheckEnvDialog::OnTryFixEnvValue()
