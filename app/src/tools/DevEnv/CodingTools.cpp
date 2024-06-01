@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -44,6 +44,11 @@ std::map<std::string, CodingTool::SoftInfo> CodingTool::GetSoftInfos()
 }
 
 std::string CodingTool::GetRootDir(const std::string &soft, const std::string &search_key) {
+	auto list = CE::SystemEnv::GetEnvItems("PATH", soft.c_str());
+	if (list.size() > 0) {
+		return *list.begin();
+	}
+
 	bool is_dir = false;
 	std::string dir = CE::Regedit::GetRegValue(search_key, is_dir);
     if (dir.empty()) {

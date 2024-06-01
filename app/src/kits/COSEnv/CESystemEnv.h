@@ -51,8 +51,11 @@ class SystemEnv {
 	/// @param name upper-case is required!
 	static std::set<std::string> SplitEnvValue(const char* name);
 
-	/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-	static std::set<std::string> GetPathEnvItems();
+	/// @brief Query Env Value and Split to items by SplitEnvValue();
+	/// @param env_key	env key value to query
+	/// @param soft_key	soft key to search in env_key's value, default is ""
+	/// @return Env's sub-item values that contains soft_key, all for soft_key == "".
+	static std::set<std::string> GetEnvItems(const char* env_key = "PATH", const char* soft_key = "");
 
 	/// @brief Check Env Key-Value 
 	static bool CheckEnv(const std::string& key, const std::string& value);

@@ -106,11 +106,20 @@ std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 	return values;
 }
 
-/// @brief Get PATH Env Value and Split to items by SplitEnvValue();
-std::set<std::string> SystemEnv::GetPathEnvItems()
+/// @brief Query Env Value and Split to items by SplitEnvValue();
+std::set<std::string> SystemEnv::GetEnvItems(const char* env_key, const char* soft_key)
 {
-	auto path_set = SplitEnvValue("PATH");
-	return path_set;
+	auto path_set = SplitEnvValue(env_key);
+	if (soft_key == "") {
+		return path_set;
+	}
+	std::set<std::string> list;
+	for (auto it : path_set) {
+		if (it.find(soft_key) != std::string::npos) {
+			list.insert(it);
+		}
+	}
+	return list;
 }
 
 /// @brief Check Env Key-Value

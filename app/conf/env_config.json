@@ -3,7 +3,7 @@
         "System" : "Windows,Darwin,Linux",
         "From" : "EnvVar",
         "Key" : "PATH",
-        "Soft" : "Python"
+        "Soft" : "Python3"
     },
     {
         "System" : "Windows,Darwin,Linux",
