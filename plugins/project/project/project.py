@@ -32,6 +32,7 @@ from pytool import pyt_json
 from module import module   
 
 PROJECT_BUILD_DIR   = PROJECT_BASE_DIR + "/build"
+PROJECT_BUILD_LNK_DIR = PROJECT_BASE_DIR + "/build_lnk"
 PROJECT_CMAKE_DIR   = PROJECT_BASE_DIR + "/cmake"
 MODULE_TEMPLATE_DIR = PROJECT_BASE_DIR + "/template"
 
@@ -92,6 +93,9 @@ class Project(object):
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
         # prepare ${scripts_dir}/build
         pyt_file.File.copy_dir(PROJECT_BUILD_DIR, script_abs_dir + "/build")
+        # prepare ${PROJECT}/*.sh *.bat
+        pyt_file.File.copy_dir(PROJECT_BUILD_LNK_DIR, root_dir + "/")
+
         flist = os.listdir(script_abs_dir + "/build")
         for fitem in flist:
             file = script_abs_dir + "/build/" + fitem
