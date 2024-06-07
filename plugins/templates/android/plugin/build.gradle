@@ -44,9 +44,6 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation gradleTestKit()
-
-    implementation 'com.android.tools.build:gradle:7.4.2'       // jdk 11+
-    implementation 'com.android.tools.build:gradle-api:7.4.2'   // jdk 11+
 }
 
 publishing {

@@ -1,0 +1,32 @@
+pluginManagement {
+    repositories {
+        mavenLocal()
+        // maven { // values from gradle.properties
+        //     url MAVEN_PLUGIN_REPO_URL
+        //     authentication {
+        //         basic(BasicAuthentication)
+        //     }
+        //     credentials { 
+        //         username = ARTIFACT_USERNAME
+        //         password = ARTIFACT_PASSWORD 
+        //     }
+        // }
+        
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "PROJ_NAME"
+// include ':app'
+// include ':LIB_NAME'
+include ':plugin'
