@@ -9,5 +9,5 @@ app/bin64
 app/bin_ios
 app/lib
 
-templates/android/.gradle
-templates/android/**/build
+plugins/templates/android/.gradle
+plugins/templates/android/**/build
