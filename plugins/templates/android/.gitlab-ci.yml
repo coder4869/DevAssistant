@@ -1,0 +1,108 @@
+# This is an demo !
+# 1.run in image
+# 2.execution sequence: before_script -> stages(prebuild > build > test > deploy) -> after_script
+# 3.task demo 
+# task_name:
+#   image: python:3.9   # docker image for task
+#   tags:               # node with tags that run the task
+#     - docker
+#   stage: prebuild
+#   variables:
+#     ARTIFACTS_DIR: "build/output/"
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == "schedule"
+#   script: 
+#     - echo "script for demo task"
+#   only:               # trigger condations: branch, new tag, events etc.
+#     - master          # branch
+#     - tags            # new tag
+#   except:             # trigger except condations.
+#     - develop         # any branch except develop
+#
+#   artifacts:  # output config
+#     paths:    # save path
+#       - ${ARTIFACTS_DIR}
+#       - ./version.txt   # keep ./version.txt to next stage
+#     expire_in: 1 day # output expire time: never / 1 day / 2 days / 1 week
+#  
+#   when: manual
+#   retry: 2
+
+image: androidsdk/android-30:latest
+
+variables:
+  CI_TOKEN: "apply token from ci platform"
+  REPO_NAME: "github.com/coder4869/DevAssistant"
+  BRANCH_NAME: "main"
+  
+
+stages: # self defined stages, execute by sequence: prebuild > build > test > deploy
+  - prebuild
+  - build
+  - test
+  - deploy
+
+
+before_script: 
+  - echo "build start !"
+  - echo "140.82.114.3 github.com" >> /etc/hosts # add ip proxy to /etc/hosts
+  - git config --global user.name "coder4869"
+  - git config --global user.email "coder4869@github.com"
+  - git config --global url."https://oauth2:${CI_TOKEN}@github.com".insteadOf https://github.com
+
+
+auto_publish:
+  tags: 
+    - ubuntu-local
+  stage: prebuild
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  script: 
+    - echo "Auto scheduled publish"
+    - echo "CI_PIPELINE_SOURCE=$CI_PIPELINE_SOURCE ; CI_COMMIT_BRANCH=$CI_COMMIT_BRANCH ; VERSION_SUFFIX=$VERSION_SUFFIX"
+    - python3 scripts/auto_publish.py $CI_COMMIT_BRANCH $VERSION_SUFFIX
+
+
+build_android:
+  dependencies:
+    - auto_publish
+  stage: build
+  variables:
+    ARTIFACTS_DIR: "build/output/"
+  script: 
+    - cd ${CI_PROJECT_DIR}
+    - ./gradlew --no-daemon plugin:publishPluginPublicationToMavenLocal -PCOMMIT_TAG=${CI_COMMIT_TAG} # COMMIT_TAG for getAppVersion()
+  only:
+    - tags
+  artifacts:
+    paths:
+      - ${ARTIFACTS_DIR}
+      - ./version.txt
+    expire_in: 1 day
+
+
+run_test:
+  stage: test
+  variables:
+    ARTIFACTS_DIR: "build/output/"
+  script: 
+    - sh ${CI_PROJECT_DIR}/scripts/test.sh
+  only:
+    - tags
+  artifacts:
+    paths:
+      - ${ARTIFACTS_DIR}
+      - ./version.txt
+    expire_in: 1 day
+
+
+deploy_output:
+  stage: deploy
+  script: 
+    - sh ${CI_PROJECT_DIR}/scripts/deploy.sh
+  only:
+    - tags
+
+
+after_script:
+  - echo "build finish !"
