@@ -1,5 +1,8 @@
 ## Bazel 
 ### Start
+- [@bazel_tools](https://github.com/bazelbuild/bazel.git)
+- [git](https://bazel.google.cn/rules/lib/repo/git)
+
 
 ### Introduce
 - apple
