@@ -23,7 +23,7 @@
 #     paths:    # save path
 #       - ${ARTIFACTS_DIR}
 #       - ./version.txt   # keep ./version.txt to next stage
-#     expire_in: 1 day # output expire time: never / 1 day / 2 days / 1 week
+#     expire_in: 1 day # output expire time: never / 1 day / 2 day
 #  
 #   when: manual
 #   retry: 2
