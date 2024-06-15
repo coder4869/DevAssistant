@@ -25,7 +25,6 @@
 # 2. glob() will ignore files in sub-dir which contains BUILD.bazel
 
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary", "cc_test")
-
 load("//scripts/bazel:variables.bzl", "COPTS")
 
 VISIBILITY = [ "//visibility:public" ]

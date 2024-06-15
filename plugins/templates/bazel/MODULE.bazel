@@ -20,5 +20,5 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# gtest
+# apple
 # bazel_dep(name = "rules_apple", version = "3.5.1", repo_name = "build_bazel_rules_apple")
