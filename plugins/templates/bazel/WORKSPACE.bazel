@@ -24,5 +24,18 @@
 
 workspace(name = "PROJ_NAME")
 
+# c/c++
 load("//scripts/bazel:func_test.bzl", "gtest")
 gtest()
+
+# apple
+load("//scripts/bazel:func_apple.bzl", "apple_base")
+apple_base()
+load("@build_bazel_rules_apple//apple:repositories.bzl", "apple_rules_dependencies")
+apple_rules_dependencies()
+load("@build_bazel_apple_support//lib:repositories.bzl", "apple_support_dependencies")
+apple_support_dependencies()
+load("@build_bazel_rules_swift//swift:repositories.bzl", "swift_rules_dependencies")
+swift_rules_dependencies()
+load("@build_bazel_rules_swift//swift:extras.bzl", "swift_rules_extra_dependencies")
+swift_rules_extra_dependencies()

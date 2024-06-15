@@ -21,8 +21,9 @@
 # SOFTWARE.
 
 # cc section
-load("//scripts/bazel:func_cc.bzl", "cc_lib", "cc_bin", "cc_lib_test")
+load("//scripts/bazel:func_cc.bzl", "cc_lib", "cc_bin", "cc_bin_test")
 
 cc_lib( name = "cc_static" )
 cc_bin( name = "cc_shared", shared = 1 )
-cc_bin( name = "cc_bin", deps = [ ":cc_static" ] )
+# cc_bin( name = "cc_bin", deps = [ ":cc_static" ] )
+cc_bin_test( name = "cc_bin", deps = [ ":cc_static" ] )

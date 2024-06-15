@@ -77,8 +77,8 @@ def cc_bin(name, deps = [], includes = [ "." ], shared=0):
         linkshared = shared,
     )
 
-# test_lib
-def cc_lib_test(name, deps = [], includes = [ "." ]):
+# test_bin
+def cc_bin_test(name, deps = [], includes = [ "." ]):
     cc_test(
         name = name,
         srcs = src_test(),
