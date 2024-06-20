@@ -25,10 +25,7 @@
 # 2. glob() will ignore files in sub-dir which contains BUILD.bazel
 
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary", "cc_test")
-load("//scripts/bazel:variables.bzl", "COPTS")
-
-VISIBILITY = [ "//visibility:public" ]
-LINK_OPTS = ["-lstdc++"]
+load("//scripts/bazel:variables.bzl", "COPTS", "CC_LINK_OPTS", "CC_VISIBILITY")
 
 def src_core():
     return native.glob(
@@ -57,8 +54,8 @@ def cc_lib(name, deps = [], includes = [ "." ] ):
         deps = deps,
         includes = includes,
         copts = COPTS,
-        visibility = VISIBILITY,
-        linkopts = LINK_OPTS,
+        visibility = CC_VISIBILITY,
+        linkopts = CC_LINK_OPTS,
         linkstatic = 1,
         # alwayslink = 1,
     )
@@ -71,8 +68,8 @@ def cc_bin(name, deps = [], includes = [ "." ], shared=0):
         deps = deps,
         includes = includes,
         copts = COPTS,
-        visibility = VISIBILITY,
-        linkopts = LINK_OPTS,
+        visibility = CC_VISIBILITY,
+        linkopts = CC_LINK_OPTS,
         # linkstatic = 1,
         linkshared = shared,
     )
@@ -86,8 +83,8 @@ def cc_bin_test(name, deps = [], includes = [ "." ]):
         includes = includes,
         copts = COPTS,
         size = "small",
-        visibility = VISIBILITY,
-        linkopts = LINK_OPTS,
+        visibility = CC_VISIBILITY,
+        linkopts = CC_LINK_OPTS,
     )
 
     # deps = [

@@ -22,3 +22,11 @@
 
 # Compile options
 COPTS = ["-std=c++17 -v"]
+
+CC_VISIBILITY = [ "//visibility:public" ]
+CC_LINK_OPTS = ["-lstdc++"]
+
+OC_LINK_OPTS = ["-ObjC"]
+IOS_FAMILY = [ "iphone", "ipad" ]
+IOS_MIN_VERSION = "11.0"
+IOS_INFO_PLIST = [ "Resources/Info.plist" ]

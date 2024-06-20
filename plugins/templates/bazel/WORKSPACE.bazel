@@ -24,13 +24,14 @@
 
 workspace(name = "PROJ_NAME")
 
-# c/c++
-load("//scripts/bazel:func_test.bzl", "gtest")
+# deps
+load("//scripts/bazel:func_deps.bzl", "gtest")
 gtest()
 
+# base env
+load("//scripts/bazel:func_env.bzl", "apple_env", "android_env")
 # apple
-load("//scripts/bazel:func_apple.bzl", "apple_base")
-apple_base()
+apple_env()
 load("@build_bazel_rules_apple//apple:repositories.bzl", "apple_rules_dependencies")
 apple_rules_dependencies()
 load("@build_bazel_apple_support//lib:repositories.bzl", "apple_support_dependencies")
@@ -39,3 +40,6 @@ load("@build_bazel_rules_swift//swift:repositories.bzl", "swift_rules_dependenci
 swift_rules_dependencies()
 load("@build_bazel_rules_swift//swift:extras.bzl", "swift_rules_extra_dependencies")
 swift_rules_extra_dependencies()
+
+# android
+android_env()

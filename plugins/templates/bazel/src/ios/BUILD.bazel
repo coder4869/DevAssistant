@@ -20,6 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+load("//scripts/bazel:func_apple.bzl", "oc_src", "oc_hdrs", "ios_fmwk", "ios_app")
+
 # apple section
 # ios section: ios_application() contains objc_library()
 load("@build_bazel_rules_apple//apple:ios.bzl", "ios_application", "ios_framework")
@@ -29,30 +31,21 @@ load("@build_bazel_rules_apple//apple:ios.bzl", "ios_application", "ios_framewor
 
 objc_library(
     name = "oc_static",
-    srcs = glob(["**/*.cpp"]),
-    hdrs = glob(["**/*.h"]),
+    srcs = oc_src(),
+    hdrs = oc_hdrs(),
     # data = ["UrlGet/UrlGetViewController.xib"],
     # linkstatic = 1,
     deps = [ "//src/cc:cc_static" ],
 )
 
-ios_framework(
+ios_fmwk(
     name = "oc_shared",
-    hdrs = glob(["**/*.h"]),
     bundle_id = "dev.coder4869.ios_fmwk",
-    families = [ "iphone", "ipad" ],
-    minimum_os_version = "11.0",
-    infoplists = [ "Resources/Info.plist" ],
     deps = [ ":oc_static" ],
 )
 
-ios_application(
+ios_app(
     name = "ios-app",
     bundle_id = "ios.demo.app",
-    families = [ "iphone", "ipad" ],
-    minimum_os_version = "11.0",
-    infoplists = [ "Resources/Info.plist" ],
-    visibility = [ "//visibility:public" ],
-    # provisioning_profile = "<profile_name>.mobileprovision",
     deps = [ ":oc_static", "//src/cc:cc_static" ],
 )

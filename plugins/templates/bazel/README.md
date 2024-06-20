@@ -1,9 +1,11 @@
 ## Introduce
 - Clean: 
     * normal: `bazel clean --expunge`
-    * async: `bazel clean --expunge --async && rm -rf /private/var/tmp/_bazel_mac/`
+    * async: 
+        * mac: `bazel clean --expunge --async && rm -rf /private/var/tmp/_bazel_mac/`
+        * other: `bazel clean --expunge --async`
 
-## C/C++
+## C/C++(Mac/Linux)
 - Build: 
     * static: `bazel build src/cc:cc_static && ls -al bazel-bin/src/cc | grep cc_static`
     * shared: `bazel build src/cc:cc_shared && ls -al bazel-bin/src/cc | grep cc_shared`
@@ -14,10 +16,10 @@
         * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut`
         * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --platform 0`
     * gtest: 
-        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="BaseTest.*"`
-        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="BaseTest.Demo"`
+        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="TestDemo.*"`
+        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="TestDemo.Skip"`
 
-## Apple    
+## Apple(Mac)
 - Build: 
     * static: `bazel build src/ios:oc_static && ls -al bazel-bin/src/ios`
     * framework: `bazel build src/ios:oc_shared && ls -al bazel-bin/src/ios`

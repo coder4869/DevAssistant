@@ -23,51 +23,60 @@
 ### [Apple](https://bazel.google.cn/versions/6.0.0/start/ios-app)
 # https://github.com/bazelbuild/rules_apple/blob/master/doc/frameworks.md
 
-load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+load("//scripts/bazel:variables.bzl", 
+    "COPTS", "OC_LINK_OPTS", "CC_VISIBILITY",
+    "IOS_FAMILY",  "IOS_MIN_VERSION", "IOS_INFO_PLIST"
+)
 
-def apple_base():
-    git_repository(
-        name = "build_bazel_rules_apple",
-        remote = "https://github.com/bazelbuild/rules_apple.git",
-        tag = "3.5.1",
-    )
-    # load("@build_bazel_rules_apple//apple:repositories.bzl", "apple_rules_dependencies")
-    # apple_rules_dependencies()
+# ios section: ios_application() contains objc_library()
+load("@build_bazel_rules_apple//apple:ios.bzl", "ios_application", "ios_framework")
+# https://github.com/bazelbuild/rules_swift/blob/master/doc/rules.md#swift_library
+# load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
+# load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target", "xcodeproj")
 
-    git_repository(
-        name = "build_bazel_apple_support",
-        remote = "https://github.com/bazelbuild/apple_support.git",
-        tag = "1.15.1",
-    )
-    # load("@build_bazel_apple_support//lib:repositories.bzl", "apple_support_dependencies")
-    # apple_support_dependencies()
-
-    git_repository(
-        name = "build_bazel_rules_swift",
-        remote = "https://github.com/bazelbuild/rules_swift.git",
-        tag = "1.18.0",
-    )
-    # load("@build_bazel_rules_swift//swift:repositories.bzl", "swift_rules_dependencies")
-    # swift_rules_dependencies()
-    # load("@build_bazel_rules_swift//swift:extras.bzl", "swift_rules_extra_dependencies")
-    # swift_rules_extra_dependencies()
-
-    git_repository(
-        name = "build_bazel_rules_ios",
-        remote = "https://github.com/bazel-ios/rules_ios.git",
-        tag = "4.3.1",
+def oc_src():
+    return native.glob(
+        include = [ "**/*.c", "**/*.cc", "**/*.cpp", "**/*.h", "**/*.hpp" ],
+        exclude = [ "**/test/**", "**/unused/**" ]
     )
 
-    # git_repository(
-    #     name = "rules_xcodeproj",
-    #     remote = "https://github.com/MobileNativeFoundation/rules_xcodeproj.git",
-    #     tag = "2.2.0",
-    # )
-    # load("@rules_xcodeproj//xcodeproj:repositories.bzl", "xcodeproj_rules_dependencies")    
-    # xcodeproj_rules_dependencies()
-    # load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target", "xcodeproj")
+def oc_hdrs():
+    return native.glob(
+        include = [ "**/*.h", "**/*.hpp"],
+        exclude = [ "**/test/**", "**/unused/**" ]
+    )
 
-    # load("@bazel_features//:deps.bzl", "bazel_features_deps")
-    # bazel_features_deps()
+def oc_src_test():
+    return native.glob(
+        include = [ "**/test/*.c", "**/test/*.cc", "**/test/*.cpp", "**/test/*.h", "**/test/*.hpp" ],
+        exclude = [ "**/unused/**" ]
+    )
 
 
+# framework
+def ios_fmwk(name, bundle_id, deps = []):
+    ios_framework(
+        name = name,
+        bundle_id = bundle_id,
+        deps = deps,
+
+        families = IOS_FAMILY,
+        minimum_os_version = IOS_MIN_VERSION,
+        infoplists = IOS_INFO_PLIST,
+        visibility = CC_VISIBILITY,
+        linkopts = OC_LINK_OPTS,
+    )
+
+def ios_app(name, bundle_id, deps = []):
+    return ios_application(
+        name = name,
+        bundle_id = bundle_id,
+        deps = deps,
+
+        families = IOS_FAMILY,
+        minimum_os_version = IOS_MIN_VERSION,
+        infoplists = IOS_INFO_PLIST,
+        visibility = CC_VISIBILITY,
+        linkopts = OC_LINK_OPTS,
+        # provisioning_profile = "<profile_name>.mobileprovision",
+    )
