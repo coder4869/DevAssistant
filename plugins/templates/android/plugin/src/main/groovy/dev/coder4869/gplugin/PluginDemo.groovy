@@ -25,9 +25,26 @@ package dev.coder4869.gplugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
+public class PluginDemoExtension {
+    String userName = "coder4869";
+}
+
 public class PluginDemo implements Plugin<Project> {
 
     public void apply(Project project) {
         System.out.println("PluginDemo apply !");
+        
+        project.extensions.create("pluginDemo", PluginDemoExtension);
+        project.afterEvaluate {
+            String uname = project.pluginDemo.userName
+            println("uname = ${uname}")
+        }
     }
 }
+// Usage
+// plugins {
+//     id 'PluginDemo'
+// }
+// pluginDemo {
+//     userName = "coder4869"
+// }

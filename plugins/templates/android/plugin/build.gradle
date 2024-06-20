@@ -1,3 +1,7 @@
+// // Notes:
+// // if pickFirst(in apk build.gradle for packaging) contains so in aar/assets/version_deps_lib,
+// // the pickFirst effects will override PickLatestPlugin effects, which lead to final so in apk use pickFirst
+// 
 // // For plugin usage only
 // // 1-Add to top of root project's build.gradle
 // buildscript {

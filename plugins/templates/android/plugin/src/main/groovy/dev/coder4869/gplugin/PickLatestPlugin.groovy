@@ -252,7 +252,7 @@ class GradleDepends {
         String v2Str = v2.split('-')[0]
         String[] v2Nums = v2Str.split('.')
 
-        int minSize = min(v1Nums.size(), v2Nums.size())
+        int minSize = Math.min(v1Nums.size(), v2Nums.size())
         for (int idx=0; idx<minSize; idx++) {
             if (v1Nums[idx].toInteger() > v2Nums[idx].toInteger()) {
                 return 1
@@ -288,7 +288,7 @@ class GradleDepends {
                     // libxx.so = "0.0.1" or libxx.so = "v0.0.1" or libxx.so = "v0.0.1-flag" or libxx.so = "v0.0.1-debug"
                     String version = it.value.toString().replaceFirst('v', '').replace('\"', '')
                     // println("version info: ${it.toString()}")
-                    if (libVersionMap.hasProperty(it.key)) {
+                    if (libVersionMap.containsKey(it.key)) {
                         if (compareVersion(libVersionMap[it.key], version) < 0 ) {
                             libDirMap[it.key] = dir
                             libVersionMap[it.key] = version
@@ -459,7 +459,7 @@ public class PickLatestPlugin implements Plugin<Project> {
     void apply(Project project) {
         println("PickLatestPlugin apply")
 	
-	// ./gradlew app:pickLatestSo
+        // ./gradlew app:pickLatestSo
         Task pickLatestSo = project.task("pickLatestSo", group:'coder4869') {
             doLast {
                 GradleDepends.project = project
@@ -480,7 +480,7 @@ public class PickLatestPlugin implements Plugin<Project> {
         Task preBuild = project.tasks.findByPath("preBuild")
         if (preBuild) {
             preBuild.dependsOn pickLatestSo
-//            preBuild.dependsOn runShell // Demo for run shell
+            // preBuild.dependsOn runShell // Demo for run shell
         }
     }
 }
