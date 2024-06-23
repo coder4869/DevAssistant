@@ -26,7 +26,12 @@ COPTS = ["-std=c++17 -v"]
 CC_VISIBILITY = [ "//visibility:public" ]
 CC_LINK_OPTS = ["-lstdc++"]
 
-OC_LINK_OPTS = ["-ObjC"]
+XC_COPTS = [
+    "-arch", "armv7", "arm64", "i386", "x86_64"
+]
+OC_LINK_OPTS = ["-ObjC"] # , "-fembed-bitcode" default_platforms
 IOS_FAMILY = [ "iphone", "ipad" ]
 IOS_MIN_VERSION = "11.0"
 IOS_INFO_PLIST = [ "Resources/Info.plist" ]
+# IOS_CPU_ARCH = ["armv7", "arm64", "i386", "x86_64"]
+IOS_CPU_ARCH = ["arm64", "x86_64"]

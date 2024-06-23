@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 # [@bazel_tools](https://github.com/bazelbuild/bazel.git)
+# https://bazel.google.cn/versions/7.1.0/rules/lib/globals/workspace
 
 workspace(name = "PROJ_NAME")
 
@@ -40,6 +41,12 @@ load("@build_bazel_rules_swift//swift:repositories.bzl", "swift_rules_dependenci
 swift_rules_dependencies()
 load("@build_bazel_rules_swift//swift:extras.bzl", "swift_rules_extra_dependencies")
 swift_rules_extra_dependencies()
+load("@build_bazel_rules_ios//rules:repositories.bzl", "rules_ios_dependencies")
+rules_ios_dependencies()
+load("@rules_xcodeproj//xcodeproj:repositories.bzl", "xcodeproj_rules_dependencies")    
+xcodeproj_rules_dependencies()
+load("@bazel_features//:deps.bzl", "bazel_features_deps")
+bazel_features_deps()
 
 # android
 android_env()

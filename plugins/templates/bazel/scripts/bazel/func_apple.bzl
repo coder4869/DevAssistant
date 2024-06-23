@@ -25,18 +25,20 @@
 
 load("//scripts/bazel:variables.bzl", 
     "COPTS", "OC_LINK_OPTS", "CC_VISIBILITY",
-    "IOS_FAMILY",  "IOS_MIN_VERSION", "IOS_INFO_PLIST"
+    "IOS_CPU_ARCH", "IOS_FAMILY",  "IOS_MIN_VERSION", "IOS_INFO_PLIST"
 )
+
+load("@build_bazel_rules_apple//apple:apple_binary.bzl", "apple_binary")
 
 # ios section: ios_application() contains objc_library()
 load("@build_bazel_rules_apple//apple:ios.bzl", "ios_application", "ios_framework")
 # https://github.com/bazelbuild/rules_swift/blob/master/doc/rules.md#swift_library
 # load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
-# load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target", "xcodeproj")
+load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target", "xcodeproj")
 
 def oc_src():
     return native.glob(
-        include = [ "**/*.c", "**/*.cc", "**/*.cpp", "**/*.h", "**/*.hpp" ],
+        include = [ "**/*.m", "**/*.mm", "**/*.c", "**/*.cc", "**/*.cpp", "**/*.h", "**/*.hpp" ],
         exclude = [ "**/test/**", "**/unused/**" ]
     )
 
@@ -48,10 +50,23 @@ def oc_hdrs():
 
 def oc_src_test():
     return native.glob(
-        include = [ "**/test/*.c", "**/test/*.cc", "**/test/*.cpp", "**/test/*.h", "**/test/*.hpp" ],
+        include = [ "**/test/*.m", "**/test/*.mm", "**/test/*.c", "**/test/*.cc", "**/test/*.cpp", "**/test/*.h", "**/test/*.hpp" ],
         exclude = [ "**/unused/**" ]
     )
 
+def ios_bin(name, deps = []):
+    return apple_binary(
+        name = name,
+        # srcs = oc_src(),
+        # hdrs = oc_hdrs(),
+        deps = deps,
+
+        # copts = COPTS,
+        platform_type = "ios",
+        minimum_os_version = IOS_MIN_VERSION,
+        visibility = CC_VISIBILITY,
+        linkopts = OC_LINK_OPTS,
+    )
 
 # framework
 def ios_fmwk(name, bundle_id, deps = []):
@@ -65,6 +80,7 @@ def ios_fmwk(name, bundle_id, deps = []):
         infoplists = IOS_INFO_PLIST,
         visibility = CC_VISIBILITY,
         linkopts = OC_LINK_OPTS,
+        # ios_multi_cpus = IOS_CPU_ARCH
     )
 
 def ios_app(name, bundle_id, deps = []):
@@ -80,3 +96,13 @@ def ios_app(name, bundle_id, deps = []):
         linkopts = OC_LINK_OPTS,
         # provisioning_profile = "<profile_name>.mobileprovision",
     )
+
+def xcode_proj(name, proj_name, top_level_targets):
+    xcodeproj(
+        name = name,
+        build_mode = "bazel",
+        project_name = proj_name,
+        tags = ["manual"],
+        top_level_targets = top_level_targets
+    )
+    

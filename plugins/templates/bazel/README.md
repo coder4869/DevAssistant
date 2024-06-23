@@ -1,4 +1,6 @@
 ## Introduce
+- https://bazel.google.cn/versions/7.1.0/rules/lib/globals/workspace
+
 - Clean: 
     * normal: `bazel clean --expunge`
     * async: 
@@ -13,16 +15,20 @@
 
 - Test:
     * default: 
-        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut`
-        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --platform 0`
+        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/test/ut-cc && bazel-bin/test/ut-cc/cc_ut`
+        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/test/ut-cc && bazel-bin/test/ut-cc/cc_ut --platform 0`
     * gtest: 
-        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="TestDemo.*"`
-        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/src/cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="TestDemo.Skip"`
+        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/test/ut-cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="TestDemo.*"`
+        * `bazel build test/ut-cc:cc_ut && ls -al bazel-bin/test/ut-cc && bazel-bin/test/ut-cc/cc_ut --gtest_filter="TestDemo.Skip"`
 
 ## Apple(Mac)
 - Build: 
-    * static: `bazel build src/ios:oc_static && ls -al bazel-bin/src/ios`
-    * framework: `bazel build src/ios:oc_shared && ls -al bazel-bin/src/ios`
+    * static:
+        * `bazel build src/ios:oc_static && ls -al bazel-bin/src/ios`
+        * `bazel build src/ios:oc_static --ios_multi_cpus=armv7,arm64 && ls -al bazel-bin/src/ios`
+    * framework: 
+        * `bazel build src/ios:oc_shared && ls -al bazel-bin/src/ios`
+        * `bazel build src/ios:oc_shared --ios_multi_cpus=armv7,arm64 && ls -al bazel-bin/src/ios`
     * app: 
-        * `bazel build //src/ios:ios-app && ls -al bazel-bin/src/ios`
-        * `bazel build //src/ios:ios-app --ios_multi_cpus=armv7,arm64` (invalid)
+        * `bazel build src/ios:ios-app && ls -al bazel-bin/src/ios`
+        * `bazel build //src/ios:ios-app --ios_multi_cpus=arm64` (invalid)

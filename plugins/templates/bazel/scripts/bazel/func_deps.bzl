@@ -26,6 +26,9 @@ def gtest():
         name = "com_google_googletest",
         remote = "https://github.com/google/googletest.git",
         # branch = "v1.14.0",
-        tag = "v1.14.0",
-        # commit = "Commit_ID",
+        # tag = "v1.14.0",
+        commit = "f8d7d77c06936315286eb55f8de22cd23c188571",
     )
+
+    # load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
+    # protobuf_deps()

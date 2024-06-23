@@ -25,6 +25,8 @@ load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 ############################# apple env #############################
 ### [Apple](https://bazel.google.cn/versions/6.0.0/start/ios-app)
 # https://github.com/bazelbuild/rules_apple/blob/master/doc/frameworks.md
+# https://github.com/bazelbuild/rules_apple/blob/master/doc/tutorials/ios-app.md
+# https://github.com/bazel-ios/rules_ios
 
 def apple_env():
     git_repository(
@@ -56,18 +58,20 @@ def apple_env():
     git_repository(
         name = "build_bazel_rules_ios",
         remote = "https://github.com/bazel-ios/rules_ios.git",
-        tag = "4.3.1",
+        tag = "4.7.1",
     )
+    # load("@build_bazel_rules_ios//rules:repositories.bzl", "rules_ios_dependencies")
+    # rules_ios_dependencies()
 
-    # git_repository(
-    #     name = "rules_xcodeproj",
-    #     remote = "https://github.com/MobileNativeFoundation/rules_xcodeproj.git",
-    #     tag = "2.2.0",
-    # )
+    # https://github.com/bazelbuild/rules_apple/blob/master/doc/tutorials/ios-app.md
+    git_repository(
+        name = "rules_xcodeproj",
+        remote = "https://github.com/MobileNativeFoundation/rules_xcodeproj.git",
+        tag = "2.4.0",
+    )
     # load("@rules_xcodeproj//xcodeproj:repositories.bzl", "xcodeproj_rules_dependencies")    
     # xcodeproj_rules_dependencies()
     # load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target", "xcodeproj")
-
     # load("@bazel_features//:deps.bzl", "bazel_features_deps")
     # bazel_features_deps()
 
