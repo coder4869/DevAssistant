@@ -86,7 +86,7 @@ run_test:
   variables:
     ARTIFACTS_DIR: "build/output/"
   script: 
-    - sh ${CI_PROJECT_DIR}/scripts/test.sh
+    - sh ${CI_PROJECT_DIR}/scripts/test.sh ${CI_JOB_ID}
   only:
     - tags
   artifacts:

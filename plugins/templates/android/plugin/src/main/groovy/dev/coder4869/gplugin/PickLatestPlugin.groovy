@@ -247,10 +247,10 @@ class GradleDepends {
         }
 
         // get number section
-        String v1Str = v1.split('-')[0]
-        String[] v1Nums = v1Str.split('.')
-        String v2Str = v2.split('-')[0]
-        String[] v2Nums = v2Str.split('.')
+        String v1Str = v1.contains('-') ? v1.split('-')[0] : v1
+        String[] v1Nums = v1Str.split('\\.')
+        String v2Str = v2.contains('-') ? v2.split('-')[0] : v2
+        String[] v2Nums = v2Str.split('\\.')
 
         int minSize = Math.min(v1Nums.size(), v2Nums.size())
         for (int idx=0; idx<minSize; idx++) {
