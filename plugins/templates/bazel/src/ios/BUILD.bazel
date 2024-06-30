@@ -20,33 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-load("//scripts/bazel:variables.bzl", 
-    "OC_LINK_OPTS", "CC_VISIBILITY",
-    "IOS_CPU_ARCH", "IOS_FAMILY",  "IOS_MIN_VERSION", "IOS_INFO_PLIST"
-)
+load("//scripts/bazel:variables.bzl", "XC_BUILD_OS")
+XC_BUILD_OS = "ios"
+
 load("//scripts/bazel:func_apple.bzl", 
-    "ios_bin",
-    "oc_src", "oc_hdrs", "ios_fmwk", "ios_app", "xcode_proj"
+    "ios_bin", 
+    "oc_lib", "ios_fmwk", "ios_app",
+    "mac_app", "xcode_proj"
 )
 
-# apple section
-# ios section: ios_application() contains objc_library()
-load("@build_bazel_rules_apple//apple:ios.bzl", "ios_application", "ios_framework")
-# https://github.com/bazelbuild/rules_swift/blob/master/doc/rules.md#swift_library
-# load("@build_bazel_rules_swift//swift:swift.bzl", "swift_library")
-# load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target", "xcodeproj")
-
-objc_library(
+oc_lib(
     name = "oc_static",
-    srcs = oc_src(),
-    hdrs = oc_hdrs(),
-    # data = ["UrlGet/UrlGetViewController.xib"],
-    # linkstatic = 1,
-    linkopts = OC_LINK_OPTS,
-    # ios_multi_cpus = IOS_CPU_ARCH,
-    copts = [  
-        "-arch", "x86_64"
-    ],  
     deps = [ "//src/cc:cc_static" ],
 )
 
@@ -64,6 +48,12 @@ ios_fmwk(
 ios_app(
     name = "ios-app",
     bundle_id = "ios.demo.app",
+    deps = [ ":oc_static", "//src/cc:cc_static" ],
+)
+
+mac_app(
+    name = "mac-app",
+    bundle_id = "mac.demo.app",
     deps = [ ":oc_static", "//src/cc:cc_static" ],
 )
 

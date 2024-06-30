@@ -25,4 +25,8 @@ echo ""
 echo "Build src/ios:ios-app"
 bazel build src/ios:ios-app && ls -al bazel-bin/src/ios
 echo ""
+
+echo "Build src/ios:mac-app"
+bazel build src/ios:mac-app && ls -al bazel-bin/src/ios
+echo ""
 echo ""
