@@ -20,6 +20,8 @@
 - Tasks
     *  `./gradlew task --all`
     * [Exec](https:-docs.gradle.org/current/dsl/org.gradle.api.tasks.Exec.html)
+    * Refresh depends: `./gradlew app:mergeDebugNativeLibs --refresh-dependencies`
+    * Task depends list: `./gradlew app:mergeDebugNativeLibs --dry-run`
 
 - Depends
     * [native](https:developer.android.com/build/native-dependencies) 
