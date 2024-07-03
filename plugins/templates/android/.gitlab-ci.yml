@@ -1,3 +1,5 @@
+# https://docs.gitlab.com/
+# https://docs.gitlab.com/ee/ci/yaml/?query=after_script
 # This is an demo !
 # 1.run in image
 # 2.execution sequence: before_script -> stages(prebuild > build > test > deploy) -> after_script
@@ -12,6 +14,8 @@
 #   rules:
 #     - if: $CI_PIPELINE_SOURCE == "schedule"
 #   script: 
+#     - echo "$CI_JOB_ID" > $CI_PROJECT_DIR/CI_JOB_ID.txt
+#     - echo "$CI_JOB_NAME" > $CI_PROJECT_DIR/CI_JOB_NAME.txt
 #     - echo "script for demo task"
 #   only:               # trigger condations: branch, new tag, events etc.
 #     - master          # branch
@@ -22,11 +26,34 @@
 #   artifacts:  # output config
 #     paths:    # save path
 #       - ${ARTIFACTS_DIR}
-#       - ./version.txt   # keep ./version.txt to next stage
+#       - ./version.txt                     # keep ./version.txt to next stage
+#       - $CI_PROJECT_DIR/CI_JOB_ID.txt     # keep CI_JOB_ID.txt to on_failure
+#       - $CI_PROJECT_DIR/CI_JOB_NAME.txt   # keep CI_JOB_NAME.txt to on_failure
 #     expire_in: 1 day # output expire time: never / 1 day / 2 day
 #  
 #   when: manual
+#   allow_failure:
+#     exit_code: 100
 #   retry: 2
+
+# 4. failure process demo
+# error_process:
+#   stage: error
+#   script:
+#     - SUCCEED_JOB_ID=$(cat $CI_PROJECT_DIR/CI_JOB_ID.txt)     # receive CI_JOB_ID.txt from last succeed task
+#     - SUCCEED_JOB_NAME=$(cat $CI_PROJECT_DIR/CI_JOB_NAME.txt) # receive CI_JOB_NAME.txt from last succeed task
+#     - echo "final succeed job_id = $SUCCEED_JOB_ID job_name = $SUCCEED_JOB_NAME"
+#     - ERROR_JOB_ID=$(($SUCCEED_JOB_ID + 1))
+#     - FINAL_JOB_ID=$(($SUCCEED_JOB_ID + 2))
+#     - echo "ERROR_JOB_ID = $ERROR_JOB_ID ; FINAL_JOB_ID = $FINAL_JOB_ID"
+#     - >
+#       if [ "$FINAL_JOB_ID" == "CI_JOB_ID" ]; then
+#         echo "failed job_id = $ERROR_JOB_ID"
+#       else
+#         echo "failed job_id not accessible"
+#       fi
+#   when: on_failure
+
 
 image: androidsdk/android-30:latest
 
@@ -41,6 +68,7 @@ stages: # self defined stages, execute by sequence: prebuild > build > test > de
   - build
   - test
   - deploy
+  - error
 
 
 before_script: 
