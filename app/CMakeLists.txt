@@ -140,6 +140,7 @@ endif(NOT ANDROID)
 
 set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
 File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
+list(FILTER PLUGIN_FILEs EXCLUDE REGEX "${PROJ_ROOT}/../plugins/templates/*")
 if(NOT ANDROID)
     source_group(
         TREE ${PLUGIN_DIR}
