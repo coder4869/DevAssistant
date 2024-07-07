@@ -1,5 +1,7 @@
 #/bin/bash
 
+cp WORKSPACE.bazel-unix WORKSPACE.bazel
+
 echo "Apple demo: reset bazel env"
 # bazel clean --expunge --async && rm -rf /private/var/tmp/_bazel_mac/
 echo ""
