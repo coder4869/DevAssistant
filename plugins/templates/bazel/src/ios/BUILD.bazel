@@ -21,11 +21,9 @@
 # SOFTWARE.
 
 load("//scripts/bazel:variables.bzl", "XC_BUILD_OS")
-XC_BUILD_OS = "ios"
 
 load("//scripts/bazel:func_apple.bzl", 
-    "ios_bin", 
-    "oc_lib", "ios_fmwk", "ios_app",
+    "oc_lib", "ios_fmwk", "ios_app", "ios_bin", 
     "mac_app", "xcode_proj"
 )
 
@@ -34,15 +32,15 @@ oc_lib(
     deps = [ "//src/cc:cc_static" ],
 )
 
+ios_fmwk(
+    name = "oc_fmwk",
+    bundle_id = "dev.coder4869.ios_fmwk",
+    deps = [ ":oc_static" ],
+)
+
 ios_bin(
     name = "oc_bin",
     deps = [ "//src/cc:cc_static", ":oc_static" ],
-)
-
-ios_fmwk(
-    name = "oc_shared",
-    bundle_id = "dev.coder4869.ios_fmwk",
-    deps = [ ":oc_static" ],
 )
 
 ios_app(

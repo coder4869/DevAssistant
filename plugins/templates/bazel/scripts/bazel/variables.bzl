@@ -26,7 +26,7 @@ COPTS = ["-std=c++17 -v"]
 CC_VISIBILITY = [ "//visibility:public" ]
 CC_LINK_OPTS = ["-lstdc++"]
 
-XC_BUILD_OS     = "macos" # ios / macos
+XC_BUILD_OS     = "ios" # ios / macos
 XC_COPTS = [
     "-arch", "armv7", "arm64", "i386", "x86_64"
 ]

@@ -23,6 +23,7 @@
 ########################      Apple      ########################
 # https://github.com/bazelbuild/rules_apple/tree/master/examples
 # https://bazel.google.cn/versions/6.0.0/start/ios-app
+# https://github.com/bazelbuild/rules_apple/blob/master/doc/tutorials/ios-app.md
 # https://github.com/bazelbuild/rules_apple/blob/master/doc/frameworks.md
 # https://github.com/bazel-xcode/xchammer
 
@@ -92,8 +93,6 @@ def oc_lib(name, deps = []):
 def ios_bin(name, deps = []):
     return apple_binary(
         name = name,
-        # srcs = oc_src(),
-        # hdrs = oc_hdrs(),
         deps = deps,
 
         # copts = COPTS,
