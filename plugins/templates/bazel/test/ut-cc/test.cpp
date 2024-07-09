@@ -28,8 +28,8 @@
 
 int main(int argc, char **argv) {
     printf("test %s \n", __FUNCTION__);
+    
     // parse self defined parameters for pre-setting
-
     for (int idx=1; idx<argc; idx=idx+2) {
         if (std::string(argv[idx]) == "--platform") {
             set_platform(static_cast<Platform>(atoi(argv[idx+1])));
