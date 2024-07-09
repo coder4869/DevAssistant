@@ -1,5 +1,10 @@
 ## Android 
 - https://developer.android.google.cn/tools
+- address sanitizer
+    * https://clang.llvm.org/docs/AddressSanitizer.html
+    * https://github.com/google/sanitizers
+    * https://github.com/google/sanitizers/wiki/AddressSanitizerOnAndroid/01f8df1ac1a447a8475cdfcb03e8b13140042dbd
+    * https://source.android.google.cn/docs/security/test/asan?hl=zh-cn
 
 ### Java
 - class2java: jad, jd-gui, procyon-decompiler
