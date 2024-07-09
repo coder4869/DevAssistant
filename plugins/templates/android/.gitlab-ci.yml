@@ -40,6 +40,11 @@
 # error_process:
 #   stage: error
 #   script:
+#     - >
+#       if [ ! f "$CI_PROJECT_DIR/CI_JOB_ID.txt" ]; then
+#         echo "first task failed"
+#         exit 0
+#       fi
 #     - SUCCEED_JOB_ID=$(cat $CI_PROJECT_DIR/CI_JOB_ID.txt)     # receive CI_JOB_ID.txt from last succeed task
 #     - SUCCEED_JOB_NAME=$(cat $CI_PROJECT_DIR/CI_JOB_NAME.txt) # receive CI_JOB_NAME.txt from last succeed task
 #     - echo "final succeed job_id = $SUCCEED_JOB_ID job_name = $SUCCEED_JOB_NAME"
