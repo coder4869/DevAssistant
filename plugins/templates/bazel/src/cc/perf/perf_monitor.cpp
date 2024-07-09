@@ -20,15 +20,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdio.h>
-#include "src/cc/math.h"
 #include "src/cc/perf/perf_monitor.h"
 
-int main(int argc, char **argv) {
-    printf("cc demo %s:  1 + 2 = %d \n", __FUNCTION__, add(1, 2));
-    PerfMonitor perf;
-    auto info = perf.GetPerfInfo();
-    perf.PrintPerf(info);
-    
-    return 0;
+#include <stdio.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
+
+PerfInfo PerfMonitor::GetPerfInfo() {
+    PerfInfo info;
+    info.ppid = getppid();
+    info.pid = getpid();
+    info.tid = syscall(SYS_gettid);
 }
+
+void PerfMonitor::PrintPerf(const PerfInfo & info) {
+    printf("ppid = %lld, pid = %lld, tid = %lld\n", info.ppid, info.pid, info.tid);
+}
+

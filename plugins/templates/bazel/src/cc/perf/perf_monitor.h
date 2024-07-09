@@ -20,15 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdio.h>
-#include "src/cc/math.h"
-#include "src/cc/perf/perf_monitor.h"
+#ifndef __PERF_MONITOR__
+#define __PERF_MONITOR__
 
-int main(int argc, char **argv) {
-    printf("cc demo %s:  1 + 2 = %d \n", __FUNCTION__, add(1, 2));
-    PerfMonitor perf;
-    auto info = perf.GetPerfInfo();
-    perf.PrintPerf(info);
-    
-    return 0;
-}
+#include <unistd.h>
+
+struct PerfInfo {
+    pid_t ppid;
+    pid_t pid;
+    pid_t tid;
+};
+
+class PerfMonitor {
+public:    
+    PerfInfo GetPerfInfo();
+
+    void PrintPerf(const PerfInfo & info);
+};
+
+#endif // __PERF_MONITOR__
