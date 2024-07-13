@@ -30,7 +30,7 @@ load("//scripts/bazel:func_deps.bzl", "gtest")
 gtest()
 
 # base env
-load("//scripts/bazel:func_env.bzl", "apple_env", "android_env")
+load("//scripts/bazel:func_env.bzl", "apple_env", "android_env", "java_env")
 # apple
 apple_env()
 load("@build_bazel_rules_apple//apple:repositories.bzl", "apple_rules_dependencies")
@@ -50,3 +50,8 @@ bazel_features_deps()
 
 # android
 android_env()
+
+# java
+java_env()
+load("@rules_appengine//appengine:java_appengine.bzl", "java_appengine_repositories")
+java_appengine_repositories()

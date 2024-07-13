@@ -67,7 +67,7 @@ def apple_env():
     git_repository(
         name = "rules_xcodeproj",
         remote = "https://github.com/MobileNativeFoundation/rules_xcodeproj.git",
-        tag = "2.4.0",
+        tag = "2.5.1",
     )
     # load("@rules_xcodeproj//xcodeproj:repositories.bzl", "xcodeproj_rules_dependencies")    
     # xcodeproj_rules_dependencies()
@@ -75,7 +75,16 @@ def apple_env():
     # load("@bazel_features//:deps.bzl", "bazel_features_deps")
     # bazel_features_deps()
 
-
+    # git_repository(
+    #     name = "xchammer",
+    #     remote = "https://github.com/bazel-xcode/xchammer.git",
+    #     tag = "v3.4.3.3",
+    # )
+    # load("@xchammer//:BazelExtensions/xcodeproject.bzl", "xcode_project")
+    # xcode_project(
+    #     name = "MyProject",
+    #     targets = [ "//ios-app:ios-app" ],
+    # )
 
 
 ############################# android env #############################
@@ -101,3 +110,17 @@ def android_env():
         # path = ANDROID_NDK_HOME, # export ANDROID_NDK_HOME=$HOME/Desktop/workspace/android_sdk/ndk/26.1.10909125 
         api_level = 19
     )
+
+
+
+############################# java env #############################
+
+def java_env():
+    git_repository(
+        name = "rules_appengine",
+        remote = "https://github.com/bazelbuild/rules_appengine.git",
+        tag = "0.0.9",
+    )
+    # load("@rules_appengine//appengine:java_appengine.bzl", "java_appengine_repositories")
+    # java_appengine_repositories()
+    

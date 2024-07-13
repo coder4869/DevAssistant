@@ -30,8 +30,8 @@
 load("//scripts/bazel:variables.bzl", 
     "PROJECT_VERSION", "XC_BUILD_OS",
     "COPTS", "CC_VISIBILITY", "OC_LINK_OPTS", 
-    "IOS_UI_LAUNCH", "IOS_APP_ICONS", "IOS_INFO_PLIST",     # IOS Data
-    "IOS_FAMILY", "IOS_MIN_VERSION", "IOS_CPU_ARCH",        # IOS Config
+    "IOS_UI_LAUNCH", "IOS_INFO_PLIST",                  # IOS Data
+    "IOS_FAMILY", "IOS_MIN_VERSION", "IOS_CPU_ARCH",    # IOS Config
     "MAC_MIN_VERSION"
 )
 
@@ -69,6 +69,10 @@ def oc_storyboard():
         return native.glob([ "Resources/ios/*.storyboard" ])
     return native.glob([ "Resources/mac/*.storyboard" ])
 
+def app_icons():
+    return native.glob(["Resources/Assets.xcassets/AppIcon.appiconset/*.png",
+                        "Resources/Assets.xcassets/AppIcon.appiconset/*.json"])
+
 # https://bazel.google.cn/configure/attributes?hl=en
 # data = select({
 #     "ios" : native.glob([ "Resources/ios/*.storyboard" ]),
@@ -87,7 +91,8 @@ def oc_lib(name, deps = []):
             "-arch", "x86_64"
         ],  
         deps = deps,
-        tags = [ "manual" ]
+        tags = [ "manual" ],
+        visibility = CC_VISIBILITY,
     )
 
 def ios_bin(name, deps = []):
@@ -136,7 +141,7 @@ def ios_app(name, bundle_id, deps = []):
 
         # IOS Data
         launch_storyboard  = IOS_UI_LAUNCH,
-        # app_icons   = IOS_APP_ICONS,
+        app_icons   = app_icons(),
         infoplists  = IOS_INFO_PLIST,
         # provisioning_profile = "<profile_name>.mobileprovision",
 
@@ -158,7 +163,7 @@ def mac_app(name, bundle_id, deps = []):
         bundle_id = bundle_id,
 
         # Mac Data
-        # app_icons   = IOS_APP_ICONS,
+        app_icons  = app_icons(),
         infoplists = IOS_INFO_PLIST,
 
         # Mac Config
@@ -167,12 +172,14 @@ def mac_app(name, bundle_id, deps = []):
         deps = deps,
     )
 
+# https://github.com/MobileNativeFoundation/rules_xcodeproj/blob/main/docs/bazel.md#xcodeproj
 def xcode_proj(name, proj_name, top_level_targets):
     xcodeproj(
         name = name,
         build_mode = "bazel",
         project_name = proj_name,
         tags = ["manual"],
-        top_level_targets = top_level_targets
+        visibility = CC_VISIBILITY,
+        top_level_targets = top_level_targets,
     )
     

@@ -35,7 +35,6 @@ OC_LINK_OPTS    = [ "-ObjC" ] # , "-fembed-bitcode" default_platforms
 
 # IOS Data
 IOS_UI_LAUNCH   = "Resources/ios/Main.storyboard"
-IOS_APP_ICONS   = [ "Resources/Assets.xcassets" ]
 IOS_INFO_PLIST  = [ "Resources/Info.plist" ]
 # IOS Config
 IOS_FAMILY      = [ "iphone", "ipad" ]

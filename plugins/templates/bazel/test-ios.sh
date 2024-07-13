@@ -42,8 +42,8 @@ echo "Apple mac: build and run src/ios:mac-app"
 echo ""
 echo ""
 
-echo "Apple Xcode: build and run src/ios:Demo"
-# bazel build src/ios:Demo && ls -al bazel-bin/src/ios
-# bazel run src/ios:Demo
+echo "Apple Xcode: build and run src/ios:XCodeDemo"
+# bazel build src/ios:XCodeDemo && ls -al bazel-bin/src/ios
+# bazel run src/ios:XCodeDemo
 echo ""
 echo ""

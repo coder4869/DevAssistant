@@ -30,7 +30,12 @@ load("//scripts/bazel:func_deps.bzl", "gtest")
 gtest()
 
 # base env
-load("//scripts/bazel:func_env.bzl", "android_env")
+load("//scripts/bazel:func_env.bzl", "android_env", "java_env")
 
 # android
 # android_env()
+
+# java
+java_env()
+load("@rules_appengine//appengine:java_appengine.bzl", "java_appengine_repositories")
+java_appengine_repositories()

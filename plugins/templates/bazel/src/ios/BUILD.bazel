@@ -55,8 +55,18 @@ mac_app(
     deps = [ ":oc_static", "//src/cc:cc_static" ],
 )
 
+load("@rules_xcodeproj//xcodeproj:defs.bzl", "top_level_target")
 xcode_proj(
-    name = "Demo",
-    proj_name = "Demo",
-    top_level_targets = [":oc_static"]
+    name = "XCodeDemo",
+    proj_name = "XCodeDemo",
+    top_level_targets = [
+        top_level_target(":ios-app", target_environments = ["simulator"]),
+        # top_level_target(":ios-app", target_environments = ["device", "simulator"]),
+    ]
 )
+
+# load("@xchammer//:BazelExtensions/xcodeproject.bzl", "xcode_project")
+# xcode_project(
+#     name = "XcodeProject",
+#     targets = [ ":ios-app" ],
+# )
