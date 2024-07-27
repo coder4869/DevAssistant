@@ -29,6 +29,8 @@ FILE(GLOB_RECURSE MODULE_NAME_SRC
     ${MODULE_NAMEDir}/*.c
     ${MODULE_NAMEDir}/*.cc
     ${MODULE_NAMEDir}/*.cpp
+    ${MODULE_NAMEDir}/*.m
+    ${MODULE_NAMEDir}/*.mm
     )
 
 FILE(GLOB_RECURSE MODULE_NAME_FORMs 
