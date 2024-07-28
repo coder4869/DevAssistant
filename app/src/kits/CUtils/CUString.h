@@ -36,16 +36,14 @@ namespace String {
     /// @brief Split str by split_tag
     /// @param values output set list 
     //CUtils_API 
-        int SplitStringToSet(const std::string& str, const std::string& split_tag,
-                                    std::set<std::string> & values);
+    int SplitStringToSet(const std::string& str, const std::string& split_tag, std::set<std::string> & values);
 
     /// @brief Split str by split_tag
     /// @param values output vector list 
     //CUtils_API 
-        int SplitStringToVector(const std::string& str, const std::string& split_tag,
-                                        std::vector<std::string> & values);
-        
-        int Replace(std::string& str, const std::string& from, const std::string& to);
+    int SplitStringToVector(const std::string& str, const std::string& split_tag, std::vector<std::string> & values);
+    
+    int Replace(std::string& str, const std::string& from, const std::string& to);
 }
 NS_CU_END
 

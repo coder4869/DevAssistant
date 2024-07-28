@@ -42,13 +42,14 @@ function(XCODE_SETTING target_name min_version)
             XCODE_ATTRIBUTE_GCC_INPUT_FILETYPE sourcecode.cpp.objcpp    # objc++
             XCODE_ATTRIBUTE_OTHER_CFLAGS[variant=Release] "-fembed-bitcode"
             XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode"
+            XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO"
             )  
     endif()
     
     if(IOS)
         set_target_properties( ${target_name} PROPERTIES
             XCODE_ATTRIBUTE_IPHONEOS_DEPLOYMENT_TARGET ${min_version}
-            XCODE_ATTRIBUTE_ARCHS "arm64"
+            XCODE_ATTRIBUTE_ARCHS "arm64 ${CMAKE_HOST_SYSTEM_PROCESSOR}" # "x86_64"
             XCODE_ATTRIBUTE_SDKROOT iphoneos
             )
         # append flags for XCODE_ATTRIBUTE_GCC_PREPROCESSOR_DEFINITIONS
@@ -59,7 +60,7 @@ function(XCODE_SETTING target_name min_version)
     elseif(OSX)
         set_target_properties( ${target_name} PROPERTIES
             XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET ${min_version}
-            XCODE_ATTRIBUTE_ARCHS "x86_64"
+            XCODE_ATTRIBUTE_ARCHS "${CMAKE_HOST_SYSTEM_PROCESSOR}"  # "x86_64"
             XCODE_ATTRIBUTE_OTHER_CODE_SIGN_FLAGS "--deep" # for Error "codesign": code object is not signed at all
             XCODE_ATTRIBUTE_SDKROOT macosx
             )

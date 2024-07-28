@@ -37,7 +37,7 @@
 
 NS_CE_BEGIN
 
-#if (defined OSX) || (defined LINUX)
+#if (defined APPLE) || (defined LINUX)
 // RunCmdByPopen("pkgutil --packages", result)
 static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &out_lines) {
     if (cmd_str.empty()) {
@@ -60,6 +60,11 @@ static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &o
     }
  
     pclose(fp);
+    return RET_OK;
+}
+#else
+// TODO::adapt for WIN and Android
+static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &out_lines) {
     return RET_OK;
 }
 #endif
