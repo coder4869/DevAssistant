@@ -43,6 +43,8 @@ function(XCODE_SETTING target_name min_version)
             XCODE_ATTRIBUTE_OTHER_CFLAGS[variant=Release] "-fembed-bitcode"
             XCODE_ATTRIBUTE_BITCODE_GENERATION_MODE "bitcode"
             XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO"
+            XCODE_ATTRIBUTE_GCC_GENERATE_DEBUGGING_SYMBOLS "YES"
+            XCODE_ATTRIBUTE_FRAMEWORK_SEARCH_PATHS ""
             )  
     endif()
     
