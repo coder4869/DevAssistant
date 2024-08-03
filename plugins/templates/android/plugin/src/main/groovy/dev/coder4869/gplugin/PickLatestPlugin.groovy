@@ -454,35 +454,77 @@ class GradleDepends {
     }
 }
 
+public class PickLatestPluginExtension {
+    String userName = "coder4869";
+}
+
 public class PickLatestPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
-        println("PickLatestPlugin apply")
-	
-        // ./gradlew app:pickLatestSo
+        project.extensions.create("pickLatestPlugin", PickLatestPluginExtension);
+        println("PickLatestPlugin apply. Author: ${project.pickLatestPlugin.userName}")
+
         Task pickLatestSo = project.task("pickLatestSo", group:'coder4869') {
             doLast {
                 GradleDepends.project = project
                 GradleDepends.pickLatest()
             }
         }
+    	
+        project.afterEvaluate {
+            bindParentAndChildTask(project, pickLatestSo);
+        }
 
-        Task runShell = project.task("runShell", group:'coder4869') {
-            doLast {
-                String shellScript = (project.rootDir.toString() + "/scripts/deps.sh").toString()
-                exec {
-                    println shellScript
-                    commandLine 'sh', shellScript
-                }
+    }
+
+    void bindParentAndChildTask(Project project, Task task) {
+        if (project == null || task == null) {
+            println("PickLatestPlugin: invalid project = ${project} or task = ${task} !");
+            return;
+        }
+        project.tasks.findAll {
+            // merge-xx-NativeLibs
+            if (it.getName().endsWith("NativeLibs") && it.getName().startsWith("merge") ) {
+                Task preTask = (Task)it;
+                preTask.dependsOn task
+                println("PickLatestPlugin: ${preTask.getName()}.dependsOn ${task.getName()}!");
+            }
+
+            // merge-xx-JniLibFolders
+            if (it.getName().endsWith("JniLibFolders") && it.getName().startsWith("merge") ) {
+                Task sufTask = (Task)it;
+                task.dependsOn sufTask
+                println("PickLatestPlugin: ${task.getName()}.dependsOn ${sufTask.getName()}!");
             }
         }
-
-        Task preBuild = project.tasks.findByPath("preBuild")
-        if (preBuild) {
-            preBuild.dependsOn pickLatestSo
-            // preBuild.dependsOn runShell // Demo for run shell
-        }
     }
+
+//    void setTaskReleationship(Project project, String baseTask, String prefixTask, String suffixTask) {
+//        Task task0 = project.tasks.findByName(baseTask);
+//        if (task0 == null) {
+//            throw new GradleException("PickLatestPlugin: baseTask ${prefixTask} not found!");
+//            println("PickLatestPlugin: baseTask ${prefixTask} not found!");
+//            return;
+//        }
+//
+//        Task preTask = project.tasks.findByName(prefixTask)
+//        if (preTask == null) {
+//            throw new GradleException("PickLatestPlugin: prefixTask ${prefixTask} not found!");
+//            // println("PickLatestPlugin: prefixTask ${prefixTask} not found!");
+//        } else {
+//            preTask.dependsOn task0
+//            println("PickLatestPlugin: ${prefixTask}.dependsOn ${baseTask}!");
+//        }
+//
+//        Task sufTask = project.tasks.findByName(suffixTask)
+//        if (sufTask == null) {
+//            throw new GradleException("PickLatestPlugin: suffixTask ${suffixTask} not found!");
+//            // println("PickLatestPlugin: suffixTask ${suffixTask} not found!");
+//        } else {
+//            task0.dependsOn sufTask
+//            println("PickLatestPlugin: ${baseTask}.dependsOn ${suffixTask}!");
+//        }
+//    }
 }
 
 //apply plugin: PickLatestPlugin

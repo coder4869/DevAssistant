@@ -25,8 +25,9 @@
 // 
 // // 2-Add to project that use the plugin. e.g. app or module project
 // plugins {
-//     id 'PluginDemo' // Name of xx.properties in plugin/src/main/resources/META-INF/gradle-plugins/
-//     id 'PickLatestPlugin' 
+//     // id is name of xx.properties in plugin/src/main/resources/META-INF/gradle-plugins/
+//     id 'dev.coder4869.PluginDemo'
+//     id 'dev.coder4869.PickLatestPlugin'
 // }
 // 
 // // For plugin both push and usage
@@ -48,6 +49,9 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     implementation gradleTestKit()
+
+    //implementation 'com.android.tools.build:gradle:7.4.2'       // jdk 11+
+    //implementation 'com.android.tools.build:gradle-api:7.4.2'   // jdk 11+
 }
 
 publishing {
@@ -66,10 +70,11 @@ publishing {
     }
 
     publications {
+        // ./gradlew plugin:publishPluginPublicationToMavenLocalRepository
         plugin(MavenPublication) {
             from components.java
 
-            version     '0.0.1'
+            version     '0.0.2'
             artifactId  'gradle_plugin'
             groupId     'dev.coder4869.gplugin'
         }
