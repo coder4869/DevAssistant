@@ -74,7 +74,7 @@ publishing {
         plugin(MavenPublication) {
             from components.java
 
-            version     '0.0.2'
+            version     '0.0.3'
             artifactId  'gradle_plugin'
             groupId     'dev.coder4869.gplugin'
         }

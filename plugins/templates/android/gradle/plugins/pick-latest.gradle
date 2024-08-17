@@ -22,6 +22,7 @@
 
 // Usage: in target project add following line 
 // apply from: rootProject.file('gradle/plugins/pick-latest.gradle')
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -33,41 +34,53 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
 class GradleFile {
+    private static String TAG = "GradleFile";
     public static void createDir(String path) {
         File folder = new File(path)
         if (!folder.exists()) {
             folder.mkdirs();
-            println("GradleFile: Folder ${folder.absolutePath} created!")
+            println("${TAG}: Folder ${folder.absolutePath} created!")
         } else {
-            println("GradleFile: Folder ${folder.absolutePath} already exist!")
+            println("${TAG}: Folder ${folder.absolutePath} already exist!")
         }
     }
 
     /// @param dstDir   dir path, end with /
-    public static void copyFiles(Set<File> fileList, String dstDir) {
-        println("GradleFile: copyFiles begin !")
+    public static void copyFiles(HashSet<File> fileList, String dstDir) {
+        if (fileList == null || dstDir == null) {
+            println("${TAG}: copyFiles invalid parameter !")
+            return
+        }
+
+        println("${TAG}: copyFiles begin !")
         createDir(dstDir)
 
         fileList.forEach { File f ->
             String srcPath = f.toString()
             String fullName = f.getName()
-            println("srcPath is ${srcPath}; fullName is ${fullName}")
+            println("${TAG}: srcPath is ${srcPath}; fullName is ${fullName}")
 
             try {
                 Files.copy(Paths.get(srcPath), Paths.get(dstDir + fullName), StandardCopyOption.REPLACE_EXISTING)
-                System.out.println("File copy succeed")
+                System.out.println("${TAG}: File copy succeed")
             } catch (IOException exc) {
-                System.out.println("File copy error: " + exc.getMessage())
+                System.err.println("${TAG}: File copy error: " + exc.getMessage())
             }
         }
-        println("GradleFile: copyFiles end !")
+        println("${TAG}: copyFiles end !")
     }
 
-    public static Set<String> unzipArchives(Project project, Set<File> fileList, String dstDir, Boolean isCopy) {
-        println("GradleFile: unzipArchives begin !")
+    // @return unziped aar pathes
+    public static HashSet<String> unzipArchives(Project project, HashSet<File> fileList, String dstDir, Boolean isCopy) {
+        if (project == null || fileList == null || dstDir == null) {
+            println("${TAG}: unzipArchives invalid parameter !")
+            return new HashSet<String>()
+        }
+
+        println("${TAG}: unzipArchives begin !")
         createDir(dstDir)
 
-        Set<String> dirList = new HashSet<String>()
+        HashSet<String> dirList = new HashSet<String>()
         File record = new File(dstDir + '/path_list.txt')
         record.write(isCopy ? "Copy" : "NoCopy") // clear text content
 
@@ -86,94 +99,118 @@ class GradleFile {
             try {
                 if (isCopy) {
                     Files.copy(Paths.get(srcPath), Paths.get(dstDir + fullName), StandardCopyOption.REPLACE_EXISTING)
-                    System.out.println("File copy succeed")
+                    System.out.println("${TAG}: File copy succeed")
                     record.append("\n" + dstDir + fullName)
                 }
                 record.append("\n" + srcPath)
                 record.append("\n" + dstDir + baseName)
                 dirList.add(dstDir + baseName)
             } catch (IOException exc) {
-                System.out.println("File copy error: " + exc.getMessage())
+                System.err.println("${TAG}: File copy error: " + exc.getMessage())
             }
         }
 
-        println("GradleFile: unzipArchives end !")
+        println("${TAG}: unzipArchives end !")
         return dirList
+    }
+
+    public static boolean pathContainsKeys(String path, HashSet<String> keys) {
+        if (keys == null || keys.size() == 0) {
+            return false;
+        }
+
+        for (int idx=0; idx<keys.size(); idx++) {
+            if (path.contains(keys[idx])) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 
-
-class GradleDepends {
+class GradleTransform {
+    private static String TAG = "GradleTransform";
     public static Project project;
 
-    public static void clearDir(String path) {
-        project.delete(path)
-    }
-
-    public static String getDependsDir() {
-        return project.gradle.properties["gradleUserHomeDir"].toString() + "/caches/modules-2/files-2.1";
-    }
-
-    public static String getTransformRootDir(int num = 3) {
+    private static String getTransformRootDir(int num = 3) {
         return project.gradle.properties["gradleUserHomeDir"].toString() + "/caches/transforms-${num}"
     }
 
-    /// @suffix transforms files‘ suffix. e.g. ['.so', '.bin']
-    public static ArrayList<String> getTransformFileList(ArrayList<String> suffix = []) {
-        println("getTransformFileList begin !")
-        ArrayList<String> fileList3 = getTransformFileList(getTransformRootDir(3), suffix)
-        ArrayList<String> fileList4 = getTransformFileList(getTransformRootDir(4), suffix)
-        fileList3.addAll(fileList4)
-        println("getTransformFileList end !")
-        return fileList3
+    /// @param keys     keys for checking file path
+    /// @param suffix   transforms files' suffix. e.g. ['.so', '.bin']
+    public static ArrayList<String> getTransformFileList(HashSet<String> keys, HashSet<String> suffix = []) {
+        println("${TAG}: getTransformFileList begin !")
+        ArrayList<String> fileList2 = getTransformFileList(getTransformRootDir(2), keys, suffix)
+        ArrayList<String> fileList3 = getTransformFileList(getTransformRootDir(3), keys, suffix)
+        ArrayList<String> fileList4 = getTransformFileList(getTransformRootDir(4), keys, suffix)
+        fileList2.addAll(fileList3)
+        fileList2.addAll(fileList4)
+        println("${TAG}: getTransformFileList end !")
+        return fileList2
     }
 
-    /// @suffix transforms files‘ suffix. e.g. ['.so', '.bin']
-    public static ArrayList<String> getTransformFileList(String transRootDir, ArrayList<String> suffix = []) {
-        println("getTransformFileList begin. transformDir is: " + transRootDir)
+    /// @param suffix transforms files‘ suffix. e.g. ['.so', '.bin']
+    public static ArrayList<String> getTransformFileList(String transRootDir, HashSet<String> keys, HashSet<String> suffix = []) {
+        if (transRootDir == null || keys == null) {
+            println("${TAG}: getTransformFileList invalid parameter !")
+            return new ArrayList<String>();
+        }
+        println("${TAG}: getTransformFileList begin. transformDir is: " + transRootDir)
 
         ArrayList<String> fileList = new ArrayList<String>();
         if (suffix.size() == 0) {
-            project.fileTree(transRootDir).forEach {
-                println("add file: " + it.toString())
-                fileList.add(it.toString())
+            project.fileTree(transRootDir).forEach { File f ->
+                String fpath = f.toString();
+                if (GradleFile.pathContainsKeys(fpath, keys)) {
+                    println("${TAG}: add file: " + fpath)
+                    fileList.add(fpath)
+                }
             }
         } else {
-            project.fileTree(transRootDir).forEach {
+            project.fileTree(transRootDir).forEach { File f ->
+                String fpath = f.toString();
                 for (final String sf in suffix) {
-                    if (it.toString().endsWith(sf)) {
-                        println("add file: " + it.toString())
-                        fileList.add(it.toString())
+                    if (fpath.endsWith(sf) && GradleFile.pathContainsKeys(fpath, keys)) {
+                        println("${TAG}: add file: " + fpath)
+                        fileList.add(fpath)
                         break
                     }
                 }
             }
         }
 
-        println("getTransformFileList end. Found ${fileList.size()} file for suffixs : " + suffix.toString())
+        println("${TAG}: getTransformFileList end. Found ${fileList.size()} file for suffixs : " + suffix.toString())
         return fileList
     }
 
-    // @param suffix    search file suffix. e.g. .so or .jar
-    public static Set<String> getTransformSubDirs(String suffix) {
-        println("getTransformSubDirs begin !")
-        Set<String> dirList3 = getTransformSubDirs(getTransformRootDir(3), suffix)
-        Set<String> dirList4 = getTransformSubDirs(getTransformRootDir(4), suffix)
-        dirList3.addAll(dirList4)
-        println("getTransformSubDirs end !")
-        return dirList3
+    /// @param suffix   search file suffix. e.g. .so or .jar
+    /// @param keys     keys for checking file path
+    public static HashSet<String> getTransformSubDirs(String suffix, HashSet<String> keys) {
+        println("${TAG}: getTransformSubDirs begin !")
+        HashSet<String> dirList2 = getTransformSubDirs(getTransformRootDir(2), suffix, keys)
+        HashSet<String> dirList3 = getTransformSubDirs(getTransformRootDir(3), suffix, keys)
+        HashSet<String> dirList4 = getTransformSubDirs(getTransformRootDir(4), suffix, keys)
+        dirList2.addAll(dirList3)
+        dirList2.addAll(dirList4)
+        println("${TAG}: getTransformSubDirs end !")
+        return dirList2
     }
 
-    // @param suffix    search file suffix. e.g. .so or .jar
-    public static Set<String> getTransformSubDirs(String transRootDir, String suffix) {
-        println("getTransformSubDirs begin. transformDir is: " + transRootDir)
+    /// @param suffix   search file suffix. e.g. .so or .jar
+    /// @param keys     keys for checking file path
+    public static HashSet<String> getTransformSubDirs(String transRootDir, String suffix, HashSet<String> keys) {
+        if (transRootDir == null || suffix == null || keys == null) {
+            println("${TAG}: getTransformSubDirs invalid parameter !")
+            return new HashSet<String>();
+        }
+        println("${TAG}: getTransformSubDirs begin. transformDir is: " + transRootDir)
 
-        Set<String> dirList = new HashSet<String>()
+        HashSet<String> dirList = new HashSet<String>()
         if (suffix.equals('.so')) {
             project.fileTree(transRootDir).forEach {
                 if (it.toString().endsWith('.so')) {
                     String soPath = it.toString()
-                    if (soPath.contains("/jni/arm64-v8a")) {
+                    if (soPath.contains("/jni/arm64-v8a") && GradleFile.pathContainsKeys(soPath, keys)) {
                         String depsDir = soPath.substring(0, soPath.indexOf("/jni/arm64-v8a"))
                         int size = dirList.size()
                         dirList.add(depsDir)
@@ -187,7 +224,7 @@ class GradleDepends {
             project.fileTree(transRootDir).forEach {
                 if (it.toString().endsWith('.jar')) {
                     String jarPath = it.toString()
-                    if (jarPath.contains("/jars/classes.jar")) {
+                    if (jarPath.contains("/jars/classes.jar") && GradleFile.pathContainsKeys(jarPath, keys)) {
                         String depsDir = jarPath.substring(0, jarPath.indexOf("/jars/classes.jar"))
                         int size = dirList.size()
                         dirList.add(depsDir)
@@ -199,14 +236,114 @@ class GradleDepends {
             }
         }
 
-        println("getTransformSubDirs end. Found ${dirList.size()} directories ! ")
+        println("${TAG}: getTransformSubDirs end. Found ${dirList.size()} directories ! ")
         return dirList
     }
+}
 
-    public static void resetTransformSo(Set<String> aarUnzipDirs, Set<String> transformDirs) {
-        println("resetTransformSo begin.")
+class GradleDepends {
+    private static String TAG = "GradleDepends";
+    public static Project project;
+
+    public static void clearDir(String path) {
+        project.delete(path)
+    }
+
+    public static String getDependsDir() {
+        return project.gradle.properties["gradleUserHomeDir"].toString() + "/caches/modules-2/files-2.1";
+    }
+
+    // todo check keys
+    public static HashSet<File> getConfigurationDependencies(Configuration cfg, HashSet<String> keys,
+                                                             String suffix = '.aar', boolean isAll = false) {
+        println("${TAG}: getConfigurationDependencies ${cfg.getIncoming().toString()}")
+        println("${TAG}: getConfigurationDependencies begin !")
+
+        HashSet<File> depends = []
+        Configuration cfgCopy = cfg.copyRecursive()
+        try {
+            cfgCopy.setCanBeResolved(true)
+
+            if (isAll) {
+                for (final File f in cfgCopy.getFiles()) {
+                    if (f.toString().endsWith(suffix)) {
+                        int size = depends.size()
+                        depends.add(f)
+                        if (depends.size() > size) {
+                            println("${TAG}: add ${f.toString()}")
+                        }
+                    }
+                }
+            } else { // Only first level
+                for (final Dependency dep in cfgCopy.getDependencies()) {
+                    def dep_str = dep.group + '/' + dep.name + '/' + dep.version
+                    println dep_str
+
+                    for (final File f in cfgCopy.getFiles()) {
+                        if (f.toString().contains(dep_str)) {
+                            int size = depends.size()
+                            depends.add(f)
+                            if (depends.size() > size) {
+                                println("${TAG}: add ${f.toString()}")
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception exc) {
+            System.err.println("${TAG}: error = " + exc.getMessage())
+        }
+        println("${TAG}: getConfigurationDependencies end !")
+        return depends
+    }
+
+    // getTypedDependencies([], "api")
+    // getTypedDependencies([], "implementation")
+    /// @param type target type in dependencies. e.g. api, implementation
+    public static HashSet<File> getTypedDependencies(HashSet<String> keys, String type = "",
+                                                     String suffix = '.aar', boolean isAll = false) {
+        println("${TAG}: getTypedDependencies begin !")
+        HashSet<File> fileSet = []
+        project.configurations.findAll {
+            it.getExtendsFrom().forEach {
+                if (it.getName().contains(type)) {
+                    fileSet = getConfigurationDependencies(it, keys, suffix, isAll)
+//                    showConfigurationInfo(it)
+                }
+            }
+        }
+
+        println("${TAG}: getTypedDependencies end !")
+        return fileSet
+    }
+
+    public static void showConfigurationInfo(Configuration cfg) {
+        println("${TAG}: showConfigurationInfo ${cfg.getIncoming().toString()}")
+        Configuration cfgCopy = cfg.copyRecursive()
+        try {
+            cfgCopy.setCanBeResolved(true)
+            println("${TAG}: ConfigurationFiles = " + cfgCopy.getFiles().toString())
+
+            ResolvedConfiguration resolvedCfg = cfgCopy.getResolvedConfiguration()
+            println("${TAG}: ResolvedConfiguration = " + resolvedCfg.getFiles().toString())
+        } catch (Exception exc) {
+            System.err.println("${TAG}: showConfigurationInfo error = " + exc.getMessage())
+        }
+    }
+
+    public static HashSet<File> getDependencies(HashSet<String> keys, String suffix = '.aar', boolean isAll = false) {
+        println("${TAG}: getDependencies begin !")
+        HashSet<File> fileSet = getTypedDependencies(keys, "api", suffix, isAll)
+        HashSet<File> implSet = getTypedDependencies(keys, "implementation", suffix, isAll)
+        fileSet.addAll(implSet)
+        println("${TAG}: getDependencies end !")
+        return fileSet
+    }
+
+    public static void resetTransformSo(HashSet<String> aarUnzipDirs, HashSet<String> transformDirs) {
+        println("${TAG}: resetTransformSo begin.")
         if (aarUnzipDirs == null || transformDirs == null) {
-            throw new GradleException("Error: aarUnzipDirs or transformDirs is null");
+            throw new GradleException("${TAG} Error: aarUnzipDirs or transformDirs is null");
         }
 
         aarUnzipDirs.forEach {
@@ -220,7 +357,7 @@ class GradleDepends {
                     // move so to .gradle/cache/transforms-{num} '/jni/arm64-v8a/'
                     transformDirs.forEach { String dir ->
                         if (dir.endsWith(aarName)) {
-                            println("copy ${soPath} to ${dir}/jni/arm64-v8a/${soName}")
+                            println("${TAG}: copy ${soPath} to ${dir}/jni/arm64-v8a/${soName}")
                             Files.copy(Paths.get(soPath), Paths.get(dir + '/jni/arm64-v8a/' + soName),
                                     StandardCopyOption.REPLACE_EXISTING)
                         }
@@ -229,7 +366,7 @@ class GradleDepends {
             }
         }
 
-        println("resetTransformSo end.")
+        println("${TAG}: resetTransformSo end.")
     }
 
     /// @brief  v1/v2 format xxx.xxx.xxx[-ignoredFlags][-suffix], xxx is number.
@@ -263,15 +400,15 @@ class GradleDepends {
         return v1Nums.size() > v2Nums.size() ? 1 : (v1Nums.size() < v2Nums.size() ? -1 : 0)
     }
 
-    /// @return Map<LibName, Dir>
-    public static HashMap<String, String> getLibDirMap(HashSet<String> unzipDirs) {
-        println("getLibDirMap begin.")
+    /// @return Map<LibName, AarDir>
+    public static HashMap<String, String> getLib_AarDirMap(HashSet<String> unzipDirs) {
+        println("${TAG}: getLib_AarDirMap begin.")
         if (unzipDirs == null) {
-            println("unzipDirs is null.")
+            println("${TAG}: unzipDirs is null.")
             return null;
         }
 
-        HashMap<String, String> libDirMap = new HashMap<>();
+        HashMap<String, String> lib_AarDirMap = new HashMap<>();
         HashMap<String, String> libVersionMap = new HashMap<>();
         unzipDirs.forEach { String dir ->
             File vf = new File(dir + '/assets/version_deps_lib')
@@ -283,40 +420,40 @@ class GradleDepends {
                     e.printStackTrace()
                 }
                 prop.each {
-                    println("version info: ${it.toString()}")
+                    println("${TAG}: version info: ${it.toString()}")
                     // libxx.so = "0.0.1" or libxx.so = "v0.0.1" or libxx.so = "v0.0.1-flag" or libxx.so = "v0.0.1-debug"
                     String version = it.value.toString().replaceFirst('v', '').replace('\"', '')
-                    // println("version info: ${it.toString()}")
+                    // println("${TAG}: version info: ${it.toString()}")
                     if (libVersionMap.containsKey(it.key)) {
                         if (compareVersion(libVersionMap[it.key], version) < 0 ) {
-                            libDirMap[it.key] = dir
+                            lib_AarDirMap[it.key] = dir
                             libVersionMap[it.key] = version
-                            println("find new version: lib = ${it.key} ; version = ${version} ; dir = ${dir}")
+                            println("${TAG}: find new version: lib = ${it.key} ; version = ${version} ; dir = ${dir}")
                         }
                     } else {
-                        libDirMap[it.key] = dir
+                        lib_AarDirMap[it.key] = dir
                         libVersionMap[it.key] = version
-                        println("find new lib: lib = ${it.key} ; version = ${version} ; dir = ${dir}")
+                        println("${TAG}: find new lib: lib = ${it.key} ; version = ${version} ; dir = ${dir}")
                     }
                 }
             }
         }
 
         libVersionMap.each {
-            println("final version: lib = ${it.key} ; version = ${it.value.toString()} ; dir = ${libDirMap[it.key].toString()}")
+            println("${TAG}: final version: lib = ${it.key} ; version = ${it.value.toString()} ; dir = ${lib_AarDirMap[it.key].toString()}")
         }
 
-        println("getLibDirMap end.")
-        return libDirMap
+        println("${TAG}: getLib_AarDirMap end.")
+        return lib_AarDirMap
     }
 
-    public static void deleteOldSo(HashMap<String, String> libDirMap, Set<String> transformDirs) {
-        println("deleteOldSo begin.")
-        if (libDirMap == null || transformDirs == null) {
-            throw new GradleException("Error: libDirMap or transformDirs is null");
+    public static void deleteOldSo(HashMap<String, String> lib_AarDirMap, Set<String> transformDirs) {
+        println("${TAG}: deleteOldSo begin.")
+        if (lib_AarDirMap == null || transformDirs == null) {
+            throw new GradleException("${TAG} Error: lib_AarDirMap or transformDirs is null");
         }
 
-        libDirMap.each {
+        lib_AarDirMap.each {
             String lib = it.key
             String dir = it.value.toString()
 
@@ -325,179 +462,153 @@ class GradleDepends {
             transformDirs.forEach { String transDir ->
                 if (!transDir.endsWith(dirName)) {
                     File soFile = new File(transDir + "/jni/arm84-v8a/" + lib)
-                    println("${lib} so file: ${transDir + "/jni/arm84-v8a/" + lib}")
                     if (soFile.exists()) {
+                        println("${TAG}: delete so file: ${transDir + "/jni/arm84-v8a/" + lib}")
                         soFile.delete()
                     }
                 }
             }
         }
 
-        println("deleteOldSo end.")
+        println("${TAG}: deleteOldSo end.")
     }
 
-    public static void showConfigurationInfo(Configuration cfg) {
-        println cfg.getIncoming().toString()
-        Configuration cfgCopy = cfg.copyRecursive()
-        try {
-            cfgCopy.setCanBeResolved(true)
-            println("ConfigurationFiles = " + cfgCopy.getFiles().toString())
-
-            ResolvedConfiguration resolvedCfg = cfgCopy.getResolvedConfiguration()
-            println("ResolvedConfiguration = " + resolvedCfg.getFiles().toString())
-        } catch (Exception exc) {
-            println("showConfigurationInfo error = " + exc.getMessage())
+    public static void replaceOldSo(HashMap<String, String> lib_AarDirMap, Set<String> transformDirs) {
+        println("${TAG}: replaceOldSo begin.")
+        if (lib_AarDirMap == null || transformDirs == null) {
+            throw new GradleException("${TAG} Error: lib_AarDirMap or transformDirs is null");
         }
-    }
 
-    public static Set<File> getConfigurationDependencies(Configuration cfg,
-                                                         String suffix = '.aar',
-                                                         boolean isAll = false)
-    {
-        println cfg.getIncoming().toString()
-        println("getConfigurationDependencies begin !")
+        lib_AarDirMap.each {
+            String lib = it.key
+            String dir = it.value.toString()
 
-        Set<File> depends = []
-        Configuration cfgCopy = cfg.copyRecursive()
-        try {
-            cfgCopy.setCanBeResolved(true)
-            if (isAll) {
-                for (final File f in cfgCopy.getFiles()) {
-                    if (f.toString().endsWith(suffix)) {
-                        int size = depends.size()
-                        depends.add(f)
-                        if (depends.size() > size) {
-                            println f.toString()
-                        }
-                    }
-                }
-            } else { // Only first level
-                for (final Dependency dep in cfgCopy.getDependencies()) {
-                    def dep_str = dep.group + '/' + dep.name + '/' + dep.version
-                    println dep_str
-
-                    for (final File f in cfgCopy.getFiles()) {
-                        if (f.toString().contains(dep_str)) {
-                            int size = depends.size()
-                            depends.add(f)
-                            if (depends.size() > size) {
-                                println f.toString()
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception exc) {
-            println("error = " + exc.getMessage())
-        }
-        println("getConfigurationDependencies end !")
-        return depends
-    }
-
-    // getTypedDependencies("api")
-    // getTypedDependencies("implementation")
-    /// @param type target type in dependencies. e.g. api, implementation
-    public static Set<File> getTypedDependencies(String type = "",
-                                                 String suffix = '.aar',
-                                                 boolean isAll = false)
-    {
-        println("getTypedDependencies begin !")
-
-        Set<File> fileSet = []
-        project.configurations.findAll {
-            boolean stop = false
-            it.getExtendsFrom().forEach {
-                if (!stop) {
-                    stop = true
-                    if (it.getName().contains(type)) {
-                        fileSet = getConfigurationDependencies(it, suffix, isAll)
-//                        showConfigurationInfo(it)
+            // replace old so to latest of transformDirs
+            String dirName = dir.split('/').last().toString()
+            transformDirs.forEach { String transDir ->
+                if (!transDir.endsWith(dirName)) {
+                    String srcPath = dir + "/jni/arm84-v8a/" + lib;
+                    String dstPath = transDir + "/jni/arm84-v8a/" + lib;
+                    File soFile = new File(dstPath)
+                    if (soFile.exists()) {
+                        println("${TAG}: replace so file: ${srcPath} ro ${dstPath}")
+                        Files.copy(Paths.get(srcPath), Paths.get(dstPath), StandardCopyOption.REPLACE_EXISTING)
                     }
                 }
             }
         }
 
-        println("getTypedDependencies end !")
-        return fileSet
+        println("${TAG}: replaceOldSo end.")
     }
 
-    public static Set<File> getDependencies(String suffix = '.aar', boolean isAll = false)
-    {
-        println("getDependencies begin !")
-
-        Set<File> fileSet = getTypedDependencies("api", suffix, isAll)
-        Set<File> implSet = getTypedDependencies("implementation", suffix, isAll)
-        fileSet.addAll(implSet)
-
-        println("getDependencies end !")
-        return fileSet
-    }
-
-    public static void pickLatest() {
-        println("pickLatest begin !")
-        String cacheDir = (project.buildDir.toString() + "/cache/deps-aar/").toString()
+    public static void pickLatest(HashSet<String> aarKeys) {
+        println("${TAG}: pickLatest begin !")
+        String cacheDir = (project.buildDir.toString() + "/deps-aar/").toString()
         clearDir(cacheDir)
+        println("${TAG}: cacheDir = " + cacheDir)
 
-        Set<File> list = getDependencies(".aar", true)
+        HashSet<File> list = getDependencies(aarKeys, ".aar", true)
         GradleFile.copyFiles(list, cacheDir)
         Set<String> unzipDirs = GradleFile.unzipArchives(project, list, cacheDir, false)
+        println("${TAG}: unzipDirs = " + unzipDirs)
 
-        Set<String> transformDirs = getTransformSubDirs('.so')
-        println "transformDirs = " + transformDirs
-        resetTransformSo(unzipDirs, transformDirs)
+        // get unzip aarName list
+        HashSet<String> aarNames = [];
+        unzipDirs.forEach {
+            String[] pathComps = it.split('/')
+            String aarName = pathComps[pathComps.length - 1]
+            aarNames.add(aarName)
+        }
+        println("${TAG}: aarNames = " + aarNames)
+        Set<String> transformDirs = GradleTransform.getTransformSubDirs('.so', aarNames)
+        println("${TAG}: transformDirs = " + transformDirs)
+
         if (transformDirs.size() > 0) {
-            deleteOldSo(unzipDirs, transformDirs)
+            HashMap<String, String> lib_AarDirMap = getLib_AarDirMap(unzipDirs)
+            resetTransformSo(unzipDirs, transformDirs)
+            replaceOldSo(lib_AarDirMap, transformDirs)
+            // deleteOldSo(lib_AarDirMap, transformDirs)
         }
 
-        println("pickLatest end !")
+        println("${TAG}: pickLatest end !")
     }
+}
+
+public class PickLatestPluginExtension {
+    String userName = "coder4869";
+    String tag = "";
+    HashSet<String> aarCheckKeys = new HashSet<String>();
 }
 
 public class PickLatestPlugin implements Plugin<Project> {
+    private String TAG = "PickLatestPlugin";
     @Override
     void apply(Project project) {
-        println("PickLatestPlugin apply")
-	
-        // ./gradlew app:pickLatestSo
+        project.extensions.create("pickLatestPlugin", PickLatestPluginExtension);
+        println("${TAG} apply. Author: ${project.pickLatestPlugin.userName}")
+
         Task pickLatestSo = project.task("pickLatestSo", group:'coder4869') {
             doLast {
+                GradleTransform.project = project
                 GradleDepends.project = project
-                GradleDepends.pickLatest()
+                GradleDepends.pickLatest(project.pickLatestPlugin.aarCheckKeys)
             }
         }
 
-        Task runShell = project.task("runShell", group:'coder4869') {
-            doLast {
-                String shellScript = (project.rootDir.toString() + "/scripts/deps.sh").toString()
-                exec {
-                    println shellScript
-                    commandLine 'sh', shellScript
-                }
-            }
-        }
-
-        Task preBuild = project.tasks.findByPath("preBuild")
-        if (preBuild) {
-            preBuild.dependsOn pickLatestSo
-            // preBuild.dependsOn runShell // Demo for run shell
+        project.afterEvaluate {
+            bindParentAndChildTask(project, pickLatestSo);
         }
     }
+
+    void bindParentAndChildTask(Project project, Task task) {
+        if (project == null || task == null) {
+            println("${TAG}: invalid project = ${project} or task = ${task} !");
+            return;
+        }
+        project.tasks.findAll {
+            // mergeExtDex-xx-Debug
+            // merge-xx-NativeLibs
+            if (it.getName().endsWith("NativeLibs") && it.getName().startsWith("merge") ) {
+                Task preTask = (Task)it;
+                preTask.dependsOn task
+                println("${TAG}: ${preTask.getName()}.dependsOn ${task.getName()}!");
+            }
+
+            // merge-xx-JniLibFolders
+            if (it.getName().endsWith("JniLibFolders") && it.getName().startsWith("merge") ) {
+                Task sufTask = (Task)it;
+                task.dependsOn sufTask
+                println("${TAG}: ${task.getName()}.dependsOn ${sufTask.getName()}!");
+            }
+        }
+    }
+
+//    void setTaskReleationship(Project project, String baseTask, String prefixTask, String suffixTask) {
+//        Task task0 = project.tasks.findByName(baseTask);
+//        if (task0 == null) {
+//            throw new GradleException("${TAG}: baseTask ${prefixTask} not found!");
+//            println("${TAG}: baseTask ${prefixTask} not found!");
+//            return;
+//        }
+//
+//        Task preTask = project.tasks.findByName(prefixTask)
+//        if (preTask == null) {
+//            throw new GradleException("${TAG}: prefixTask ${prefixTask} not found!");
+//            // println("${TAG}: prefixTask ${prefixTask} not found!");
+//        } else {
+//            preTask.dependsOn task0
+//            println("PickLatestPlugin: ${prefixTask}.dependsOn ${baseTask}!");
+//        }
+//
+//        Task sufTask = project.tasks.findByName(suffixTask)
+//        if (sufTask == null) {
+//            throw new GradleException("${TAG}: suffixTask ${suffixTask} not found!");
+//            // println("${TAG}: suffixTask ${suffixTask} not found!");
+//        } else {
+//            task0.dependsOn sufTask
+//            println("${TAG}: ${baseTask}.dependsOn ${suffixTask}!");
+//        }
+//    }
 }
+
 apply plugin: PickLatestPlugin
-
-// ./gradlew app:pickLatestTask
-task gradleDependsTask {
-    doLast {
-        String cacheDir = (project.buildDir.toString() + "/cache/deps-aar/").toString()
-
-        GradleDepends.project = project
-
-        String dependsDir = GradleDepends.getDependsDir()
-        println "dependsDir = " + dependsDir
-
-        GradleDepends.getTransformFileList(['.so'])
-        String transformDir = GradleDepends.getTransformRootDir(4)
-        Set<String> transformDirs = GradleDepends.getTransformSubDirs(transformDir, '.jar')
-        println "transformDirs = " + transformDirs
-    }
-}
