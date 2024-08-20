@@ -32,7 +32,7 @@
 #	include <windows.h>
 #endif
 
-#include <CLog/CLLog.h>
+#include <CUtils/log.h>
 #include "CERegedit.h"
 
 NS_CE_BEGIN

@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,36 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PLAN_DIALOG_H
-#define QDA_PLAN_DIALOG_H
+#ifdef WIN
+// 无警告编号
+#pragma warning(disable: 4619)
 
-#include <CUtils/def_build.h>
-#include <CUtils/def_macro.h>
+// xxx隐式定义为“已删除”
+#pragma warning(disable: 4625)
+#pragma warning(disable: 4626)
+#pragma warning(disable: 5026)
+#pragma warning(disable: 5027)
+#pragma warning(disable: 4457)
 
-#include <QDialog>
+// 内联函数
+#pragma warning(disable: 4514)
+#pragma warning(disable: 4710)
+#pragma warning(disable: 4711)
 
-namespace Ui {
-class QDAPlanDialog;
-}
+// 数据类型转换
+#pragma warning(disable: 4100)
+#pragma warning(disable: 4820)  // 字节填充
+#pragma warning(disable: 4365)  // 有符号/无符号不匹配
+#pragma warning(disable: 4388)  // 有符号/无符号不匹配
+#pragma warning(disable: 4267)
+#pragma warning(disable: 5219)
+#pragma warning(disable: 4946)
+#pragma warning(disable: 5243)
+#pragma warning(disable: 4242)
 
-class QDAPlanDialog : public QDialog
-{
-    Q_OBJECT
+#pragma warning(disable: 5045)
+#pragma warning(disable: 4668)
+#pragma warning(disable: 4464)
+#pragma warning(disable: 5039)
+#pragma warning(disable: 5240) // 特性在此语法位置被忽略
 
-public:
-    explicit QDAPlanDialog(QWidget *parent = nullptr);
-    ~QDAPlanDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
+#pragma warning(disable: 4710) 
+#pragma warning(disable: 4577) 
 
-public Q_SLOTS:
-    void OnPlanShow();
-    void OnLoadPlan();
-    void OnSavePlan();
-    
-private:
-    Ui::QDAPlanDialog *ui;
-};
-
-#endif // QDA_PLAN_DIALOG_H
+#endif // WIN

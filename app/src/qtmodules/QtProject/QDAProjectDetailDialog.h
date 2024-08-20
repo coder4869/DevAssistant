@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -23,7 +23,8 @@
 #ifndef QDA_PROJECT_DETAIL_DIALOG_H
 #define QDA_PROJECT_DETAIL_DIALOG_H
 
-#include <CLog/CKDefines.h>
+#include <CUtils/def_build.h>
+#include <CUtils/def_macro.h>
 
 #include <QDialog>
 #include "QDAProjectConfig.h"

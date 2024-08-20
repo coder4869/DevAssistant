@@ -30,9 +30,9 @@
 #include <QJsonArray>
 #include <QMessageBox>
 
-#include <CLog/CLLog.h>
-#include <CLog/CAppConf.h>
+#include <CUtils/log.h>
 #include <CUtils/CUString.h>
+#include <CApp/CAppConf.h>
 #include <COSEnv/CESystemEnv.h>
 #include <COSEnv/CERegedit.h>
 #include <COSEnv/CEAppLoader.h>

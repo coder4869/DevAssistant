@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtProject_SRC
     ${QtProjectDir}/*.c
     ${QtProjectDir}/*.cc
     ${QtProjectDir}/*.cpp
+    ${QtProjectDir}/*.m
+    ${QtProjectDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtProject_FORMs 

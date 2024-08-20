@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -25,7 +25,8 @@
 
 #define QCK_CMD_TIME_LIMIT 500000
 
-#include <CLog/CKDefines.h>
+#include <CUtils/def_build.h>
+#include <CUtils/def_macro.h>
 
 class QString;
 class QStringList;

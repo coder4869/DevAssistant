@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtEnvKit_SRC
     ${QtEnvKitDir}/*.c
     ${QtEnvKitDir}/*.cc
     ${QtEnvKitDir}/*.cpp
+    ${QtEnvKitDir}/*.m
+    ${QtEnvKitDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtEnvKit_FORMs 
@@ -57,7 +59,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtEnvKit_SRC
 set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES} ${QtEnvKit_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv DevEnv QtUIInfra QtCoreKit )
+set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv DevEnv QtUIInfra QtCoreKit CUtils CApp )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtEnvKit_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -111,3 +113,15 @@ if(QtCoreKit)
 else()
     message(FATAL_ERROR "option ON for QtCoreKit is required !")
 endif(QtCoreKit)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)
+
+if(CApp)
+    add_dependencies(${LIB_NAME} CApp)
+else()
+    message(FATAL_ERROR "option ON for CApp is required !")
+endif(CApp)

@@ -44,7 +44,7 @@ if(CScript)
     include(${SRC_ROOT}/CScript/CScript.cmake)
 endif(CScript)
 
-# CLog
-if(CLog)
-    include(${SRC_ROOT}/CLog/CLog.cmake)
-endif(CLog)
+# CApp
+if(CApp)
+    include(${SRC_ROOT}/CApp/CApp.cmake)
+endif(CApp)

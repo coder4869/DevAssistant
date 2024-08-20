@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtCoreKit_SRC
     ${QtCoreKitDir}/*.c
     ${QtCoreKitDir}/*.cc
     ${QtCoreKitDir}/*.cpp
+    ${QtCoreKitDir}/*.m
+    ${QtCoreKitDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtCoreKit_FORMs 

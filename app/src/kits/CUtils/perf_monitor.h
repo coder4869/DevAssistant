@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,32 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CLOG_DEF_H
-#define CLOG_DEF_H
+#ifndef __CU_PERF_MONITOR_H__
+#define __CU_PERF_MONITOR_H__
 
-#define NS_CLOG_BEGIN namespace CLOG {
-#define NS_CLOG_END	} //namespace CLOG
+#include "CUtilsDef.h"
 
-#ifdef CLOG_EXPORT
+#include <chrono>
+#include <string>
 
-#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define CLOG_CLASS __declspec(dllexport)
-#		define CLOG_API extern "C" __declspec(dllexport)
-#	else
-#		define CLOG_CLASS __attribute__((externally_visible))
-#		define CLOG_API extern "C" __attribute__((externally_visible))
-#	endif
+#include <iostream>
 
-#else
+NS_CU_BEGIN
 
-#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
-#		define CLOG_CLASS __declspec(dllimport)
-#		define CLOG_API extern "C" __declspec(dllimport)
-#	else
-#		define CLOG_CLASS __attribute__((externally_visible))
-#		define CLOG_API extern "C" __attribute__((externally_visible))
-#	endif
+template <typename Func>
+void measure_time(const std::string & msg, Func&& func) {
+    auto start = std::chrono::high_resolution_clock::now();
+    func(); 
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << msg << elapsed.count() << "s\n";
+}
 
-#endif // CLOG_EXPORT
+NS_CU_END
 
-#endif /* CLOG_DEF_H */
+#endif // __CU_PERF_MONITOR_H__

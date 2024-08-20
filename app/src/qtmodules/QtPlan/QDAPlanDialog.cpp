@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -22,8 +22,8 @@
 
 #include "QDAPlanDialog.h"
 
-#include <CLog/CAppConf.h>
 #include <CUtils/CUFile.h>
+#include <CApp/CAppConf.h>
 
 #include <QPushButton>
 #include <QMessageBox>

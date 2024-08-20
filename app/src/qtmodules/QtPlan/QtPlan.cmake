@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtPlan_SRC
     ${QtPlanDir}/*.c
     ${QtPlanDir}/*.cc
     ${QtPlanDir}/*.cpp
+    ${QtPlanDir}/*.m
+    ${QtPlanDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtPlan_FORMs 
@@ -57,7 +59,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtPlan_SRC
 set(QtPlan_SRC ${QtPlan_SRC} ${QtPlan_FORMs} ${QtPlan_RES} ${QtPlan_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra CUtils CApp )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtPlan_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -93,3 +95,15 @@ if(QtUIInfra)
 else()
     message(FATAL_ERROR "option ON for QtUIInfra is required !")
 endif(QtUIInfra)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)
+
+if(CApp)
+    add_dependencies(${LIB_NAME} CApp)
+else()
+    message(FATAL_ERROR "option ON for CApp is required !")
+endif(CApp)

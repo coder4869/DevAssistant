@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -28,7 +28,7 @@
 #	include <windows.h>
 #endif
 
-#include <CLog/CLLog.h>
+#include <CUtils/log.h>
 
 NS_CE_BEGIN
 

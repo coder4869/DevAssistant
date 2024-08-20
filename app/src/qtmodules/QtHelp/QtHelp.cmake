@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtHelp_SRC
     ${QtHelpDir}/*.c
     ${QtHelpDir}/*.cc
     ${QtHelpDir}/*.cpp
+    ${QtHelpDir}/*.m
+    ${QtHelpDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtHelp_FORMs 
@@ -57,7 +59,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtHelp_SRC
 set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES} ${QtHelp_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra CApp )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtHelp_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -93,3 +95,9 @@ if(QtUIInfra)
 else()
     message(FATAL_ERROR "option ON for QtUIInfra is required !")
 endif(QtUIInfra)
+
+if(CApp)
+    add_dependencies(${LIB_NAME} CApp)
+else()
+    message(FATAL_ERROR "option ON for CApp is required !")
+endif(CApp)

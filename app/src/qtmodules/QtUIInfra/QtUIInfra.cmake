@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtUIInfra_SRC
     ${QtUIInfraDir}/*.c
     ${QtUIInfraDir}/*.cc
     ${QtUIInfraDir}/*.cpp
+    ${QtUIInfraDir}/*.m
+    ${QtUIInfraDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtUIInfra_FORMs 
@@ -57,7 +59,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtUIInfra_SRC
 set(QtUIInfra_SRC ${QtUIInfra_SRC} ${QtUIInfra_FORMs} ${QtUIInfra_RES} ${QtUIInfra_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} QtCoreKit )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtCoreKit CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtUIInfra_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -93,3 +95,9 @@ if(QtCoreKit)
 else()
     message(FATAL_ERROR "option ON for QtCoreKit is required !")
 endif(QtCoreKit)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)

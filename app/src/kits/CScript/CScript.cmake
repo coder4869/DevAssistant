@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE CScript_SRC
     ${CScriptDir}/*.c
     ${CScriptDir}/*.cc
     ${CScriptDir}/*.cpp
+    ${CScriptDir}/*.m
+    ${CScriptDir}/*.mm
     )
 
 if(NOT ANDROID)
@@ -40,7 +42,7 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} CLog )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${CScript_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
@@ -67,8 +69,8 @@ elseif(APPLE)
     XCODE_ADD_INFO_PLIST(${LIB_NAME})
 endif(APPLE)
 
-if(CLog)
-    add_dependencies(${LIB_NAME} CLog)
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
 else()
-    message(FATAL_ERROR "option ON for CLog is required !")
-endif(CLog)
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)

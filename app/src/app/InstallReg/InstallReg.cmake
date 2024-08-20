@@ -23,7 +23,7 @@
 set(InstallRegDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME InstallReg)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv CHWD CUtils CLog )
+set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv CHWD CUtils CApp )
 
 FILE(GLOB_RECURSE InstallReg_SRC
     ${InstallRegDir}/*.h
@@ -32,6 +32,8 @@ FILE(GLOB_RECURSE InstallReg_SRC
     ${InstallRegDir}/*.c
     ${InstallRegDir}/*.cc
     ${InstallRegDir}/*.cpp
+    ${InstallRegDir}/*.m
+    ${InstallRegDir}/*.mm
     )
 
 # Special For Python
@@ -104,8 +106,8 @@ else()
     message(FATAL_ERROR "option ON for CUtils is required !")
 endif(CUtils)
 
-if(CLog)
-    add_dependencies(${BIN_NAME} CLog)
+if(CApp)
+    add_dependencies(${BIN_NAME} CApp)
 else()
-    message(FATAL_ERROR "option ON for CLog is required !")
-endif(CLog)
+    message(FATAL_ERROR "option ON for CApp is required !")
+endif(CApp)

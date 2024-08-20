@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE DevEnv_SRC
     ${DevEnvDir}/*.c
     ${DevEnvDir}/*.cc
     ${DevEnvDir}/*.cpp
+    ${DevEnvDir}/*.m
+    ${DevEnvDir}/*.mm
     )
 
 if(NOT ANDROID)
@@ -40,7 +42,7 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} CLog CUtils COSEnv )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CUtils COSEnv )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${DevEnv_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "tools")
@@ -66,12 +68,6 @@ elseif(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
     XCODE_ADD_INFO_PLIST(${LIB_NAME})
 endif(APPLE)
-
-if(CLog)
-    add_dependencies(${LIB_NAME} CLog)
-else()
-    message(FATAL_ERROR "option ON for CLog is required !")
-endif(CLog)
 
 if(CUtils)
     add_dependencies(${LIB_NAME} CUtils)

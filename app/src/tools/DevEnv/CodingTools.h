@@ -23,7 +23,8 @@
 #ifndef DE_CODINGTOOLS_H
 #define DE_CODINGTOOLS_H
 
-#include <CLog/CKDefines.h>
+#include <CUtils/def_build.h>
+#include <CUtils/def_macro.h>
 
 #include <string>
 #include <map>

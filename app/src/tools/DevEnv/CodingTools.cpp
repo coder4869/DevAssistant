@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -24,7 +24,7 @@
 
 #include <iostream>
 
-#include <CLog/CLLog.h>
+#include <CUtils/log.h>
 #include <COSEnv/CERegedit.h>
 #include <COSEnv/CESystemEnv.h>
 #include <COSEnv/CEAppLoader.h>

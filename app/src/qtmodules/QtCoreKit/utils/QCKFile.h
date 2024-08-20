@@ -23,7 +23,8 @@
 #ifndef QCK_FILE_H
 #define QCK_FILE_H
 
-#include <CLog/CKDefines.h>
+#include <CUtils/def_build.h>
+#include <CUtils/def_macro.h>
 
 #include <QString>
 #include <QFileInfo>

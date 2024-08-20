@@ -30,6 +30,8 @@ FILE(GLOB_RECURSE QtCustom_SRC
     ${QtCustomDir}/*.c
     ${QtCustomDir}/*.cc
     ${QtCustomDir}/*.cpp
+    ${QtCustomDir}/*.m
+    ${QtCustomDir}/*.mm
     )
 
 FILE(GLOB_RECURSE QtCustom_FORMs 
@@ -57,7 +59,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # update QtCustom_SRC
 set(QtCustom_SRC ${QtCustom_SRC} ${QtCustom_FORMs} ${QtCustom_RES} ${QtCustom_RES_UIC})
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra )
+set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${QtCustom_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "qtmodules")
@@ -93,3 +95,9 @@ if(QtUIInfra)
 else()
     message(FATAL_ERROR "option ON for QtUIInfra is required !")
 endif(QtUIInfra)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)

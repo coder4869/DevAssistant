@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -8,10 +8,10 @@
 // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
-//
+// 
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-//
+// 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,36 +20,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef QDA_PLAN_DIALOG_H
-#define QDA_PLAN_DIALOG_H
+#ifndef CAPP_DEF_H
+#define CAPP_DEF_H
 
-#include <CUtils/def_build.h>
-#include <CUtils/def_macro.h>
+#define NS_CAPP_BEGIN namespace CAPP {
+#define NS_CAPP_END	} //namespace CAPP
 
-#include <QDialog>
+#ifdef CAPP_EXPORT
 
-namespace Ui {
-class QDAPlanDialog;
-}
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CAPP_CLASS __declspec(dllexport)
+#		define CAPP_API extern "C" __declspec(dllexport)
+#	else
+#		define CAPP_CLASS __attribute__((externally_visible))
+#		define CAPP_API extern "C" __attribute__((externally_visible))
+#	endif
 
-class QDAPlanDialog : public QDialog
-{
-    Q_OBJECT
+#else
 
-public:
-    explicit QDAPlanDialog(QWidget *parent = nullptr);
-    ~QDAPlanDialog();
-    
-Q_SIGNALS:
-    void SigShowWidget(QWidget *widget);
+#	if (defined WIN) || (defined WIN32) || (defined _WIN32) || (defined _WIN64)
+#		define CAPP_CLASS __declspec(dllimport)
+#		define CAPP_API extern "C" __declspec(dllimport)
+#	else
+#		define CAPP_CLASS __attribute__((externally_visible))
+#		define CAPP_API extern "C" __attribute__((externally_visible))
+#	endif
 
-public Q_SLOTS:
-    void OnPlanShow();
-    void OnLoadPlan();
-    void OnSavePlan();
-    
-private:
-    Ui::QDAPlanDialog *ui;
-};
+#endif // CAPP_EXPORT
 
-#endif // QDA_PLAN_DIALOG_H
+#endif /* CAPP_DEF_H */

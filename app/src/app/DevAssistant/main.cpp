@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -20,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <CLog/CKDefines.h>
+#include <CUtils/def_build.h>
+#include <CUtils/def_macro.h>
 
 #include <QApplication>
 #include <QCoreApplication>
@@ -28,9 +29,9 @@
 #include <QFileInfo>
 #include <QMessageBox>
 
-#include <CLog/CLLog.h>
-#include <CLog/CAppConf.h>
+#include <CUtils/log.h>
 #include <CUtils/CUFile.h>
+#include <CApp/CAppConf.h>
 #include <COSEnv/CEAppLoader.h>
 
 #include <QtEnvKit/DABuildScript.h>

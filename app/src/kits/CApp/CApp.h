@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -20,11 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef CLOG_H
-#define CLOG_H
+#ifndef CAPP_H
+#define CAPP_H
 
-#include <CLog/CKDefines.h>
-#include <CLog/CLLog.h>
-#include <CLog/CAppConf.h>
-
-#endif /* CLOG_H */
+#include <CApp/CAppConf.h>
+#endif /* CAPP_H */

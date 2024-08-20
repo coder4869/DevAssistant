@@ -20,34 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-set(CLogDir ${CMAKE_CURRENT_LIST_DIR})
-set(LIB_NAME CLog)
+set(CAppDir ${CMAKE_CURRENT_LIST_DIR})
+set(LIB_NAME CApp)
 
-FILE(GLOB_RECURSE CLog_SRC
-    ${CLogDir}/*.h
-    ${CLogDir}/*.hpp
+FILE(GLOB_RECURSE CApp_SRC
+    ${CAppDir}/*.h
+    ${CAppDir}/*.hpp
 
-    ${CLogDir}/*.c
-    ${CLogDir}/*.cc
-    ${CLogDir}/*.cpp
+    ${CAppDir}/*.c
+    ${CAppDir}/*.cc
+    ${CAppDir}/*.cpp
+    ${CAppDir}/*.m
+    ${CAppDir}/*.mm
     )
 
 if(NOT ANDROID)
     source_group(
-        TREE ${CLogDir}
-        PREFIX "CLog"
-        FILES ${CLog_SRC}
+        TREE ${CAppDir}
+        PREFIX "CApp"
+        FILES ${CApp_SRC}
         )
 endif(NOT ANDROID)
 
-set(LIB_DEPS ${THIRD_PARTY_LIB} )
+set(LIB_DEPS ${THIRD_PARTY_LIB} CUtils )
 
-add_library(${LIB_NAME} ${LIB_TYPE} ${CLog_SRC})
+add_library(${LIB_NAME} ${LIB_TYPE} ${CApp_SRC})
 set_target_properties(${LIB_NAME} PROPERTIES FOLDER "kits")
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
 SET_TARGET_CXX_VERSION(${LIB_NAME})
-target_compile_definitions(${LIB_NAME} PRIVATE CLOG_EXPORT )
-target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CLogDir} ${INC_GROUP} )
+target_compile_definitions(${LIB_NAME} PRIVATE CAPP_EXPORT )
+target_include_directories(${LIB_NAME} PRIVATE ${INC_PY} ${CAppDir} ${INC_GROUP} )
 target_link_directories(${LIB_NAME} PUBLIC ${LIB_LINK_DIR})
 target_link_libraries(${LIB_NAME} ${LIB_PY} ${LIB_DEPS} )
 
@@ -66,3 +68,9 @@ elseif(APPLE)
     XCODE_SETTING(${LIB_NAME} ${OS_MIN_VERSION})
     XCODE_ADD_INFO_PLIST(${LIB_NAME})
 endif(APPLE)
+
+if(CUtils)
+    add_dependencies(${LIB_NAME} CUtils)
+else()
+    message(FATAL_ERROR "option ON for CUtils is required !")
+endif(CUtils)
