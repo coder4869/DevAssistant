@@ -26,19 +26,17 @@ message("SRC_ROOT = ${SRC_ROOT}")
 
 set(THIRD_PARTY_INC ${THIRD_PARTY_INC} ${SRC_ROOT}/include)
 if(WIN)
-    set(LIB_DIR lib_win_x64)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        set(LIB_DIR lib_win_x86)
-    endif()
-
-    FILE(GLOB_RECURSE STATIC_LIBS
-        ${SRC_ROOT}/${LIB_DIR}/*.lib
+        FILE(GLOB_RECURSE STATIC_LIBS
+            ${SRC_ROOT}/lib_win_x86/*.lib
         )
-    set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${STATIC_LIBS})
-    
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${STATIC_LIBS})
         APP_ADD_RES_RECURSE_PLAIN("${SRC_ROOT}/*.dll" "Debug/")
     else()
+        FILE(GLOB_RECURSE SHARED_LIBS
+            ${SRC_ROOT}/lib_win_x64/*.dll
+        )
+        set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${SHARED_LIBS})
         APP_ADD_RES_RECURSE_PLAIN("${SRC_ROOT}/*.dll" "Release/")
     endif()
 endif(WIN)

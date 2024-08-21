@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -20,9 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// https://www.cnblogs.com/pandamohist/p/15228995.html
+// https://blog.csdn.net/sijia5135/article/details/115356079
+
 #include "threadpool.h"
 
-#include <pthread/pthread.h>
+#if !WIN
+#   include <pthread/pthread.h>
+#endif // !WIN
 
 NS_CU_BEGIN
 
@@ -33,7 +38,7 @@ threadpool::threadpool(size_t thread_size, std::string &&name)
 //            LOGI(TAG, "threadpool start %s%zu", name_.c_str(), idx);
 #if OSX || IOS
             pthread_setname_np(name_.append(std::to_string(idx)).c_str());
-#else
+#elif !WIN
             pthread_setname_np(pthread_self(), name_.append(std::to_string(idx)).c_str());
 #endif
             while (true) {
