@@ -11,3 +11,6 @@ app/lib
 
 plugins/templates/android/.gradle
 plugins/templates/android/**/build
+
+app/tools/glog-*
+app/tools/spdlog-*

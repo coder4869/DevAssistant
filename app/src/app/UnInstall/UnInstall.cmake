@@ -68,7 +68,10 @@ target_link_libraries(${BIN_NAME} PUBLIC ${LIB_FMWKs} ${LIB_DEPS}
 # APP_ADD_RES("${PROJ_ROOT}/conf/project.json" "conf/")
 APP_ADD_RES_RECURSE("${CONF_DIR}/" "conf/" "${CONF_DIR}/*")
 APP_ADD_RES_RECURSE("${DATA_DIR}/" "data/" "${DATA_DIR}/*")
-APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "data/plugins/" "${PLUGIN_DIR}/*")
+APP_ADD_RES_RECURSE("${PLUGIN_DIR}/project" "data/plugins/project" "${PLUGIN_DIR}/project/*")
+APP_ADD_RES_RECURSE("${PLUGIN_DIR}/pytool" "data/plugins/pytool" "${PLUGIN_DIR}/pytool/*")
+APP_ADD_RES_RECURSE("${PLUGIN_DIR}/xcode" "data/plugins/xcode" "${PLUGIN_DIR}/xcode/*")
+# APP_ADD_RES_RECURSE("${PLUGIN_DIR}/" "data/plugins/" "${PLUGIN_DIR}/*")
 APP_ADD_RES_RECURSE("${TOOL_DIR}/" "tools/" "${TOOL_DIR}/*")
 
 if(WITH_PY)
