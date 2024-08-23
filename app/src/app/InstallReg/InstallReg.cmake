@@ -53,7 +53,7 @@ endif(NOT ANDROID)
 
 ################################## build bin ##################################
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-add_executable(${BIN_NAME} ${OS_BUNDLE} ${InstallReg_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs})
+add_executable(${BIN_NAME} ${OS_BUNDLE} ${InstallReg_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs} ${THIRD_PARTY_INC} ${THIRD_PARTY_LIB} )
 set_target_properties(${BIN_NAME} PROPERTIES FOLDER "app")
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
 SET_TARGET_CXX_VERSION(${BIN_NAME})
