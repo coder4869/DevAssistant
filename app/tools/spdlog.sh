@@ -16,6 +16,7 @@ function build_mac() {
 
     # build mac
     rm -rf ${BUILD_DIR} && mkdir ${BUILD_DIR}
+    # echo "set(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -std=c++11 -O1\")"  >> ../CMakeLists.txt
     cmake -S . -B ${BUILD_DIR} -G "Xcode" 
     xcodebuild -project ${BUILD_DIR}/spdlog.xcodeproj -scheme spdlog -destination 'generic/platform=macOS' -configuration Release archive -UseModernBuildSystem=NO
 
@@ -30,6 +31,7 @@ function build_ios() {
 
     # build ios
     rm -rf ${BUILD_DIR} && mkdir ${BUILD_DIR}
+    # echo "set(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -std=c++11 -O1\")"  >> ../CMakeLists.txt
     cmake -S . -B ${BUILD_DIR} -G "Xcode" \
         -DCMAKE_TOOLCHAIN_FILE=${script_dir}/../scripts/cmake/cmake-apple/ios.toolchain.cmake -DPLATFORM=OS64 \
         -DCMAKE_XCODE_ATTRIBUTE_SDKROOT="iphoneos"
@@ -50,6 +52,7 @@ build_android() {
 
     # build ios
     rm -rf ${BUILD_DIR} && mkdir ${BUILD_DIR} && cd ${BUILD_DIR}
+    echo "set(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -std=c++11 -O1\")"  >> ../CMakeLists.txt
     cmake -S .. -B . \
         -DCMAKE_TOOLCHAIN_FILE=$NDK_PATH/build/cmake/android.toolchain.cmake \
         -DANDROID_ABI="arm64-v8a" \
@@ -61,7 +64,7 @@ build_android() {
     cd -
     # copy to output
     mkdir -p output/include && cp -r include/ output/include/
-    mkdir -p output/libs/android && cp -r ${BUILD_DIR}/libspdlog.a output/libs/android/
+    mkdir -p output/libs/android/arm64-v8a && cp -r ${BUILD_DIR}/libspdlog.a output/libs/android/arm64-v8a/
 }
 
 # download
