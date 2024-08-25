@@ -41,5 +41,5 @@ message("SRC_ROOT = ${SRC_ROOT}")
 #     endif()
 # endif(WIN)
 
-# use input shared var: THIRD_PARTY_INC and THIRD_PARTY_LIB
+# use input shared var: THIRD_PARTY_INC and THIRD_PARTY_INC_FILES and THIRD_PARTY_LIB
 include(${SRC_ROOT}/spdlog-1.14.1/spdlog.cmake)

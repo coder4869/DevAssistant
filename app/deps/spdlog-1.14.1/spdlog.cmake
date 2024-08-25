@@ -25,6 +25,12 @@ set(INC_FILES  ${INC_FILES}  ${SRC_ROOT})
 message("SRC_ROOT = ${SRC_ROOT}")
 
 set(THIRD_PARTY_INC ${THIRD_PARTY_INC} ${SRC_ROOT}/include)
+FILE(GLOB_RECURSE inc_files
+    ${SRC_ROOT}/include/*.h
+    ${SRC_ROOT}/include/*.hpp
+    )
+set(THIRD_PARTY_INC_FILES ${THIRD_PARTY_INC_FILES} ${inc_files})
+
 if(WIN)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")
         FILE(GLOB_RECURSE STATIC_LIBS
@@ -65,14 +71,6 @@ if(NOT ANDROID)
     source_group(
         TREE ${SRC_ROOT}
         PREFIX "deps/spdlog"
-        FILES ${THIRD_PARTY_LIB}
-        )
-endif(NOT ANDROID)
-
-if(NOT ANDROID)
-    source_group(
-        TREE ${SRC_ROOT}
-        PREFIX "deps/include"
-        FILES ${THIRD_PARTY_INC} 
+        FILES ${THIRD_PARTY_LIB} ${inc_files} 
         )
 endif(NOT ANDROID)
