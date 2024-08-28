@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -55,6 +55,11 @@ namespace File {
 	/// @return 0 succeed, other failed
 	//CUtils_API 
 	int SaveFileString(const std::string& file_path, const std::string& save_str, bool is_append = false);
+
+    /// @param  extends
+    /// @return 0 succeed, other failed
+    //CUtils_API
+    int DeleteFiles(const std::string& dir_path, const std::string& extends);
 
 } // namespace File
 NS_CU_END

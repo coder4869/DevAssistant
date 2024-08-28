@@ -26,9 +26,11 @@
 #include <fstream>
 #include <stdlib.h>
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <CUtils/CUString.h>
 #include <COSEnv/CERegedit.h>
+
+#define LOG_TAG "TAG_COSEnv"
 
 #ifdef WIN
 #	include <windows.h>
@@ -62,7 +64,7 @@ std::string SystemEnv::GetEnv(const char* name)
 			return user_env;
 		}
 		DWORD err = GetLastError();
-		LOG_ERR << "01: Error = " << err << std::endl;
+		LOGE("01: Error = %d", err);
 		return "";
 	}
 	else if (var_size > buf_size) // buf_size not enough
@@ -75,7 +77,7 @@ std::string SystemEnv::GetEnv(const char* name)
 		const DWORD new_size = GetEnvironmentVariable(name, lp_buf, var_size); // GET System Environment Variable
 		if (new_size == 0 || new_size > var_size) {
 			DWORD err = GetLastError();
-			LOG_ERR << "02: Error = " << err << std::endl;
+            LOGE("02: Error = %d", err);
 			return "";
 		}
 
@@ -85,7 +87,7 @@ std::string SystemEnv::GetEnv(const char* name)
 #else
 	const char* val = std::getenv(name);
 	std::string env_var(val == NULL ? "" : std::string(val));
-    std::cout << "name = " << name << ", env_var = " << env_var << std::endl;
+    LOGI("name = %s, env_var = %s", name, env_var.c_str());
 	return env_var;
 #endif
 }
@@ -144,7 +146,7 @@ bool SystemEnv::CheckEnv(const std::string& key, const std::string& value)
 		}
 		//pathes = pathes + "\n" + iter->c_str();
 	}
-	//LOG_INFO << pathes << std::endl;
+	//LOGI("pathes = %s", pathes.c_str());
 
 	return has_key;
 }
@@ -164,7 +166,7 @@ bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 	int ret = system(cmd.c_str());
 	if (ret != 0) {
 		//DWORD err = GetLastError();
-		//LOG_ERR << "01: Error = " << err << std::endl;
+        //LOGE("01: Error = %d", err);
 		return false;
 	}
 #else

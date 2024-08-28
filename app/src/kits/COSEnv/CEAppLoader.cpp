@@ -32,8 +32,10 @@
 #	include <windows.h>
 #endif
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include "CERegedit.h"
+
+#define LOG_TAG "TAG_COSEnv"
 
 NS_CE_BEGIN
 
@@ -50,13 +52,12 @@ static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &o
         return RET_ERROR;
     }
  
-//    std::string result;
     char buffer[1024];
     while (fgets(buffer, sizeof(buffer), fp) != nullptr) {
         std::string line = buffer;
         line.erase(line.find_last_not_of(" \n\r\t") + 1);
         out_lines.emplace_back(line);
-        std::cout << line << std::endl;
+        LOGI("line = %s", line.c_str());
     }
  
     pclose(fp);
@@ -94,7 +95,7 @@ bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &outp
         int ret = RunCmdByPopen(cmd_str, out_lines);
         if (ret != RET_OK) {
             message = cmd_str + " popen failed !";
-            LOG_ERR << message << std::endl;
+            LOGE("%s", message.c_str());
             return false;
         }
 
@@ -108,7 +109,7 @@ bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &outp
             // use full name equal first
             if (line_lower == app_lower) {
                 output = cmd_list[idx] + out_lines[line];
-                printf("%s find %s, path = %s \n", __FUNCTION__, app_name.c_str(), output.c_str());
+                LOGI("%s find %s, path = %s", __FUNCTION__, app_name.c_str(), output.c_str());
                 return true;
             }
             
@@ -122,14 +123,14 @@ bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &outp
         // use first same prefix name
         if (!prefix_first.empty()) {
             output = cmd_list[idx] + out_lines[0];
-            printf("%s find %s, path = %s \n", __FUNCTION__, app_name.c_str(), output.c_str());
+            LOGI("%s find %s, path = %s", __FUNCTION__, app_name.c_str(), output.c_str());
             return true;
         }
         
         // use only one result
         if (out_lines.size() == 1) {
             output = cmd_list[idx] + out_lines[0];
-            printf("%s find %s, path = %s \n", __FUNCTION__, app_name.c_str(), output.c_str());
+            LOGI("%s find %s, path = %s", __FUNCTION__, app_name.c_str(), output.c_str());
             return true;
         }
         
@@ -142,7 +143,7 @@ bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &outp
         }
     }
     output = app_name + " search result: " + message;
-    printf("%s Error = %s \n", __FUNCTION__, output.c_str());
+    LOGE("%s Error = %s", __FUNCTION__, output.c_str());
     return false;
 #endif
 }

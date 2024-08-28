@@ -32,7 +32,7 @@
 
 #include "CAppDef.h"
 
-//class CLOG_CLASS CKAppConf
+//class CAPP_CLASS CKAppConf
 class CKAppConf
 {
 public:

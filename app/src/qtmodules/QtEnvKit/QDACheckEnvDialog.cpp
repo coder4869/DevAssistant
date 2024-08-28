@@ -30,7 +30,7 @@
 #include <QJsonArray>
 #include <QMessageBox>
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <CUtils/CUString.h>
 #include <CApp/CAppConf.h>
 #include <COSEnv/CESystemEnv.h>
@@ -42,6 +42,8 @@
 #include <QtCoreKit/QtCoreKit.h>
 
 #include "ui_QDACheckEnvDialog.h"
+
+#define LOG_TAG "TAG_QtEnvKit"
 
 QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
     QDialog(parent), ui(new Ui::QDACheckEnvDialog)
@@ -171,15 +173,13 @@ void QDACheckEnvDialog::OnCheckEnv()
 
 void QDACheckEnvDialog::OnTryFixEnvValue()
 {
-    LOG_INFO << std::endl;
-
     std::string script_env = CKAppConf::GetInstance()->GetRelativePath("script_env", "tools/env" + CMD_EXT.toStdString());
     QMessageBox::information(NULL, "script_env", QString::fromStdString(script_env));
     
     QByteArray output;
     bool ret = QCKCmd::ExecCmd(QString::fromStdString(script_env), QStringList(), output);
     if (!ret) {
-        LOG_ERR << script_env << "\n" << output.data() << std::endl;
+        LOGE("script_env = %s \n output = %s", script_env.c_str(), output.data());
         QMessageBox::critical(NULL, QStringLiteral("OnTryFixEnvValue"), output.data());
         return;
     }

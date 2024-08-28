@@ -29,6 +29,7 @@
 #include <string>
 
 #include <iostream>
+#include <CUtils/logger.h>
 
 NS_CU_BEGIN
 
@@ -38,7 +39,7 @@ void measure_time(const std::string & msg, Func&& func) {
     func(); 
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> elapsed = end - start;
-    std::cout << msg << elapsed.count() << "s\n";
+    LOGI("%s : msg = %s, time = %d s", __FUNCTION__, msg.c_str(), elapsed.count());
 }
 
 NS_CU_END

@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -32,6 +32,10 @@
 #include <filesystem> // C++17 and above is required for this header
 #endif
 
+#include <CUtils/logger.h>
+
+#define LOG_TAG "TAG_CUFile"
+
 NS_CU_BEGIN
 
 int File::IsFileExist(const std::string& file_path)
@@ -39,7 +43,7 @@ int File::IsFileExist(const std::string& file_path)
     std::fstream fs;
     fs.open(file_path.c_str(), std::ios_base::in);
     if (!fs.is_open()) {
-        std::cout << __FUNCTION__ << ": Open File " + file_path + " Failed" << std::endl;
+        LOGE("%s : Open File %s Failed", __FUNCTION__, file_path.c_str());
         return -1;
     }
     fs.close();
@@ -49,7 +53,7 @@ int File::IsFileExist(const std::string& file_path)
 int File::CopyFiles(const std::vector<std::string>& src_list, const std::string& dst_path, CopyMode cmode)
 {
     if (src_list.size() == 0) {
-        std::cout << __FUNCTION__ << ": src_list is Empty !" << std::endl;
+        LOGE("%s : src_list is Empty !", __FUNCTION__);
         return -1;
     }
 
@@ -64,19 +68,19 @@ int File::CopyFiles(const std::vector<std::string>& src_list, const std::string&
                 std::string fname = std::filesystem::path(src_list[idx]).filename().string();
                 std::filesystem::copy_file(src_list[idx], dst_path + fname, std::filesystem::copy_options::overwrite_existing);
 
-                std::cout << __FUNCTION__ << " Info: Source File " << src_list[idx] << " Copy Succeed !" << std::endl;
+                LOGI("%s : Source File %s Copy Succeed !", __FUNCTION__, src_list[idx].c_str());
             } else {
-                std::cout << __FUNCTION__ << " Error: Source File " << src_list[idx] << " Not Exist !" << std::endl;
+                LOGE("%s : Source File %s Not Exist !", __FUNCTION__, src_list[idx].c_str());
             }
         }
     }
     catch (const std::exception& e) {
-        std::cerr << __FUNCTION__ << " Error: " << e.what() << std::endl;
+        LOGE("%s : Error ", __FUNCTION__, e.what().c_str());
     }
 
     return 0;
 #else
-    std::cout << __FUNCTION__ << " Error: C++17 Not Support !" << std::endl;
+    LOGE("%s : Error C++17 Not Support !", __FUNCTION__);
     return -2;
 #endif
 }
@@ -86,7 +90,7 @@ int File::LoadFileString(const std::string& file_path, std::string& out_str)
     std::fstream fs;
     fs.open(file_path.c_str(), std::ios_base::in);
     if (!fs.is_open()) {
-        std::cout << __FUNCTION__ << ": Open File " + file_path + " Failed" << std::endl;
+        LOGE("%s : Open File %s Failed", __FUNCTION__, file_path.c_str());
         return -1;
     }
 
@@ -100,11 +104,10 @@ int File::LoadFileString(const std::string& file_path, std::string& out_str)
         return 0;
     }
 
-    std::cout << __FUNCTION__ << ": Read File " + file_path + " Failed" << std::endl;
+    LOGE("%s : Read File %s Failed", __FUNCTION__, file_path.c_str());
     fs.close();
     return -1;
 }
-
 
 int File::SaveFileString(const std::string& file_path, const std::string& save_str, bool is_append)
 {
@@ -118,7 +121,7 @@ int File::SaveFileString(const std::string& file_path, const std::string& save_s
     }
     std::locale::global(std::locale("C"));  // Recover system default setting
     if (!fs.is_open()) {
-        std::cout << __FUNCTION__ << ": Open File " + file_path + " Failed" << std::endl;
+        LOGE("%s : Open File %s Failed", __FUNCTION__, file_path.c_str());
         return -1;
     }
 
@@ -131,5 +134,30 @@ int File::SaveFileString(const std::string& file_path, const std::string& save_s
     //fs.close();
     return 0;
 }
+
+int File::DeleteFiles(const std::string& dir_path, const std::string& extends) {
+#if _HAS_CXX17
+    if (!std::filesystem::exists(dir_path) || !std::filesystem::is_directory(dir_path)) {
+        LOGE("%s : dir %s not exist or not directory !", __FUNCTION__, dir_path.c_str());
+        return -1;
+    }
+    
+    for (const auto& entry : std::filesystem::directory_iterator(dir_path)) {
+        if (entry.is_regular_file() && entry.path().extension() == extends) {
+            std::error_code ec;
+            std::filesystem::remove(entry.path(), ec);
+            if (ec) {
+                LOGE("%s : delete file %s error %s !", __FUNCTION__, entry.path().c_str(), ec.message());
+            } else {
+                LOGI("%s : delete file %s succeed !", __FUNCTION__, entry.path().c_str());
+            }
+        }
+    }
+#else
+    LOGE("%s : Error C++17 Not Support !", __FUNCTION__);
+    return -2;
+#endif
+}
+
 
 NS_CU_END

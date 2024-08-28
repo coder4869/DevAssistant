@@ -24,10 +24,12 @@
 
 #include <iostream>
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <COSEnv/CERegedit.h>
 #include <COSEnv/CESystemEnv.h>
 #include <COSEnv/CEAppLoader.h>
+
+#define LOG_TAG "TAG_COSEnv"
 
 //NS_DE_BEGIN
 #if WIN
@@ -65,7 +67,7 @@ std::string CodingTool::CheckEnv()
 	// Check Install Root Dir
 	auto root_dir = CodingTool::GetRootDir("CMake", CMAKE_REG);
 	if (root_dir.empty()) {
-		LOG_ERR << "Error: APP Not Installed !";
+        LOGE("Error: APP Not Installed !");
 		return "Error: APP Not Installed !";
 	}
 

@@ -29,11 +29,12 @@
 #	include <windows.h>
 #endif
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include "CERegedit.h"
 
-NS_CE_BEGIN
+#define LOG_TAG "TAG_COSEnv"
 
+NS_CE_BEGIN
 
 static std::string GetRegPrefix(RightAction::Mode mode) 
 {
@@ -58,16 +59,15 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 {
 	if (key.empty() || action.empty() || tips.empty() 
 		|| (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
-		LOG_ERR << " Empty Parameter Exist! key = " << key 
-				<< " action = " << action << " tips = " << tips
-				<< " mode = " << (int)mode << " suffix = " << suffix << std::endl;
+		LOGE("Empty Parameter Exist! key = %s, action = %s, tips = %s, mode = %d, suffix = %s",
+             key.c_str(), action.c_str(), tips.c_str(), (int)mode, suffix.c_str());
 		return 1;
 	}
 
 #ifdef WIN
 	std::string reg_path = GetRegPrefix(mode);
 	if (reg_path.empty()) {
-		LOG_ERR << " Invalid Mode ! mode = " << (int)mode << std::endl;
+		LOGE("Invalid Mode ! mode = %d", (int)mode);
 		return 2;
 	}
 
@@ -78,9 +78,9 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 		reg_path.append(key + "\\");
 	}
 
-	LOG_ERR << " reg_path = " << reg_path 
-							<< " reg_icon = " << icon_path
-							<< " reg_command = " << reg_val << std::endl;
+    LOGE("reg_path = %s, reg_icon = %s, reg_command = %s",
+         reg_path.c_str(), icon_path.c_str(), reg_val.c_str());
+
 	if (clear_old) {
 		DelAction(key, mode, suffix);
 	}
@@ -98,15 +98,14 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 int RightAction::DelAction(const std::string& key, RightAction::Mode mode, const std::string& suffix)
 {
 	if (key.empty() || (mode == RightAction::Mode::FIX_SUFFIX && suffix.empty())) {
-		LOG_ERR << " Empty Parameter Exist! key = " << key 
-				<< " mode = " << (int)mode << " suffix = " << suffix << std::endl;
+        LOGE("Empty Parameter Exist! key = %s, mode = %d, suffix = %s", key.c_str(), (int)mode, suffix.c_str());
 		return 1;
 	}
 
 #ifdef WIN
 	std::string reg_path = GetRegPrefix(mode);
 	if (reg_path.empty()) {
-		LOG_ERR << " Invalid Mode ! mode = " << (int)mode << std::endl;
+        LOGE("Invalid Mode ! mode = %d", (int)mode);
 		return 2;
 }
 

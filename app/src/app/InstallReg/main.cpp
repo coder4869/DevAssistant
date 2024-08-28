@@ -24,11 +24,13 @@
 
 #include <algorithm>
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <CApp/CAppConf.h>
 #include <COSEnv/CEAppLoader.h>
 #include <COSEnv/CERightAction.h>
 #include <COSEnv/CETrayIcon.h>
+
+#define LOG_TAG "TAG_InstallReg"
 
 std::string GetRootDir(const std::string &bin_path) {
     if (bin_path.empty()) {
@@ -78,7 +80,7 @@ int main(int argc, char *argv[])
 {
     auto root_dir = GetRootDir(argv[0]);
     auto app_bin = GetBinRelativePath(argv[0]);
-    LOG_INFO << " app_bin = " << app_bin << std::endl;
+    LOGI("app_bin = %s", app_bin.c_str());
 
     CKAppConf::GetInstance()->SetRootDir(root_dir);
     CKAppConf::GetInstance()->SetRelativePath("app_bin", app_bin + "/DevAssistant.exe");
@@ -86,8 +88,8 @@ int main(int argc, char *argv[])
 
     std::string app_bin_abs = CKAppConf::GetInstance()->GetRelativePath("app_bin") + " %1";
     std::string app_icon_abs = CKAppConf::GetInstance()->GetRelativePath("app_icon");
-    LOG_INFO << " app_bin_abs = " << app_bin_abs << std::endl;
-    LOG_INFO << " app_icon_abs = " << app_icon_abs << std::endl;
+    LOGI("app_bin_abs = %s", app_bin_abs.c_str());
+    LOGI("app_icon_abs = %s", app_icon_abs.c_str());
     CE::RightAction::AddAction("DevAssist", app_bin_abs, "DevAssist", app_icon_abs,
                                 CE::RightAction::Mode::FIX_SUFFIX, "batfile", true);
     //CE::RightAction::AddAction("DevAssist", "D:/Research/DevAssistant/app/bin64/Release/DevAssistant.exe", 

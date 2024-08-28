@@ -22,7 +22,7 @@
 
 set(CURRENT_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR})
 
-# eg. XCODE_SETTING(<SDK> 9.0/10.13)
+# eg. XCODE_SETTING(<SDK> 9.0/10.15)
 function(XCODE_SETTING target_name min_version)
     if(IOS OR OSX)
         # Deployment Postprocess

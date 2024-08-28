@@ -74,7 +74,7 @@ elseif(OSX)
     set(APPLE ON)
     set(OS_TYPE "osx")
     set(OS_BUNDLE MACOSX_BUNDLE)
-    set(OS_MIN_VERSION 10.13)
+    set(OS_MIN_VERSION 10.15)
     # developer team id, not apple id email
     # https://developer.apple.com/cn/help/account/manage-your-team/locate-your-team-id
     set(XCODE_DEVELOPMENT_TEAM "")

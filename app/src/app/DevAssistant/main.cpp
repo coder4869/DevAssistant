@@ -29,7 +29,7 @@
 #include <QFileInfo>
 #include <QMessageBox>
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <CUtils/CUFile.h>
 #include <CApp/CAppConf.h>
 #include <COSEnv/CEAppLoader.h>
@@ -37,6 +37,8 @@
 #include <QtEnvKit/DABuildScript.h>
 
 #include "QDAMainWindow.h"
+
+#define LOG_TAG "TAG_DevAssistant"
 
 QString GetRootDir(const QString &bin_path) {
     QFileInfo info(bin_path);
@@ -90,13 +92,13 @@ int FixBuildScript(const std::string& script_path) {
     if (ret) {
         CU::File::SaveFileString(script_path, err_msg);
         std::string info = " Fix BuildScript " + script_path + " Succeed: \n" + err_msg;
-        LOG_INFO << info << std::endl;
+        LOGI("info = %s", info.c_str());
         QMessageBox::information(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
         return 0;
     }
 
     std::string info = " Fix BuildScript " + script_path + " Failed: \n" + err_msg;
-    LOG_INFO << info << std::endl;
+    LOGI("info = %s", info.c_str());
     QMessageBox::critical(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
     return 1;
 }
@@ -107,13 +109,14 @@ int main(int argc, char *argv[])
     CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
 
     for (size_t idx = 0; idx < argc; idx++) {
-        LOG_INFO << argv[idx] << std::endl;
+        LOGI("argv[%d] = %s", (int)idx, argv[idx]);
     }
 
     if (argc >= 2) {
         // Update run_win.bat / run_arm.sh / run_unix.sh
         return FixBuildScript(argv[1]);
     }
+    Logger::SetLogWriter(root_dir.toStdString() + "/logs");
 
     // Run InstallReg.exe as Root Authority
     auto app_bin = GetBinRelativePath(argv[0]);

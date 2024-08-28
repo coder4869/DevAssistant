@@ -28,10 +28,12 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <CUtils/CUFile.h>
 #include <CApp/CAppConf.h>
 #include <QtCoreKit/QtCoreKit.h>
+
+#define LOG_TAG "TAG_QtHelp"
 
 static QDAAppConfig* instance = nullptr;
 QDAAppConfig* QDAAppConfig::GetInstance()
@@ -60,7 +62,7 @@ void QDAAppConfig::LoadConfig()
 
     if (ret != 0) {
         file_data = file_path + " 文件解析失败！\n 请检查文件内容/编码等是否异常 ! ";
-        LOG_ERR << file_data << std::endl;
+        LOGE("file_data = %s", file_data.c_str());
         return;
     }
 

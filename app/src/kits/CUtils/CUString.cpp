@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -59,7 +59,7 @@ int String::SplitStringToSet(const std::string& str, const std::string& split, s
 	}
 
 	//for (auto item = values.begin(); item != values.end(); item++) {
-	//	std::cout << __FUNCTION__ << item->c_str() << std::endl;
+    //  LOGE("%s : %s", __FUNCTION__, item->c_str());
 	//}
 
 	return 0;
@@ -99,7 +99,7 @@ int String::SplitStringToVector(const std::string& str, const std::string& split
 	}
 
 	//for (auto item = values.begin(); item != values.end(); item++) {
-	//	std::cout << __FUNCTION__ << item->c_str() << std::endl;
+    //  LOGE("%s : %s", __FUNCTION__, item->c_str());
 	//}
 
 	return 0;

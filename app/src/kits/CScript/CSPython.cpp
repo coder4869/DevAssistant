@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -25,6 +25,7 @@
 #ifdef WITH_PY
 
 #include <iostream>
+#include <CUtils/logger.h>
 
 // Qt Call Python :: https://blog.csdn.net/New_codeline/article/details/123143138
 // slots in python conflicts with slots in qt
@@ -43,7 +44,7 @@ bool Python::InitPy()
     Py_Initialize();
     if (!Py_IsInitialized()) {
         PyErr_Print();
-        std::cout << "Can't Initialize python!\n" ;
+        LOGI("Can't Initialize python!");
         return false;
     }
     return true;

@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -31,7 +31,7 @@
 #include <windows.h>
 #endif // WIN
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
 #include <COSEnv/CETrayIcon.h>
 
 #include <QtProject/QtProject.h>
@@ -42,6 +42,8 @@
 #include <QtHelp/QtHelp.h>
 
 #include <QtUIInfra/QtUIInfra.h>
+
+#define LOG_TAG "TAG_DevAssistant"
 
 QDAMainWindow::QDAMainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::QDAMainWindow)
@@ -125,7 +127,7 @@ bool QDAMainWindow::nativeEvent(const QByteArray& eventType, void* message, long
 #ifdef WIN
     MSG* msg = (MSG*)message;
     if (msg->message == WM_TO_TRAY) {
-        LOG_INFO << " eventType = " << QString(eventType).toStdString() << std::endl;
+        LOGI("eventType = %s", QString(eventType).toStdString().c_str());
         if (msg->lParam == WM_LBUTTONUP) { // Left Button Double Click        
             CE::TrayIcon::ShowWindow(winId(), true);
             showMaximized(); // Required
@@ -141,7 +143,7 @@ bool QDAMainWindow::nativeEvent(const QByteArray& eventType, void* message, long
 
 void QDAMainWindow::changeEvent(QEvent * event)
 {
-    LOG_INFO << " event->type() = " << event->type() << std::endl;
+    LOGI("event->type() = %d", event->type());
     if (QEvent::WindowStateChange == event->type())
     {
         QWindowStateChangeEvent * stateEvent = dynamic_cast<QWindowStateChangeEvent*>(event);

@@ -28,7 +28,9 @@
 #	include <windows.h>
 #endif
 
-#include <CUtils/log.h>
+#include <CUtils/logger.h>
+
+#define LOG_TAG "TAG_COSEnv"
 
 NS_CE_BEGIN
 
@@ -82,7 +84,7 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	HKEY hkey_root = GetRegHKeyRootHandle(hkey);
 	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
 	if (ERROR_SUCCESS != RegOpenKeyEx(hkey_root, reg_path.c_str(), 0, KEY_READ, &hKey_return)) {
-		LOG_ERR << "RegOpenKeyEx failed. " << reg_path << std::endl;
+        LOGE("RegOpenKeyEx failed. %s", reg_path.c_str());
 		return "";
 	}
 
@@ -92,11 +94,11 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	// 0 不定义值类型
 	if (ERROR_SUCCESS != RegQueryValueEx(hKey_return, reg_key.c_str(), 0, &keySz_type, (LPBYTE)&key_value, &key_size)) {
 		RegCloseKey(hkey_root);
-		LOG_ERR << "RegQueryValueEx failed. " << reg_path << std::endl;
+		LOGE("RegQueryValueEx failed. %s", reg_path.c_str());
 		return "";
 	}
 
-	LOG_INFO << key_value << std::endl;
+	LOGI("Regedit::GetRegValue() %s", key_value);
 	RegCloseKey(hkey_root);
 	return std::string(key_value, key_size);
 }
@@ -125,11 +127,11 @@ bool Regedit::SetRegValue(const std::string& key, const std::string& value, cons
 		std::string reg_key = key.substr(pos_last + 1);
 		cmd = "REG ADD \"" + lp_key + "\" /v \"" + reg_key + "\" /t " + reg_type + " /d \"" + new_val + "\" /f";
 	}
-	LOG_INFO << cmd << std::endl;
+    LOGI("cmd = %s", cmd.c_str());
 	int ret = system(cmd.c_str());
 	if (ret != 0) {
 		//DWORD err = GetLastError();
-		//LOG_ERR << "01: Error = " << err << std::endl;
+		//LOGE("01: Error = %s", err);
 		return false;
 	}
 	return true;
@@ -151,11 +153,11 @@ bool Regedit::DelRegValue(const std::string& key)
 		std::string reg_key = key.substr(pos_last + 1);
 		cmd = "echo yes | REG DELETE " + lp_key + " /v " + reg_key;
 	}
-	LOG_INFO << cmd << std::endl;
+    LOGI("cmd = %s", cmd.c_str());
 	int ret = system(cmd.c_str());
 	if (ret != 0) {
 		//DWORD err = GetLastError();
-		//LOG_ERR << "01: Error = " << err << std::endl;
+        //LOGE("01: Error = %s", err);
 		return false;
 	}
 	return true;
