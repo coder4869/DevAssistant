@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -20,32 +20,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// https://blog.csdn.net/weixin_45525272/article/details/109687419
+#include <stdio.h>
+namespace App {
 
-#ifndef CU_TIMER_H
-#define CU_TIMER_H
+void InitAppConfig(const char *bin_path);
 
-#include <stdint.h>
-#include "CUtilsDef.h"
-
-NS_CU_BEGIN
-namespace Timer {
-
-	/// @breif Get Time In Second
-	uint64_t GetTimeSecond();
-
-	/// @breif second to string time. e.g. 1699158041 to 2023-11-05 12:20:41
-	/// @param timestamp	input timestamp in second. e.g. 1699158041
-	/// @param format		output date format. supports: 
-	///		YYYY-MM-DD HH:mm:ss		YYYYMMDD-HHmmss
-	/// @return timestamp in target fmt.
-	const char* SecondTime2Str(uint64_t timestamp, const char* format = "YYYY-MM-DD HH:mm:ss");
-
-	/// @breif Get Time In Micro-Second
-	uint64_t GetTimeMicroSecond();
-
-} // namespace Timer
-NS_CU_END
-
-
-#endif // CU_TIMER_H
+int SetInitStart(const char *bin_path);
+}

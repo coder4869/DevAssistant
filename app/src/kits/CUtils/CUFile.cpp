@@ -75,7 +75,7 @@ int File::CopyFiles(const std::vector<std::string>& src_list, const std::string&
         }
     }
     catch (const std::exception& e) {
-        LOGE("%s : Error ", __FUNCTION__, e.what().c_str());
+        LOGE("%s : Error %s", __FUNCTION__, e.what());
     }
 
     return 0;
@@ -147,12 +147,13 @@ int File::DeleteFiles(const std::string& dir_path, const std::string& extends) {
             std::error_code ec;
             std::filesystem::remove(entry.path(), ec);
             if (ec) {
-                LOGE("%s : delete file %s error %s !", __FUNCTION__, entry.path().c_str(), ec.message());
+                LOGE("%s : delete file %s error %s !", __FUNCTION__, entry.path().c_str(), ec.message().c_str());
             } else {
                 LOGI("%s : delete file %s succeed !", __FUNCTION__, entry.path().c_str());
             }
         }
     }
+    return 0;
 #else
     LOGE("%s : Error C++17 Not Support !", __FUNCTION__);
     return -2;

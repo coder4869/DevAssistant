@@ -143,7 +143,7 @@ void QDACheckEnvDialog::OnCheckEnv()
                     std::string app_path;
                     if (CE::AppLoader::GetAppInstallPath(soft_std, app_path)) {
                         path = QString::fromStdString(app_path);
-                        key = "";
+                        key = "OS-Env";
                     } else {
                        path = soft + " in EnvVar " + key + " Not Found !";
                        //QMessageBox::warning(NULL, key, QString::fromStdString(pathes));

@@ -41,17 +41,6 @@
                     "gen_lib": "NO",
                     "module": "UnInstall",
                     "option": "ON"
-                },
-                {
-                    "deps": [
-                        "COSEnv",
-                        "CHWD",
-                        "CUtils",
-                        "CApp"
-                    ],
-                    "gen_lib": "NO",
-                    "module": "InstallReg",
-                    "option": "ON"
                 }
             ]
         },

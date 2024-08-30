@@ -32,15 +32,15 @@
 #define LOG_TAG "TAG_COSEnv"
 
 //NS_DE_BEGIN
-#if WIN
+#ifdef WIN
 	const std::string CMAKE_REG = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Kitware\\CMake\\InstallDir";
 #else
-	const std::string CMAKE_REG = "";
+	const std::string CMAKE_REG = "OS-Env";
 #endif // WIN
 
 std::map<std::string, CodingTool::SoftInfo> CodingTool::GetSoftInfos()
 {
-    std::map<std::string, CodingTool::SoftInfo>  soft_infos;
+    std::map<std::string, CodingTool::SoftInfo> soft_infos;
     soft_infos["CMake"] = {CMAKE_REG, GetRootDir("CMake", CMAKE_REG)};
     return soft_infos;
 }

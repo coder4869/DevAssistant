@@ -20,14 +20,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdio.h>
+#ifndef __PATH_UTIL_H__
+#define __PATH_UTIL_H__
 
-#include <CUtils/logger.h>
-#include <COSEnv/CERightAction.h>
+#include <string>
 
-int main(int argc, char *argv[])
-{
-    CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
-    LOGI("CE::RightAction::DelAction()");
-    return 0;
+namespace utils::path {
+extern std::string absolute_path(const std::string &relative_path);
+
 }
+
+#endif //__PATH_UTIL_H__

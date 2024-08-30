@@ -25,16 +25,22 @@
 
 #include "logger.h"
 
+#if _HAS_CXX17
+#include <filesystem> // C++17
+#endif
+//#include <iostream>
+
+#ifdef WIN
+#include <direct.h>
+#endif // WIN
+
 #include <spdlog/spdlog.h>
 #include <spdlog/async.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 
-#include <filesystem> // C++17
-//#include <iostream>
-
-static const long DAY_TO_MS = 24 * 60 * 60;
+#include <CUtils/units_time.h>
 
 //static const char* log_fmt = "%z %Y-%m-%d %H:%M:%S.%e %P %t %L %v";
 static const char* log_fmt = "%Y-%m-%d %H:%M:%S.%e %P %t %L %v";
@@ -119,10 +125,12 @@ uint32_t Logger::Log(const char* tag, log_level_t level, const char* fmt, ...) {
 
 uint32_t Logger::LogImpl(const char* tag, log_level_t level, const char* buf) {
     if (log_writer == nullptr) {
+        spdlog::set_pattern(log_fmt);
+        spdlog::error("Logger not inited! only supports console log ....");
+        LogToConsole(tag, level, buf);
         return -1;
     }
-//    spdlog::set_pattern(log_fmt);
-//    spdlog::info("{}: {}", tag, buf);
+
     log_writer->set_pattern(log_fmt);
     
     if (level == LOG_FATAL) {
@@ -149,18 +157,40 @@ uint32_t Logger::LogImpl(const char* tag, log_level_t level, const char* buf) {
     return 0;
 }
 
+void Logger::LogToConsole(const char* tag, log_level_t level, const char* buf) {
+//    spdlog::set_pattern(log_fmt);
+    if (level == LOG_FATAL) {
+#if DEBUG
+        spdlog::critical("{}: {}", tag, buf);
+        abort();
+#else
+        spdlog::error("{}: {}", tag, buf);
+#endif
+    } else if (level == LOG_ERROR) {
+        spdlog::error("{}: {}", tag, buf);
+    } else if (level == LOG_WARN) {
+        spdlog::warn("{}: {}", tag, buf);
+    } else if (level == LOG_INFO) {
+        spdlog::info("{}: {}", tag, buf);
+    } else if (level == LOG_DEBUG) {
+        spdlog::debug("{}: {}", tag, buf);
+    } else if (level == LOG_VERBOSE) {
+        spdlog::trace("{}: {}", tag, buf);
+    } else {
+        spdlog::info("{}: {}", tag, buf);
+    }
+}
+
 std::string Logger::UpdateLogFileName() {
-    timeb tmb;
-    ftime(&tmb); // Get ms time
-    char tim_str[100];
-    struct tm t = *localtime(&tmb.time);
-    strftime(tim_str, sizeof(tim_str), "%Y%m%d-%H%M%S", &t);
+    uint64_t now_time = units::time::now_second();
+    std::string time_str = units::time::second_to_string(now_time, "%Y%m%d-%H%M%S");
     char log_name[80];
-    sprintf(log_name, "Logger-%s.log", tim_str); // std::cerr
+    sprintf(log_name, "Logger-%s.log", time_str.c_str()); // std::cerr
     return log_name;
 }
 
 static int DeleteLogFiles(const std::string& dir_path) {
+#if _HAS_CXX17
     if (!std::filesystem::exists(dir_path) || !std::filesystem::is_directory(dir_path)) {
         LOGE("%s : dir %s not exist or not directory !", __FUNCTION__, dir_path.c_str());
         return -1;
@@ -172,8 +202,8 @@ static int DeleteLogFiles(const std::string& dir_path) {
             auto last_write_time = std::filesystem::last_write_time(entry.path());
             auto last_write_ms = decltype(last_write_time)::clock::to_time_t(last_write_time);
             // std::cout << "Last modified time: " << std::asctime(std::localtime(&last_write_ms));
-            auto current_ms = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-            if (current_ms - last_write_ms <= DAY_TO_MS) {
+            uint64_t current_ms = units::time::now_second();
+            if (current_ms - last_write_ms <= units::time::day2second) {
                 spdlog::info("log file {} file size {} KB last write time to now {} ms !",
                              entry.path().c_str(), fsize, current_ms - last_write_ms);
                 continue;
@@ -192,6 +222,10 @@ static int DeleteLogFiles(const std::string& dir_path) {
         }
     }
     return 0;
+#else
+    LOGE("%s : Error C++17 Not Support !", __FUNCTION__);
+    return -2;
+#endif
 }
 
 bool Logger::CheckLogDir(const std::string &log_dir) {
@@ -199,16 +233,16 @@ bool Logger::CheckLogDir(const std::string &log_dir) {
         return false;
     }
     
+#if _HAS_CXX17
     try {
         spdlog::set_pattern(log_fmt);
         if (!std::filesystem::exists(log_dir)) {
             std::filesystem::create_directories(log_dir);
             spdlog::info("create log_dir {} succeed !", log_dir.c_str());
         } else {
+            DeleteLogFiles(log_dir);
             spdlog::info("log_dir {} exist !", log_dir.c_str());
         }
-        
-        DeleteLogFiles(log_dir);
         return true;
     } catch (const std::filesystem::filesystem_error& e) {
         spdlog::critical("create log_dir {} failed ! {}", log_dir.c_str(), e.what());
@@ -217,5 +251,6 @@ bool Logger::CheckLogDir(const std::string &log_dir) {
 #endif
 //        std::cerr << "Create dir failed !" << e.what() << std::endl;
     }
+#endif
     return false;
 }

@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -28,7 +28,7 @@ NS_GIT_BEGIN
 
 bool Github::GithubConnectFix()
 {
-#if WIN
+#ifdef WIN
 	int ret = system("ipconfig /flushdns");
 	return ret == 0;
 #else

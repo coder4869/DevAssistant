@@ -36,6 +36,7 @@
 
 #include <QtEnvKit/DABuildScript.h>
 
+#include "AppLoader.h"
 #include "QDAMainWindow.h"
 
 #define LOG_TAG "TAG_DevAssistant"
@@ -106,7 +107,10 @@ int FixBuildScript(const std::string& script_path) {
 int main(int argc, char *argv[])
 {
     QString root_dir = GetRootDir(argv[0]);
-    CKAppConf::GetInstance()->SetRootDir(root_dir.toStdString());
+    Logger::SetLogWriter(root_dir.toStdString() + "/logs");
+    
+    App::InitAppConfig(argv[0]);
+    App::SetInitStart(argv[0]);
 
     for (size_t idx = 0; idx < argc; idx++) {
         LOGI("argv[%d] = %s", (int)idx, argv[idx]);
@@ -116,8 +120,8 @@ int main(int argc, char *argv[])
         // Update run_win.bat / run_arm.sh / run_unix.sh
         return FixBuildScript(argv[1]);
     }
-    Logger::SetLogWriter(root_dir.toStdString() + "/logs");
 
+#ifdef WIN
     // Run InstallReg.exe as Root Authority
     auto app_bin = GetBinRelativePath(argv[0]);
     auto root_flag = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/root_flag");
@@ -127,6 +131,7 @@ int main(int argc, char *argv[])
             CU::File::SaveFileString(root_flag, "AutoStart");
         }
     }
+#endif
 
     return LoadApp(argc, argv);
 }

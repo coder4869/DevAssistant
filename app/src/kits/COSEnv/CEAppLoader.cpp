@@ -33,22 +33,61 @@
 #endif
 
 #include <CUtils/logger.h>
-#include "CERegedit.h"
+#include <CUtils/path_util.h>
+#include <CUtils/CUFile.h>
+#include <COSEnv/CERegedit.h>
 
 #define LOG_TAG "TAG_COSEnv"
 
 NS_CE_BEGIN
 
-#if (defined APPLE) || (defined LINUX)
+bool AppLoader::GetAppPath(const std::string &bin_path, std::string &output) {
+    if (bin_path.empty()) {
+        output = "";
+        return false;
+    }
+#if defined(OSX)
+    auto pos = bin_path.rfind(".app");
+    output = bin_path.substr(0, pos + 4);
+#elif defined(IOS)
+    auto pos = bin_path.rfind(".ipa");
+    output = bin_path.substr(0, pos + 4);
+#else
+    output = bin_path
+#endif
+    return true;
+}
+
+bool AppLoader::GetAppDirPath(const std::string &bin_path, std::string &output) {
+    if (bin_path.empty()) {
+        output = "";
+        return false;
+    }
+    auto bin_path_tmp = bin_path;
+#ifdef WIN
+    std::replace(bin_path_tmp.begin(), bin_path_tmp.end(), '\\', '/');
+#elif defined(OSX)
+    auto pos = bin_path_tmp.rfind(".app");
+    bin_path_tmp = bin_path_tmp.substr(0, pos + 4);
+#elif defined(IOS)
+    auto pos = bin_path_tmp.rfind(".ipa");
+    bin_path_tmp = bin_path_tmp.substr(0, pos + 4);
+#endif
+    pos = bin_path_tmp.find_last_of('/');
+    output = bin_path.substr(0, pos);
+    return true;
+}
+
+#if defined(APPLE) || defined(IOS) || defined(OSX) || defined(LINUX)
 // RunCmdByPopen("pkgutil --packages", result)
 static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &out_lines) {
     if (cmd_str.empty()) {
-        std::cerr << "Command is empty." << std::endl;
+        LOGE("Command is empty.");
         return RET_ERROR;
     }
     FILE *fp = popen(cmd_str.c_str(), "r");
     if (fp == nullptr) {
-        std::cerr << "Failed to execute command." << std::endl;
+        LOGE("Failed to execute command. %s ", cmd_str.c_str());
         return RET_ERROR;
     }
  
@@ -57,7 +96,7 @@ static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &o
         std::string line = buffer;
         line.erase(line.find_last_not_of(" \n\r\t") + 1);
         out_lines.emplace_back(line);
-        LOGI("line = %s", line.c_str());
+        LOGD("%s, cmd output line = %s", __FUNCTION__, line.c_str());
     }
  
     pclose(fp);
@@ -158,17 +197,55 @@ bool AppLoader::RunAsRoot(const std::string& bin_path)
 #endif
 }
 
-bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& app_path)
+bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_path)
 {
 #ifdef WIN
 	std::string regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\";
-	auto tmp_path = app_path;
+	auto tmp_path = bin_path;
 	std::replace(tmp_path.begin(), tmp_path.end(), '/', '\\');
 	//CE::Regedit::DelRegValue(regkey + app_key);
 	auto ret2 = CE::Regedit::SetRegValue(regkey + app_key, tmp_path);
-
 	return ret2;
-#else   // OSX OR Linux
+#elif defined(OSX)
+    std::string start_plist = R"(
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>bundle—id</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>bin-path</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+    </dict>
+</plist>
+    )";
+    
+    // replace bundle_id
+    std::string bundle_id = app_key;
+    start_plist.replace(start_plist.find("bundle—id"), strlen("bundle—id"), bundle_id);
+    
+    // gen plist_path
+    auto agents_path = utils::path::absolute_path("~/Library/LaunchAgents/");
+    auto plist_path = agents_path.append("/" + bundle_id + ".plist");
+    
+    // replace app-path
+    start_plist.replace(start_plist.find("bin-path"), strlen("bin-path"), bin_path);
+    LOGI("start_plist = %s, bundle_id = %s, bin_path = %s", start_plist.c_str(), bundle_id.c_str(), bin_path.c_str());
+    if (CU::File::SaveFileString(plist_path, start_plist) != 0) {
+        LOGE("save to start plist error! plist = %s", plist_path.c_str());
+        return false;
+    }
+    std::string load_cmd = "launchctl load " + plist_path;
+    LOGI("start %s by cmd: %s", plist_path.c_str(), load_cmd.c_str());
+    // For error: Try running `launchctl bootstrap` as root for richer errors.
+    // Try: launchctl unload <plist_path>
+    //      launchctl load <plist_path>
+    return true;
+#else   // Linux
     return false;
 #endif
 }

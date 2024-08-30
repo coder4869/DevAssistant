@@ -24,6 +24,8 @@
 
 #include <sstream>
 
+#include "logger.h"
+
 NS_CU_BEGIN
 
 /// @brief Split str by split_tag
@@ -101,7 +103,6 @@ int String::SplitStringToVector(const std::string& str, const std::string& split
 	//for (auto item = values.begin(); item != values.end(); item++) {
     //  LOGE("%s : %s", __FUNCTION__, item->c_str());
 	//}
-
 	return 0;
 }
 
@@ -117,6 +118,23 @@ int String::Replace(std::string& str, const std::string& from, const std::string
 		}
 	}
 	return 0;
+}
+
+int String::LastNCharSubStr(const std::string& str, char ch, size_t n, std::string &output) {
+    size_t pos = str.rfind(ch);
+    size_t count = 1;
+    
+    while ((pos != std::string::npos) && (count < n)) {
+        pos = str.rfind(ch, pos-1);
+        ++count;
+    }
+    
+    if (count == n) {
+        output = str.substr(0, pos);
+        return true;
+    }
+    output = "";
+    return false;
 }
 
 NS_CU_END

@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -36,9 +36,9 @@ threadpool::threadpool(size_t thread_size, std::string &&name)
     for (int idx=0; idx<thread_size; idx++) {
         workers_.emplace_back([this, idx, name] {
 //            LOGI(TAG, "threadpool start %s%zu", name_.c_str(), idx);
-#if OSX || IOS
+#if defined(OSX) || defined(IOS)
             pthread_setname_np(name_.append(std::to_string(idx)).c_str());
-#elif !WIN
+#elif !defined(WIN)
             pthread_setname_np(pthread_self(), name_.append(std::to_string(idx)).c_str());
 #endif
             while (true) {

@@ -20,14 +20,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdio.h>
+#include "units_time.h"
 
-#include <CUtils/logger.h>
-#include <COSEnv/CERightAction.h>
+#include <sys/timeb.h>
+#include <time.h>
 
-int main(int argc, char *argv[])
-{
-    CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
-    LOGI("CE::RightAction::DelAction()");
-    return 0;
+#if _HAS_CXX11
+#include <chrono>
+#endif
+
+namespace units::time {
+
+const long day2second = 24 * 60 * 60;
+
+uint64_t now_second() {
+#if _HAS_CXX11
+    auto tpd = std::chrono::system_clock::now().time_since_epoch();
+    return  std::chrono::duration_cast<std::chrono::seconds>(tpd).count();
+#else
+    timeb t;
+    ftime(&t); // Get ms time
+    return t.time;
+#endif
+}
+
+uint64_t now_ms() {
+#if _HAS_CXX11
+    auto tpd = std::chrono::system_clock::now().time_since_epoch();
+    return  std::chrono::duration_cast<std::chrono::microseconds>(tpd).count();
+#else
+    timeb t;
+    ftime(&t); // Get ms time
+    return t.time*1000 + t.millitm;
+#endif
+}
+
+std::string second_to_string(uint64_t timestamp, const char* format) {
+    time_t tim = (time_t)timestamp;
+    struct tm t = *localtime(&tim);
+    char tim_str[100];
+    std::string tim_fmt;
+    // format: "%Y%m%d-%H%M%S" "%Y-%m-%d %H:%M:%S"
+    strftime(tim_str, sizeof(tim_str), format, &t);
+    tim_fmt = tim_str;
+    return tim_fmt;
+}
+
 }

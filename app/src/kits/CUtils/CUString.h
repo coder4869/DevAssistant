@@ -31,6 +31,7 @@
 #include <set>
 
 #include "CUtilsDef.h"
+#define LOG_TAG "TAG_CUTILS"
 
 NS_CU_BEGIN
 namespace String {
@@ -45,6 +46,9 @@ namespace String {
     int SplitStringToVector(const std::string& str, const std::string& split_tag, std::vector<std::string> & values);
     
     int Replace(std::string& str, const std::string& from, const std::string& to);
+    
+    /// @brief Get str's sub-string from [0, pos of last n'th ch]
+    int LastNCharSubStr(const std::string& str, char ch, size_t n, std::string &output);
 }
 NS_CU_END
 

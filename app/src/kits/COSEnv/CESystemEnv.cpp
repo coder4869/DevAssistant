@@ -112,7 +112,7 @@ std::set<std::string> SystemEnv::SplitEnvValue(const char* name)
 std::set<std::string> SystemEnv::GetEnvItems(const char* env_key, const char* soft_key)
 {
 	auto path_set = SplitEnvValue(env_key);
-	if (soft_key == "") {
+	if (std::string(soft_key) == "") {
 		return path_set;
 	}
 	std::set<std::string> list;

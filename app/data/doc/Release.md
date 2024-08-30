@@ -1,4 +1,4 @@
-﻿## Release Notes
+## Release Notes
 
 ### Release v1.0
 
@@ -7,6 +7,7 @@
     * Supports Windows, MacOS.
     * Use Python and CMake Plugin(Refer to `plugins`)
 - 2.Query Environment Var. Supports Windows, MacOS.
+- 3. add spdlog based multi-platforms logger
 
 #### 2. Windows(Only)
 - 1.Add Regedit Get and Set Functions.

@@ -22,15 +22,11 @@
 
 #pragma once
 
-#include <fstream>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/timeb.h>
-#include <time.h>
+#include <cstdio>
+#include <string>
+#include <mutex>
 
-#ifdef WIN
-#include <direct.h>
-#endif // WIN:
+//#define DEBUG 1
 
 #ifdef __GNUC__
 #   define LOG_CHECK_PRINTF(m, n) __attribute__((format(printf, m, n)))
@@ -49,11 +45,6 @@
 #   define LOG_BUF_SIZE (1024*1024)
 #endif
 #endif
-
-#include <cstdio>
-#include <string>
-
-//#define DEBUG 1
 
 typedef enum log_level {
     LOG_VERBOSE,
@@ -76,6 +67,7 @@ public:
     static void EnableDebugToInfo(bool enable) { debug_2_info_ = enable; }
     
 private:
+    static void LogToConsole(const char* tag, log_level_t level, const char* buf);
     static std::string UpdateLogFileName();
     static bool CheckLogDir(const std::string &log_dir);
     

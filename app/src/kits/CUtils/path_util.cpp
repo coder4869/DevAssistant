@@ -20,14 +20,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdio.h>
+#include "path_util.h"
 
-#include <CUtils/logger.h>
-#include <COSEnv/CERightAction.h>
+#include <limits.h>
+#include <filesystem>
 
-int main(int argc, char *argv[])
-{
-    CE::RightAction::DelAction("DevAssist", CE::RightAction::Mode::FIX_SUFFIX, "batfile");
-    LOGI("CE::RightAction::DelAction()");
-    return 0;
+namespace utils::path {
+
+std::string absolute_path(const std::string &relative_path) {
+    std::filesystem::path tmp_path = relative_path;
+#ifdef WIN
+    char abs_path[PATH_MAX] = {0};
+    _fullpath(absPath, relative_path.c_str(), abs_path);
+    return abs_path;
+
+#else
+    std::string abs_path;
+    if (tmp_path.string().front() == '~') {
+        std::string home_dir = std::getenv("HOME");
+        abs_path = home_dir + tmp_path.string().substr(1);
+    }
+    return std::filesystem::canonical(abs_path);
+#endif
+}
+
 }
