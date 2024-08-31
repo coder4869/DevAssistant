@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -24,14 +24,15 @@
 
 #include <limits.h>
 #include <filesystem>
+#include <chrono>
 
 namespace utils::path {
 
 std::string absolute_path(const std::string &relative_path) {
     std::filesystem::path tmp_path = relative_path;
 #ifdef WIN
-    char abs_path[PATH_MAX] = {0};
-    _fullpath(absPath, relative_path.c_str(), abs_path);
+    char abs_path[MAX_PATH] = {0};
+    _fullpath(abs_path, relative_path.c_str(), MAX_PATH);
     return abs_path;
 
 #else
@@ -42,6 +43,11 @@ std::string absolute_path(const std::string &relative_path) {
     }
     return std::filesystem::canonical(abs_path);
 #endif
+}
+
+static uint64_t file_last_write_ms(std::filesystem::path file_path) {
+    auto last_write_time = std::filesystem::last_write_time(file_path);
+    return std::chrono::duration_cast<std::chrono::seconds>(last_write_time.time_since_epoch()).count();
 }
 
 }

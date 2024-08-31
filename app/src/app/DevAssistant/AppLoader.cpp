@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -42,7 +42,7 @@ void InitAppConfig(const char *bin_path) {
 #ifdef OSX
     CKAppConf::GetInstance()->SetRootDir(app_path + "/Contents");
 #else
-    CU::String::LastNCharSubStr(app_dir, '/', 2, root_dir);
+    CU::String::LastNCharSubStr(app_path, '\\', 2, root_dir);
     CKAppConf::GetInstance()->SetRootDir(root_dir);
     CKAppConf::GetInstance()->SetRelativePath("app_icon", "data/Resource/AppIcon.ico");
 #endif

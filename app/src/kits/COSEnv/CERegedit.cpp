@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -84,7 +84,7 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	HKEY hkey_root = GetRegHKeyRootHandle(hkey);
 	HKEY hKey_return = NULL; // RegOpenKeyEx Return Value
 	if (ERROR_SUCCESS != RegOpenKeyEx(hkey_root, reg_path.c_str(), 0, KEY_READ, &hKey_return)) {
-        LOGE("RegOpenKeyEx failed. %s", reg_path.c_str());
+        LOGE("RegOpenKeyEx failed. %s\\%s", hkey.c_str(), reg_path.c_str());
 		return "";
 	}
 
@@ -94,29 +94,33 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	// 0 不定义值类型
 	if (ERROR_SUCCESS != RegQueryValueEx(hKey_return, reg_key.c_str(), 0, &keySz_type, (LPBYTE)&key_value, &key_size)) {
 		RegCloseKey(hkey_root);
-		LOGE("RegQueryValueEx failed. %s", reg_path.c_str());
+		LOGE("RegQueryValueEx failed. %s\\%s", hkey.c_str(), reg_path.c_str());
 		return "";
 	}
 
-	LOGI("Regedit::GetRegValue() %s", key_value);
+	LOGI("Regedit::GetRegValue() %s\\%s key_value %s", hkey.c_str(), reg_path.c_str(), key_value);
 	RegCloseKey(hkey_root);
 	return std::string(key_value, key_size);
 }
 
-bool Regedit::SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type)
+bool Regedit::SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type, bool reset_old)
 {
 	bool is_dir = false;
 	std::string old_val = GetRegValue(key, is_dir);
-	if (old_val.size() > 0 && old_val[old_val.size() - 1] == '\0') {
-		old_val = old_val.substr(0, old_val.size() - 1);
+	std::string new_val = value;
+	if (!reset_old) {
+		if (old_val.size() > 0 && old_val[old_val.size() - 1] == '\0') {
+			old_val = old_val.substr(0, old_val.size() - 1);
+		}
+
+		// Key Exist And value Same With Old
+		if (value.size() == old_val.size() && value == old_val) {
+			return true;
+		}
+
+		new_val = (old_val.size() > 0) ? old_val + ";" + value : value;
 	}
 
-	// Key Exist And value Same With Old
-	if (value.size() == old_val.size() && value == old_val) {
-		return true;
-	}
-
-	const std::string new_val = (old_val.size() > 0) ? old_val + ";" + value : value;
 	std::string cmd = "";
 	int pos_last = key.find_last_of("\\");
 	std::string lp_key = key.substr(0, pos_last);
@@ -173,7 +177,7 @@ std::string Regedit::GetRegValue(const std::string& hkey, const std::string& reg
 	return "";
 }
 
-bool Regedit::SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type) {
+bool Regedit::SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type, bool reset_old) {
 	return false;
 }
 

@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -25,10 +25,10 @@
 
 #include "logger.h"
 
+ #include <chrono>
 #if _HAS_CXX17
 #include <filesystem> // C++17
 #endif
-//#include <iostream>
 
 #ifdef WIN
 #include <direct.h>
@@ -37,7 +37,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/async.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/basic_file_sink.h>
+// #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/rotating_file_sink.h>
 
 #include <CUtils/units_time.h>
@@ -200,12 +200,13 @@ static int DeleteLogFiles(const std::string& dir_path) {
         if (entry.is_regular_file() && entry.path().extension() == ".log") {
             auto fsize = std::filesystem::file_size(entry.path()) / 1024;
             auto last_write_time = std::filesystem::last_write_time(entry.path());
-            auto last_write_ms = decltype(last_write_time)::clock::to_time_t(last_write_time);
+            auto last_write_ms = std::chrono::duration_cast<std::chrono::seconds>(last_write_time.time_since_epoch()).count();
+            //auto last_write_ms = decltype(last_write_time)::clock::to_time_t(last_write_time);
             // std::cout << "Last modified time: " << std::asctime(std::localtime(&last_write_ms));
             uint64_t current_ms = units::time::now_second();
             if (current_ms - last_write_ms <= units::time::day2second) {
                 spdlog::info("log file {} file size {} KB last write time to now {} ms !",
-                             entry.path().c_str(), fsize, current_ms - last_write_ms);
+                             entry.path().string().c_str(), fsize, current_ms - last_write_ms);
                 continue;
             }
             
@@ -214,10 +215,10 @@ static int DeleteLogFiles(const std::string& dir_path) {
             std::filesystem::remove(entry.path(), ec);
             if (ec) {
                 spdlog::error("delete log file {} error {} file size {} KB last write time {} ms !",
-                              entry.path().c_str(), ec.message(), fsize, last_write_ms);
+                              entry.path().string().c_str(), ec.message(), fsize, last_write_ms);
             } else {
                 spdlog::info("delete log file {} succeed file size {} KB last write time {} ms !",
-                             entry.path().c_str(), fsize, last_write_ms);
+                             entry.path().string().c_str(), fsize, last_write_ms);
             }
         }
     }

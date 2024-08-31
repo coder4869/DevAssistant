@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -121,17 +121,17 @@ int main(int argc, char *argv[])
         return FixBuildScript(argv[1]);
     }
 
-#ifdef WIN
-    // Run InstallReg.exe as Root Authority
-    auto app_bin = GetBinRelativePath(argv[0]);
-    auto root_flag = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/root_flag");
-    if (CU::File::IsFileExist(root_flag) != 0) {
-        auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
-        if (CE::AppLoader::RunAsRoot(bin_install)) {
-            CU::File::SaveFileString(root_flag, "AutoStart");
-        }
-    }
-#endif
+//#ifdef WIN
+//    // Run InstallReg.exe as Root Authority
+//    auto app_bin = GetBinRelativePath(argv[0]);
+//    auto root_flag = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/root_flag");
+//    if (CU::File::IsFileExist(root_flag) != 0) {
+//        auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
+//        if (CE::AppLoader::RunAsRoot(bin_install)) {
+//            CU::File::SaveFileString(root_flag, "AutoStart");
+//        }
+//    }
+//#endif
 
     return LoadApp(argc, argv);
 }

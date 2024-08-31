@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -53,7 +53,7 @@ bool AppLoader::GetAppPath(const std::string &bin_path, std::string &output) {
     auto pos = bin_path.rfind(".ipa");
     output = bin_path.substr(0, pos + 4);
 #else
-    output = bin_path
+    output = bin_path;
 #endif
     return true;
 }
@@ -64,13 +64,14 @@ bool AppLoader::GetAppDirPath(const std::string &bin_path, std::string &output) 
         return false;
     }
     auto bin_path_tmp = bin_path;
+    std::string::size_type pos;
 #ifdef WIN
     std::replace(bin_path_tmp.begin(), bin_path_tmp.end(), '\\', '/');
 #elif defined(OSX)
-    auto pos = bin_path_tmp.rfind(".app");
+    pos = bin_path_tmp.rfind(".app");
     bin_path_tmp = bin_path_tmp.substr(0, pos + 4);
 #elif defined(IOS)
-    auto pos = bin_path_tmp.rfind(".ipa");
+    pos = bin_path_tmp.rfind(".ipa");
     bin_path_tmp = bin_path_tmp.substr(0, pos + 4);
 #endif
     pos = bin_path_tmp.find_last_of('/');
@@ -204,8 +205,8 @@ bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_
 	auto tmp_path = bin_path;
 	std::replace(tmp_path.begin(), tmp_path.end(), '/', '\\');
 	//CE::Regedit::DelRegValue(regkey + app_key);
-	auto ret2 = CE::Regedit::SetRegValue(regkey + app_key, tmp_path);
-	return ret2;
+    return CE::Regedit::SetRegValue(regkey + app_key, tmp_path, "REG_SZ", true);
+
 #elif defined(OSX)
     std::string start_plist = R"(
 <?xml version="1.0" encoding="UTF-8"?>

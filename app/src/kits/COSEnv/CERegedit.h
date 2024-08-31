@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -53,7 +53,7 @@ namespace Regedit {
 	/// @param key		dir is end with "\\", detail refer to up demo.
 	/// @param value	e.g. "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
 	/// @param reg_type	values from : REG_SZ, REG_MULTI_SZ, REG_EXPAND_SZ, REG_DWORD, REG_QWORD, REG_BINARY, REG_NONE
-	bool SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type = "REG_SZ");
+	bool SetRegValue(const std::string& key, const std::string& value, const std::string& reg_type = "REG_SZ", bool reset_old = false);
 
 	/// @demo dir : DelRegValue("KEY_CURRENT_USER\\Environment\\TEST_REG\\")
 	/// @demo item : DelRegValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\devenv.exe")
