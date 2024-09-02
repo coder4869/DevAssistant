@@ -83,6 +83,7 @@ function clean_plugins() {
 function do_open() {
     if [[ `uname` == "Darwin" ]]; then
         # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme spdlog -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
         open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
     else
         make

@@ -28,8 +28,6 @@
 #	include <windows.h>
 #endif
 
-#include <CUtils/log.h>
-
 NS_CE_BEGIN
 
 void TrayIcon::SetIcon(int winid, const std::string& icon_name, const std::string& tips, unsigned long mode)

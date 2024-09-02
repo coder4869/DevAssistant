@@ -29,8 +29,11 @@ cd ${script_dir}
 PROJ_NAME=_PROJ_NAME_
 
 ROOT_DIR=${script_dir}/../..
-BUILD_DIR=${ROOT_DIR}/build_ios
+BUILD_DIR=${ROOT_DIR}/build_android
 BIN_DIR=${ROOT_DIR}/bin64
+ANDROID_SDK_HOME=$HOME/Desktop/workspace/android_sdk
+ANDROID_NDK_HOME=$ANDROID_SDK_HOME/ndk/26.1.10909125
+ANDROID_CMAKE_BIN=$ANDROID_SDK_HOME/cmake/3.22.1/bin
 
 function do_mkdir() {
     if [[ -d ${BUILD_DIR} ]]; then
@@ -44,12 +47,22 @@ function do_mkdir() {
 }
 
 function do_gen {
-    cmake -Wno-dev ${ROOT_DIR} -GXcode -DCMAKE_BUILD_TYPE=Release \
+    ANDROID_ABI=arm64-v8a
+    ANDROID_API=21
+
+    $ANDROID_CMAKE_BIN/cmake -Wno-dev ${ROOT_DIR} -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
         -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
-        -DWITH_QT=OFF \
-        -DWITH_PY=OFF \
-        -DPROJECT_NAME=${PROJ_NAME} -DIOS=ON -H$ROOT_DIR -B$BUILD_DIR
+        -DWITH_QT=OFF -DWITH_PY=OFF \
+        -DPROJECT_NAME=${PROJ_NAME} -DANDROID=ON -H$ROOT_DIR -B$BUILD_DIR \
+        -DANDROID_ABI=$ANDROID_ABI -DANDROID_NDK=$ANDROID_NDK_HOME \
+        -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+        -DANDROID_NATIVE_API_LEVEL=$ANDROID_API -DANDROID_TOOLCHAIN=clang -DCMAKE_GENERATOR="Ninja" \
+        -DCMAKE_MAKE_PROGRAM=$ANDROID_CMAKE_BIN/ninja
+
+    $ANDROID_CMAKE_BIN/ninja
+
+    mkdir $BUILD_DIR/${ANDROID_ABI} && cp -rf $BUILD_DIR/*.so $BUILD_DIR/${ANDROID_ABI}/
 }
 
 function walk_dir() {
@@ -70,17 +83,10 @@ function clean_plugins() {
     fi
 }
 
-function do_open() {
-    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme spdlog -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
-    open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
-}
-
 
 if [[ `uname` == "Darwin" ]]; then
     do_mkdir
     clean_plugins
     do_gen
-    do_open
 fi
 

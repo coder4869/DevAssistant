@@ -22,7 +22,6 @@
 
 #include "units_time.h"
 
-#include <sys/timeb.h>
 #include <time.h>
 
 #if _HAS_CXX11

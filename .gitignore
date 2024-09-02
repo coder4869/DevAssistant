@@ -3,6 +3,7 @@
 **/build_unix
 **/build_win
 **/build_ios
+**/build_android
 app/plugins
 app/bin
 app/bin64

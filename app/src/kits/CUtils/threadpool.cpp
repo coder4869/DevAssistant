@@ -25,7 +25,7 @@
 
 #include "threadpool.h"
 
-#if !WIN
+#if !defined(WIN) && !defined(ANDROID)
 #   include <pthread/pthread.h>
 #endif // !WIN
 
@@ -38,7 +38,7 @@ threadpool::threadpool(size_t thread_size, std::string &&name)
 //            LOGI(TAG, "threadpool start %s%zu", name_.c_str(), idx);
 #if defined(OSX) || defined(IOS)
             pthread_setname_np(name_.append(std::to_string(idx)).c_str());
-#elif !defined(WIN)
+#elif !defined(WIN) && !defined(ANDROID)
             pthread_setname_np(pthread_self(), name_.append(std::to_string(idx)).c_str());
 #endif
             while (true) {

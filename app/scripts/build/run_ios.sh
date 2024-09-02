@@ -27,9 +27,6 @@ cd ${script_dir}
 
 # set var
 PROJ_NAME=DevAssistant
-QT_DIR="$HOME/Qt5.14.2/"
-QT_INSTALL_DIR="$QT_DIR/5.14.2/clang_64/"
-PY_INSTALL_DIR="/Applications/Xcode.app/Contents/Developer/Library"
 
 ROOT_DIR=${script_dir}/../..
 BUILD_DIR=${ROOT_DIR}/build_ios
@@ -50,9 +47,8 @@ function do_gen {
     cmake -Wno-dev ${ROOT_DIR} -GXcode -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
         -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
-        -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
-        -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
         -DWITH_QT=OFF \
+        -DWITH_PY=OFF \
         -DPROJECT_NAME=${PROJ_NAME} -DIOS=ON -H$ROOT_DIR -B$BUILD_DIR
 }
 
@@ -76,6 +72,7 @@ function clean_plugins() {
 
 function do_open() {
     # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme spdlog -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
     open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
 }
 

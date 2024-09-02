@@ -31,8 +31,6 @@
 #	include <windows.h>
 #endif
 
-#include <CUtils/log.h>
-
 NS_QEK_BEGIN
 
 bool BuildScript::Update(const std::string& script_path, std::string& err_msg)

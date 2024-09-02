@@ -4,10 +4,12 @@
 
 #### 1. Universal
 - 1.Create CMake Project by Json Config(Format Refer To `app/conf/project.json`). 
-    * Supports Windows, MacOS.
+    * Supports platforms: Windows, MacOS, iOS, Android.
     * Use Python and CMake Plugin(Refer to `plugins`)
 - 2.Query Environment Var. Supports Windows, MacOS.
-- 3. add spdlog based multi-platforms logger
+- 3.Add spdlog based multi-platforms logger
+- 4.Add `app-auto-start-ability` on operation system start.
+    * Supports Windows, MacOS.
 
 #### 2. Windows(Only)
 - 1.Add Regedit Get and Set Functions.

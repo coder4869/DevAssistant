@@ -93,7 +93,7 @@ elseif(OSX)
 elseif(IOS)
     set(APPLE ON)
     set(OS_TYPE "iOS")
-    set(OS_MIN_VERSION 12.0)
+    set(OS_MIN_VERSION 13.0)
     # developer team id, not apple id email
     # https://developer.apple.com/cn/help/account/manage-your-team/locate-your-team-id
     set(XCODE_DEVELOPMENT_TEAM "XXXXXXXX") 
