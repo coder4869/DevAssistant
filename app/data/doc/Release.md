@@ -7,7 +7,7 @@
     * Supports platforms: Windows, MacOS, iOS, Android.
     * Use Python and CMake Plugin(Refer to `plugins`)
 - 2.Query Environment Var. Supports Windows, MacOS.
-- 3.Add spdlog based multi-platforms logger
+- 3.Add spdlog based multi-platforms logger. Supports platforms: Windows, MacOS, iOS, Android.
 - 4.Add `app-auto-start-ability` on operation system start.
     * Supports Windows, MacOS.
 
