@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE CScript_SRC
     ${CScriptDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${CScriptDir}/unused/*)
+list (REMOVE_ITEM CScript_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${CScriptDir}

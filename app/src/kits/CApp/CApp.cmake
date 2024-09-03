@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE CApp_SRC
     ${CAppDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${CAppDir}/unused/*)
+list (REMOVE_ITEM CApp_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${CAppDir}

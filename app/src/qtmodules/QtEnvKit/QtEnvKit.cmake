@@ -44,11 +44,17 @@ FILE(GLOB_RECURSE QtEnvKit_RES
     ${QtEnvKitDir}/Res/*.js
     )
 
+set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES})
+
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${QtEnvKitDir}/unused/*)
+list (REMOVE_ITEM QtEnvKit_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${QtEnvKitDir}
         PREFIX "QtEnvKit"
-        FILES ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES}
+        FILES ${QtEnvKit_SRC}
         )
 endif(NOT ANDROID)
 
@@ -57,7 +63,7 @@ qt5_wrap_ui(QtEnvKit_RES_UIC ${QtEnvKit_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 # update QtEnvKit_SRC
-set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_FORMs} ${QtEnvKit_RES} ${QtEnvKit_RES_UIC})
+set(QtEnvKit_SRC ${QtEnvKit_SRC} ${QtEnvKit_RES_UIC})
 
 set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv DevEnv QtUIInfra QtCoreKit CUtils CApp )
 

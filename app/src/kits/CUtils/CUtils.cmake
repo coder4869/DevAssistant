@@ -35,7 +35,7 @@ FILE(GLOB_RECURSE CUtils_SRC
     )
 
 # remove unused files from project
-FILE(GLOB_RECURSE unused_files ${MODULE_NAMEDir}/unused/*)
+FILE(GLOB_RECURSE unused_files ${CUtilsDir}/unused/*)
 list (REMOVE_ITEM CUtils_SRC ${unused_files})
 
 if(NOT ANDROID)

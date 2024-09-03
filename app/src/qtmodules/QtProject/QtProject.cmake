@@ -44,11 +44,17 @@ FILE(GLOB_RECURSE QtProject_RES
     ${QtProjectDir}/Res/*.js
     )
 
+set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES})
+
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${QtProjectDir}/unused/*)
+list (REMOVE_ITEM QtProject_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${QtProjectDir}
         PREFIX "QtProject"
-        FILES ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES}
+        FILES ${QtProject_SRC}
         )
 endif(NOT ANDROID)
 
@@ -57,7 +63,7 @@ qt5_wrap_ui(QtProject_RES_UIC ${QtProject_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 # update QtProject_SRC
-set(QtProject_SRC ${QtProject_SRC} ${QtProject_FORMs} ${QtProject_RES} ${QtProject_RES_UIC})
+set(QtProject_SRC ${QtProject_SRC} ${QtProject_RES_UIC})
 
 set(LIB_DEPS ${THIRD_PARTY_LIB} QtEnvKit QtCoreKit QtUIInfra )
 

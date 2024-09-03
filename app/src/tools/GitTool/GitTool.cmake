@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE GitTool_SRC
     ${GitToolDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${GitToolDir}/unused/*)
+list (REMOVE_ITEM GitTool_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${GitToolDir}

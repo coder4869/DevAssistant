@@ -44,11 +44,17 @@ FILE(GLOB_RECURSE QtHelp_RES
     ${QtHelpDir}/Res/*.js
     )
 
+set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES})
+
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${QtHelpDir}/unused/*)
+list (REMOVE_ITEM QtHelp_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${QtHelpDir}
         PREFIX "QtHelp"
-        FILES ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES}
+        FILES ${QtHelp_SRC}
         )
 endif(NOT ANDROID)
 
@@ -57,7 +63,7 @@ qt5_wrap_ui(QtHelp_RES_UIC ${QtHelp_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 # update QtHelp_SRC
-set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_FORMs} ${QtHelp_RES} ${QtHelp_RES_UIC})
+set(QtHelp_SRC ${QtHelp_SRC} ${QtHelp_RES_UIC})
 
 set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra CApp )
 

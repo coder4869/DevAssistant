@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE DevEnv_SRC
     ${DevEnvDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${DevEnvDir}/unused/*)
+list (REMOVE_ITEM DevEnv_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${DevEnvDir}

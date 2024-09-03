@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE COSEnv_SRC
     ${COSEnvDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${COSEnvDir}/unused/*)
+list (REMOVE_ITEM COSEnv_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${COSEnvDir}

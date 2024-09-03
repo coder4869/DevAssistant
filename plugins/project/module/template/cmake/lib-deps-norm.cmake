@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE MODULE_NAME_SRC
     ${MODULE_NAMEDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${MODULE_NAMEDir}/unused/*)
+list (REMOVE_ITEM MODULE_NAME_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${MODULE_NAMEDir}

@@ -44,11 +44,17 @@ FILE(GLOB_RECURSE QtPractical_RES
     ${QtPracticalDir}/Res/*.js
     )
 
+set(QtPractical_SRC ${QtPractical_SRC} ${QtPractical_FORMs} ${QtPractical_RES})
+
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${QtPracticalDir}/unused/*)
+list (REMOVE_ITEM QtPractical_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${QtPracticalDir}
         PREFIX "QtPractical"
-        FILES ${QtPractical_SRC} ${QtPractical_FORMs} ${QtPractical_RES}
+        FILES ${QtPractical_SRC}
         )
 endif(NOT ANDROID)
 
@@ -57,7 +63,7 @@ qt5_wrap_ui(QtPractical_RES_UIC ${QtPractical_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 # update QtPractical_SRC
-set(QtPractical_SRC ${QtPractical_SRC} ${QtPractical_FORMs} ${QtPractical_RES} ${QtPractical_RES_UIC})
+set(QtPractical_SRC ${QtPractical_SRC} ${QtPractical_RES_UIC})
 
 set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra CUtils )
 

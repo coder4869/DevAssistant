@@ -42,6 +42,10 @@ if(WITH_PY)
     set(LIB_DEPS ${LIB_DEPS} ${LIB_PY})
 endif(WITH_PY)
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${UnInstallDir}/unused/*)
+list (REMOVE_ITEM UnInstall_SRC ${unused_files})
+
 # Gen Source Tree
 if(NOT ANDROID)
     source_group(

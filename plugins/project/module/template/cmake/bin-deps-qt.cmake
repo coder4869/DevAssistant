@@ -64,6 +64,10 @@ if(WITH_PY)
     set(LIB_DEPS ${LIB_DEPS} ${LIB_PY})
 endif(WITH_PY)
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${MODULE_NAMEDir}/unused/*)
+list (REMOVE_ITEM MODULE_NAME_SRC ${unused_files})
+
 # Gen Source Tree
 if(NOT ANDROID)
     source_group(
@@ -82,7 +86,7 @@ endif()
 
 ################################## build bin ##################################
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
-add_executable(${BIN_NAME} ${OS_BUNDLE} ${MODULE_NAME_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs})
+add_executable(${BIN_NAME} ${OS_BUNDLE} ${MODULE_NAME_SRC} ${META_FILES} ${CONF_FILES} ${DATA_FILES} ${PLUGIN_FILEs} ${TOOL_FILEs} ${THIRD_PARTY_INC_FILES} ${THIRD_PARTY_LIB} )
 set_target_properties(${BIN_NAME} PROPERTIES FOLDER "GROUP_NAME")
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
 SET_TARGET_CXX_VERSION(${BIN_NAME})

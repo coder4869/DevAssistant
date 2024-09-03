@@ -34,6 +34,10 @@ FILE(GLOB_RECURSE CHWD_SRC
     ${CHWDDir}/*.mm
     )
 
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${CHWDDir}/unused/*)
+list (REMOVE_ITEM CHWD_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${CHWDDir}

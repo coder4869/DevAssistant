@@ -44,11 +44,17 @@ FILE(GLOB_RECURSE QtCustom_RES
     ${QtCustomDir}/Res/*.js
     )
 
+set(QtCustom_SRC ${QtCustom_SRC} ${QtCustom_FORMs} ${QtCustom_RES})
+
+# remove unused files from project
+FILE(GLOB_RECURSE unused_files ${QtCustomDir}/unused/*)
+list (REMOVE_ITEM QtCustom_SRC ${unused_files})
+
 if(NOT ANDROID)
     source_group(
         TREE ${QtCustomDir}
         PREFIX "QtCustom"
-        FILES ${QtCustom_SRC} ${QtCustom_FORMs} ${QtCustom_RES}
+        FILES ${QtCustom_SRC}
         )
 endif(NOT ANDROID)
 
@@ -57,7 +63,7 @@ qt5_wrap_ui(QtCustom_RES_UIC ${QtCustom_FORMs})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 # update QtCustom_SRC
-set(QtCustom_SRC ${QtCustom_SRC} ${QtCustom_FORMs} ${QtCustom_RES} ${QtCustom_RES_UIC})
+set(QtCustom_SRC ${QtCustom_SRC} ${QtCustom_RES_UIC})
 
 set(LIB_DEPS ${THIRD_PARTY_LIB} QtUIInfra CUtils )
 
