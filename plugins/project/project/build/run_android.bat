@@ -24,7 +24,7 @@
 
 ::set var
 SET PROJ_NAME=_PROJ_NAME_
-SET ROOT_DIR=%~dp0\..\..
+SET ROOT_DIR=%~dp0
 SET BUILD_DIR=%ROOT_DIR%\build_android
 SET BIN_DIR=%ROOT_DIR%\bin64
 SET ANDROID_SDK_HOME=%HOME%\Desktop\workspace\android_sdk

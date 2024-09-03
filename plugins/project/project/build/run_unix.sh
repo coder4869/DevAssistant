@@ -30,7 +30,7 @@ QT_DIR="$HOME/Qt5.14.2/"
 QT_INSTALL_DIR="$QT_DIR/5.14.2/clang_64/"
 PY_INSTALL_DIR="/Applications/Xcode.app/Contents/Developer/Library"
 
-ROOT_DIR=${script_dir}/../..
+ROOT_DIR=${script_dir}
 BUILD_DIR=${ROOT_DIR}/build_unix
 BIN_DIR=${ROOT_DIR}/bin64
 
@@ -82,9 +82,17 @@ function clean_plugins() {
 
 function do_open() {
     if [[ `uname` == "Darwin" ]]; then
-        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme spdlog -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
         open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
+    else
+        make
+        make install
+    fi
+}
+
+function do_build() {
+    if [[ `uname` == "Darwin" ]]; then
+        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+        xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=macOS' -configuration Release archive -UseModernBuildSystem=NO
     else
         make
         make install
@@ -95,4 +103,8 @@ function do_open() {
 do_mkdir
 clean_plugins
 do_gen
-do_open
+if [[ "$1" == "build" ]]; then
+    do_build
+else
+    do_open
+fi

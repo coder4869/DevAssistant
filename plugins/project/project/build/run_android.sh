@@ -28,7 +28,7 @@ cd ${script_dir}
 # set var
 PROJ_NAME=_PROJ_NAME_
 
-ROOT_DIR=${script_dir}/../..
+ROOT_DIR=${script_dir}
 BUILD_DIR=${ROOT_DIR}/build_android
 BIN_DIR=${ROOT_DIR}/bin64
 ANDROID_SDK_HOME=$HOME/Desktop/workspace/android_sdk

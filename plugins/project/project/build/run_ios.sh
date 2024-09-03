@@ -28,7 +28,7 @@ cd ${script_dir}
 # set var
 PROJ_NAME=_PROJ_NAME_
 
-ROOT_DIR=${script_dir}/../..
+ROOT_DIR=${script_dir}
 BUILD_DIR=${ROOT_DIR}/build_ios
 BIN_DIR=${ROOT_DIR}/bin64
 
@@ -71,16 +71,22 @@ function clean_plugins() {
 }
 
 function do_open() {
-    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme spdlog -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
     open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
 }
 
+function do_build() {
+    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+    xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
+}
 
 if [[ `uname` == "Darwin" ]]; then
     do_mkdir
     clean_plugins
     do_gen
-    do_open
+    if [[ "$1" == "build" ]]; then
+        do_build
+    else
+        do_open
+    fi
 fi
 

@@ -24,7 +24,7 @@
 
 ::set var
 SET PROJ_NAME=_PROJ_NAME_
-SET ROOT_DIR=%~dp0\..\..
+SET ROOT_DIR=%~dp0
 SET BUILD_DIR=%ROOT_DIR%\build_win
 :: https://www.cnblogs.com/doudougou/archive/2011/08/22/2148851.html
 @REM REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"

@@ -91,14 +91,12 @@ class Project(object):
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/CMakeLists.txt.PROJ", root_dir + "/CMakeLists.txt")
         # prapare ${scripts_dir}/cmake
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
-        # prepare ${scripts_dir}/build
-        pyt_file.File.copy_dir(PROJECT_BUILD_DIR, script_abs_dir + "/build")
         # prepare ${PROJECT}/*.sh *.bat
-        pyt_file.File.copy_dir(PROJECT_BUILD_LNK_DIR, root_dir + "/")
+        pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
 
-        flist = os.listdir(script_abs_dir + "/build")
+        flist = os.listdir(PROJECT_BUILD_DIR)
         for fitem in flist:
-            file = script_abs_dir + "/build/" + fitem
+            file = root_dir + "/" + fitem
             if not os.path.isdir(fitem):
                 pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
         
