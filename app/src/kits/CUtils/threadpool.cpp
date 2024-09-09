@@ -25,7 +25,9 @@
 
 #include "threadpool.h"
 
-#if !defined(WIN) && !defined(ANDROID) && !defined(LINUX)
+#if defined(LINUX) || defined(ANDROID)
+#   include <pthread.h>
+#elif !defined(WIN) 
 #   include <pthread/pthread.h>
 #endif // !WIN
 
@@ -36,10 +38,10 @@ threadpool::threadpool(size_t thread_size, std::string &&name)
     for (int idx=0; idx<thread_size; idx++) {
         workers_.emplace_back([this, idx, name] {
 //            LOGI(TAG, "threadpool start %s%zu", name_.c_str(), idx);
-#if defined(OSX) || defined(IOS)
-            pthread_setname_np(name_.append(std::to_string(idx)).c_str());
-#elif !defined(WIN) && !defined(ANDROID) && !defined(LINUX)
+#if defined(LINUX) || defined(ANDROID)
             pthread_setname_np(pthread_self(), name_.append(std::to_string(idx)).c_str());
+#elif !defined(WIN)
+            pthread_setname_np(name_.append(std::to_string(idx)).c_str());
 #endif
             while (true) {
                 std::function<void()> task;
