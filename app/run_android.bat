@@ -71,6 +71,7 @@ cd %BUILD_DIR%
     -DCMAKE_MAKE_PROGRAM=%ANDROID_CMAKE_BIN%\ninja.exe
 
 %ANDROID_CMAKE_BIN%\ninja.exe
+%ANDROID_CMAKE_BIN%\ninja.exe install
 
 if not exist %BUILD_DIR%\%ANDROID_ABI% md %BUILD_DIR%\%ANDROID_ABI%
 copy %BUILD_DIR%\*.so %BUILD_DIR%\%ANDROID_ABI%\

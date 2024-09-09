@@ -25,7 +25,8 @@
 
 #include "logger.h"
 
- #include <chrono>
+#include <stdarg.h>
+#include <chrono>
 #if _HAS_CXX17
 #include <filesystem> // C++17
 #endif

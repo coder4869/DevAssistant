@@ -45,21 +45,34 @@ function do_mkdir() {
     fi
 }
 
-function do_gen {
-    # Unix Makefiles, Xcode
-    generator=-G"Unix Makefiles"
-    platform=LINUX
-    if [[ `uname` == "Darwin" ]]; then
-        generator="-GXcode"
-        platform="OSX"
-    fi
-
-    cmake -Wno-dev ${ROOT_DIR} ${generator} -DCMAKE_BUILD_TYPE=Release \
+function do_build {
+if [[ `uname` == "Darwin" ]]; then  # MacOS
+    cmake -Wno-dev ${ROOT_DIR} -GXcode -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
         -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
         -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
         -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
-        -DPROJECT_NAME=${PROJ_NAME} -D${platform}=ON -H$ROOT_DIR -B$BUILD_DIR
+        -DPROJECT_NAME=${PROJ_NAME} -DOSX=ON -H$ROOT_DIR -B$BUILD_DIR
+
+    if [[ "$1" == "build" ]]; then
+        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
+        xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=macOS' -configuration Release archive -UseModernBuildSystem=NO
+    else
+        open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
+    fi
+
+else # Linux
+    cmake -Wno-dev ${ROOT_DIR} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
+        -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
+        -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
+        -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
+        -DWITH_QT=OFF \
+        -DWITH_PY=OFF \
+        -DPROJECT_NAME=${PROJ_NAME} -DLINUX=ON -H$ROOT_DIR -B$BUILD_DIR
+    make
+    make install
+fi
 }
 
 function walk_dir() {
@@ -80,31 +93,6 @@ function clean_plugins() {
     fi
 }
 
-function do_open() {
-    if [[ `uname` == "Darwin" ]]; then
-        open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
-    else
-        make
-        make install
-    fi
-}
-
-function do_build() {
-    if [[ `uname` == "Darwin" ]]; then
-        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-        xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=macOS' -configuration Release archive -UseModernBuildSystem=NO
-    else
-        make
-        make install
-    fi
-}
-
-
 do_mkdir
 clean_plugins
-do_gen
-if [[ "$1" == "build" ]]; then
-    do_build
-else
-    do_open
-fi
+do_build $1
