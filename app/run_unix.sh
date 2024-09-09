@@ -56,7 +56,8 @@ if [[ `uname` == "Darwin" ]]; then  # MacOS
 
     if [[ "$1" == "build" ]]; then
         # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-        xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=macOS' -configuration Release archive -UseModernBuildSystem=NO
+        # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=macOS' -configuration Release archive -UseModernBuildSystem=NO
+        xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=macOS' -configuration Release build -UseModernBuildSystem=NO
     else
         open ${BUILD_DIR}/${PROJ_NAME}.xcodeproj
     fi

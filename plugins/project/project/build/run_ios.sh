@@ -76,7 +76,8 @@ function do_open() {
 
 function do_build() {
     # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -configuration Release build
-    xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
+    # xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=iOS' -configuration Release archive -UseModernBuildSystem=NO
+    xcodebuild -project ${BUILD_DIR}/${PROJ_NAME}.xcodeproj -scheme install -destination 'generic/platform=iOS' -configuration Release build -UseModernBuildSystem=NO
 }
 
 if [[ `uname` == "Darwin" ]]; then

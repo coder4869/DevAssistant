@@ -17,7 +17,8 @@
 - check `QT_INSTALL_DIR` and `PY_INSTALL_DIR` in `run_unix.sh`.
 
 - 1-MacOS:
-    * `sh /opt/shared_dir/DevAssistant/app/run_unix.sh`
+    * generate xcode project: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh`
+    * build ios lib: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh build`
 - 2-Linux:
     * Setup-env: `bash /opt/shared_dir/DevAssistant/tools/setup-env.sh`
     * Run way1:
@@ -26,9 +27,24 @@
         * `sudo apt-get install -y dos2unix && dos2unix /opt/shared_dir/DevAssistant/app/run_unix.sh && bash /opt/shared_dir/DevAssistant/app/run_unix.sh`
 
 ### output
+- MacOS: build `install` target on generated xcode-project.
+
 - libs: `build_unix/lib`
 - include: `build_unix/include`
-- bin: `bin64`
+- bin/app: `bin64`
+
+
+## iOS
+### build
+- generate xcode project: `sh $HOME/Desktop/DevAssistant/app/run_ios.sh`
+- build ios lib: `sh $HOME/Desktop/DevAssistant/app/run_ios.sh build`
+
+### output
+- build `install` target on generated xcode-project.
+
+- libs: `build_ios/lib`
+- include: `build_ios/include`
+- app: `bin64`
 
 
 ## Android
@@ -36,7 +52,7 @@
 - check `ANDROID_SDK_HOME`, `ANDROID_NDK_HOME`, `ANDROID_ABI`, `ANDROID_API` and `ANDROID_CMAKE_BIN` in `run_android.sh`.
 
 - 1-MacOS:
-    * `sh /opt/shared_dir/DevAssistant/app/run_android.sh`
+    * `sh $HOME/Desktop/DevAssistant/app/run_android.sh`
 - 2-Linux:
     * Setup-env: `bash /opt/shared_dir/DevAssistant/tools/setup-env.sh`
     * Run way1:
