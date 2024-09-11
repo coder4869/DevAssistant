@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -26,7 +26,9 @@
 #include <fstream>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <unistd.h>
+#if !defined(WIN)
+#	include <unistd.h>
+#endif
 
 #include <CUtils/logger.h>
 #include <CUtils/CUString.h>
