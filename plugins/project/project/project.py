@@ -32,7 +32,6 @@ from pytool import pyt_json
 from module import module   
 
 PROJECT_BUILD_DIR   = PROJECT_BASE_DIR + "/build"
-PROJECT_BUILD_LNK_DIR = PROJECT_BASE_DIR + "/build_lnk"
 PROJECT_CMAKE_DIR   = PROJECT_BASE_DIR + "/cmake"
 MODULE_TEMPLATE_DIR = PROJECT_BASE_DIR + "/template"
 

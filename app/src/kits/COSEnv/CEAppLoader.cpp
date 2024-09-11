@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -208,6 +208,14 @@ bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_
     return CE::Regedit::SetRegValue(regkey + app_key, tmp_path, "REG_SZ", true);
 
 #elif defined(OSX)
+    // TODO:: fix run as root issue
+    return true;
+    // plist 关键字：
+    //    Label - 标识符，用来表示该任务的唯一性
+    //    Program - 程序名称，用来说明运行哪个程序、脚本
+    //    ProgramArguments - 数组程序名，同上，只是可以运行多个程序
+    //    WatchPaths - 监控路径，当路径文件有变化是运行程序，也是数组
+    //    RunAtLoad - 是否在加载的同时
     std::string start_plist = R"(
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -230,6 +238,19 @@ bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_
     start_plist.replace(start_plist.find("bundle—id"), strlen("bundle—id"), bundle_id);
     
     // gen plist_path
+    // https://zhuanlan.zhihu.com/p/25049770
+    // https://www.cnblogs.com/gaocy/p/12567156.html
+    //    /System/Library/LaunchDaemons/ （System-wide daemons provided by OS X）
+    //    比如：apache 的 httpd 程序启动配置文件 org.apache.httpd.plist
+    //    /System/Library/LaunchAgents/ （Mac OS X 为用户定义的任务项）
+    //    /Library/LaunchDaemons （管理员定义的守护进程任务项）
+    //    /Library/LaunchAgents （管理员为用户定义的任务项，开机启动项）
+    //    ~/Library/LaunchAgents（用户自己定义的任务项，用户登录项）
+    // 区别：
+    //    /System/Library 目录下存放的是系统文件
+    //    /Library 、~/Library/ 目录是用户存放的第三方软件
+    //    LaunchDaemons 是用户未登陆前就启动的服务
+    //    LaunchAgents 是用户登陆后启动的服务
     auto agents_path = utils::path::absolute_path("~/Library/LaunchAgents/");
     auto plist_path = agents_path.append("/" + bundle_id + ".plist");
     

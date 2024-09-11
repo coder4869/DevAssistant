@@ -25,6 +25,8 @@
 #include <iostream>
 #include <fstream>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #include <CUtils/logger.h>
 #include <CUtils/CUString.h>
@@ -85,9 +87,13 @@ std::string SystemEnv::GetEnv(const char* name)
 	}
 	return std::string(lp_buf, var_size);
 #else
+    char* uname = getlogin();
+    uid_t uid = geteuid();
+    
 	const char* val = std::getenv(name);
 	std::string env_var(val == NULL ? "" : std::string(val));
-    LOGI("name = %s, env_var = %s", name, env_var.c_str());
+    LOGI("current user = %s, uid = %d, env_name = %s, env_var = %s",
+         uname, uid, name, env_var.c_str());
 	return env_var;
 #endif
 }
