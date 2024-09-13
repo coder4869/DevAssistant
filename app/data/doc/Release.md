@@ -10,7 +10,7 @@
 - 3.Add spdlog based multi-platforms logger. 
     * Supports platforms: Windows, MacOS, iOS, Android.
 - 4.Add `app-auto-start-ability` on operation system start.
-    * Supports Windows, MacOS.
+    * Supports Windows, MacOS(removed).
 
 #### 2. Windows(Only)
 - 1.Add Regedit Get and Set Functions.
