@@ -16,7 +16,6 @@
                         "QtCoreKit",
                         "QtUIInfra",
                         "COSEnv",
-                        "CHWD",
                         "CUtils",
                         "CScript",
                         "CApp"
@@ -34,7 +33,6 @@
                 {
                     "deps": [
                         "COSEnv",
-                        "CHWD",
                         "CUtils",
                         "CApp"
                     ],
@@ -146,14 +144,6 @@
                     ],
                     "gen_lib": "YES",
                     "module": "COSEnv",
-                    "option": "ON"
-                },
-                {
-                    "deps": [
-                        "CUtils"
-                    ],
-                    "gen_lib": "YES",
-                    "module": "CHWD",
                     "option": "ON"
                 },
                 {

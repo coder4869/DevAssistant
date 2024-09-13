@@ -29,11 +29,6 @@ if(COSEnv)
     include(${SRC_ROOT}/COSEnv/COSEnv.cmake)
 endif(COSEnv)
 
-# CHWD
-if(CHWD)
-    include(${SRC_ROOT}/CHWD/CHWD.cmake)
-endif(CHWD)
-
 # CUtils
 if(CUtils)
     include(${SRC_ROOT}/CUtils/CUtils.cmake)

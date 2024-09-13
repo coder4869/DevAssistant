@@ -23,7 +23,7 @@
 set(UnInstallDir ${CMAKE_CURRENT_LIST_DIR})
 set(BIN_NAME UnInstall)
 set(INC_DEPS ${INC_FILES} ${INC_GROUP})
-set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv CHWD CUtils CApp )
+set(LIB_DEPS ${THIRD_PARTY_LIB} COSEnv CUtils CApp )
 
 FILE(GLOB_RECURSE UnInstall_SRC
     ${UnInstallDir}/*.h
@@ -100,12 +100,6 @@ if(COSEnv)
 else()
     message(FATAL_ERROR "option ON for COSEnv is required !")
 endif(COSEnv)
-
-if(CHWD)
-    add_dependencies(${BIN_NAME} CHWD)
-else()
-    message(FATAL_ERROR "option ON for CHWD is required !")
-endif(CHWD)
 
 if(CUtils)
     add_dependencies(${BIN_NAME} CUtils)
