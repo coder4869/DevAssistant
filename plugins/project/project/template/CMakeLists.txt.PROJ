@@ -87,7 +87,7 @@ elseif(OSX)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_libs.cmake)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
     XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
-    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "data/Resource")
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "Resources")
     set(META_FILES ${META_FILES} ${PROJECT_BINARY_DIR}/Info.plist)
 
 elseif(IOS)
@@ -106,7 +106,7 @@ elseif(IOS)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_libs.cmake)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/apple_func.cmake)
     XCODE_ADD_META(META_FILES) # Add Resource To Project - eg. Info.plist, AppIcon.icns
-    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "data/Resource")
+    APP_ADD_RES("${CMAKE_TOOLCHAIN_ROOT}/cmake-apple/res/AppIcon.icns"  "Resources")
     set(META_FILES ${META_FILES} ${PROJECT_BINARY_DIR}/Info.plist)
 
 elseif(ANDROID)
@@ -201,3 +201,6 @@ message("INC_GROUP=${INC_GROUP}")
 message("INC_FILES=${INC_FILES}")
 message("SRC_FILES=${SRC_FILES}")
 
+
+message("CMAKE_HOST_SYSTEM_NAME = ${CMAKE_HOST_SYSTEM_NAME}")
+message("CMAKE_HOST_SYSTEM_PROCESSOR = ${CMAKE_HOST_SYSTEM_PROCESSOR}")

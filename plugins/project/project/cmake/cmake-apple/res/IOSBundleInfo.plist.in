@@ -3,7 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIconFile</key>
-	<string>AppIcon.icns</string>
+	<string>AppIcon</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
