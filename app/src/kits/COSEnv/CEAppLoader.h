@@ -49,8 +49,9 @@ namespace AppLoader {
 	/// @brief Run Application When OS Start
 	/// @param app_key		application key. e.g.
     ///     for windows: "DevTool"  ;  for mac "bundle_id"
-	/// @param app_path		application path. e.g.
-    ///     for windows: "C:\\path\\to\\app\\bin\\DevAssistant.exe" ;  for mac: "/Applications/DevAssistant.app"
+	/// @param bin_path		application path. e.g.
+    ///     for windows: "C:\\path\\to\\app\\bin\\DevAssistant.exe" ;
+    ///     for mac: "/Applications/DevAssistant.app/Contents/MacOS/DevAssistant"
 	/// @return	Run Result.
 	bool RunAsOSStart(const std::string &app_key, const std::string & bin_path);
 }

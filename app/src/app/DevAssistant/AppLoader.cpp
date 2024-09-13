@@ -1,4 +1,4 @@
-﻿// MIT License
+// MIT License
 //
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 //
@@ -62,8 +62,10 @@ int SetInitStart(const char * bin_path) {
     // Auto Start
     return CE::AppLoader::RunAsOSStart("DevTools", bin_path);
     
-#elif defined(OSX)
-    return CE::AppLoader::RunAsOSStart("dev.coder4869.assistant", bin_path);
+//#elif defined(OSX)
+//    std::string app_path;
+//    CE::AppLoader::GetAppPath(bin_path, app_path);
+//    return CE::AppLoader::RunAsOSStart("dev.coder4869.assistant", bin_path);
 #else
     return 0;
 #endif

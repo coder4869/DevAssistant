@@ -188,7 +188,7 @@ bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &outp
 #endif
 }
 
-bool AppLoader::RunAsRoot(const std::string& bin_path) 
+bool AppLoader::RunAsRoot(const std::string& bin_path)
 {
 #ifdef WIN
 	HINSTANCE hResult = ShellExecute(NULL, "runas", bin_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
@@ -208,16 +208,13 @@ bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_
     return CE::Regedit::SetRegValue(regkey + app_key, tmp_path, "REG_SZ", true);
 
 #elif defined(OSX)
-    // TODO:: fix run as root issue
-    return true;
     // plist 关键字：
     //    Label - 标识符，用来表示该任务的唯一性
     //    Program - 程序名称，用来说明运行哪个程序、脚本
     //    ProgramArguments - 数组程序名，同上，只是可以运行多个程序
     //    WatchPaths - 监控路径，当路径文件有变化是运行程序，也是数组
     //    RunAtLoad - 是否在加载的同时
-    std::string start_plist = R"(
-<?xml version="1.0" encoding="UTF-8"?>
+    std::string start_plist = R"(<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
@@ -229,9 +226,14 @@ bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_
         </array>
         <key>RunAtLoad</key>
         <true/>
+        <key>KeepAlive</key>
+        <false/>
+        <key>StandardOutPath</key>
+        <string>output-log</string>
+        <key>StandardErrorPath</key>
+        <string>output-err</string>
     </dict>
-</plist>
-    )";
+</plist>)";
     
     // replace bundle_id
     std::string bundle_id = app_key;
@@ -252,11 +254,20 @@ bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_
     //    LaunchDaemons 是用户未登陆前就启动的服务
     //    LaunchAgents 是用户登陆后启动的服务
     auto agents_path = utils::path::absolute_path("~/Library/LaunchAgents/");
-    auto plist_path = agents_path.append("/" + bundle_id + ".plist");
-    
+    auto plist_path = agents_path + "/" + bundle_id + ".plist";
+
     // replace app-path
     start_plist.replace(start_plist.find("bin-path"), strlen("bin-path"), bin_path);
-    LOGI("start_plist = %s, bundle_id = %s, bin_path = %s", start_plist.c_str(), bundle_id.c_str(), bin_path.c_str());
+    
+    // replace output-log and output-err
+    auto logs_path = utils::path::absolute_path("~/Library/Logs/");
+    auto log_path = logs_path + "/" + bundle_id + "/output.log";
+    auto err_path = logs_path + "/" + bundle_id + "/output.err";
+    start_plist.replace(start_plist.find("output-log"), strlen("output-log"), log_path);
+    start_plist.replace(start_plist.find("output-err"), strlen("output-err"), err_path);
+    LOGI("start_plist = %s, bundle_id = %s, bin_path = %s",
+         start_plist.c_str(), bundle_id.c_str(), bin_path.c_str());
+    
     if (CU::File::SaveFileString(plist_path, start_plist) != 0) {
         LOGE("save to start plist error! plist = %s", plist_path.c_str());
         return false;
