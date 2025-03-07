@@ -10,7 +10,7 @@ SET BUILD_DIR=%ROOT_DIR%\build_win
 @REM REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"
 SET VS_EXE="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\Common7\IDE\devenv.exe"
 SET QT_INSTALL_DIR=%QT_HOME%
-SET PY_INSTALL_DIR=%LOCALAPPDATA%/"Programs/Python/Python311-32"
+SET PY_INSTALL_DIR="%LOCALAPPDATA%/Programs/Python/Python311-32"
 SET VS_PROJ="%BUILD_DIR%\%PROJ_NAME%.sln"
 
 ::echo var
