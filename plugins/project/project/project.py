@@ -13,6 +13,7 @@ from module import module
 
 PROJECT_BUILD_DIR   = PROJECT_BASE_DIR + "/build"
 PROJECT_CMAKE_DIR   = PROJECT_BASE_DIR + "/cmake"
+PROJECT_PACKAGE_DIR = PROJECT_BASE_DIR + "/pkg"
 MODULE_TEMPLATE_DIR = PROJECT_BASE_DIR + "/template"
 
 OPTION_STR_SIZE:int = 20
@@ -70,6 +71,8 @@ class Project(object):
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/CMakeLists.txt.PROJ", root_dir + "/CMakeLists.txt")
         # prapare ${scripts_dir}/cmake
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
+        # prapare ${scripts_dir}/pkg
+        pyt_file.File.copy_dir(PROJECT_PACKAGE_DIR, script_abs_dir + "/" )
         # prepare ${PROJECT}/*.sh *.bat
         pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
 

@@ -8,8 +8,3 @@ message("SRC_ROOT = ${SRC_ROOT}")
 if(WITH_QT AND DevAssistant)
     include(${SRC_ROOT}/DevAssistant/DevAssistant.cmake)
 endif(WITH_QT AND DevAssistant)
-
-# UnInstall
-if(UnInstall)
-    include(${SRC_ROOT}/UnInstall/UnInstall.cmake)
-endif(UnInstall)

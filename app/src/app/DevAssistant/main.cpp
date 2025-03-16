@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
     Logger::SetLogWriter(root_dir.toStdString() + "/logs");
     
     App::InitAppConfig(argv[0]);
-    App::SetInitStart(argv[0]);
+    //App::SetInitStart(argv[0]);
 
     for (size_t idx = 0; idx < argc; idx++) {
         LOGI("argv[%d] = %s", (int)idx, argv[idx]);

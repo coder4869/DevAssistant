@@ -1,4 +1,4 @@
-﻿# Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+# Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 # Global Config
 cmake_minimum_required(VERSION 3.12.0)
@@ -143,7 +143,6 @@ endif(NOT ANDROID)
 option(WITH_PY             "Build with PY                  "	OFF)
 option(WITH_QT             "Build with QT                  "	ON)
 option(DevAssistant        "Build with DevAssistant        "	ON)
-option(UnInstall           "Build with UnInstall           "	ON)
 option(QtProject           "Build with QtProject           "	ON)
 option(QtExample           "Build with QtExample           "	ON)
 option(QtPractical         "Build with QtPractical         "	ON)
