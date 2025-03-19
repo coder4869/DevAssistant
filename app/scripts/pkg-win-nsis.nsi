@@ -3,11 +3,12 @@
 ;SetCompress force
 
 ;------------ Defines ------------
-!define PRODUCT_NAME            "DevAssiatant"
+!define PRODUCT_NAME            "DevAssistant"
 !define PRODUCT_VERSION         "1.0.0.0"
 !define PRODUCT_COMPANY         "coder4869"
-!define EXE_NAME                "DevAssiatant"
 !define LICENSE_FILE            "..\data\doc\License.txt"
+!define INSTALL_ICON            "..\data\resource\logo.ico"
+!define UNINSTALL_ICON          "..\data\resource\uninstall.ico"
 !define COMPANY_WEB             "http://www.yourcompany.com"
 !define PRODUCT_REG_AUTORUN_KEY "${PRODUCT_NAME}"
 
@@ -40,33 +41,35 @@ VIAddVersionKey LegalCopyright    "Copyright (C) 2018-2025 ${PRODUCT_COMPANY}"
 
   ;Request Application Privileges
   RequestExecutionLevel admin
-  
-;--------------------------------
-;Variables
 
 ;------------ Interface Settings ------------
   !define MUI_ABORTWARNING
 
-  ;Show all languages, despite user's codepage
-  !define MUI_LANGDLL_ALLLANGUAGES
-
-;------------ Pages Settings ---------------
-  !insertmacro  MUI_PAGE_WELCOME
-  !insertmacro  MUI_PAGE_LICENSE    "${LICENSE_FILE}"
-  !insertmacro  MUI_PAGE_COMPONENTS
-  !insertmacro  MUI_PAGE_DIRECTORY
-  !insertmacro  MUI_PAGE_INSTFILES
-  
+  ;------------ Install Page ---------------
   ;https://blog.csdn.net/patdz/article/details/8541622
-  !define       MUI_FINISHPAGE_RUN "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
-  !insertmacro  MUI_PAGE_FINISH
-  
+  !define      MUI_ICON             "${INSTALL_ICON}"
+  !define      MUI_UNICON           "${UNINSTALL_ICON}"
+  !define      MUI_FINISHPAGE_RUN   "$INSTDIR\bin64\${PRODUCT_NAME}.exe"  ; Run exe tips for finish page
+
+  !insertmacro MUI_PAGE_WELCOME                       ; Add welcome page
+  !insertmacro MUI_PAGE_LICENSE    "${LICENSE_FILE}"  ; Include a license file if needed
+  !insertmacro MUI_PAGE_COMPONENTS                    ; Add components selection page
+  !insertmacro MUI_PAGE_DIRECTORY                     ; Add install dir page
+  !insertmacro MUI_PAGE_INSTFILES                     ; Add install files display page
+  !insertmacro MUI_PAGE_FINISH                        ; Add finish page
+
+  ;------------ Uninstall Page ---------------
+  !define       MUI_UNWELCOMEPAGE_TITLE   "卸载程序"
+  !define       MUI_UNWELCOMEPAGE_TEXT    "您确定要卸载此程序吗？"
+  !insertmacro  MUI_UNPAGE_WELCOME
   !insertmacro  MUI_UNPAGE_CONFIRM
   !insertmacro  MUI_UNPAGE_INSTFILES
-  
-;------------ Languages ------------
-  !insertmacro MUI_LANGUAGE "SimpChinese"
-  !insertmacro MUI_LANGUAGE "English"
+  !insertmacro  MUI_UNPAGE_FINISH
+
+  ;------------ Languages ------------
+  !define       MUI_LANGDLL_ALLLANGUAGES    ; Show all languages
+  !insertmacro  MUI_LANGUAGE  "SimpChinese"
+  !insertmacro  MUI_LANGUAGE  "English"
   
 ;------------ Reserve Files ------------
   ;If you are using solid compression, files that are required before
@@ -135,7 +138,7 @@ Section "Install ${PRODUCT_NAME}"
   
   ; Run program after installation
   ;ExecWait '"$INSTDIR\Updater.exe" -deleteservice'
-  Exec "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
+  ;Exec "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
 
 SectionEnd
 
@@ -148,11 +151,15 @@ Function .onInit
   ;  Abort
   ;TestNotRunning:
 
-  !insertmacro MUI_LANGDLL_DISPLAY
+  !insertmacro MUI_LANGDLL_DISPLAY          ; Language selection page
 FunctionEnd
 
 ;------------ UnInstaller Start Function ------------
 Function un.onInit
+  ;${If} $R0 = 0
+  ;  MessageBox MB_OK "检测到${PRODUCT_NAME}正在运行，请先退出程序再卸载!" /SD IDOK
+  ;  Abort
+  ;${EndIf}
 FunctionEnd
 
 ;------------ Languages ------------
@@ -189,13 +196,13 @@ Section "Uninstall"
 
 
   ;uninstall Service(stop)
-  Exec '"$INSTDIR\bin64\${PRODUCT_NAME}.exe" -uninstall'
+  Exec '"$INSTDIR\${PRODUCT_NAME}.exe" -uninstall'
 
   ; Delete Files
-  ;Delete "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
-  ;Delete "$INSTDIR\bin64\Uninstall.exe"
+  ;Delete "$INSTDIR\${PRODUCT_NAME}.exe"
+  ;Delete "$INSTDIR\Uninstall.exe"
   
   ; Remove Directory
   RMDir /r "$SMPROGRAMS\${PRODUCT_NAME}"
-  RMDir /r "$INSTDIR\..\..\${PRODUCT_NAME}"
+  RMDir /r "$INSTDIR\.."
 SectionEnd
