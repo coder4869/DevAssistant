@@ -4,11 +4,12 @@
 
 ;------------ Defines ------------
 !define PRODUCT_NAME            "DevAssistant"
-!define PRODUCT_VERSION         "1.0.0.0"
+!define PRODUCT_VERSION         "1.0.1.0"
 !define PRODUCT_COMPANY         "coder4869"
-!define LICENSE_FILE            "..\data\doc\License.txt"
-!define INSTALL_ICON            "..\data\resource\logo.ico"
-!define UNINSTALL_ICON          "..\data\resource\uninstall.ico"
+!define BIN_DIR                 "..\..\bin64"
+!define LICENSE_FILE            "..\..\data\doc\License.txt"
+!define INSTALL_ICON            "..\..\data\resource\logo.ico"
+!define UNINSTALL_ICON          "..\..\data\resource\uninstall.ico"
 !define COMPANY_WEB             "http://www.yourcompany.com"
 !define PRODUCT_REG_AUTORUN_KEY "${PRODUCT_NAME}"
 
@@ -23,21 +24,21 @@ VIAddVersionKey LegalCopyright    "Copyright (C) 2018-2025 ${PRODUCT_COMPANY}"
 
 ;------------ Use Modern UI ------------
 !include "MUI2.nsh"
+!include "PkgFunc_Win.nsh"
 
 ;------------ Output file, Install-path, Admin-authority ------------
 ;General
   ;Properly display all languages (Installer will not work on Windows 95, 98 or ME!)
-  Unicode true
+  ;Unicode true
 
   ;Name and file
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
   OutFile "${PRODUCT_NAME}-Installer-v${PRODUCT_VERSION}.exe"
 
   ;Default installation folder
-  InstallDir "$PROGRAMFILES\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
+  ;InstallDir "$PROGRAMFILES\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
+  InstallDir "$PROGRAMFILES64\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
   
-  ;Get installation folder from registry if available
-  ;InstallDirRegKey HKCU "Software\Modern UI Test" ""
 
   ;Request Application Privileges
   RequestExecutionLevel admin
@@ -78,16 +79,31 @@ VIAddVersionKey LegalCopyright    "Copyright (C) 2018-2025 ${PRODUCT_COMPANY}"
   
   !insertmacro MUI_RESERVEFILE_LANGDLL
 
+;------------ Installer Start Function ------------
+; "FindProcDLL" requires third-party plugin
+Function .onInit
+  ;FindProcDLL::FindProc "${PRODUCT_NAME}.exe"
+  ;IntCmp $R0 1 0 TestNotRunning
+  ;  MessageBox MB_OK|MB_ICONEXCLAMATION "Please close Test first" /SD IDOK
+  ;  Abort
+  ;TestNotRunning:
+
+  !insertmacro CheckInstalled   ${PRODUCT_NAME} ${PRODUCT_VERSION}
+  !insertmacro CheckVCRedistEnv $INSTDIR
+  !insertmacro MUI_LANGDLL_DISPLAY          ; Language selection page
+FunctionEnd
+
 ;------------ Installer Sections ------------
-Section "Install ${PRODUCT_NAME}"
+Section "Install ${PRODUCT_NAME}" SEC_MAIN
   SectionIn RO
   SetOutPath "$INSTDIR"
   
   ; Copy Files
-  File /r "..\bin64\*"
+  File /r "${BIN_DIR}\*"
   RMDir /r "$INSTDIR\lib"
   RMDir /r "$INSTDIR\logs"
-  Rename "$INSTDIR\Release" "$INSTDIR\bin64"
+  RMDir /r "$INSTDIR\Release"
+  ;Rename "$INSTDIR\Release" "$INSTDIR\bin64"
 
   ; Create Uninstaller
   WriteUninstaller "$INSTDIR\bin64\Uninstall.exe"
@@ -96,13 +112,17 @@ Section "Install ${PRODUCT_NAME}"
   CreateDirectory "$SMPROGRAMS\${PRODUCT_NAME}"
   CreateShortCut  "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk" "$INSTDIR\bin64\Uninstall.exe"
 
-  ; Add program to Start Menu && Desktop && QuickLaunch
-  SetShellVarContext all
+  ; Add program to Start Menu && Desktop && QuickLaunch && Add runas authority to shortcut
+  ;SetShellVarContext all
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
+  ShellLink::SetRunAsAdministrator "$SMPROGRAMS\Porter\${PRODUCT_NAME}.lnk"    
   CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk"     "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
+  ShellLink::SetRunAsAdministrator "$DESKTOP\${PRODUCT_NAME}.lnk"
   CreateShortCut "$QUICKLAUNCH\${PRODUCT_NAME}.lnk" "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
+  ShellLink::SetRunAsAdministrator "$QUICKLAUNCH\${PRODUCT_NAME}.lnk"
 
   ; Register the software in Add/Remove Programs
+  SetRegView 64
   ; RightAction add to HKEY_CLASSES_ROOT
   ;WriteRegStr        HKCR "*.bat\shell\${PRODUCT_NAME}"               ""      '"bat文件处理"'                              ; For *.bat's DisplayName
   ;WriteRegStr        HKCR "*.bat\shell\${PRODUCT_NAME}"               "Icon"  '"$INSTDIR\data\Resource\logo.ico"'          ; For *.bat's icon
@@ -142,18 +162,6 @@ Section "Install ${PRODUCT_NAME}"
 
 SectionEnd
 
-;------------ Installer Start Function ------------
-; "FindProcDLL" requires third-party plugin
-Function .onInit
-  ;FindProcDLL::FindProc "${PRODUCT_NAME}.exe"
-  ;IntCmp $R0 1 0 TestNotRunning
-  ;  MessageBox MB_OK|MB_ICONEXCLAMATION "Please close Test first" /SD IDOK
-  ;  Abort
-  ;TestNotRunning:
-
-  !insertmacro MUI_LANGDLL_DISPLAY          ; Language selection page
-FunctionEnd
-
 ;------------ UnInstaller Start Function ------------
 Function un.onInit
   ;${If} $R0 = 0
@@ -175,28 +183,30 @@ FunctionEnd
 
 ;------------ Uninstaller Section ------------
 Section "Uninstall"
+  ExecWait "$INSTDIR\killproc.bat"
   ; Remove Shortcuts
-  SetShellVarContext all
+  ;SetShellVarContext all
   Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
   Delete "$QUICKLAUNCH\${PRODUCT_NAME}.lnk"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\Uninstall.lnk"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk"
 
   ; Remove Registry Entries
+  SetRegView 64
   ;DeleteRegKey HKCR "*.bat\shell\${PRODUCT_NAME}"     ; For *.bat
   DeleteRegKey  HKCR "*\shell\${PRODUCT_NAME}"         ; For AllFiles
   DeleteRegKey  HKCR "Directory\shell\${PRODUCT_NAME}" ; For Directory
   DeleteRegKey  HKCR "Folder\shell\${PRODUCT_NAME}"    ; For Folder
 
   ;Clean AutoRun
-  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run\" "${PRODUCT_REG_AUTORUN_KEY}"
+  DeleteRegValue HKLM "Software\Microsoft\Windows\CurrentVersion\Run" "${PRODUCT_NAME}"
   ;Clean uninstall information
   DeleteRegKey  HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
   DeleteRegKey  HKCU "Software\${PRODUCT_NAME}"
 
 
   ;uninstall Service(stop)
-  Exec '"$INSTDIR\${PRODUCT_NAME}.exe" -uninstall'
+  ;Exec '"$INSTDIR\${PRODUCT_NAME}.exe" -uninstall'
 
   ; Delete Files
   ;Delete "$INSTDIR\${PRODUCT_NAME}.exe"

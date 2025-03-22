@@ -72,7 +72,7 @@ class Project(object):
         # prapare ${scripts_dir}/cmake
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
         # prapare ${scripts_dir}/pkg
-        pyt_file.File.copy_dir(PROJECT_PACKAGE_DIR, script_abs_dir + "/" )
+        pyt_file.File.copy_dir(PROJECT_PACKAGE_DIR, script_abs_dir + "/pkg" )
         # prepare ${PROJECT}/*.sh *.bat
         pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
 
