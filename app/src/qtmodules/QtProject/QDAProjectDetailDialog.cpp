@@ -9,6 +9,7 @@
 #include <QJsonObject>
 #include <QMessageBox>
 
+#include <CUtils/logger.h>
 #include <QtCoreKit/QtCoreKit.h>
 #include <QtUIInfra/QUIStyle.h>
 
@@ -109,14 +110,14 @@ void QDAProjectDetailDialog::OnCreate()
     }
     
     QString dirPath = QCoreApplication::applicationDirPath();
-    qDebug() << "App Dir Path = " << dirPath << endl;
-    QString pycmd = QCKCmd::GetPyBin() + dirPath + "/../data/plugins/project/run.py --type project --config " + config.json_file;
+    LOGI("App Dir Path = %s", dirPath.toUtf8().constData());
+    QString pycmd = QCKCmd::GetPyBin() + "\"" + dirPath + "/../data/plugins/project/run.py\" --type project --config \"" + config.json_file + "\"";
 
     QByteArray output;
     QMessageBox::information(NULL, "pycmd", pycmd);
     bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
     if (!ret) {
-        qDebug() << pycmd << "\n" << output.data() << endl;
+        LOGE("pycmd = %s \n output=%s", pycmd.toUtf8().constData(), output.data());
         QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
         return;
     }

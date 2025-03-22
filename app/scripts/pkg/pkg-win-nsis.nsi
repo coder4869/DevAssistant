@@ -4,7 +4,7 @@
 
 ;------------ Defines ------------
 !define PRODUCT_NAME            "DevAssistant"
-!define PRODUCT_VERSION         "1.0.1.0"
+!define PRODUCT_VERSION         "1.0.1.1"
 !define PRODUCT_COMPANY         "coder4869"
 !define BIN_DIR                 "..\..\bin64"
 !define LICENSE_FILE            "..\..\data\doc\License.txt"
