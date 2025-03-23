@@ -1,4 +1,9 @@
 #!/bin/bash
+# satrt docker:
+# Windows: docker run -it -d --shm-size=2g --network=host -v D:\Research:/opt/shared_dir ubuntu2204:v1.0 /bin/bash
+# Linux: docker run -it -d --shm-size=2g --network=host -v $HOME/dockers/shared_dir:/opt/shared_dir ubuntu2204-dev-v1.0 --privileged ubuntu2204:v1.0 /bin/bash
+# docker exec -it a3822da6accba9625129bc63c9fe0001367a7282a7eda0d50783ab90e75c7513 /bin/bash
+# 
 # bash /opt/shared_dir/DevAssistant/tools/setup-env.sh
 
 # ls -al /bin/sh && dpkg-reconfigure dash => no
@@ -38,6 +43,11 @@ function setup_cert() {
 
 function setup_soft() {
     ${SUDO_CMD} apt-get install -y tree wget unzip cmake ninja-build dos2unix
+}
+
+function setup_pip() {
+    ${SUDO_CMD} apt-get install -y pip
+    pip install numpy pandas torch dgl
 }
 
 function java_env() {
@@ -91,6 +101,7 @@ function android_ndk() {
 setup_source
 setup_cert
 setup_soft
+setup_pip
 java_env
 android_sdk
 android_ndk
