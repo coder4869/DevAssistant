@@ -73,6 +73,8 @@ class Project(object):
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
         # prapare ${scripts_dir}/pkg
         pyt_file.File.copy_dir(PROJECT_PACKAGE_DIR, script_abs_dir + "/pkg" )
+        pyt_file.File.copy_to_file(script_abs_dir + "/pkg/pkg-win-nsis.bat", root_dir + "/pkg-win-nsis.bat" )
+        os.remove(script_abs_dir + "/pkg/pkg-win-nsis.bat")
         # prepare ${PROJECT}/*.sh *.bat
         pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
 

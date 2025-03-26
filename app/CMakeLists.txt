@@ -75,7 +75,7 @@ elseif(IOS)
     set(OS_MIN_VERSION 13.0)
     # developer team id, not apple id email
     # https://developer.apple.com/cn/help/account/manage-your-team/locate-your-team-id
-    set(XCODE_DEVELOPMENT_TEAM "XXXXXXXXXX") 
+    set(XCODE_DEVELOPMENT_TEAM "XXXXXXXXXX")
     set(XCODE_CODE_SIGN_IDENTITY "Apple Development")
     set(XCODE_PROVISIONING_PROFILE "")
     add_definitions(-DIOS )

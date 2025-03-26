@@ -1,10 +1,14 @@
-;------------ Compress ------------
+;------------ Compress && Encode ------------
 ;SetCompressor /SOLID LZMA
 ;SetCompress force
+Unicode true
 
 ;------------ Defines ------------
+var PRODUCT_VERSION   ;"1.0.2.0"
+var /GLOBAL OS_ARCH      ; "x64" / "x86" / "arm64"
+
+;!define PRODUCT_VERSION         "1.0.1.3"
 !define PRODUCT_NAME            "DevAssistant"
-!define PRODUCT_VERSION         "1.0.1.0"
 !define PRODUCT_COMPANY         "coder4869"
 !define BIN_DIR                 "..\..\bin64"
 !define LICENSE_FILE            "..\..\data\doc\License.txt"
@@ -28,19 +32,13 @@ VIAddVersionKey LegalCopyright    "Copyright (C) 2018-2025 ${PRODUCT_COMPANY}"
 
 ;------------ Output file, Install-path, Admin-authority ------------
 ;General
-  ;Properly display all languages (Installer will not work on Windows 95, 98 or ME!)
-  ;Unicode true
-
-  ;Name and file
   Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-  OutFile "${PRODUCT_NAME}-Installer-v${PRODUCT_VERSION}.exe"
+  OutFile "${PRODUCT_NAME}-Installer-v${PRODUCT_VERSION}-${OS_ARCH}.exe"
 
-  ;Default installation folder
   ;InstallDir "$PROGRAMFILES\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
-  InstallDir "$PROGRAMFILES64\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
+  ;InstallDir "$PROGRAMFILES64\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
+  InstallDir "$LOCALAPPDATA\${PRODUCT_COMPANY}\${PRODUCT_NAME}"
   
-
-  ;Request Application Privileges
   RequestExecutionLevel admin
 
 ;------------ Interface Settings ------------
@@ -81,20 +79,15 @@ VIAddVersionKey LegalCopyright    "Copyright (C) 2018-2025 ${PRODUCT_COMPANY}"
 
 ;------------ Installer Start Function ------------
 ; "FindProcDLL" requires third-party plugin
-Function .onInit
-  ;FindProcDLL::FindProc "${PRODUCT_NAME}.exe"
-  ;IntCmp $R0 1 0 TestNotRunning
-  ;  MessageBox MB_OK|MB_ICONEXCLAMATION "Please close Test first" /SD IDOK
-  ;  Abort
-  ;TestNotRunning:
 
-  !insertmacro CheckInstalled   ${PRODUCT_NAME} ${PRODUCT_VERSION}
-  !insertmacro CheckVCRedistEnv $INSTDIR
+Function .onInit
+  SetShellVarContext all
+  !insertmacro CheckEnv  ${PRODUCT_NAME} ${PRODUCT_VERSION} $INSTDIR 
   !insertmacro MUI_LANGDLL_DISPLAY          ; Language selection page
 FunctionEnd
 
 ;------------ Installer Sections ------------
-Section "Install ${PRODUCT_NAME}" SEC_MAIN
+Section "Install Main" SEC_MAIN
   SectionIn RO
   SetOutPath "$INSTDIR"
   
@@ -115,11 +108,11 @@ Section "Install ${PRODUCT_NAME}" SEC_MAIN
   ; Add program to Start Menu && Desktop && QuickLaunch && Add runas authority to shortcut
   ;SetShellVarContext all
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}\${PRODUCT_NAME}.lnk" "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
-  ShellLink::SetRunAsAdministrator "$SMPROGRAMS\Porter\${PRODUCT_NAME}.lnk"    
+  ;ShellLink::SetRunAsAdministrator "$SMPROGRAMS\Porter\${PRODUCT_NAME}.lnk"    
   CreateShortCut "$DESKTOP\${PRODUCT_NAME}.lnk"     "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
-  ShellLink::SetRunAsAdministrator "$DESKTOP\${PRODUCT_NAME}.lnk"
+  ;ShellLink::SetRunAsAdministrator "$DESKTOP\${PRODUCT_NAME}.lnk"
   CreateShortCut "$QUICKLAUNCH\${PRODUCT_NAME}.lnk" "$INSTDIR\bin64\${PRODUCT_NAME}.exe"
-  ShellLink::SetRunAsAdministrator "$QUICKLAUNCH\${PRODUCT_NAME}.lnk"
+  ;ShellLink::SetRunAsAdministrator "$QUICKLAUNCH\${PRODUCT_NAME}.lnk"
 
   ; Register the software in Add/Remove Programs
   SetRegView 64
@@ -164,10 +157,16 @@ SectionEnd
 
 ;------------ UnInstaller Start Function ------------
 Function un.onInit
-  ;${If} $R0 = 0
-  ;  MessageBox MB_OK "检测到${PRODUCT_NAME}正在运行，请先退出程序再卸载!" /SD IDOK
-  ;  Abort
-  ;${EndIf}
+  ExecDos::exec /TOSTACK "tasklist /fi \"imagename eq ${PRODUCT_NAME}.exe\" > nul"
+  Pop $R0
+  ${If} $R0 == 0
+    MessageBox MB_OK|MB_ICONSTOP "程序未运行，直接卸载！"
+  ${Else}
+    MessageBox MB_YESNO|MB_ICONSTOP "程序正在运行，关闭进程？" IDYES true IDNO false
+    true:
+      ExecDos::exec /TOSTACK "taskkill /im ${PRODUCT_NAME}.exe /f /t"
+    false:
+  ${EndIf}
 FunctionEnd
 
 ;------------ Languages ------------
@@ -183,7 +182,6 @@ FunctionEnd
 
 ;------------ Uninstaller Section ------------
 Section "Uninstall"
-  ExecWait "$INSTDIR\killproc.bat"
   ; Remove Shortcuts
   ;SetShellVarContext all
   Delete "$DESKTOP\${PRODUCT_NAME}.lnk"
@@ -203,7 +201,6 @@ Section "Uninstall"
   ;Clean uninstall information
   DeleteRegKey  HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
   DeleteRegKey  HKCU "Software\${PRODUCT_NAME}"
-
 
   ;uninstall Service(stop)
   ;Exec '"$INSTDIR\${PRODUCT_NAME}.exe" -uninstall'
