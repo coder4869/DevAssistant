@@ -4,7 +4,7 @@ echo start packaging exe installer
 ::set var
 SET PROJ_NAME=DevAssistant
 SET ROOT_DIR=%~dp0
-SET SCRIPT_DIR=%~dp0\scripts\pkg
+SET SCRIPT_DIR=%~dp0\scripts\pkg-win
 SET BIN_DIR="%ROOT_DIR%\bin64\bin64"
 
 ::echo var
@@ -23,11 +23,11 @@ call %SCRIPT_DIR%\vs-env.bat
 
 set VERSION="1.0.2.4"
 echo packaging %VERSION% for "x64"
-makensis /INPUTCHARSET UTF8 /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="x64" %SCRIPT_DIR%/pkg-win-nsis.nsi
+makensis /INPUTCHARSET UTF8 /DPRODUCT_NAME=%PROJ_NAME% /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="x64" %SCRIPT_DIR%/pkg-win-nsis.nsi
 echo packaging %VERSION% for "x86"
-makensis /INPUTCHARSET UTF8 /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="x86" %SCRIPT_DIR%/pkg-win-nsis.nsi
+makensis /INPUTCHARSET UTF8 /DPRODUCT_NAME=%PROJ_NAME% /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="x86" %SCRIPT_DIR%/pkg-win-nsis.nsi
 echo packaging %VERSION% for "arm64"
-makensis /INPUTCHARSET UTF8 /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="arm64" %SCRIPT_DIR%/pkg-win-nsis.nsi
+makensis /INPUTCHARSET UTF8 /DPRODUCT_NAME=%PROJ_NAME% /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="arm64" %SCRIPT_DIR%/pkg-win-nsis.nsi
 
 move "%SCRIPT_DIR%\%PROJ_NAME%*.exe" "%ROOT_DIR%"
 

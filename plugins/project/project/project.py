@@ -13,8 +13,12 @@ from module import module
 
 PROJECT_BUILD_DIR   = PROJECT_BASE_DIR + "/build"
 PROJECT_CMAKE_DIR   = PROJECT_BASE_DIR + "/cmake"
-PROJECT_PACKAGE_DIR = PROJECT_BASE_DIR + "/pkg"
+PROJECT_RES_DIR     = PROJECT_BASE_DIR + "/resource"
+PROJECT_DOC_DIR     = PROJECT_BASE_DIR + "/doc"
+PROJECT_PKG_WIN_DIR = PROJECT_BASE_DIR + "/pkg-win"
 MODULE_TEMPLATE_DIR = PROJECT_BASE_DIR + "/template"
+PKG_WIN_NSIS        = "/pkg-win-nsis.bat"
+PKG_WIN_NSIS_PATH   = "/pkg-win/pkg-win-nsis.bat"
 
 OPTION_STR_SIZE:int = 20
 OPTION_TEMPLATE:str = "# option(MODULE_OPTION  \"Build with MODULE_OPTION\" ON)"
@@ -57,6 +61,14 @@ class Project(object):
 
     @staticmethod
     def add_help_dirs(root_dir:str, help_dirs:list, proj_name:str):
+        if not os.path.exists(root_dir + "/data/Resource"):
+            os.makedirs(root_dir + "/data/Resource")
+        pyt_file.File.copy_dir(PROJECT_RES_DIR, root_dir + "/data/Resource")
+
+        if not os.path.exists(root_dir + "/data/doc"):
+            os.makedirs(root_dir + "/data/doc")
+        pyt_file.File.copy_dir(PROJECT_DOC_DIR, root_dir + "/data/doc")
+
         for k in help_dirs.keys():
             help_dir = root_dir + "/" + help_dirs[k]
             if not os.path.exists(help_dir):
@@ -71,14 +83,16 @@ class Project(object):
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/CMakeLists.txt.PROJ", root_dir + "/CMakeLists.txt")
         # prapare ${scripts_dir}/cmake
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
-        # prapare ${scripts_dir}/pkg
-        pyt_file.File.copy_dir(PROJECT_PACKAGE_DIR, script_abs_dir + "/pkg" )
-        pyt_file.File.copy_to_file(script_abs_dir + "/pkg/pkg-win-nsis.bat", root_dir + "/pkg-win-nsis.bat" )
-        os.remove(script_abs_dir + "/pkg/pkg-win-nsis.bat")
+        # prapare ${scripts_dir}/pkg-win
+        pyt_file.File.copy_dir(PROJECT_PKG_WIN_DIR, script_abs_dir + "/pkg-win" )
+        pyt_file.File.copy_to_file(script_abs_dir + PKG_WIN_NSIS_PATH, root_dir + PKG_WIN_NSIS)
+        os.remove(script_abs_dir + PKG_WIN_NSIS_PATH)
         # prepare ${PROJECT}/*.sh *.bat
         pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
 
+        pkglist = os.listdir(PROJECT_PKG_WIN_DIR)
         flist = os.listdir(PROJECT_BUILD_DIR)
+        flist += pkglist
         for fitem in flist:
             file = root_dir + "/" + fitem
             if not os.path.isdir(fitem):

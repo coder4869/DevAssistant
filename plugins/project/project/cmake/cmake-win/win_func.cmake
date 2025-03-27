@@ -5,7 +5,8 @@ set(CURRENT_CMAKE_DIR ${CMAKE_CURRENT_LIST_DIR})
 # var META_FILES required
 function(WIN_ADD_META)
     if (WIN32)
-        set(ICON_FILE ${CURRENT_CMAKE_DIR}/res/AppIcon.ico)
+        # set(ICON_FILE ${CURRENT_CMAKE_DIR}/res/AppIcon.ico)
+        set(ICON_FILE ${CURRENT_CMAKE_DIR}/../../../data/Resource/logo.ico)
 
         configure_file("${CURRENT_CMAKE_DIR}/res/windows_metafile.rc.in" "windows_metafile.rc")
         set(RES_FILES "windows_metafile.rc")

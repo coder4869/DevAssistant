@@ -4,16 +4,17 @@
 Unicode true
 
 ;------------ Defines ------------
-var PRODUCT_VERSION   ;"1.0.2.0"
-var /GLOBAL OS_ARCH      ; "x64" / "x86" / "arm64"
+var PRODUCT_VERSION   ; "1.0.0.0"
+var PRODUCT_NAME      ; "DevAssistant"
+var /GLOBAL OS_ARCH   ; "x64" / "x86" / "arm64"
 
-;!define PRODUCT_VERSION         "1.0.1.3"
-!define PRODUCT_NAME            "DevAssistant"
+;!define PRODUCT_VERSION        "1.0.0.0"
+;!define PRODUCT_NAME           "DevAssistant"
 !define PRODUCT_COMPANY         "coder4869"
 !define BIN_DIR                 "..\..\bin64"
 !define LICENSE_FILE            "..\..\data\doc\License.txt"
-!define INSTALL_ICON            "..\..\data\resource\logo.ico"
-!define UNINSTALL_ICON          "..\..\data\resource\uninstall.ico"
+!define INSTALL_ICON            "..\..\data\Resource\logo.ico"
+!define UNINSTALL_ICON          "..\..\data\Resource\uninstall.ico"
 !define COMPANY_WEB             "http://www.yourcompany.com"
 !define PRODUCT_REG_AUTORUN_KEY "${PRODUCT_NAME}"
 
