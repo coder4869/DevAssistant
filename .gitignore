@@ -16,3 +16,4 @@ plugins/templates/android/**/build
 app/tools/glog-*
 app/tools/spdlog-*
 app/scripts/pkg/vc_redist
+app/*.exe
