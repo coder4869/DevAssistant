@@ -9,11 +9,25 @@ SET BUILD_DIR=%ROOT_DIR%\build_win
 :: https://www.cnblogs.com/doudougou/archive/2011/08/22/2148851.html
 @REM REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"
 SET VS_EXE="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+SET VS_BUILD="Visual Studio 17 2022"
+for /f "tokens=2,*" %%a in ('REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"') do (
+    SET VS_EXE=%%b
+    echo insalled VS: %VS_EXE%
+    echo %VS_EXE% > %BUILD_DIR%\vs.log
+    
+    echo Looking for 2019 in %VS_EXE%
+    findstr "2019" "%BUILD_DIR%\vs.log" >nul
+    if %errorlevel% == 1 (
+        SET VS_BUILD="Visual Studio 16 2019"
+    )
+)
+
 SET QT_INSTALL_DIR=%QT_HOME%
 SET PY_INSTALL_DIR="%LOCALAPPDATA%/Programs/Python/Python311-32"
 SET VS_PROJ="%BUILD_DIR%\%PROJ_NAME%.sln"
 
 ::echo var
+echo VS_BUILD = %VS_BUILD%
 echo PROJ_NAME = %PROJ_NAME%
 echo ROOT_DIR = %ROOT_DIR%
 echo BUILD_DIR = %BUILD_DIR%
@@ -40,7 +54,7 @@ for /f "delims=" %%i in ('dir /ad/b/s "%PLUGIN_DIR%"') do (
 :: -G"Visual Studio 15 2017"
 :: -G"Visual Studio 16 2019"
 :: -G"Visual Studio 17 2022"
-cmake -Wno-dev %ROOT_DIR% -G"Visual Studio 17 2022" -DCMAKE_BUILD_TYPE=Release ^
+cmake -Wno-dev %ROOT_DIR% -G%VS_BUILD% -DCMAKE_BUILD_TYPE=Release ^
     -DCMAKE_INSTALL_PREFIX=%BUILD_DIR% -DCMAKE_PREFIX_PATH=%QT_INSTALL_DIR% ^
     -DQT_INSTALL_DIR=%QT_INSTALL_DIR% -DPY_INSTALL_DIR=%PY_INSTALL_DIR% ^
     -DPROJECT_NAME=%PROJ_NAME% -DWIN=ON -H%ROOT_DIR% -B%BUILD_DIR%
