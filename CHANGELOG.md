@@ -1,3 +1,6 @@
+## [2025.03.27] - v1.0.3.0
+### Windows: bat auto-select vs2019 and vs2022 by reg
+
 ## [2025.03.26] - v1.0.2.4
 ### Windows: optimize packaging scripts
 
