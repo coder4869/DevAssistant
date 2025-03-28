@@ -7,6 +7,7 @@
 
 #include <stdarg.h>
 #include <chrono>
+#include <fstream>
 #if _HAS_CXX17
 #include <filesystem> // C++17
 #endif
@@ -205,6 +206,7 @@ static int DeleteLogFiles(const std::string& dir_path) {
     }
     return 0;
 #else
+    // TODO:: C++11 && C++14 impl
     LOGE("%s : Error C++17 Not Support !", __FUNCTION__);
     return -2;
 #endif
@@ -215,9 +217,9 @@ bool Logger::CheckLogDir(const std::string &log_dir) {
         return false;
     }
     
-#if _HAS_CXX17
     try {
         spdlog::set_pattern(log_fmt);
+#if _HAS_CXX17
         if (!std::filesystem::exists(log_dir)) {
             std::filesystem::create_directories(log_dir);
             spdlog::info("create log_dir {} succeed !", log_dir.c_str());
@@ -225,14 +227,24 @@ bool Logger::CheckLogDir(const std::string &log_dir) {
             DeleteLogFiles(log_dir);
             spdlog::info("log_dir {} exist !", log_dir.c_str());
         }
+#else
+        std::ofstream file(log_dir + "/xxx.log");
+        if (file.is_open()) {
+            file.close();
+            DeleteLogFiles(log_dir);
+            spdlog::info("create log_dir {} succeed !", log_dir.c_str());
+        } else {
+            spdlog::warn("log_dir {} not exist !", log_dir.c_str());
+            return false;
+        }
+#endif
         return true;
-    } catch (const std::filesystem::filesystem_error& e) {
+    } catch (const std::exception& e) {
         spdlog::critical("create log_dir {} failed ! {}", log_dir.c_str(), e.what());
+//        std::cerr << "Create dir failed !" << e.what() << std::endl;
 #if DEBUG
         abort();
 #endif
-//        std::cerr << "Create dir failed !" << e.what() << std::endl;
     }
-#endif
     return false;
 }
