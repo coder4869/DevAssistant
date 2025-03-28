@@ -6,6 +6,12 @@
 SET PROJ_NAME=DevAssistant
 SET ROOT_DIR=%~dp0
 SET BUILD_DIR=%ROOT_DIR%\build_win
+:: make %BUILD_DIR% and cd %BUILD_DIR% 
+:: cd %ROOT_DIR%
+:: https://blog.csdn.net/xiaoerbuyu1233/article/details/108490963 RMDIR %BUILD_DIR% /S /Q
+if exist %BUILD_DIR% rd /s /q %BUILD_DIR%
+md %BUILD_DIR%
+
 :: https://www.cnblogs.com/doudougou/archive/2011/08/22/2148851.html
 @REM REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"
 SET VS_EXE="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
@@ -16,8 +22,7 @@ for /f "tokens=2,*" %%a in ('REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Wi
     echo %VS_EXE% > %BUILD_DIR%\vs.log
     
     echo Looking for 2019 in %VS_EXE%
-    findstr "2019" "%BUILD_DIR%\vs.log" >nul
-    if %errorlevel% == 1 (
+    findstr /C:"2019" "%BUILD_DIR%\vs.log" >nul && (
         SET VS_BUILD="Visual Studio 16 2019"
     )
 )
@@ -35,12 +40,6 @@ echo VS_EXE = %VS_EXE%
 echo VS_PROJ = %VS_PROJ%
 echo QT_INSTALL_DIR = %QT_INSTALL_DIR%
 echo PY_INSTALL_DIR = %PY_INSTALL_DIR%
-
-:: make %BUILD_DIR% and cd %BUILD_DIR% 
-:: cd %ROOT_DIR%
-:: https://blog.csdn.net/xiaoerbuyu1233/article/details/108490963 RMDIR %BUILD_DIR% /S /Q
-if exist %BUILD_DIR% rd /s /q %BUILD_DIR%
-md %BUILD_DIR%
 
 :: clean py cache
 SET PLUGIN_DIR=%ROOT_DIR%\..\plugins
