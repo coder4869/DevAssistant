@@ -58,8 +58,8 @@ int BuildScript::FixBuildScripts(const std::string& proj_path)
 	}
 
 	script_path = proj_path + "/run_unix.sh";
-	bool ret = Update(script_path, err_msg);
-	if (ret) { 
+	ret = Update(script_path, err_msg);
+	if (ret) {
 		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
 		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
 	} else {
@@ -67,7 +67,7 @@ int BuildScript::FixBuildScripts(const std::string& proj_path)
 	}
 
 	script_path = proj_path + "/run_ios.sh";
-	bool ret = Update(script_path, err_msg);
+	ret = Update(script_path, err_msg);
 	if (ret) { 
 		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
 		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
@@ -76,8 +76,8 @@ int BuildScript::FixBuildScripts(const std::string& proj_path)
 	}
 
 	script_path = proj_path + "/run_android.sh";
-	bool ret = Update(script_path, err_msg);
-	if (ret) { 
+	ret = Update(script_path, err_msg);
+	if (ret) {
 		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
 		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
 	} else {
@@ -85,8 +85,8 @@ int BuildScript::FixBuildScripts(const std::string& proj_path)
 	}
 	
 	script_path = proj_path + "/run_android.bat";
-	bool ret = Update(script_path, err_msg);
-	if (ret) { 
+	ret = Update(script_path, err_msg);
+	if (ret) {
 		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
 		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
 	} else {
