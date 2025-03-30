@@ -19,12 +19,12 @@ SET VS_BUILD="Visual Studio 17 2022"
 for /f "tokens=2,*" %%a in ('REG QUERY "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\devenv.exe"') do (
     SET VS_EXE=%%b
     echo insalled VS: %VS_EXE%
-    echo %VS_EXE% > %BUILD_DIR%\vs.log
-    
-    echo Looking for 2019 in %VS_EXE%
-    findstr /C:"2019" "%BUILD_DIR%\vs.log" >nul && (
-        SET VS_BUILD="Visual Studio 16 2019"
-    )
+)
+
+echo Looking for 2019 in %VS_EXE%
+echo %VS_EXE% > %BUILD_DIR%\vs.log
+findstr /C:"2019" "%BUILD_DIR%\vs.log" >nul && (
+    SET VS_BUILD="Visual Studio 16 2019"
 )
 
 SET QT_INSTALL_DIR=%QT_HOME%

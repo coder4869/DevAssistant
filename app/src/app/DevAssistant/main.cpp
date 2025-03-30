@@ -66,24 +66,6 @@ int LoadApp(int argc, char* argv[]) {
     return app.exec();
 }
 
-int FixBuildScript(const std::string& script_path) {
-    std::string err_msg = "";
-    bool ret = QEK::BuildScript::Update(script_path, err_msg);
-
-    if (ret) {
-        CU::File::SaveFileString(script_path, err_msg);
-        std::string info = " Fix BuildScript " + script_path + " Succeed: \n" + err_msg;
-        LOGI("info = %s", info.c_str());
-        QMessageBox::information(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
-        return 0;
-    }
-
-    std::string info = " Fix BuildScript " + script_path + " Failed: \n" + err_msg;
-    LOGI("info = %s", info.c_str());
-    QMessageBox::critical(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
-    return 1;
-}
-
 int main(int argc, char *argv[])
 {
     QString root_dir = GetRootDir(argv[0]);
@@ -98,20 +80,8 @@ int main(int argc, char *argv[])
 
     if (argc >= 2) {
         // Update run_win.bat / run_arm.sh / run_unix.sh
-        return FixBuildScript(argv[1]);
+        return QEK::BuildScript::GetInstance()->FixBuildScript(argv[1]);
     }
-
-//#ifdef WIN
-//    // Run InstallReg.exe as Root Authority
-//    auto app_bin = GetBinRelativePath(argv[0]);
-//    auto root_flag = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/root_flag");
-//    if (CU::File::IsFileExist(root_flag) != 0) {
-//        auto bin_install = CKAppConf::GetInstance()->GetRelativePath("app_bin", app_bin + "/InstallReg.exe");
-//        if (CE::AppLoader::RunAsRoot(bin_install)) {
-//            CU::File::SaveFileString(root_flag, "AutoStart");
-//        }
-//    }
-//#endif
 
     return LoadApp(argc, argv);
 }

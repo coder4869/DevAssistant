@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 // Right Action: https://www.cnblogs.com/pengsn/p/13563551.html
 // Right Action: https://zhuanlan.zhihu.com/p/369716586
@@ -15,12 +15,22 @@
 
 NS_QEK_BEGIN
 
-namespace BuildScript {
+class BuildScript {
+public:
+	static BuildScript* GetInstance();
+
+	BuildScript() {}
+	~BuildScript() {}
+
+	/// @brief Update run_win.bat / run_arm.sh / run_unix.sh
+	int FixBuildScript(const std::string& script_path);
+	int FixBuildScripts(const std::string& proj_path);
+
 	/// @brief Update script file for adapt develop env. 
 	/// @param script_path	script file path. File can be : run_win.bat / run_arm.sh / run_unix.sh
 	/// @note				script contains install path of develop soft: VS, Qt, CMake, python.
 	/// @param err_msg		error message for false, fixed build script for succeed !
-	bool Update(const std::string & script_path, std::string & err_msg);
+	bool Update(const std::string& script_path, std::string& err_msg);
 
 	/// @brief Fix Microsoft Visual Studio Install Path
 	/// @param err_msg		error message
@@ -32,8 +42,8 @@ namespace BuildScript {
 	/// @param soft		target soft to check in key queryed env var.
 	/// @param out_val	check result for return is 0, error code for return not 0
 	/// return 0-succeed, 1-error
-	int CheckEnvVarSoft(const std::string& key, const std::string& soft, std::string &out_val);
+	int CheckEnvVarSoft(const std::string& key, const std::string& soft, std::string& out_val);
 
-} // namespace BuildScript
+};
 
 NS_QEK_END

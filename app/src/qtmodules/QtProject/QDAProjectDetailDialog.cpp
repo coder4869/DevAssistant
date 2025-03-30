@@ -12,6 +12,7 @@
 #include <CUtils/logger.h>
 #include <QtCoreKit/QtCoreKit.h>
 #include <QtUIInfra/QUIStyle.h>
+#include <QtEnvKit/DABuildScript.h>
 
 #include "ui_QDAProjectDetailDialog.h"
 
@@ -121,6 +122,9 @@ void QDAProjectDetailDialog::OnCreate()
         QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
         return;
     }
+
+    // Note:: update build scripts
+    QEK::BuildScript::GetInstance()->FixBuildScripts(config.proj_dir.toUtf8().constData());
     QMessageBox::information(NULL, QStringLiteral("Project Create"), "Succeed!");
 }
 

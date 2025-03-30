@@ -17,7 +17,7 @@ message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
 message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
-project(${PROJECT_NAME} VERSION 1.0.3.0)
+project(${PROJECT_NAME} VERSION 1.0.3.1)
 # set(CMAKE_DEBUG_POSTFIX d)
 set(LIB_TYPE SHARED) # SHARED STATIC
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -174,6 +174,12 @@ if(WITH_QT)
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-qt/qt_libs.cmake)
     message("INC_QT=${INC_QT}")
     message("LIB_QT=${LIB_QT}")
+
+    if(MSVC)
+        set(CMAKE_AUTOMOC_RELAXED_MODE 1)  # avoid moc encoding issue
+        set(CMAKE_AUTOMOC_MACRO_NAMES "Q_OBJECT;Q_GADGET;Q_NAMESPACE")
+        add_compile_definitions(_CRT_SECURE_NO_WARNINGS)  # 可选，禁用安全警告
+    endif(MSVC)
 endif(WITH_QT)
 
 if(WITH_PY)

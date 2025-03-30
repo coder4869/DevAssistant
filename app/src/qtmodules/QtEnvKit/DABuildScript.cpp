@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #include "DABuildScript.h"
 
@@ -11,11 +11,101 @@
 #	include <windows.h>
 #endif
 
+#include <QMessageBox>
+#include <CUtils/logger.h>
+#define LOG_TAG "TAG_BuildScript"
+
 NS_QEK_BEGIN
 
+static BuildScript* instance = nullptr;
+BuildScript* BuildScript::GetInstance()
+{
+	if (!instance) {
+		instance = new BuildScript();
+	}
+	return instance;
+}
+
+int BuildScript::FixBuildScript(const std::string& script_path) {
+	std::string err_msg = "";
+	bool ret = Update(script_path, err_msg);
+
+	if (ret) {
+		CU::File::SaveFileString(script_path, err_msg);
+		std::string info = " Fix BuildScript " + script_path + " Succeed: \n" + err_msg;
+		LOGI("info = %s", info.c_str());
+		QMessageBox::information(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
+		return 0;
+	}
+
+	std::string info = " Fix BuildScript " + script_path + " Failed: \n" + err_msg;
+	LOGI("info = %s", info.c_str());
+	QMessageBox::critical(NULL, QStringLiteral("FixBuildScript"), QString::fromStdString(info));
+	return 1;
+}
+
+int BuildScript::FixBuildScripts(const std::string& proj_path)
+{
+	std::string err_msg = "", err_msg_all = "";
+
+	std::string script_path = proj_path + "/run_win.bat";
+	bool ret = Update(script_path, err_msg);
+	if (ret) { 
+		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
+		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
+	} else {
+		err_msg_all += err_msg;
+	}
+
+	script_path = proj_path + "/run_unix.sh";
+	bool ret = Update(script_path, err_msg);
+	if (ret) { 
+		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
+		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
+	} else {
+		err_msg_all += err_msg;
+	}
+
+	script_path = proj_path + "/run_ios.sh";
+	bool ret = Update(script_path, err_msg);
+	if (ret) { 
+		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
+		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
+	} else {
+		err_msg_all += err_msg;
+	}
+
+	script_path = proj_path + "/run_android.sh";
+	bool ret = Update(script_path, err_msg);
+	if (ret) { 
+		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
+		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
+	} else {
+		err_msg_all += err_msg;
+	}
+	
+	script_path = proj_path + "/run_android.bat";
+	bool ret = Update(script_path, err_msg);
+	if (ret) { 
+		CU::File::SaveFileString(script_path, err_msg); // err_msg is updated file data
+		LOGI("Update %s Succeed! Saved scipts:\n%s", script_path.c_str(), err_msg.c_str());
+	} else {
+		err_msg_all += err_msg;
+	}
+
+	if (err_msg_all.empty()) {
+		return 0;
+	}
+	std::string msg = "Update scripts failed: %s" + err_msg_all;
+	LOGI("%s", msg.c_str());
+	QMessageBox::critical(NULL, QStringLiteral("FixBuildScripts"), QString::fromStdString(msg));
+	return 1;
+}
+
+// TODO:: finish scripts
 bool BuildScript::Update(const std::string& script_path, std::string& err_msg)
 {
-	if (script_path.find("run_win.bat")) {
+	if (script_path.find("run_win.bat") != std::string::npos) {
 		std::string file_data = "";
 		if (CU::File::LoadFileString(script_path, file_data)) {
 			err_msg = script_path + " Open Failed !";
@@ -36,10 +126,38 @@ bool BuildScript::Update(const std::string& script_path, std::string& err_msg)
 		err_msg = file_data;
 		return true;
 
-	} else if (script_path.find("run_unix.sh")) {
-
-	} else if (script_path.find("run_arm.sh")) {
-
+	} else if (script_path.find("run_unix.sh") != std::string::npos) {
+		std::string file_data = "";
+		if (CU::File::LoadFileString(script_path, file_data)) {
+			err_msg = script_path + " Open Failed !";
+			return false;
+		}
+		err_msg = file_data;
+		return true;
+	} else if (script_path.find("run_ios.sh") != std::string::npos) {
+		std::string file_data = "";
+		if (CU::File::LoadFileString(script_path, file_data)) {
+			err_msg = script_path + " Open Failed !";
+			return false;
+		}
+		err_msg = file_data;
+		return true;
+	} else if (script_path.find("run_android.sh") != std::string::npos) {
+		std::string file_data = "";
+		if (CU::File::LoadFileString(script_path, file_data)) {
+			err_msg = script_path + " Open Failed !";
+			return false;
+		}
+		err_msg = file_data;
+		return true;
+	} else if (script_path.find("run_android.bat") != std::string::npos) {
+		std::string file_data = "";
+		if (CU::File::LoadFileString(script_path, file_data)) {
+			err_msg = script_path + " Open Failed !";
+			return false;
+		}
+		err_msg = file_data;
+		return true;
 	}
 	err_msg = script_path + " not found !";
 	return false;

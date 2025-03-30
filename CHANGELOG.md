@@ -1,3 +1,6 @@
+## [2025.03.30] - v1.0.3.1
+### [Optimize] update build scripts
+
 ## [2025.03.27] - v1.0.3.0
 ### Windows: bat auto-select vs2019 and vs2022 by reg
 
