@@ -8,6 +8,9 @@ SET_POLICY()
 SET_CXX_VERSION(17)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g") # Gen Debug Info
+if(WIN)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /source-charset:utf-8") # utf-8 
+endif(WIN)
 
 # Compiler
 function(SET_COMPILER compiler)

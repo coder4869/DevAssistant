@@ -21,7 +21,7 @@ start /wait %QT_HOME%\bin\windeployqt.exe -qmldir %QT_HOME%/qml %BIN_DIR%\%PROJ_
 
 call %SCRIPT_DIR%\vs-env.bat
 
-set VERSION="1.0.3.1"
+set VERSION="1.0.3.2"
 echo packaging %VERSION% for "x64"
 makensis /INPUTCHARSET UTF8 /DPRODUCT_NAME=%PROJ_NAME% /DPRODUCT_VERSION=%VERSION% /DOS_ARCH="x64" %SCRIPT_DIR%/pkg-win-nsis.nsi
 echo packaging %VERSION% for "x86"

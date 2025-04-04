@@ -1,3 +1,6 @@
+## [2025.03.31] - v1.0.3.2
+### [Optimize] update plugin scripts
+
 ## [2025.03.30] - v1.0.3.1
 ### [Optimize] update build scripts
 

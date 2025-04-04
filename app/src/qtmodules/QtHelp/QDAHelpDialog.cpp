@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #include "QDAHelpDialog.h"
 
@@ -30,7 +30,7 @@ void QDAHelpDialog::OnHelpShow()
 void QDAHelpDialog::OnShowVersion()
 {
     std::string version = u8R"(
-版本号(Version) : v1.0.3.1
+版本号(Version) : v1.0.3.2
    
 日期(Date) : 2025/03/27
     )";
