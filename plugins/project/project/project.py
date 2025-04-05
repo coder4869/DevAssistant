@@ -1,4 +1,4 @@
-﻿# coding=UTF-8
+# coding=UTF-8
 # Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 import os
@@ -83,20 +83,28 @@ class Project(object):
         pyt_file.File.copy_to_file(MODULE_TEMPLATE_DIR + "/CMakeLists.txt.PROJ", root_dir + "/CMakeLists.txt")
         # prapare ${scripts_dir}/cmake
         pyt_file.File.copy_dir(PROJECT_CMAKE_DIR, script_abs_dir + "/cmake" )
-        # prapare ${scripts_dir}/pkg-win
-        pyt_file.File.copy_dir(PROJECT_PKG_WIN_DIR, script_abs_dir + "/pkg-win" )
-        pyt_file.File.copy_to_file(script_abs_dir + PKG_WIN_NSIS_PATH, root_dir + PKG_WIN_NSIS)
-        os.remove(script_abs_dir + PKG_WIN_NSIS_PATH)
-        # prepare ${PROJECT}/*.sh *.bat
-        pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
 
-        pkglist = os.listdir(PROJECT_PKG_WIN_DIR)
+        # prepare ${PROJECT}/*.sh *.bat (build)
+        pyt_file.File.copy_dir(PROJECT_BUILD_DIR, root_dir + "/")
         flist = os.listdir(PROJECT_BUILD_DIR)
-        flist += pkglist
         for fitem in flist:
             file = root_dir + "/" + fitem
-            if not os.path.isdir(fitem):
+            print(file)
+            if os.path.isfile(file):
                 pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
+
+        # prapare ${scripts_dir}/pkg-win
+        pkg_win_dir = script_abs_dir + "/pkg-win" 
+        pyt_file.File.copy_dir(PROJECT_PKG_WIN_DIR, pkg_win_dir )
+        pkglist = os.listdir(pkg_win_dir)
+        for fitem in pkglist:
+            file = pkg_win_dir + "/" + fitem
+            print(file)
+            if os.path.isfile(file) and file.endswith("bat"):
+                pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
+        pyt_file.File.copy_to_file(script_abs_dir + PKG_WIN_NSIS_PATH, root_dir + PKG_WIN_NSIS)
+        os.remove(script_abs_dir + PKG_WIN_NSIS_PATH)
+
         
     @staticmethod
     def add_options(root_dir:str,  options:object):

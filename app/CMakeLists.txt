@@ -5,11 +5,17 @@ cmake_minimum_required(VERSION 3.12.0)
 
 # Global Setting
 set(PROJ_ROOT ${CMAKE_CURRENT_LIST_DIR})
-set(CMAKE_INSTALL_PREFIX "${PROJ_ROOT}/bin64")
-set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}/bin64")
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64")
-# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
+if(LINUX)
+	set(CMAKE_INSTALL_PREFIX "${PROJ_ROOT}/bin64/bin64")
+	set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}/bin64/bin64")
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/bin64")
+else()
+	set(CMAKE_INSTALL_PREFIX "${PROJ_ROOT}/bin64")
+	set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}/bin64")
+	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64")
+	# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
+	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${PROJ_ROOT}/bin64/lib")
+endif()
 set(CMAKE_TOOLCHAIN_ROOT ${PROJ_ROOT}/scripts/cmake)
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake)
 message("PROJECT_ROOT = ${PROJ_ROOT} ")
@@ -17,7 +23,7 @@ message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
 message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
-project(${PROJECT_NAME} VERSION 1.0.3.2)
+project(${PROJECT_NAME} VERSION 1.1.0.0)
 # set(CMAKE_DEBUG_POSTFIX d)
 set(LIB_TYPE SHARED) # SHARED STATIC
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -48,6 +54,13 @@ if(WIN)
 elseif(LINUX)
     set(OS_TYPE "linux")
     add_definitions(-DLINUX)
+
+    if("${LINUX_OS}" STREQUAL "CentOS")
+        set(CMAKE_PREFIX_PATH "/usr/lib64/cmake/Qt5")
+    elseif("${LINUX_OS}" STREQUAL "Ubuntu")
+        set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake")
+    endif(LINUX_OS)
+    message("CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
 
 elseif(OSX)
     set(APPLE ON)
@@ -178,7 +191,7 @@ if(WITH_QT)
     if(MSVC)
         set(CMAKE_AUTOMOC_RELAXED_MODE 1)  # avoid moc encoding issue
         set(CMAKE_AUTOMOC_MACRO_NAMES "Q_OBJECT;Q_GADGET;Q_NAMESPACE")
-        add_compile_definitions(_CRT_SECURE_NO_WARNINGS)  # 可选，禁用安全警告
+        add_compile_definitions(_CRT_SECURE_NO_WARNINGS)  # Optional, disable security warning
     endif(MSVC)
 endif(WITH_QT)
 

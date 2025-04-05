@@ -12,6 +12,23 @@ function download() {
     tar -zxvf spdlog-${VERSION}.tar.gz
 }
 
+function build_linux() {
+    cd ${script_dir}/spdlog-${VERSION}
+    BUILD_DIR=build_linux
+
+    # build linux
+    rm -rf ${BUILD_DIR} && mkdir ${BUILD_DIR}
+    # echo "set(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -std=c++11 -O1\")"  >> ../CMakeLists.txt
+    cmake -S . -B ${BUILD_DIR} -G "Unix Makefiles" 
+
+    cd ${BUILD_DIR} && make
+    cd -
+
+    # copy to output
+    mkdir -p output/include && cp -r include/ output/include/
+    mkdir -p output/libs/linux && cp -r ${BUILD_DIR}/libspdlog.a output/libs/linux/
+}
+
 function build_mac() {
     cd ${script_dir}/spdlog-${VERSION}
     BUILD_DIR=build_mac
@@ -72,6 +89,7 @@ build_android() {
 # download
 # build_mac
 # build_ios
-build_android
+# build_android
+build_linux
 
 tree ${script_dir}/spdlog-${VERSION}/output

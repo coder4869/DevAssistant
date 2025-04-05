@@ -4,24 +4,23 @@
 
 if(WITH_QT)
     if(WIN) # for windows
-        SET(INC_QT
-            ${QT_INSTALL_DIR}/include
-            ${QT_INSTALL_DIR}/include/QtCore
-            ${QT_INSTALL_DIR}/include/QtGui
-            ${QT_INSTALL_DIR}/include/QtSql
-            ${QT_INSTALL_DIR}/include/QtOpenGL
-            ${QT_INSTALL_DIR}/include/QtWidgets
-            ${QT_INSTALL_DIR}/include/QtCharts
-            ${QT_INSTALL_DIR}/include/QtNetwork
+        SET(QT_INC_HOME ${QT_INSTALL_DIR}/include)        
+        SET(INC_QT ${QT_INC_HOME}
+            ${QT_INC_HOME}/QtCore
+            ${QT_INC_HOME}/QtGui
+            ${QT_INC_HOME}/QtOpenGL
+            ${QT_INC_HOME}/QtWidgets
+            ${QT_INC_HOME}/QtCharts
+            ${QT_INC_HOME}/QtNetwork
             # Camera
-            ${QT_INSTALL_DIR}/include/QtMultimedia
-            ${QT_INSTALL_DIR}/include/QtMultimediaWidgets
+            ${QT_INC_HOME}/QtMultimedia
+            ${QT_INC_HOME}/QtMultimediaWidgets
             # qml - Quick
-            ${QT_INSTALL_DIR}/include/QtQml
-            ${QT_INSTALL_DIR}/include/QtQuick
-            ${QT_INSTALL_DIR}/include/QtQuickWidgets
-            ${QT_INSTALL_DIR}/include/QtQuickControls2
-            # ${QT_INSTALL_DIR}/include/QtQuick2Plugin
+            ${QT_INC_HOME}/QtQml
+            ${QT_INC_HOME}/QtQuick
+            ${QT_INC_HOME}/QtQuickWidgets
+            ${QT_INC_HOME}/QtQuickControls2
+            # ${QT_INC_HOME}/QtQuick2Plugin
         )
         
         # LIB_EXT = d for debug, empty for release
@@ -32,7 +31,6 @@ if(WITH_QT)
         SET(LIB_QT
             ${QT_INSTALL_DIR}/lib/Qt5Core${LIB_EXT}.lib
             ${QT_INSTALL_DIR}/lib/Qt5Gui${LIB_EXT}.lib
-            ${QT_INSTALL_DIR}/lib/Qt5Sql${LIB_EXT}.lib
             ${QT_INSTALL_DIR}/lib/Qt5OpenGL${LIB_EXT}.lib
             ${QT_INSTALL_DIR}/lib/Qt5Widgets${LIB_EXT}.lib
             ${QT_INSTALL_DIR}/lib/Qt5Charts${LIB_EXT}.lib
@@ -52,7 +50,6 @@ if(WITH_QT)
         SET(INC_QT
             ${QT_INSTALL_DIR}/lib/QtCore.framework/Headers
             ${QT_INSTALL_DIR}/lib/QtGui.framework/Headers
-            ${QT_INSTALL_DIR}/lib/QtSql.framework/Headers/
             ${QT_INSTALL_DIR}/lib/QtOpenGL.framework/Headers
             ${QT_INSTALL_DIR}/lib/QtWidgets.framework/Headers
             ${QT_INSTALL_DIR}/lib/QtCharts.framework/Headers
@@ -70,7 +67,6 @@ if(WITH_QT)
         SET(LIB_QT
             ${QT_INSTALL_DIR}/lib/QtCore.framework
             ${QT_INSTALL_DIR}/lib/QtGui.framework
-            ${QT_INSTALL_DIR}/lib/QtSql.framework
             ${QT_INSTALL_DIR}/lib/QtOpenGL.framework
             ${QT_INSTALL_DIR}/lib/QtWidgets.framework
             ${QT_INSTALL_DIR}/lib/QtCharts.framework
@@ -85,10 +81,49 @@ if(WITH_QT)
             ${QT_INSTALL_DIR}/lib/QtQuickControls2.framework
             # ${QT_INSTALL_DIR}/lib/QtQuick2Plugin.framework
             ) 
-    endif(OSX)
+    elseif(LINUX) # for LINUX
+        SET(QT_INC_HOME /usr/include/qt5)        
+        SET(QT_LIB_HOME /usr/lib64)   
+        SET(INC_QT ${QT_INC_HOME}
+            ${QT_INC_HOME}/QtCore
+            ${QT_INC_HOME}/QtGui
+            ${QT_INC_HOME}/QtOpenGL
+            ${QT_INC_HOME}/QtWidgets
+            ${QT_INC_HOME}/QtCharts
+            ${QT_INC_HOME}/QtNetwork
+            # Camera
+            ${QT_INC_HOME}/QtMultimedia
+            ${QT_INC_HOME}/QtMultimediaWidgets
+            # qml - Quick
+            ${QT_INC_HOME}/QtQml
+            ${QT_INC_HOME}/QtQuick
+            ${QT_INC_HOME}/QtQuickWidgets
+            ${QT_INC_HOME}/QtQuickControls2
+            # ${QT_INC_HOME}/QtQuick2Plugin
+            )
+        SET(LIB_QT
+            ${QT_LIB_HOME}/libQt5Core.so
+            ${QT_LIB_HOME}/libQt5Gui.so
+            ${QT_LIB_HOME}/libQt5OpenGL.so
+            ${QT_LIB_HOME}/libQt5Widgets.so
+            ${QT_LIB_HOME}/libQt5Charts.so
+            ${QT_LIB_HOME}/libQt5Network.so
+            #${QT_LIB_HOME}/libQt5NetworkAuth.so  
+            # Camera
+            ${QT_LIB_HOME}/libQt5Multimedia.so
+            ${QT_LIB_HOME}/libQt5MultimediaWidgets.so
+            # qml - Quick
+            ${QT_LIB_HOME}/libQt5Qml.so
+            ${QT_LIB_HOME}/libQt5Quick.so
+            ${QT_LIB_HOME}/libQt5QuickWidgets.so
+            ${QT_LIB_HOME}/libQt5QuickControls2.so
+            # ${QT_LIB_HOME}/libQt5Quick2Plugin.so
+            )
+	    message("INC_QT = ${INC_QT}")
+    endif(LINUX)
 
     # Search QT Libraries
-    SET(QT_MODULES Core Gui OpenGL Widgets Charts Network Sql)
+    SET(QT_MODULES Core Gui OpenGL Widgets Charts Network)
     SET(QT_MODULES_CAMERA Multimedia MultimediaWidgets) 
     SET(QT_MODULES_QUICK Qml Quick QuickWidgets QuickControls2 ) #Quick2Plugin
     # https://blog.csdn.net/wu10188/article/details/129924779

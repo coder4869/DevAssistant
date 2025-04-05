@@ -42,7 +42,13 @@ function setup_cert() {
 }
 
 function setup_soft() {
-    ${SUDO_CMD} apt-get install -y tree wget unzip cmake ninja-build dos2unix
+    ${SUDO_CMD} apt-get install -y tree wget unzip cmake ninja-build dos2unix build-essential
+    # Qt
+    ${SUDO_CMD} apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qtdeclarative5-dev
+    ${SUDO_CMD} apt-get install -y libqt5charts5* libqt5multimedia5* libqt5quickcontrols2-5
+
+    dpkg -l | grep qt5charts
+    dpkg -l | grep qt5multimedia
 }
 
 function setup_pip() {

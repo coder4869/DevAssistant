@@ -5,4 +5,4 @@ set(INC_FILES  ${INC_FILES}  ${SRC_ROOT})
 message("SRC_ROOT = ${SRC_ROOT}")
 
 # use input shared var: THIRD_PARTY_INC and THIRD_PARTY_INC_FILES and THIRD_PARTY_LIB
-include(${SRC_ROOT}/spdlog-1.14.1/spdlog.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/spdlog-1.14.1/spdlog.cmake)

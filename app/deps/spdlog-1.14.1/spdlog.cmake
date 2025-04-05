@@ -41,9 +41,15 @@ elseif(ANDROID)
         ${SRC_ROOT}/libs/android/*.a
     )
 else() # Linux
-    FILE(GLOB_RECURSE STATIC_LIBS
-        ${SRC_ROOT}/libs/linux/*.a
-    )
+    if("${LINUX_OS}" STREQUAL "CentOS")
+        FILE(GLOB_RECURSE STATIC_LIBS
+            ${SRC_ROOT}/libs/centos/arm64/*.a
+            )
+    elseif("${LINUX_OS}" STREQUAL "Ubuntu")
+        FILE(GLOB_RECURSE STATIC_LIBS
+            ${SRC_ROOT}/libs/linux/*.a
+            )
+    endif(LINUX_OS)
 endif()
 
 set(THIRD_PARTY_LIB ${THIRD_PARTY_LIB} ${STATIC_LIBS})

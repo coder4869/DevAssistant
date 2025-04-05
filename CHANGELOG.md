@@ -1,3 +1,6 @@
+## [2025.04.04] - v1.1.0.0
+### [new feature] Linux: cmake add QT support for Ubuntu && CentOS
+
 ## [2025.03.31] - v1.0.3.2
 ### [Optimize] update plugin scripts
 

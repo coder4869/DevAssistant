@@ -60,7 +60,7 @@ bool QCKCmd::ExecCmd(const QString &toolPath, const QStringList &options, QByteA
 QString QCKCmd::GetSoftPath(const QString &name)
 {
     QByteArray output;
-#ifdef OSX
+#if OSX || LINUX
     bool ret = ExecCmd(CMD_BIN, QStringList() << "-c" << "whereis " + name, output);
 #elif WIN
     bool ret = ExecCmd(CMD_BIN, QStringList() << "/c" << "where " + name, output);
@@ -73,7 +73,7 @@ QString QCKCmd::GetSoftPath(const QString &name)
     }
     QString cmd = QString::fromUtf8(output);
     
-#ifdef OSX
+#ifdef OSX || LINUX
     QStringList list = cmd.split(" ");
     qDebug() << list << endl;
     return list[1];

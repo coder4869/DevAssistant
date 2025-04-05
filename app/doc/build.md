@@ -18,7 +18,7 @@
 
 - 1-MacOS:
     * generate xcode project: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh`
-    * build ios lib: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh build`
+    * build osx lib: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh build`
 - 2-Linux:
     * Setup-env: `bash /opt/shared_dir/DevAssistant/tools/setup-env.sh`
     * Run way1:
