@@ -11,7 +11,7 @@
 
 #include <QMessageBox>
 
-#ifdef OSX
+#if OSX || LINUX
 //    const QString CMD_BIN = "pkexec /bin/bash";
     const QString CMD_BIN = "/bin/bash";
     const QString CMD_EXT = ".sh";
