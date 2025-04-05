@@ -4,10 +4,10 @@
 # Linux: docker run -it -d --shm-size=2g --network=host -v $HOME/dockers/shared_dir:/opt/shared_dir ubuntu2204-dev-v1.0 --privileged ubuntu2204:v1.0 /bin/bash
 # docker exec -it a3822da6accba9625129bc63c9fe0001367a7282a7eda0d50783ab90e75c7513 /bin/bash
 # 
-# bash /opt/shared_dir/DevAssistant/tools/setup-env.sh
+# bash /opt/shared_dir/DevAssistant/tools/env-apt.sh
 
 # ls -al /bin/sh && dpkg-reconfigure dash => no
-# sh /opt/shared_dir/DevAssistant/tools/setup-env.sh
+# sh /opt/shared_dir/DevAssistant/tools/env-apt.sh
 
 # echo color: https://www.cnblogs.com/unclemac/p/12783387.html
 

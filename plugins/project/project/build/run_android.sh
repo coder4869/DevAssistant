@@ -5,7 +5,7 @@
 #   sh /opt/shared_dir/DevAssistant/app/run_android.sh
 # 2-Linux:
 # Setup-env: 
-#   bash /opt/shared_dir/DevAssistant/tools/setup-env.sh
+#   bash /opt/shared_dir/DevAssistant/tools/env-apt.sh
 # Run way1:
 #   sed -i 's/\r//' /opt/shared_dir/DevAssistant/app/run_android.sh && bash /opt/shared_dir/DevAssistant/app/run_android.sh
 # Run way2:
@@ -93,3 +93,4 @@ function clean_plugins() {
 do_mkdir
 clean_plugins
 do_ninja_build
+                                                                                               

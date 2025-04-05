@@ -1,3 +1,6 @@
+## [2025.04.05] - v1.1.1.0
+### [new feature] plugin add QT support Ubuntu && CentOS
+
 ## [2025.04.05] - v1.1.0.1
 ### Bug-Fix: Linux fPIC issue
 

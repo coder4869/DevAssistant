@@ -13,10 +13,11 @@ macro(QT_INIT install_dir)
     # Needs to set CMAKE variable Qt5_DIR = path-to-your-qt-innstallation/5.14.2/clang_64/lib/cmake/Qt5 
     if(WIN32 OR WIN) # Windows
         SET(Qt5_DIR "${install_dir}\\lib\\cmake\\Qt5" CACHE PATH "Path to Qt5 cmake stuff: ..\\5.14.2\\msvc2017\\lib\\cmake\\Qt5" )
+        FIND_PACKAGE(PkgConfig REQUIRED)
     elseif(OSX)  # MacOSX
         SET(Qt5_DIR "${install_dir}/lib/cmake/Qt5" CACHE PATH "Path to Qt5 cmake stuff: ../5.14.2/clang_64/lib/cmake/Qt5" )
+        FIND_PACKAGE(PkgConfig REQUIRED)
     endif()
-    FIND_PACKAGE(PkgConfig REQUIRED)
 endmacro()
 
 

@@ -20,7 +20,8 @@
     * generate xcode project: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh`
     * build osx lib: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh build`
 - 2-Linux:
-    * Setup-env: `bash /opt/shared_dir/DevAssistant/tools/setup-env.sh`
+    * Setup-env: 
+        * Ubuntu/Debian: `bash /opt/shared_dir/DevAssistant/tools/env-apt.sh`
     * Run way1:
         * `sed -i 's/\r//' /opt/shared_dir/DevAssistant/app/run_unix.sh && bash /opt/shared_dir/DevAssistant/app/run_unix.sh`
     * Run way2:
@@ -54,7 +55,8 @@
 - 1-MacOS:
     * `sh $HOME/Desktop/DevAssistant/app/run_android.sh`
 - 2-Linux:
-    * Setup-env: `bash /opt/shared_dir/DevAssistant/tools/setup-env.sh`
+    * Setup-env:
+        * Ubuntu/Debian: `bash /opt/shared_dir/DevAssistant/tools/env-apt.sh`
     * Run way1:
         * `sed -i 's/\r//' /opt/shared_dir/DevAssistant/app/run_android.sh && bash /opt/shared_dir/DevAssistant/app/run_android.sh`
     * Run way2:

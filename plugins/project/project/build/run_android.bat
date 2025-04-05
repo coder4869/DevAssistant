@@ -57,3 +57,4 @@ if not exist %BUILD_DIR%\%ANDROID_ABI% md %BUILD_DIR%\%ANDROID_ABI%
 copy %BUILD_DIR%\*.so %BUILD_DIR%\%ANDROID_ABI%\
 
 echo. & pause 
+                                                           

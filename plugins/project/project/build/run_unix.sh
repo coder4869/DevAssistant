@@ -2,8 +2,8 @@
 # Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
 cd ${script_dir}
+
 # set var
 PROJ_NAME=_PROJ_NAME_
 QT_INSTALL_DIR="$HOME/Qt5.14.2/5.14.2/clang_64/"
@@ -42,11 +42,20 @@ if [[ `uname` == "Darwin" ]]; then  # MacOS
     fi
 
 else # Linux
+    LINUX_OS=""
+    if [[ `uname` == "Linux" ]]; then
+        if [[ -f "/etc/redhat-release" ]]; then # Redhat / CentOS
+            LINUX_OS="CentOS"
+        elif [[ -f "/etc/lsb-release" ]]; then # Ubuntu / Debian
+            LINUX_OS="Ubuntu"
+        fi
+    fi
     cmake -Wno-dev ${ROOT_DIR} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release \
         -DCMAKE_INSTALL_PREFIX=$BUILD_DIR \
         -DEXECUTABLE_OUTPUT_PATH=$BIN_DIR \
         -DQT_INSTALL_DIR=${QT_INSTALL_DIR} \
         -DPY_INSTALL_DIR=${PY_INSTALL_DIR} \
+        -DLINUX_OS=${LINUX_OS} \
         -DWITH_QT=ON \
         -DWITH_PY=OFF \
         -DPROJECT_NAME=${PROJ_NAME} -DLINUX=ON -H$ROOT_DIR -B$BUILD_DIR
@@ -76,3 +85,4 @@ function clean_plugins() {
 do_mkdir
 clean_plugins
 do_build $1
+                                                                               

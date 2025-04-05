@@ -82,8 +82,15 @@ if(WITH_QT)
             # ${QT_INSTALL_DIR}/lib/QtQuick2Plugin.framework
             ) 
     elseif(LINUX) # for LINUX
-        SET(QT_INC_HOME /usr/include/qt5)        
+        # CentOS
+        SET(QT_INC_HOME /usr/include/qt5)       
         SET(QT_LIB_HOME /usr/lib64)   
+        # Ubuntu
+        if("${LINUX_OS}" STREQUAL "Ubuntu")
+            SET(QT_INC_HOME /usr/include/x86_64-linux-gnu/qt5)       
+            SET(QT_LIB_HOME /usr/lib/x86_64-linux-gnu)   
+        endif(LINUX_OS)
+    
         SET(INC_QT ${QT_INC_HOME}
             ${QT_INC_HOME}/QtCore
             ${QT_INC_HOME}/QtGui
@@ -92,8 +99,8 @@ if(WITH_QT)
             ${QT_INC_HOME}/QtCharts
             ${QT_INC_HOME}/QtNetwork
             # Camera
-            ${QT_INC_HOME}/QtMultimedia
-            ${QT_INC_HOME}/QtMultimediaWidgets
+            # ${QT_INC_HOME}/QtMultimedia
+            # ${QT_INC_HOME}/QtMultimediaWidgets
             # qml - Quick
             ${QT_INC_HOME}/QtQml
             ${QT_INC_HOME}/QtQuick
@@ -110,13 +117,13 @@ if(WITH_QT)
             ${QT_LIB_HOME}/libQt5Network.so
             #${QT_LIB_HOME}/libQt5NetworkAuth.so  
             # Camera
-            ${QT_LIB_HOME}/libQt5Multimedia.so
-            ${QT_LIB_HOME}/libQt5MultimediaWidgets.so
+            # ${QT_LIB_HOME}/libQt5Multimedia.so
+            # ${QT_LIB_HOME}/libQt5MultimediaWidgets.so
             # qml - Quick
             ${QT_LIB_HOME}/libQt5Qml.so
             ${QT_LIB_HOME}/libQt5Quick.so
             ${QT_LIB_HOME}/libQt5QuickWidgets.so
-            ${QT_LIB_HOME}/libQt5QuickControls2.so
+            # ${QT_LIB_HOME}/libQt5QuickControls2.so
             # ${QT_LIB_HOME}/libQt5Quick2Plugin.so
             )
 	    message("INC_QT = ${INC_QT}")
@@ -124,8 +131,11 @@ if(WITH_QT)
 
     # Search QT Libraries
     SET(QT_MODULES Core Gui OpenGL Widgets Charts Network)
-    SET(QT_MODULES_CAMERA Multimedia MultimediaWidgets) 
-    SET(QT_MODULES_QUICK Qml Quick QuickWidgets QuickControls2 ) #Quick2Plugin
+    SET(QT_MODULES_QUICK Qml Quick QuickWidgets ) #Quick2Plugin
+    if("${CMAKE_HOST_SYSTEM_NAME}" STREQUAL "Windows")
+        SET(QT_MODULES_CAMERA Multimedia MultimediaWidgets)
+        SET(QT_MODULES_QUICK ${QT_MODULES_QUICK} QuickControls2 ) #Quick2Plugin
+    endif() 
     # https://blog.csdn.net/wu10188/article/details/129924779
     FIND_PACKAGE(Qt5 COMPONENTS ${QT_MODULES} ${QT_MODULES_CAMERA} ${QT_MODULES_QUICK} REQUIRED)
     # FIND_PACKAGE(Qt5 5.14.2 EXACT COMPONENTS ${QT_MODULES} ${QT_MODULES_CAMERA} ${QT_MODULES_QUICK} REQUIRED)
