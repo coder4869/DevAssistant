@@ -1,3 +1,7 @@
+
+## [2025.04.05] - v1.1.1.1
+### [Optimize] windows package section and doc
+
 ## [2025.04.05] - v1.1.1.0
 ### [new feature] plugin add QT support Ubuntu && CentOS
 

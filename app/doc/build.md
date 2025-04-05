@@ -4,12 +4,21 @@
 - run `run_win.bat` as Administrator by right-action.
 - build generated vs-project.
 
-### output
+### build-output
 - build `CMakePredefinedTargets/INSTALL` target on generated vs-project.
 
 - libs: `build_win/lib`
 - include: `build_win/include`
 - bin: `bin64`
+
+### package installer
+- Env:
+    * install: [NSIS](../../plugins/project/project/pkg-win/nsis-3.11/nsis-3.11-setup.exe) and add `ExecDos + ShellLink` [Plugins](../../plugins/project/project/pkg-win/nsis-3.11/Plugins) to nsis install plugin path(default is `C:\Program Files (x86)\NSIS\Plugins`)
+    * add NSIS install path to `PATH` environment
+- package:
+    * check `VERSION` and pkg-win directory info in `pkg-win-nsis.bat`
+    * run `pkg-win-nsis.bat`
+    * get `${PRODUCT_NAME}-Installer-v${PRODUCT_VERSION}-${OS_ARCH}.exe` installer for x64, x86, arm64
 
 
 ## Linux and MacOS
@@ -27,7 +36,7 @@
     * Run way2:
         * `sudo apt-get install -y dos2unix && dos2unix /opt/shared_dir/DevAssistant/app/run_unix.sh && bash /opt/shared_dir/DevAssistant/app/run_unix.sh`
 
-### output
+### build-output
 - MacOS: build `install` target on generated xcode-project.
 
 - libs: `build_unix/lib`
@@ -40,7 +49,7 @@
 - generate xcode project: `sh $HOME/Desktop/DevAssistant/app/run_ios.sh`
 - build ios lib: `sh $HOME/Desktop/DevAssistant/app/run_ios.sh build`
 
-### output
+### build-output
 - build `install` target on generated xcode-project.
 
 - libs: `build_ios/lib`
@@ -64,7 +73,7 @@
 - 3-Windows:
     - run `run_android.bat` by double click.
 
-### output
+### build-output
 - libs: `build_android/arm64-v8a`
 - include: `build_android/include`
 - bin: `bin64`

@@ -88,7 +88,7 @@ Function .onInit
 FunctionEnd
 
 ;------------ Installer Sections ------------
-Section "Install Main" SEC_MAIN
+Section "${PRODUCT_NAME}" SEC_MAIN ;Installer
   SectionIn RO
   SetOutPath "$INSTDIR"
   
@@ -121,15 +121,15 @@ Section "Install Main" SEC_MAIN
   ;WriteRegStr        HKCR "*.bat\shell\${PRODUCT_NAME}"               ""      '"bat文件处理"'                              ; For *.bat's DisplayName
   ;WriteRegStr        HKCR "*.bat\shell\${PRODUCT_NAME}"               "Icon"  '"$INSTDIR\data\Resource\logo.ico"'          ; For *.bat's icon
   ;WriteRegExpandStr  HKCR "*.bat\shell\${PRODUCT_NAME}\command"       ""      '"$INSTDIR\bin64\${PRODUCT_NAME}.exe" "%1"'  ; For *.bat
-  WriteRegStr         HKCR "*\shell\${PRODUCT_NAME}"                   ""      '"文件处理"'                                  ; For AllFiles's DisplayName
+  WriteRegStr         HKCR "*\shell\${PRODUCT_NAME}"                   ""      '"文件处理"'                                 ; For AllFiles's DisplayName
   WriteRegStr         HKCR "*\shell\${PRODUCT_NAME}"                   "Icon"  '"$INSTDIR\data\Resource\logo.ico"'          ; For AllFiles's icon
   WriteRegExpandStr   HKCR "*\shell\${PRODUCT_NAME}\command"           ""      '"$INSTDIR\bin64\${PRODUCT_NAME}.exe" "%1"'  ; For AllFiles
-  WriteRegStr         HKCR "Directory\shell\${PRODUCT_NAME}"           ""      '"文件夹处理"'                                ; For Directory's DisplayName
+  WriteRegStr         HKCR "Directory\shell\${PRODUCT_NAME}"           ""      '"文件夹处理"'                               ; For Directory's DisplayName
   WriteRegStr         HKCR "Directory\shell\${PRODUCT_NAME}"           "Icon"  '"$INSTDIR\data\Resource\logo.ico"'          ; For Directory's icon
   WriteRegExpandStr   HKCR "Directory\shell\${PRODUCT_NAME}\command"   ""      '"$INSTDIR\bin64\${PRODUCT_NAME}.exe" "%1"'  ; For Directory
-  WriteRegStr         HKCR "Folder\shell\${PRODUCT_NAME}"              ""      '"文件夹处理"'                                ; For Folder's DisplayName
-  WriteRegStr         HKCR "Folder\shell\${PRODUCT_NAME}"              "Icon"  '"$INSTDIR\data\Resource\logo.ico"'          ; For Folder's icon
-  WriteRegExpandStr   HKCR "Folder\shell\${PRODUCT_NAME}\command"      ""      '"$INSTDIR\bin64\${PRODUCT_NAME}.exe" "%1"'  ; For Folder
+  ;WriteRegStr         HKCR "Folder\shell\${PRODUCT_NAME}"              ""      '"文件夹处理"'                               ; For Folder's DisplayName
+  ;WriteRegStr         HKCR "Folder\shell\${PRODUCT_NAME}"              "Icon"  '"$INSTDIR\data\Resource\logo.ico"'          ; For Folder's icon
+  ;WriteRegExpandStr   HKCR "Folder\shell\${PRODUCT_NAME}\command"      ""      '"$INSTDIR\bin64\${PRODUCT_NAME}.exe" "%1"'  ; For Folder
 
   ; add to HKEY_LOCAL_MACHINE
   ;AutoRun
