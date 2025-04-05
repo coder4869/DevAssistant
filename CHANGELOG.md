@@ -1,3 +1,6 @@
+## [2025.04.05] - v1.1.0.1
+### Bug-Fix: Linux fPIC issue
+
 ## [2025.04.04] - v1.1.0.0
 ### [new feature] Linux: cmake add QT support for Ubuntu && CentOS
 

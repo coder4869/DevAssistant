@@ -23,7 +23,7 @@ message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
 message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
-project(${PROJECT_NAME} VERSION 1.1.0.0)
+project(${PROJECT_NAME} VERSION 1.1.0.1)
 # set(CMAKE_DEBUG_POSTFIX d)
 set(LIB_TYPE SHARED) # SHARED STATIC
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -61,6 +61,10 @@ elseif(LINUX)
         set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake")
     endif(LINUX_OS)
     message("CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
+
+    if(WITH_QT)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    endif(WITH_QT)
 
 elseif(OSX)
     set(APPLE ON)
