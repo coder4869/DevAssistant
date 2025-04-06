@@ -1,5 +1,6 @@
 #!/bin/bash
-# satrt docker:
+# Support OS: ubuntu/OpenKylin2.0
+# start docker:
 # Windows: docker run -it -d --shm-size=2g --network=host -v D:\Research:/opt/shared_dir ubuntu2204:v1.0 /bin/bash
 # Linux: docker run -it -d --shm-size=2g --network=host -v $HOME/dockers/shared_dir:/opt/shared_dir ubuntu2204-dev-v1.0 --privileged ubuntu2204:v1.0 /bin/bash
 # docker exec -it a3822da6accba9625129bc63c9fe0001367a7282a7eda0d50783ab90e75c7513 /bin/bash
@@ -10,6 +11,11 @@
 # sh /opt/shared_dir/DevAssistant/tools/env-apt.sh
 
 # echo color: https://www.cnblogs.com/unclemac/p/12783387.html
+
+# vmware load shared dir: 
+# temp: sudo mkdir /mnt/hgfs && sudo mount -t fuse.vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
+# forever: vim /etc/fstab 
+# add info: .host:/ /mnt/hgfs fuse.vmhgfs-fuse allow_other, defaults 0 0
 
 OS=`uname`
 ANDROID_SDK_HOME="/usr/lib/android-sdk"
@@ -107,7 +113,7 @@ function android_ndk() {
 setup_source
 setup_cert
 setup_soft
-setup_pip
+# setup_pip
 java_env
 android_sdk
 android_ndk

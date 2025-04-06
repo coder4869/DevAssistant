@@ -46,7 +46,7 @@ else # Linux
     if [[ `uname` == "Linux" ]]; then
         if [[ -f "/etc/redhat-release" ]]; then # Redhat / CentOS
             LINUX_OS="CentOS"
-        elif [[ -f "/etc/lsb-release" ]]; then # Ubuntu / Debian
+        elif [[ -f "/etc/lsb-release" ]]; then # Ubuntu / OpenKylin2.0
             LINUX_OS="Ubuntu"
         fi
     fi

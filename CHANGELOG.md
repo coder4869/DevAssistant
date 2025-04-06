@@ -1,3 +1,5 @@
+## [2025.04.06] - v1.1.1.2
+### [Optimize] cmake scripts for linux
 
 ## [2025.04.05] - v1.1.1.1
 ### [Optimize] windows package section and doc

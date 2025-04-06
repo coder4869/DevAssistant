@@ -54,7 +54,17 @@ if(WIN)
 elseif(LINUX)
     set(OS_TYPE "linux")
     add_definitions(-DLINUX)
-    set(CMAKE_PREFIX_PATH "/usr/lib64/cmake/Qt5")
+
+    if("${LINUX_OS}" STREQUAL "CentOS")
+        set(CMAKE_PREFIX_PATH "/usr/lib64/cmake/Qt5")
+    elseif("${LINUX_OS}" STREQUAL "Ubuntu")
+        set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake")
+    endif(LINUX_OS)
+    message("CMAKE_PREFIX_PATH = ${CMAKE_PREFIX_PATH}")
+
+    if(WITH_QT)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    endif(WITH_QT)
 
 elseif(OSX)
     set(APPLE ON)

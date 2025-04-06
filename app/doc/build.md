@@ -30,7 +30,7 @@
     * build osx lib: `sh $HOME/Desktop/DevAssistant/app/run_unix.sh build`
 - 2-Linux:
     * Setup-env: 
-        * Ubuntu/Debian: `bash /opt/shared_dir/DevAssistant/tools/env-apt.sh`
+        * Ubuntu/OpenKylin2.0: `bash /opt/shared_dir/DevAssistant/tools/env-apt.sh`
     * Run way1:
         * `sed -i 's/\r//' /opt/shared_dir/DevAssistant/app/run_unix.sh && bash /opt/shared_dir/DevAssistant/app/run_unix.sh`
     * Run way2:
@@ -65,7 +65,7 @@
     * `sh $HOME/Desktop/DevAssistant/app/run_android.sh`
 - 2-Linux:
     * Setup-env:
-        * Ubuntu/Debian: `bash /opt/shared_dir/DevAssistant/tools/env-apt.sh`
+        * Ubuntu/OpenKylin2.0: `bash /opt/shared_dir/DevAssistant/tools/env-apt.sh`
     * Run way1:
         * `sed -i 's/\r//' /opt/shared_dir/DevAssistant/app/run_android.sh && bash /opt/shared_dir/DevAssistant/app/run_android.sh`
     * Run way2:

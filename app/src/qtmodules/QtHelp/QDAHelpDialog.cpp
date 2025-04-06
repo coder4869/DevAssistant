@@ -30,9 +30,9 @@ void QDAHelpDialog::OnHelpShow()
 void QDAHelpDialog::OnShowVersion()
 {
     std::string version = u8R"(
-版本号(Version) : v1.1.1.1
+版本号(Version) : v1.1.1.2
    
-日期(Date) : 2025/03/27
+日期(Date) : 2025/04/06
     )";
     QMessageBox::information(NULL, QStringLiteral("Version"), QString::fromStdString(version));
 }
