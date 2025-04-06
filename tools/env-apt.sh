@@ -51,7 +51,7 @@ function setup_soft() {
     ${SUDO_CMD} apt-get install -y tree wget unzip cmake ninja-build dos2unix build-essential
     # Qt
     ${SUDO_CMD} apt-get install -y qtbase5-dev qtchooser qt5-qmake qtbase5-dev-tools qtdeclarative5-dev
-    ${SUDO_CMD} apt-get install -y libqt5charts5* libqt5multimedia5* libqt5quickcontrols2-5
+    ${SUDO_CMD} apt-get install -y libqt5charts5* libqt5multimedia5* libqt5quickcontrols2-5 libqt5opengl5* 
 
     dpkg -l | grep qt5charts
     dpkg -l | grep qt5multimedia
@@ -98,7 +98,7 @@ function android_ndk() {
     echo "$OS: install android ndk to $ANDROID_NDK_HOME"
     wget -c https://dl.google.com/android/repository/android-ndk-r26b-linux.zip
     ${SUDO_CMD} unzip -d $ANDROID_NDK_HOME android-ndk-r26b-linux.zip
-    mv $ANDROID_NDK_HOME/android-ndk-r26b $ANDROID_NDK_HOME/26.1.10909125
+    ${SUDO_CMD} mv $ANDROID_NDK_HOME/android-ndk-r26b $ANDROID_NDK_HOME/26.1.10909125
     # ${SUDO_CMD} tar -C $ANDROID_NDK_HOME -xvf android-ndk64-r10b-linux-x86_64.tar.bz2
     echo -e """\e[42m
     ${SUDO_CMD} gedit ~/.bashrc

@@ -1,3 +1,6 @@
+## [2025.04.06] - v1.1.1.3
+### [Optimize] fix python issue for linux
+
 ## [2025.04.06] - v1.1.1.2
 ### [Optimize] cmake scripts for linux
 

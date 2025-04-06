@@ -87,10 +87,12 @@ QString QCKCmd::GetSoftPath(const QString &name)
 QString QCKCmd::GetPyBin()
 {
     if (PY_BIN.isEmpty()) {
-#ifdef OSX
-        PY_BIN = GetSoftPath("python3") + " ";
-#elif WIN
+#if WIN 
         PY_BIN = GetSoftPath("python") + " ";
+#elif OSX
+        PY_BIN = GetSoftPath("python3") + " ";
+#elif LINUX
+        PY_BIN = "/usr/bin/python3";
 #endif
     }
     return PY_BIN;
