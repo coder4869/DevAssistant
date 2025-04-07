@@ -60,10 +60,10 @@ bool QCKCmd::ExecCmd(const QString &toolPath, const QStringList &options, QByteA
 QString QCKCmd::GetSoftPath(const QString &name)
 {
     QByteArray output;
-#if OSX || LINUX
-    bool ret = ExecCmd(CMD_BIN, QStringList() << "-c" << "whereis " + name, output);
-#elif WIN
+#if WIN 
     bool ret = ExecCmd(CMD_BIN, QStringList() << "/c" << "where " + name, output);
+#else // OSX || LINUX
+    bool ret = ExecCmd(CMD_BIN, QStringList() << "-c" << "whereis " + name, output);
 #endif
     
 //    qDebug() << output << endl;
@@ -73,14 +73,14 @@ QString QCKCmd::GetSoftPath(const QString &name)
     }
     QString cmd = QString::fromUtf8(output);
     
-#ifdef OSX || LINUX
-    QStringList list = cmd.split(" ");
-    qDebug() << list << endl;
-    return list[1];
-#elif WIN
+#if WIN
     QStringList list = cmd.split("\r\n");
     qDebug() << list << endl;
     return list[0];
+#else // OSX || LINUX
+    QStringList list = cmd.split(" ");
+    qDebug() << list << endl;
+    return list[1];
 #endif
 }
 
@@ -92,7 +92,7 @@ QString QCKCmd::GetPyBin()
 #elif OSX
         PY_BIN = GetSoftPath("python3") + " ";
 #elif LINUX
-        PY_BIN = "/usr/bin/python3";
+        PY_BIN = "/usr/bin/python3 ";
 #endif
     }
     return PY_BIN;

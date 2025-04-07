@@ -32,7 +32,7 @@ bool AppLoader::GetAppPath(const std::string &bin_path, std::string &output) {
 #elif defined(IOS)
     auto pos = bin_path.rfind(".ipa");
     output = bin_path.substr(0, pos + 4);
-#else
+#else // Windows or Linux
     output = bin_path;
 #endif
     return true;
