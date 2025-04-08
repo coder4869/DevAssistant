@@ -11,7 +11,7 @@ var /GLOBAL OS_ARCH   ; "x64" / "x86" / "arm64"
 ;!define PRODUCT_VERSION        "1.0.0.0"
 ;!define PRODUCT_NAME           "DevAssistant"
 !define PRODUCT_COMPANY         "coder4869"
-!define BIN_DIR                 "..\..\bin64"
+!define BIN_DIR                 "..\.."
 !define LICENSE_FILE            "..\..\data\doc\License.txt"
 !define INSTALL_ICON            "..\..\data\Resource\logo.ico"
 !define UNINSTALL_ICON          "..\..\data\Resource\uninstall.ico"
@@ -93,10 +93,11 @@ Section "${PRODUCT_NAME}" SEC_MAIN ;Installer
   SetOutPath "$INSTDIR"
   
   ; Copy Files
-  File /r "${BIN_DIR}\*"
-  RMDir /r "$INSTDIR\lib"
-  RMDir /r "$INSTDIR\logs"
-  RMDir /r "$INSTDIR\Release"
+  File /r "${BIN_DIR}\bin64"
+  File /r "${BIN_DIR}\conf"
+  File /r "${BIN_DIR}\data"
+  ;RMDir /r "$INSTDIR\lib"
+  ;RMDir /r "$INSTDIR\logs"
   ;Rename "$INSTDIR\Release" "$INSTDIR\bin64"
 
   ; Create Uninstaller

@@ -85,7 +85,7 @@ if(WITH_QT)
         # CentOS
         SET(QT_INC_HOME /usr/include/qt5)       
         SET(QT_LIB_HOME /usr/lib64)   
-        # Ubuntu
+        # Ubuntu / OpenKylin2.0
         if("${LINUX_OS}" STREQUAL "Ubuntu")
             SET(QT_INC_HOME /usr/include/x86_64-linux-gnu/qt5)       
             SET(QT_LIB_HOME /usr/lib/x86_64-linux-gnu)   

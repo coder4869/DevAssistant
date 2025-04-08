@@ -1,3 +1,7 @@
+
+## [2025.04.08] - v1.1.2.0
+### [Windows] optimize binary output
+
 ## [2025.04.07] - v1.1.1.4
 ### [Optimize] fix root_dir issue for linux
 
