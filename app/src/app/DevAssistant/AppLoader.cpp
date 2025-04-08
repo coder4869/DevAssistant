@@ -19,20 +19,21 @@ void InitAppConfig(const char *bin_path) {
     std::string app_path, app_dir, root_dir;
     CE::AppLoader::GetAppPath(bin_path, app_path);
     CE::AppLoader::GetAppDirPath(bin_path, app_dir);
-#if OSX
-    CKAppConf::GetInstance()->SetRootDir(app_path + "/Contents");
-#elif WIN
+#if WIN
     CU::String::LastNCharSubStr(app_path, '\\', 2, root_dir);
     CKAppConf::GetInstance()->SetRootDir(root_dir);
     CKAppConf::GetInstance()->SetRelativePath("app_icon", "data/Resource/AppIcon.ico");
+#elif OSX
+    CKAppConf::GetInstance()->SetRootDir(app_path + "/Contents");
 #else // LINUX 
+    CU::String::LastNCharSubStr(app_path, '/', 2, root_dir);
     CKAppConf::GetInstance()->SetRootDir(root_dir);
 #endif
     LOGI("root_dir = %s, app_dir = %s, app_path = %s", root_dir.c_str(), app_dir.c_str(), app_path.c_str());
 }
 
 int SetInitStart(const char * bin_path) {
-#ifdef WIN
+#if WIN
     std::string app_bin_abs = std::string(bin_path) + " %1";
     std::string app_icon_abs = CKAppConf::GetInstance()->GetRelativePath("app_icon");
     LOGI("app_bin_abs = %s", app_bin_abs.c_str());

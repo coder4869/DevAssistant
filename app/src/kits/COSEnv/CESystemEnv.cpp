@@ -16,13 +16,13 @@
 
 #define LOG_TAG "TAG_COSEnv"
 
-#ifdef WIN
+#if WIN
 #	include <windows.h>
 #endif // WIN
 
 NS_CE_BEGIN
 
-#ifdef WIN
+#if WIN
 const std::string OS_NAME = "Windows";
 const std::string ENV_PATH_SPLIT = ";";
 #elif defined(MAC) || defined(OSX)
@@ -36,7 +36,7 @@ const std::string ENV_PATH_SPLIT = ":";
 /// @param name upper-case is required!
 std::string SystemEnv::GetEnv(const char* name)
 {
-#ifdef WIN
+#if WIN
 	// https://www.orcode.com/question/1012464_k5c59b.html
 	const DWORD buf_size = 4096;
 	LPTSTR lp_buf = new TCHAR[buf_size];
@@ -149,7 +149,7 @@ bool SystemEnv::SetEnv(const std::string& key, const std::string& value)
 	// Key-Value Not Exist, add or update
 	std::string old_val = GetEnv(key.c_str());
 	const std::string new_val = old_val.empty() ? value : old_val.append(";").append(value);
-#ifdef WIN
+#if WIN
 	std::string cmd = "SETX " + key + " " + "\"" + new_val;
 	int ret = system(cmd.c_str());
 	if (ret != 0) {

@@ -1,6 +1,6 @@
 // Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
-#ifdef WIN
+#if WIN
 #	define API_EXPORT _declspec(dllexport)
 #	define API_IMPORT _declspec(dllimport)
 #else // Linux
@@ -15,7 +15,7 @@
 #define RET_OK      0
 #define RET_ERROR   1
 
-//#ifdef WIN
+//#if WIN
 //const char* PATH_SPLIT_TAG = "\\";
 //#else // Linux
 //const char* PATH_SPLIT_TAG = "/";

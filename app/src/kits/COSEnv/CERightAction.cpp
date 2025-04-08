@@ -5,7 +5,7 @@
 #include <iostream>
 #include <map>
 
-#ifdef WIN
+#if WIN
 #	include <windows.h>
 #endif
 
@@ -44,7 +44,7 @@ int RightAction::AddAction(const std::string& key, const std::string& action,
 		return 1;
 	}
 
-#ifdef WIN
+#if WIN
 	std::string reg_path = GetRegPrefix(mode);
 	if (reg_path.empty()) {
 		LOGE("Invalid Mode ! mode = %d", (int)mode);
@@ -82,12 +82,12 @@ int RightAction::DelAction(const std::string& key, RightAction::Mode mode, const
 		return 1;
 	}
 
-#ifdef WIN
+#if WIN
 	std::string reg_path = GetRegPrefix(mode);
 	if (reg_path.empty()) {
         LOGE("Invalid Mode ! mode = %d", (int)mode);
 		return 2;
-}
+	}
 
 	if (mode == CE::RightAction::Mode::FIX_SUFFIX) {
 		reg_path.append(suffix + "\\shell\\" + key + "\\");

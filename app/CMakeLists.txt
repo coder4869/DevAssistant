@@ -8,7 +8,7 @@ set(PROJ_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
 if(WIN)
     # set(CMAKE_INSTALL_PREFIX "${PROJ_ROOT}")
-    # set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}")
+    set(EXECUTABLE_OUTPUT_PATH "${PROJ_ROOT}")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJ_ROOT}")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${PROJ_ROOT}/bin64")
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${PROJ_ROOT}/bin64")
@@ -32,7 +32,7 @@ message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
 message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
-project(${PROJECT_NAME} VERSION 1.1.2.0)
+project(${PROJECT_NAME} VERSION 1.1.3.0)
 # set(CMAKE_DEBUG_POSTFIX d)
 set(LIB_TYPE SHARED) # SHARED STATIC
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -54,7 +54,7 @@ if(WIN)
     set(WIN32 ON)
     set(OS_TYPE "win")
     set(OS_BUNDLE WIN32)
-    add_definitions(-DWIN)
+    add_definitions(-DWIN=1)
 
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-win/win_func.cmake)
     WIN_ADD_META(META_FILES) # Add Resource To Project - eg. AppIcon.ico
@@ -62,7 +62,7 @@ if(WIN)
 
 elseif(LINUX)
     set(OS_TYPE "linux")
-    add_definitions(-DLINUX)
+    add_definitions(-DLINUX=1)
 
     if("${LINUX_OS}" STREQUAL "CentOS")
         set(CMAKE_PREFIX_PATH "/usr/lib64/cmake/Qt5")
@@ -85,7 +85,7 @@ elseif(OSX)
     set(XCODE_DEVELOPMENT_TEAM "")
     set(XCODE_CODE_SIGN_IDENTITY "")
     set(XCODE_PROVISIONING_PROFILE "")
-    add_definitions(-DOSX )
+    add_definitions(-DOSX=1)
 
     # set OSX Libs
     set(LIB_FMWKs)
@@ -104,7 +104,7 @@ elseif(IOS)
     set(XCODE_DEVELOPMENT_TEAM "XXXXXXXXXX")
     set(XCODE_CODE_SIGN_IDENTITY "Apple Development")
     set(XCODE_PROVISIONING_PROFILE "")
-    add_definitions(-DIOS )
+    add_definitions(-DIOS=1)
 
     # set iOS Libs
     set(LIB_FMWKs)
@@ -116,7 +116,7 @@ elseif(IOS)
 
 elseif(ANDROID)
     set(OS_TYPE "linux")
-    add_definitions(-DANDROID )
+    add_definitions(-DANDROID=1)
 
 endif()
 

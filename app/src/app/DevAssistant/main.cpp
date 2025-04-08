@@ -38,7 +38,7 @@ std::string GetBinRelativePath(const std::string& bin_path) {
     }
 
     auto bin_path_tmp = bin_path;
-#ifdef WIN
+#if WIN
     std::replace(bin_path_tmp.begin(), bin_path_tmp.end(), '\\', '/');
 #endif // WIN
     auto pos_l = bin_path_tmp.find_last_not_of('/');

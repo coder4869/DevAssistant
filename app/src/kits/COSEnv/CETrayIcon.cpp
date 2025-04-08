@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#ifdef WIN
+#if WIN
 #	include <windows.h>
 #endif
 
@@ -12,7 +12,7 @@ NS_CE_BEGIN
 
 void TrayIcon::SetIcon(int winid, const std::string& icon_name, const std::string& tips, unsigned long mode)
 {
-#ifdef WIN
+#if WIN
 	NOTIFYICONDATA tray_icon;
 	HWND hwnd = HWND(winid);
 	CreateSemaphore(NULL, 1, 1, tips.c_str());
@@ -60,7 +60,7 @@ void TrayIcon::SetIcon(int winid, const std::string& icon_name, const std::strin
 
 void TrayIcon::ShowWindow(int winid, bool show)
 {
-#ifdef WIN
+#if WIN
 	ShowWindow(HWND(winid), show ? SW_SHOWNORMAL : SW_HIDE);
 #else
 
@@ -69,7 +69,7 @@ void TrayIcon::ShowWindow(int winid, bool show)
 
 void TrayIcon::DelIcon(int winid)
 {
-#ifdef WIN
+#if WIN
 	NOTIFYICONDATA tray_icon;
 	HWND hwnd = HWND(winid);
 	memset(&tray_icon, 0, sizeof(NOTIFYICONDATA));

@@ -8,7 +8,7 @@ NS_GIT_BEGIN
 
 bool Github::GithubConnectFix()
 {
-#ifdef WIN
+#if WIN
 	int ret = system("ipconfig /flushdns");
 	return ret == 0;
 #else

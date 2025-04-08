@@ -12,7 +12,7 @@
 #define LOG_TAG "TAG_COSEnv"
 
 //NS_DE_BEGIN
-#ifdef WIN
+#if WIN
 	const std::string CMAKE_REG = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Kitware\\CMake\\InstallDir";
 #else
 	const std::string CMAKE_REG = "OS-Env";

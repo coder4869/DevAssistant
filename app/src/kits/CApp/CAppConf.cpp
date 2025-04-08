@@ -26,7 +26,7 @@ bool CKAppConf::SetRootDir(const std::string &root)
 
 std::string CKAppConf::GetRootDir() { 
 	auto ret = root_dir_;
-#ifdef WIN
+#if WIN
 	std::replace(ret.begin(), ret.end(), '/', '\\');
 #endif // WIN
 	return ret; 
@@ -51,7 +51,7 @@ std::string CKAppConf::GetRelativePath(const std::string& key)
 
 	auto ret = root_dir_ + "/" + iter->second;
 
-#ifdef WIN
+#if WIN
 	std::replace(ret.begin(), ret.end(), '/', '\\');
 #endif // WIN
 

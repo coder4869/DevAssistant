@@ -7,7 +7,7 @@
 #include <COSEnv/CERegedit.h>
 #include <COSEnv/CESystemEnv.h>
 
-#ifdef WIN
+#if WIN
 #	include <windows.h>
 #endif
 

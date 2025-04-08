@@ -1,4 +1,7 @@
 
+## [2025.04.08] - v1.1.3.0
+### [Optimize] update platform macro
+
 ## [2025.04.08] - v1.1.2.0
 ### [Windows] optimize binary output
 

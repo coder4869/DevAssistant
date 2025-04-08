@@ -7,7 +7,7 @@
 #include <QMessageBox>
 
 #include <iostream>
-#ifdef WIN
+#if WIN
 #include <windows.h>
 #endif // WIN
 
@@ -104,7 +104,7 @@ void QDAMainWindow::LoadWelcome()
 
 bool QDAMainWindow::nativeEvent(const QByteArray& eventType, void* message, long* result)
 {
-#ifdef WIN
+#if WIN
     MSG* msg = (MSG*)message;
     if (msg->message == WM_TO_TRAY) {
         LOGI("eventType = %s", QString(eventType).toStdString().c_str());

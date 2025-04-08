@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-#ifdef WIN
+#if WIN
 #	include <windows.h>
 #endif
 
@@ -14,7 +14,7 @@
 
 NS_CE_BEGIN
 
-#ifdef WIN
+#if WIN
 static HKEY GetRegHKeyRootHandle(const std::string &key) 
 {
 	HKEY hkey = HKEY_LOCAL_MACHINE;

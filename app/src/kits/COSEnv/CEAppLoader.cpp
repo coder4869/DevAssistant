@@ -8,7 +8,7 @@
 #include <iostream>
 #include <algorithm>
 
-#ifdef WIN
+#if WIN
 #	include <windows.h>
 #endif
 
@@ -45,7 +45,7 @@ bool AppLoader::GetAppDirPath(const std::string &bin_path, std::string &output) 
     }
     auto bin_path_tmp = bin_path;
     std::string::size_type pos;
-#ifdef WIN
+#if WIN
     std::replace(bin_path_tmp.begin(), bin_path_tmp.end(), '\\', '/');
 #elif defined(OSX)
     pos = bin_path_tmp.rfind(".app");
@@ -95,7 +95,7 @@ static int RunCmdByPopen(const std::string &cmd_str, std::vector<std::string> &o
 // Match priority: full equal > first same prefix > only one > other(failed)
 bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &output)
 {
-#ifdef WIN
+#if WIN
     return false;
 #else // OSX or Linux
 //#if _HAS_CXX17
@@ -170,7 +170,7 @@ bool AppLoader::GetAppInstallPath(const std::string &app_name, std::string &outp
 
 bool AppLoader::RunAsRoot(const std::string& bin_path)
 {
-#ifdef WIN
+#if WIN
 	HINSTANCE hResult = ShellExecute(NULL, "runas", bin_path.c_str(), NULL, NULL, SW_SHOWNORMAL);
 	return true;
 #else   // OSX OR Linux
@@ -180,14 +180,14 @@ bool AppLoader::RunAsRoot(const std::string& bin_path)
 
 bool AppLoader::RunAsOSStart(const std::string& app_key, const std::string& bin_path)
 {
-#ifdef WIN
+#if WIN
 	std::string regkey = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\";
 	auto tmp_path = bin_path;
 	std::replace(tmp_path.begin(), tmp_path.end(), '/', '\\');
 	//CE::Regedit::DelRegValue(regkey + app_key);
     return CE::Regedit::SetRegValue(regkey + app_key, tmp_path, "REG_SZ", true);
 
-#elif defined(OSX)
+#elif OSX
     // plist 关键字：
     //    Label - 标识符，用来表示该任务的唯一性
     //    Program - 程序名称，用来说明运行哪个程序、脚本

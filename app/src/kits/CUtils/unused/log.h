@@ -10,7 +10,7 @@
 #include <sys/timeb.h>
 #include <time.h>
 
-#ifdef WIN
+#if WIN
 #include <direct.h>
 #endif // WIN
 
@@ -18,7 +18,7 @@ static std::ofstream g_log;
 static bool g_log_open = false;
 
 static void log_open() {
-#ifdef WIN
+#if WIN
 	_mkdir("logs");
 #else
 	// TDDO :: Linux mkdir

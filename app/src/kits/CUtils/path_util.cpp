@@ -10,7 +10,7 @@ namespace utils::path {
 
 std::string absolute_path(const std::string &relative_path) {
     std::filesystem::path tmp_path = relative_path;
-#ifdef WIN
+#if WIN
     char abs_path[MAX_PATH] = {0};
     _fullpath(abs_path, relative_path.c_str(), MAX_PATH);
     return abs_path;

@@ -12,7 +12,7 @@
 #include <filesystem> // C++17
 #endif
 
-#ifdef WIN
+#if WIN
 #include <direct.h>
 #endif // WIN
 

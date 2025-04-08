@@ -54,7 +54,7 @@ if(WIN)
     set(WIN32 ON)
     set(OS_TYPE "win")
     set(OS_BUNDLE WIN32)
-    add_definitions(-DWIN)
+    add_definitions(-DWIN=1)
 
     include(${CMAKE_TOOLCHAIN_ROOT}/cmake-win/win_func.cmake)
     WIN_ADD_META(META_FILES) # Add Resource To Project - eg. AppIcon.ico
@@ -62,7 +62,7 @@ if(WIN)
 
 elseif(LINUX)
     set(OS_TYPE "linux")
-    add_definitions(-DLINUX)
+    add_definitions(-DLINUX=1)
 
     if("${LINUX_OS}" STREQUAL "CentOS")
         set(CMAKE_PREFIX_PATH "/usr/lib64/cmake/Qt5")
@@ -85,7 +85,7 @@ elseif(OSX)
     set(XCODE_DEVELOPMENT_TEAM "")
     set(XCODE_CODE_SIGN_IDENTITY "")
     set(XCODE_PROVISIONING_PROFILE "")
-    add_definitions(-DOSX )
+    add_definitions(-DOSX=1)
 
     # set OSX Libs
     set(LIB_FMWKs)
@@ -104,7 +104,7 @@ elseif(IOS)
     set(XCODE_DEVELOPMENT_TEAM "XXXXXXXXXX")
     set(XCODE_CODE_SIGN_IDENTITY "Apple Development")
     set(XCODE_PROVISIONING_PROFILE "")
-    add_definitions(-DIOS )
+    add_definitions(-DIOS=1)
 
     # set iOS Libs
     set(LIB_FMWKs)
@@ -116,7 +116,7 @@ elseif(IOS)
 
 elseif(ANDROID)
     set(OS_TYPE "linux")
-    add_definitions(-DANDROID )
+    add_definitions(-DANDROID=1)
 
 endif()
 
