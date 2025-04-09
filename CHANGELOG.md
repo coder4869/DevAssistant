@@ -1,3 +1,5 @@
+## [2025.04.08] - v1.1.3.1
+### [Optimize] linux build output && release doc
 
 ## [2025.04.08] - v1.1.3.0
 ### [Optimize] update platform macro
