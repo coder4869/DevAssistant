@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- /usr/share/mime/packages/_PROJ_NAME_-action.xml -->
+<!-- sudo update-mime-database /usr/share/mime -->
+
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+
+  <mime-type type="all/allfiles">
+    <action name="_PROJ_NAME_">
+      <label>文件处理</label>
+      <commandline>/usr/local/bin/_PROJ_NAME__loader %f</commandline>
+    </action>
+  </mime-type>
+
+  <mime-type type="inode/directory">
+    <action name="_PROJ_NAME_">
+      <label>文件夹处理</label>
+      <commandline>/usr/local/bin/_PROJ_NAME__loader %F</commandline>
+    </action>
+  </mime-type>
+</mime-info>

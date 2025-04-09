@@ -1,0 +1,8 @@
+#!/bin/bash
+# copy to /usr/local/bin/DevAssistant_loader
+# sudo chmod +x /usr/local/bin/DevAssistant_loader
+
+for file in "$@"; do
+  /usr/local/bin/DevAssistant/bin64/DevAssistant "$file"
+done
+

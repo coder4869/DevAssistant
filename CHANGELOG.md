@@ -1,3 +1,6 @@
+## [2025.04.09] - v1.1.4.0
+### [new feature] Linux: add rpm package support
+
 ## [2025.04.08] - v1.1.3.1
 ### [Optimize] linux build output && release doc
 

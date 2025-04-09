@@ -1,0 +1,8 @@
+#!/bin/bash
+# copy to /usr/local/bin/_PROJ_NAME__loader
+# sudo chmod +x /usr/local/bin/_PROJ_NAME__loader
+
+for file in "$@"; do
+  /usr/local/bin/_PROJ_NAME_/bin64/_PROJ_NAME_ "$file"
+done
+

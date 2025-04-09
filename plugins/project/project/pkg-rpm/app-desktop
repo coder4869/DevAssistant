@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=_PROJ_NAME_
+Comment=This is an application
+Exec=/usr/local/bin/_PROJ_NAME_/bin64/_PROJ_NAME_
+Icon=/usr/share/icons/hicolor/256x256/apps/_PROJ_NAME_.png
+Terminal=false
+Type=Application
+Categories=System;Office;
+StartupWMClass=_PROJ_NAME_

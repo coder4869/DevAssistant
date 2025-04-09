@@ -13,6 +13,7 @@
 - New features
     * 1.logger: spdlog add support for ubuntu, centos, openKylin2.0.
     * 2.cmake: add qt support for ubuntu, centos, openKylin2.0.
+    * 3.pkg-rpm: add rpm package scripts for centos.
 - Optimize
     * 1.fix app bugs for ubuntu, centos, openKylin2.0.
 

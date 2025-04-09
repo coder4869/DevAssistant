@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=DevAssistant
+Comment=DevAssistant is an develop tool application
+Exec=/usr/local/bin/DevAssistant/bin64/DevAssistant
+Icon=/usr/share/icons/hicolor/256x256/apps/DevAssistant.png
+Terminal=false
+Type=Application
+Categories=System;Office;
+StartupWMClass=DevAssistant
