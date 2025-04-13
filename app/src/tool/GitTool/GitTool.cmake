@@ -29,7 +29,7 @@ endif(NOT ANDROID)
 set(LIB_DEPS ${THIRD_PARTY_LIB} CUtils )
 
 add_library(${LIB_NAME} ${LIB_TYPE} ${GitTool_SRC})
-set_target_properties(${LIB_NAME} PROPERTIES FOLDER "tools")
+set_target_properties(${LIB_NAME} PROPERTIES FOLDER "tool")
 include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/core_func.cmake)
 SET_TARGET_CXX_VERSION(${LIB_NAME})
 target_compile_definitions(${LIB_NAME} PRIVATE GITTOOL_EXPORT )

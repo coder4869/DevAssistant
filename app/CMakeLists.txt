@@ -32,7 +32,7 @@ message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
 message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
-project(${PROJECT_NAME} VERSION 1.1.5.0)
+project(${PROJECT_NAME} VERSION 1.1.6.0)
 # set(CMAKE_DEBUG_POSTFIX d)
 set(LIB_TYPE SHARED) # SHARED STATIC
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -143,18 +143,7 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-# set(PLUGIN_DIR ${PROJ_ROOT}/plugins)
-# File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
-# list(FILTER PLUGIN_FILEs EXCLUDE REGEX "${PLUGIN_DIR}/templates/*")
-# if(NOT ANDROID)
-#     source_group(
-#         TREE ${PLUGIN_DIR}
-#         PREFIX "plugins"
-#         FILES ${PLUGIN_FILEs}
-#         )
-# endif(NOT ANDROID)
-
-set(TOOL_DIR ${PROJ_ROOT}/../tools)
+set(TOOL_DIR ${PROJ_ROOT}/tools)
 File(GLOB_RECURSE TOOL_FILEs ${TOOL_DIR}/*.*)
 if(NOT ANDROID)
     source_group(
@@ -224,11 +213,11 @@ set(SRC_FILES)
 set(THIRD_PARTY_INC)
 set(THIRD_PARTY_INC_FILES)
 set(THIRD_PARTY_LIB)
-set(INC_GROUP  ${PROJ_ROOT}/src/app ${PROJ_ROOT}/src/qtmodules ${PROJ_ROOT}/src/kits ${PROJ_ROOT}/src/tools ${PROJ_ROOT}/deps)
+set(INC_GROUP  ${PROJ_ROOT}/src/app ${PROJ_ROOT}/src/qtmodules ${PROJ_ROOT}/src/kits ${PROJ_ROOT}/src/tool ${PROJ_ROOT}/deps)
 # include(Module-Group.cmake)
 include(${PROJ_ROOT}/deps/deps.cmake)
 set(INC_GROUP ${THIRD_PARTY_INC} ${INC_GROUP})
-include(${PROJ_ROOT}/src/tools/tools.cmake)
+include(${PROJ_ROOT}/src/tool/tool.cmake)
 include(${PROJ_ROOT}/src/kits/kits.cmake)
 include(${PROJ_ROOT}/src/qtmodules/qtmodules.cmake)
 include(${PROJ_ROOT}/src/app/app.cmake)

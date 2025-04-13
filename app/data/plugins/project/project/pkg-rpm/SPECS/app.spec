@@ -19,10 +19,12 @@ cp -r %{SOURCE0}/bin64/lib*.so %{buildroot}/usr/lib64/
 # data && conf && logs
 mkdir -p %{buildroot}/usr/local/bin/%{name}/conf
 mkdir -p %{buildroot}/usr/local/bin/%{name}/data
+mkdir -p %{buildroot}/usr/local/bin/%{name}/tools
 mkdir -p %{buildroot}/usr/local/bin/%{name}/logs
 mkdir -p %{buildroot}/tmp/%{name}-logs
 cp -r %{SOURCE0}/conf/* %{buildroot}/usr/local/bin/%{name}/conf/
 cp -r %{SOURCE0}/data/* %{buildroot}/usr/local/bin/%{name}/data/
+cp -r %{SOURCE0}/tools/* %{buildroot}/usr/local/bin/%{name}/tools/
 echo "/tmp/%{name}-logs" > %{buildroot}/usr/local/bin/%{name}/logs/%{name}.log
 echo "/tmp/%{name}-logs" > %{buildroot}/tmp/%{name}-logs/%{name}.log
 
@@ -50,6 +52,7 @@ cp -r %{SOURCE0}/%{name}-action.xml %{buildroot}/usr/share/mime/packages/%{name}
 /usr/local/bin/%{name}/bin64/%{name}
 /usr/local/bin/%{name}/conf/*
 /usr/local/bin/%{name}/data/*
+/usr/local/bin/%{name}/tools/*
 /usr/local/bin/%{name}/logs/*
 /tmp/%{name}-logs/*
 /usr/lib64/*

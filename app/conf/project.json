@@ -157,7 +157,7 @@
         },
         {
             "group": "Kit",
-            "group_dir": "/src/tools",
+            "group_dir": "/src/tool",
             "modules": [
                 {
                     "deps": [

@@ -111,7 +111,8 @@ Section "${PRODUCT_NAME}" SEC_MAIN ;Installer
   File /r "${BIN_DIR}\bin64"
   File /r "${BIN_DIR}\conf"
   File /r "${BIN_DIR}\data"
-  ;RMDir /r "$INSTDIR\lib"
+  File /r "${BIN_DIR}\tools"
+  RMDir /r "$INSTDIR\src"
   ;RMDir /r "$INSTDIR\logs"
   ;Rename "$INSTDIR\Release" "$INSTDIR\bin64"
 

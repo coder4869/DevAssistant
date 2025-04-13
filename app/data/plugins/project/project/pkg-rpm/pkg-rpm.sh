@@ -25,6 +25,7 @@ cp -r ${script_dir}/build_unix/lib/*.so ${script_dir}/bin64/
 cp -r ${script_dir}/bin64 SOURCES/ 
 cp -r ${script_dir}/conf  SOURCES/ 
 cp -r ${script_dir}/data  SOURCES/ 
+cp -r ${script_dir}/tools  SOURCES/ 
 cp -r ${script_dir}/scripts/pkg-rpm/app-desktop SOURCES/$PROJ_NAME.desktop
 cp -r ${script_dir}/scripts/pkg-rpm/app_loader  SOURCES/${PROJ_NAME}_loader
 cp -r ${script_dir}/scripts/pkg-rpm/app-action.xml SOURCES/$PROJ_NAME-action.xml

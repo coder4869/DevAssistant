@@ -1,3 +1,6 @@
+## [2025.04.13] - v1.1.6.0
+### [Optimize] tools scripts
+
 ## [2025.04.12] - v1.1.5.0
 ### [Optimize] re-orginaze plugins
 

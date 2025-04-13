@@ -1,7 +1,12 @@
 ## Release Notes
 
 ### Release v1.1
-#### 1. Windows
+#### 1. Universal
+- Optimize
+    * plugin scripts
+    * tools scripts
+
+#### 2. Windows
 - New features
     * 1.pkg-exe: add nsis based exe package scripts.
 - Optimize
@@ -9,11 +14,12 @@
     * 2.`run_win.bat`: auto detect installed visual studio, replace c++ code update `run_win.bat`.
     * 3.build output organization(bin64, lib, logs etc).
 
-#### 2. Linux
+#### 3. Linux
 - New features
     * 1.logger: spdlog add support for ubuntu, centos, openKylin2.0.
     * 2.cmake: add qt support for ubuntu, centos, openKylin2.0.
     * 3.pkg-rpm: add rpm package scripts for centos.
+    * 4.tools: add unix-core.sh (auto get os && mirror type for ubuntu, centos, debian, redhat).
 - Optimize
     * 1.fix app bugs for ubuntu, centos, openKylin2.0.
 
