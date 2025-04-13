@@ -1,3 +1,6 @@
+## [2025.04.12] - v1.1.5.0
+### [Optimize] re-orginaze plugins
+
 ## [2025.04.09] - v1.1.4.0
 ### [new feature] Linux: add rpm package support
 

@@ -93,4 +93,4 @@ function clean_plugins() {
 do_mkdir
 clean_plugins
 do_ninja_build
-                                                                                               
+                                                                                                                                                                                              

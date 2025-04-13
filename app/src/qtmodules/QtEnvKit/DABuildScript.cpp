@@ -112,10 +112,10 @@ bool BuildScript::Update(const std::string& script_path, std::string& err_msg)
 			return false;
 		}
 
-		// Check VS
-		if (CheckVSEnv(file_data, err_msg)) {
-			return false;
-		}
+		//// Check VS
+		//if (CheckVSEnv(file_data, err_msg)) {
+		//	return false;
+		//}
 		
 		// Check QT_HOME
 		std::string qt_env;

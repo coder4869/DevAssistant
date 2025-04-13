@@ -32,7 +32,7 @@ message("CMAKE_TOOLCHAIN_ROOT = ${CMAKE_TOOLCHAIN_ROOT} ")
 message("include(${CMAKE_TOOLCHAIN_ROOT}/cmake-core/global.cmake) ")
 
 
-project(${PROJECT_NAME} VERSION 1.1.4.0)
+project(${PROJECT_NAME} VERSION 1.1.5.0)
 # set(CMAKE_DEBUG_POSTFIX d)
 set(LIB_TYPE SHARED) # SHARED STATIC
 # set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
@@ -143,16 +143,16 @@ if(NOT ANDROID)
         )
 endif(NOT ANDROID)
 
-set(PLUGIN_DIR ${PROJ_ROOT}/../plugins)
-File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
-list(FILTER PLUGIN_FILEs EXCLUDE REGEX "${PROJ_ROOT}/../plugins/templates/*")
-if(NOT ANDROID)
-    source_group(
-        TREE ${PLUGIN_DIR}
-        PREFIX "plugins"
-        FILES ${PLUGIN_FILEs}
-        )
-endif(NOT ANDROID)
+# set(PLUGIN_DIR ${PROJ_ROOT}/plugins)
+# File(GLOB_RECURSE PLUGIN_FILEs ${PLUGIN_DIR}/*.*)
+# list(FILTER PLUGIN_FILEs EXCLUDE REGEX "${PLUGIN_DIR}/templates/*")
+# if(NOT ANDROID)
+#     source_group(
+#         TREE ${PLUGIN_DIR}
+#         PREFIX "plugins"
+#         FILES ${PLUGIN_FILEs}
+#         )
+# endif(NOT ANDROID)
 
 set(TOOL_DIR ${PROJ_ROOT}/../tools)
 File(GLOB_RECURSE TOOL_FILEs ${TOOL_DIR}/*.*)

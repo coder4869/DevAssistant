@@ -4,7 +4,6 @@
 **/build_win
 **/build_ios
 **/build_android
-app/data/plugins
 app/bin
 app/bin64
 app/bin_ios
@@ -12,8 +11,8 @@ app/lib
 app/logs
 app/tools
 
-plugins/templates/android/.gradle
-plugins/templates/android/**/build
+pre-dev/templates/android/.gradle
+pre-dev/templates/android/**/build
 
 app/tools/glog-*
 app/tools/spdlog-*

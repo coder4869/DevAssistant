@@ -1,5 +1,5 @@
 Name:		_PROJ_NAME_
-Version:	1.1.4.0
+Version:	1.1.5.0
 Release:	1%{?dist}
 Summary:	Client Application
 License:	""
