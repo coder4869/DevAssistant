@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #include "QDACheckEnvDialog.h"
 
@@ -31,10 +31,10 @@ QDACheckEnvDialog::QDACheckEnvDialog(QWidget *parent) :
     ui->setupUi(this);
     QUI::Style::SetTreeWidget(ui->envTreeWidget);
 
-    QUI::Style::SetPushButton(ui->checkEnvBtn);
+    ui->checkEnvBtn->setStyleSheet(QUI::Style::PushButton());
     connect(ui->checkEnvBtn, SIGNAL(clicked(bool)), this, SLOT(OnCheckEnv()));
 
-    QUI::Style::SetPushButton(ui->tryFixBtn);
+    ui->tryFixBtn->setStyleSheet(QUI::Style::PushButton());
     connect(ui->tryFixBtn, SIGNAL(clicked(bool)), this, SLOT(OnTryFixEnvValue()));
 }
 

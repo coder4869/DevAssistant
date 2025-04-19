@@ -12,7 +12,7 @@ QDAProjectAddDialog::QDAProjectAddDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QUI::Style::SetPushButton(ui->createProjectBtn);
+    ui->createProjectBtn->setStyleSheet(QUI::Style::PushButton());
 }
 
 QDAProjectAddDialog::~QDAProjectAddDialog()

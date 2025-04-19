@@ -28,7 +28,7 @@ md %BUILD_DIR%
 if exist %BIN_DIR% rd /s /q %BIN_DIR%
 
 :: clean py cache
-SET PLUGIN_DIR=%ROOT_DIR%\app\data\plugins
+SET PLUGIN_DIR=%ROOT_DIR%\data\plugins
 echo PLUGIN_DIR = %PLUGIN_DIR%
 for /f "delims=" %%i in ('dir /ad/b/s "%PLUGIN_DIR%"') do (
     if exist %%i\.DS_Store rd /s /q %%i\.DS_Store

@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #ifndef QDA_MAINWINDOW_H
 #define QDA_MAINWINDOW_H
@@ -29,6 +29,7 @@ public:
     void LoadWelcome();
 
 public Q_SLOTS:
+    void OnSetWelcome();
     void OnSetCentralWidget(QWidget *widget);
 
 private:
@@ -39,6 +40,7 @@ private:
     QDACustomDialog *custom;
     QDAPlanDialog *plan;
     QDAHelpDialog *help;
+    QWidget* initWidget;
 
 protected:
     ////////////////////////// TrayIcon Section //////////////////////////

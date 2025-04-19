@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #include "QDAHelpDialog.h"
 
@@ -13,7 +13,7 @@ QDAHelpDialog::QDAHelpDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
-    QUI::Style::SetPushButton(ui->versionButton);
+    ui->versionButton->setStyleSheet(QUI::Style::PushButton());
 }
 
 QDAHelpDialog::~QDAHelpDialog()
@@ -30,9 +30,9 @@ void QDAHelpDialog::OnHelpShow()
 void QDAHelpDialog::OnShowVersion()
 {
     std::string version = u8R"(
-版本号(Version) : v1.1.6.0
+版本号(Version) : v2.0.0.0
    
-日期(Date) : 2025/04/13
+日期(Date) : 2025/04/19
     )";
     QMessageBox::information(NULL, QStringLiteral("Version"), QString::fromStdString(version));
 }

@@ -1,3 +1,6 @@
+## [2025.04.19] - v2.0.0.0
+### [Optimize] User interface redesign
+
 ## [2025.04.13] - v1.1.6.0
 ### [Optimize] tools scripts
 

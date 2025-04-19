@@ -49,16 +49,6 @@
          <string>预览项目(View Project)</string>
         </property>
        </item>
-       <item>
-        <property name="text">
-         <string>添加模块(Add Module)</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>添加类(Add Class)</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>

@@ -52,7 +52,6 @@ void TrayIcon::SetIcon(int winid, const std::string& icon_name, const std::strin
 		Shell_NotifyIcon(NIM_SETVERSION, &tray_icon);
 		//ShowWindow(hwnd, SW_HIDE);
 	}
-
 #else
 
 #endif // WIN

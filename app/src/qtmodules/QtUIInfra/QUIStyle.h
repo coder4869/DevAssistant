@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #pragma once
 
@@ -6,12 +6,9 @@
 #include <CUtils/def_macro.h>
 #include "QtUIInfraDef.h"
 
-class QMainWindow;
 class QDockWidget;
-class QListView;
-class QListWidget;
 class QTreeWidget;
-class QPushButton;
+class QString;
 
 NS_QUI_BEGIN
 
@@ -19,17 +16,19 @@ NS_QUI_BEGIN
 //{
 //public:
 namespace Style {
-	void SetMainWindow(QMainWindow* window);
+	QString MainWindowStyle();
 
 	void SetDockWidget(QDockWidget* widget);
 
-	void SetListView(QListView* view);
-
-	void SetListWidget(QListWidget* widget);
-
 	void SetTreeWidget(QTreeWidget* widget);
 
-	void SetPushButton(QPushButton* btn);
+	QString ListView();
+
+	QString ListWidget();
+
+	QString PushButton();
+	QString PushButtonCyan();
+
 };
 NS_QUI_END
 

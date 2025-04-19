@@ -5,6 +5,7 @@
 
 #include <QWindowStateChangeEvent>
 #include <QMessageBox>
+#include <QStyle>
 
 #include <iostream>
 #if WIN
@@ -30,7 +31,8 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setMinimumSize(1280, 720);
-    QUI::Style::SetMainWindow(this);
+    setStyleSheet(QUI::Style::MainWindowStyle());
+    initWidget = centralWidget();
 
     // QDAProjectDialog
     project = new QDAProjectDialog();
@@ -39,9 +41,7 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     connect(ui->actionProjectNew, SIGNAL(triggered()), project, SLOT(OnProjectCreate()));
     connect(ui->actionProjectOpen, SIGNAL(triggered()), project, SLOT(OnProjectOpen()));
     connect(ui->actionProjectReview, SIGNAL(triggered()), project, SLOT(OnProjectView()));
-    connect(ui->actionModuleAdd, SIGNAL(triggered()), project, SLOT(OnProjectAddModule()));
-    connect(ui->actionClassAdd, SIGNAL(triggered()), project, SLOT(OnModuleAddClass()));
-    
+
     // QDAExampleDialog
     example = new QDAExampleDialog();
     connect(example, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
@@ -50,13 +50,13 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     // QDAPracticalDialog
     practical = new QDAPracticalDialog();
     connect(practical, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
-    connect(ui->actionEncrypt, SIGNAL(triggered()), practical, SLOT(OnPracticalEncrypt()));
-    connect(ui->actionDecrypt, SIGNAL(triggered()), practical, SLOT(OnPracticalDecrypt()));
+    //connect(ui->actionEncrypt, SIGNAL(triggered()), practical, SLOT(OnPracticalEncrypt()));
+    //connect(ui->actionDecrypt, SIGNAL(triggered()), practical, SLOT(OnPracticalDecrypt()));
     
     // QDACustomDialog
     custom = new QDACustomDialog();
     connect(custom, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
-    connect(ui->actionCustom, SIGNAL(triggered()), custom, SLOT(OnCustomShow()));
+    //connect(ui->actionCustom, SIGNAL(triggered()), custom, SLOT(OnCustomShow()));
 
     // QDAPlanDialog
     plan = new QDAPlanDialog();
@@ -67,6 +67,22 @@ QDAMainWindow::QDAMainWindow(QWidget *parent)
     help = new QDAHelpDialog();
     //connect(help, SIGNAL(SigShowWidget(QWidget *)), this, SLOT(OnSetCentralWidget(QWidget *)));
     connect(ui->actionVersion, SIGNAL(triggered()), help, SLOT(OnShowVersion()));
+    connect(ui->actionWelcome, SIGNAL(triggered()), this, SLOT(OnSetWelcome()));
+
+    // Basic Functions
+    ui->envCheckButton->setStyleSheet(QUI::Style::PushButtonCyan());
+    ui->projGenButton->setStyleSheet(QUI::Style::PushButtonCyan());
+    ui->pkgGenButton->setStyleSheet(QUI::Style::PushButtonCyan());
+    //ui->envCheckButton->setIcon(style()->standardIcon(QStyle::SP_FileDialogListView));
+    //ui->projGenButton->setIcon(style()->standardIcon(QStyle::SP_FileDialogListView));
+    connect(ui->envCheckButton, SIGNAL(clicked(bool)), project, SLOT(OnCheckEnv()));
+    connect(ui->projGenButton, SIGNAL(clicked(bool)), project, SLOT(OnProjectCreate()));
+
+    // Extend Functions
+    ui->dataEncryptButton->setStyleSheet(QUI::Style::PushButtonCyan());
+    ui->dataDecryptButton->setStyleSheet(QUI::Style::PushButtonCyan());
+    connect(ui->dataEncryptButton, SIGNAL(clicked(bool)), practical, SLOT(OnPracticalEncrypt()));
+    connect(ui->dataDecryptButton, SIGNAL(clicked(bool)), practical, SLOT(OnPracticalDecrypt()));
 
     QDAAppConfig::GetInstance()->LoadConfig();
 
@@ -80,8 +96,13 @@ QDAMainWindow::~QDAMainWindow()
     delete practical;
     delete custom;
     delete plan;
-    //delete help;
+    delete help;
     delete ui;
+}
+
+void QDAMainWindow::OnSetWelcome()
+{
+    OnSetCentralWidget(initWidget);
 }
 
 void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
@@ -95,10 +116,6 @@ void QDAMainWindow::OnSetCentralWidget(QWidget *widget)
     widget->show();
 }
 
-void QDAMainWindow::LoadWelcome()
-{
-    project->OnCheckEnv();
-}
 
 /////////////////////////////////////// TrayIcon Section ///////////////////////////////////////
 

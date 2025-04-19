@@ -23,13 +23,13 @@ QDAProjectDetailDialog::QDAProjectDetailDialog(QWidget *parent) :
     
     ui->setupUi(this);
 
-    QUI::Style::SetPushButton(ui->createProjectBtn);
+    ui->createProjectBtn->setStyleSheet(QUI::Style::PushButton());
     connect(ui->createProjectBtn, SIGNAL(clicked(bool)), this, SLOT(OnCreate()));
     
-    QUI::Style::SetPushButton(ui->loadProjectConfigBtn);
+    ui->loadProjectConfigBtn->setStyleSheet(QUI::Style::PushButton());
     connect(ui->loadProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnLoadConfig()));
 
-    QUI::Style::SetPushButton(ui->saveProjectConfigBtn);
+    ui->saveProjectConfigBtn->setStyleSheet(QUI::Style::PushButton());
     connect(ui->saveProjectConfigBtn, SIGNAL(clicked(bool)), this, SLOT(OnSaveConfig()));
 }
 
@@ -123,6 +123,7 @@ void QDAProjectDetailDialog::OnCreate()
         return;
     }
 
+    LOGI("pycmd = %s", pycmd.toUtf8().constData());
     // Note:: update build scripts
     QEK::BuildScript::GetInstance()->FixBuildScripts(config.proj_dir.toUtf8().constData());
     QMessageBox::information(NULL, QStringLiteral("Project Create"), "Succeed!");

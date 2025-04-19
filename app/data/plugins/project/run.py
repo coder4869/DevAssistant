@@ -11,6 +11,7 @@ sys.path.append( PYTOOL_DIR )
 
 from project import project                                                     
 from module import module                                                     
+from proj_pkg import proj_pkg                                                     
 
 # python3 run.py --type project [--config ./DevKits.json]
 # python3 run.py --type module --root_dir ../../DevKits --module_type 1 --module_name QtKit
@@ -29,6 +30,7 @@ if __name__ == '__main__':
     if args.type == "project":
         print("json = ", args.config)
         project.Project.create(args.config)
+        proj_pkg.ProjPkg.pkg(BASE_DIR + "/pkg.json.bak")
     elif args.type == "module":
         module.Module.MOUDLE_DIR = "/src-app/"
         module.Module.add(args.root_dir, module.ModuleType(args.module_type), args.module_name, has_main=True, deps=[])

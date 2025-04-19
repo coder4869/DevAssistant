@@ -61,7 +61,6 @@ int LoadApp(int argc, char* argv[]) {
     QDAMainWindow window;
     window.setWindowTitle("DevAssistant");
     window.showMaximized();
-    window.LoadWelcome();
 
     return app.exec();
 }
@@ -69,16 +68,22 @@ int LoadApp(int argc, char* argv[]) {
 int main(int argc, char *argv[])
 {
     QString root_dir = GetRootDir(argv[0]);
-    Logger::SetLogWriter(root_dir.toStdString() + "/logs");
+
+    // Init logger
+    QString log_dir = root_dir + "/logs";
+    QDir dir(log_dir);
+    if (!dir.exists()) {
+        dir.mkpath(log_dir);
+    }
+    Logger::SetLogWriter(log_dir.toStdString());
     
     App::InitAppConfig(argv[0]);
-    //App::SetInitStart(argv[0]);
 
     for (size_t idx = 0; idx < argc; idx++) {
         LOGI("argv[%d] = %s", (int)idx, argv[idx]);
     }
 
-    if (argc >= 2) {
+    if (argc >= 2) { // RightAction
         // Update run_win.bat / run_arm.sh / run_unix.sh
         return QEK::BuildScript::GetInstance()->FixBuildScript(argv[1]);
     }

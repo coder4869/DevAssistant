@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #include "QDAPlanDialog.h"
 
@@ -18,8 +18,8 @@ QDAPlanDialog::QDAPlanDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
-    QUI::Style::SetPushButton(ui->loadPlanBtn);
-    QUI::Style::SetPushButton(ui->savePlanBtn);
+    ui->loadPlanBtn->setStyleSheet(QUI::Style::PushButton());
+    ui->savePlanBtn->setStyleSheet(QUI::Style::PushButton());
 
     connect(ui->loadPlanBtn, SIGNAL(clicked(bool)), this, SLOT(OnLoadPlan()));
     connect(ui->savePlanBtn, SIGNAL(clicked(bool)), this, SLOT(OnSavePlan()));

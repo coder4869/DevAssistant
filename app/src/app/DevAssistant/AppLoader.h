@@ -5,5 +5,4 @@ namespace App {
 
 void InitAppConfig(const char *bin_path);
 
-int SetInitStart(const char *bin_path);
 }

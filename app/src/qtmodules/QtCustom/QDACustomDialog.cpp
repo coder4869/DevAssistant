@@ -13,7 +13,7 @@ QDACustomDialog::QDACustomDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->titleLabel->setStyleSheet("QLabel { color:white; font:25px; }");
-    QUI::Style::SetPushButton(ui->customScriptBtn);
+    ui->customScriptBtn->setStyleSheet(QUI::Style::PushButton());
 }
 
 QDACustomDialog::~QDACustomDialog()

@@ -9,6 +9,7 @@ app/bin64
 app/bin_ios
 app/lib
 app/logs
+app/data/plugins/project/*.bak
 
 pre-dev/templates/android/.gradle
 pre-dev/templates/android/**/build

@@ -15,13 +15,7 @@ PROJECT_BUILD_DIR   = PROJECT_BASE_DIR + "/build"
 PROJECT_CMAKE_DIR   = PROJECT_BASE_DIR + "/cmake"
 PROJECT_RES_DIR     = PROJECT_BASE_DIR + "/resource"
 PROJECT_DOC_DIR     = PROJECT_BASE_DIR + "/doc"
-PROJECT_PKG_WIN_DIR = PROJECT_BASE_DIR + "/pkg-win"
-PROJECT_PKG_RPM_DIR = PROJECT_BASE_DIR + "/pkg-rpm"
 MODULE_TEMPLATE_DIR = PROJECT_BASE_DIR + "/template"
-PKG_WIN_NSIS        = "/pkg-win-nsis.bat"
-PKG_WIN_NSIS_PATH   = "/pkg-win/pkg-win-nsis.bat"
-PKG_RPM             = "/pkg-rpm.sh"
-PKG_RPM_PATH        = "/pkg-rpm/pkg-rpm.sh"
 
 OPTION_STR_SIZE:int = 20
 OPTION_TEMPLATE:str = "# option(MODULE_OPTION  \"Build with MODULE_OPTION\" ON)"
@@ -78,6 +72,13 @@ class Project(object):
                 os.makedirs(help_dir)
             if k.lower() == "scripts":
                 Project.add_scripts_dir(root_dir, help_dirs[k], proj_name)
+                file = PROJECT_BASE_DIR + "/../pkg.json"
+                file_bak = PROJECT_BASE_DIR + "/../pkg.json.bak"
+                pyt_file.File.copy_to_file(file, file_bak)
+                print(file_bak)
+                pyt_file.File.replace_string(file_bak, "_PROJ_NAME_", proj_name)        # Set ${PROJECT_NAME}
+                pyt_file.File.replace_string(file_bak, "_ROOT_DIR_", root_dir)          # Set ${_ROOT_DIR_}
+                pyt_file.File.replace_string(file_bak, "_SCRIPT_DIR_", help_dirs[k])    # Set ${_ROOT_DIR_}
 
     @staticmethod
     def add_scripts_dir(root_dir:str, scripts_dir:str, proj_name:str):
@@ -96,37 +97,6 @@ class Project(object):
             if os.path.isfile(file):
                 pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
 
-        # prapare ${scripts_dir}/pkg-win
-        pkg_win_dir = script_abs_dir + "/pkg-win" 
-        pyt_file.File.copy_dir(PROJECT_PKG_WIN_DIR, pkg_win_dir )
-        pkglist = os.listdir(pkg_win_dir)
-        for fitem in pkglist:
-            file = pkg_win_dir + "/" + fitem
-            print(file)
-            if os.path.isfile(file) and file.endswith("bat"):
-                pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
-        pyt_file.File.copy_to_file(script_abs_dir + PKG_WIN_NSIS_PATH, root_dir + PKG_WIN_NSIS)
-        os.remove(script_abs_dir + PKG_WIN_NSIS_PATH)
-
-        # prapare ${scripts_dir}/pkg-rpm
-        pkg_rpm_dir = script_abs_dir + "/pkg-rpm" 
-        pyt_file.File.copy_dir(PROJECT_PKG_RPM_DIR, pkg_rpm_dir)
-        pkglist = os.listdir(pkg_rpm_dir)
-        for fitem in pkglist:
-            file = pkg_rpm_dir + "/" + fitem
-            print(file)
-            if os.path.isfile(file):
-                pyt_file.File.replace_string(file, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
-            elif os.path.isdir(file):
-                sublist = os.listdir(file)
-                for it in pkglist:
-                    subfile = file + "/" + it
-                    print(subfile)
-                    if os.path.isfile(subfile):
-                        pyt_file.File.replace_string(subfile, "_PROJ_NAME_", proj_name) # Set ${PROJECT_NAME}
-        pyt_file.File.copy_to_file(script_abs_dir + PKG_RPM_PATH, root_dir + PKG_RPM)
-        os.remove(script_abs_dir + PKG_RPM_PATH)
-        
     @staticmethod
     def add_options(root_dir:str,  options:object):
         for opt in options.keys():

@@ -1,0 +1,6 @@
+{ 
+    "proj_name":"_PROJ_NAME_", 
+    "root_dir":"_ROOT_DIR_", 
+    "script_dir":"_SCRIPT_DIR_",
+    "pkg_dirs":["bin64", "conf", "data", "tools"] 
+}

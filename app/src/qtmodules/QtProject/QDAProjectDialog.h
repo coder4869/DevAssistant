@@ -1,4 +1,4 @@
-// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
+﻿// Copyright (c) 2021~2024 [coder4869](https://github.com/coder4869)
 
 #ifndef QDA_PROJECT_DIALOG_H
 #define QDA_PROJECT_DIALOG_H
@@ -35,8 +35,8 @@ public Q_SLOTS:
     void OnProjectCreate();
     void OnProjectOpen();
     void OnProjectView();
-    void OnProjectAddModule();
-    void OnModuleAddClass();
+    void OnProjectAddModule();  // unused
+    void OnModuleAddClass();    // unused
     
 private:
     Ui::QDAProjectDialog *ui;
