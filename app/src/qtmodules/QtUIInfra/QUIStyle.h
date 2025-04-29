@@ -6,6 +6,8 @@
 #include <CUtils/def_macro.h>
 #include "QtUIInfraDef.h"
 
+#include <QMessageBox>
+
 class QDockWidget;
 class QTreeWidget;
 class QString;
@@ -16,6 +18,8 @@ NS_QUI_BEGIN
 //{
 //public:
 namespace Style {
+	int ShowMsgBox(QMessageBox& msgBox, QMessageBox::Icon icn, const QString& title, const QString& text, bool onlyOK = false);
+
 	QString MainWindowStyle();
 
 	void SetDockWidget(QDockWidget* widget);

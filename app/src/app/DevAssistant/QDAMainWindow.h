@@ -7,11 +7,13 @@
 #include <CUtils/def_macro.h>
 
 #include <QMainWindow>
+#include <QSystemTrayIcon>
 
 namespace Ui {
 class QDAMainWindow;
 }
 class QDAProjectDialog;
+class QDAProjectPkg;
 class QDAExampleDialog;
 class QDAPracticalDialog;
 class QDACustomDialog;
@@ -26,8 +28,6 @@ public:
     QDAMainWindow(QWidget *parent = nullptr);
     virtual ~QDAMainWindow();
     
-    void LoadWelcome();
-
 public Q_SLOTS:
     void OnSetWelcome();
     void OnSetCentralWidget(QWidget *widget);
@@ -35,6 +35,7 @@ public Q_SLOTS:
 private:
     Ui::QDAMainWindow *ui;
     QDAProjectDialog *project;
+    QDAProjectPkg* proj_pkg;
     QDAExampleDialog *example;
     QDAPracticalDialog *practical;
     QDACustomDialog *custom;
@@ -42,10 +43,18 @@ private:
     QDAHelpDialog *help;
     QWidget* initWidget;
 
-protected:
     ////////////////////////// TrayIcon Section //////////////////////////
-    virtual bool nativeEvent(const QByteArray& eventType, void* message, long* result) override;
-    virtual void changeEvent(QEvent* event) override;
+protected:
+    //virtual bool nativeEvent(const QByteArray& eventType, void* message, long* result) override;
+    //virtual void changeEvent(QEvent* event) override;
+    void setupTrayIcon();
+    void changeEvent(QEvent* event) override;
+    void closeEvent(QCloseEvent* event) override;
+
+protected slots:
+    void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+private:
+    QSystemTrayIcon* trayIcon;
 };
 
 #endif // QDA_MAINWINDOW_H

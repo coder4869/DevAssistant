@@ -118,12 +118,12 @@ void QDAProjectDetailDialog::OnCreate()
     QMessageBox::information(NULL, "pycmd", pycmd);
     bool ret = QCKCmd::ExecCmd(pycmd, QStringList(), output);
     if (!ret) {
-        LOGE("pycmd = %s \n output=%s", pycmd.toUtf8().constData(), output.data());
+        LOGE("project gen pycmd = %s \n output=%s", pycmd.toUtf8().constData(), output.data());
         QMessageBox::critical(NULL, QStringLiteral("Project Create"), output.data());
         return;
     }
 
-    LOGI("pycmd = %s", pycmd.toUtf8().constData());
+    LOGI("project gen pycmd = %s", pycmd.toUtf8().constData());
     // Note:: update build scripts
     QEK::BuildScript::GetInstance()->FixBuildScripts(config.proj_dir.toUtf8().constData());
     QMessageBox::information(NULL, QStringLiteral("Project Create"), "Succeed!");

@@ -3,6 +3,7 @@
 
 import os
 import sys
+import platform
 
 PROJECT_BASE_DIR = os.path.dirname( os.path.abspath(__file__) )
 PYTOOL_DIR   = os.path.dirname( os.path.dirname(PROJECT_BASE_DIR) )
@@ -18,10 +19,43 @@ PKG_RPM             = "/pkg-rpm.sh"
 PKG_RPM_PATH        = "/pkg-rpm/pkg-rpm.sh"
 
 class ProjPkg(object):
-    GROUP_LIST:list = []
+    @staticmethod
+    def pkg_run(json_config):
+        dic = pyt_json.PytJson.load_config(json_config)
+        if not dic:
+            return None
+
+        root_dir    = dic["root_dir"]
+        if not os.path.exists(root_dir):
+            print("root—dir not exist: " + root_dir)
+            return None
+
+        script_dir  = dic["script_dir"]
+        script_abs_dir = root_dir + "/" + script_dir
+        if not os.path.exists(script_abs_dir):
+            print("script_dir not exist: " + script_abs_dir)
+            return None
+ 
+        os_type = platform.system()
+        if os_type == "Windows":
+            print("pkg exe for Windows")
+            pkg_script = root_dir + PKG_WIN_NSIS
+            if not os.path.exists(pkg_script):
+                print("pkg_script not exist: " + pkg_script)
+                return None
+            os.system(pkg_script + " pkg > " + root_dir + "/pkg_win.log")
+        elif os_type == "Linux":
+            print("pkg rpm for Linux")
+            pkg_script = root_dir + PKG_RPM
+            if not os.path.exists(pkg_script):
+                print("pkg_script not exist: " + pkg_script)
+                return None
+            os.system(pkg_script + " pkg > " + root_dir + "/pkg_rpm.log")
+        elif os_type == "Darwin":  # macOS
+            print("pkg app for Darwin")
 
     @staticmethod
-    def pkg(json_config):
+    def pkg_gen(json_config):
         dic = pyt_json.PytJson.load_config(json_config)
         if not dic:
             return None
@@ -34,7 +68,7 @@ class ProjPkg(object):
 
         if not os.path.exists(root_dir):
             print("root—dir not exist: " + root_dir)
-            return
+            return None
         
         ProjPkg.add_pkg_scripts(proj_name, root_dir, script_dir)
         ProjPkg.update_pkg_dirs(root_dir, script_dir, pkg_dirs)

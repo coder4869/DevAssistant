@@ -1,3 +1,6 @@
+## [2025.04.29] - v2.1.0.0
+### [new feature] Add independent software packaging function
+
 ## [2025.04.19] - v2.0.0.0
 ### [Optimize] User interface redesign
 

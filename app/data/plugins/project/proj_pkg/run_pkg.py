@@ -32,4 +32,5 @@ args = parser.parse_args()
   
 if __name__ == '__main__':
     print("json = ", args.config)
-    proj_pkg.ProjPkg.pkg(args.config)
+    proj_pkg.ProjPkg.pkg_gen(args.config)
+    proj_pkg.ProjPkg.pkg_run(args.config)

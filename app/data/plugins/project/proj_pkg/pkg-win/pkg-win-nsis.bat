@@ -31,4 +31,6 @@ makensis /INPUTCHARSET UTF8 /DPRODUCT_NAME=%PROJ_NAME% /DPRODUCT_VERSION=%VERSIO
 
 move "%SCRIPT_DIR%\%PROJ_NAME%*.exe" "%ROOT_DIR%"
 
-echo. & pause 
+if "%~1"=="" (
+    echo. & pause 
+)

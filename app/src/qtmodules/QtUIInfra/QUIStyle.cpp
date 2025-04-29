@@ -6,7 +6,32 @@
 #include <QTreeWidget>
 #include <QStyleFactory>
 
+#include <QPushButton>
+
 NS_QUI_BEGIN
+
+int Style::ShowMsgBox(QMessageBox& msgBox, QMessageBox::Icon icn, const QString& title, const QString& text, bool onlyOK)
+{
+    msgBox.setIcon(icn);
+    msgBox.setText(text);
+    //msgBox.setInformativeText(text);
+    msgBox.setWindowTitle(title);
+
+    QPushButton* okButton = (QPushButton*)msgBox.addButton(QMessageBox::Ok);
+    if (okButton) {
+        okButton->setText(u8"确定");
+    }
+
+    if (!onlyOK) {
+        QPushButton* cancelButton = (QPushButton*)msgBox.addButton(QMessageBox::Cancel);
+        if (cancelButton) {
+            cancelButton->setText(u8"取消");
+        }
+    }
+
+    return msgBox.exec();
+}
+
 QString Style::MainWindowStyle()
 {
 	return R"(
